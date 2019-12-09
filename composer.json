@@ -1,0 +1,17 @@
+{
+    "require": {
+        "mailgun/mailgun-php": "^2.8",
+        "kriswallsmith/buzz": "^1.0",
+        "nyholm/psr7": "^1.2",
+        "fortawesome/font-awesome": "^5.10",
+        "vlucas/phpdotenv": "^3.6"
+    },
+    "autoload": { 
+        "psr-4": { 
+            "Controllers\\": "Controllers/",
+            "Core\\": "Core/",
+            "Models\\": "Models/",
+            "Config\\": "Config/"
+        }
+    }
+}

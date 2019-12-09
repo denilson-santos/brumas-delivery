@@ -1,0 +1,52 @@
+.widget {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.widget h1 {
+	border-bottom:1px solid #E0E0E0;
+	padding-bottom:15px;
+}
+
+.widget-item {
+	margin-top: 10px;
+}
+
+.widget-item a {
+	text-decoration: none;
+	color: #ccc;
+}
+
+.widget-image {
+	float: left;
+	width: 20%;
+}
+
+.widget-info {
+	position: relative;
+	float: right;
+	width: 80%;
+	left: 20px;
+}
+
+.widget-image img {
+	width: 100%;
+}
+
+.widget-product-name {
+	font-weight: bold;
+	color: #fe2724;
+}
+
+.widget-current-price {
+	color: #000;
+	font-weight: bold;
+}
+
+.widget-product-price .old-price {
+	margin-right: 15px;
+}
+
+.clear {
+	clear: both;
+}

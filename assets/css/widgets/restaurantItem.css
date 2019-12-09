@@ -1,0 +1,135 @@
+.restaurant-item {
+	padding: 10px;
+	border: 1px solid #fff;
+}
+
+.restaurant-item:hover {
+	border: 1px solid #ddd;
+}
+
+.restaurant-item a {
+	text-decoration: none;
+	display: block;
+}
+
+.restaurant-tags {
+	position: absolute;
+}
+
+.restaurant-tag {
+	height: 30px;
+	position: relative;
+	line-height: 30px;
+	background-color: #000;
+	color: #fff;
+	padding-left: 8px;
+	padding-right: 8px;
+	clear: both;
+	margin-top: 5px;
+}
+
+.restaurant-tag-promotion {
+	background-color: #f8484a;
+	font-weight: 600;
+}
+
+.restaurant-tag-promotion:before {
+	content: "";
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid #f8484a;
+    border-top: 0px solid transparent;
+    border-bottom: 30px solid transparent;
+}
+
+.restaurant-tag-bestseller {
+	background-color: #59b210;
+	font-weight: 600;
+}
+
+.restaurant-tag-bestseller:before {
+	content: "";
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid #59b210;
+    border-top: 0px solid transparent;
+    border-bottom: 30px solid transparent;
+}
+
+.restaurant-tag-new {
+	background-color: #407ac5;
+	font-weight: 600;
+}
+
+.restaurant-tag-new:before {
+	content: "";
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid #407ac5;
+    border-top: 0px solid transparent;
+    border-bottom: 30px solid transparent;
+}
+
+.restaurant-name {
+	font-weight: bold;
+	color: #0e53a5;
+}
+
+.restaurant-brand {
+	color: #000;
+	font-size: 11px;
+	margin-bottom: 15px;
+}
+
+.product-price {
+	color: #CCC;
+}
+
+.old-price {
+	text-decoration: line-through;
+}
+
+.current-price {
+	color: #000;
+	font-weight: bold;
+}
+
+/* .pagination-item {
+	width: 40px;
+	height: 40px;
+	border: 1px solid #ddd;
+	font-size: 13px;
+	text-align: center;
+	line-height: 40px;
+} */
+
+/* .pagination-item:hover {
+	border: 1px solid #fe2724;
+}
+
+.pagination-item a {
+	display: block;
+	text-decoration: none;
+	color: #555;
+}
+
+.pagination-item a:hover {
+	color: #fe2724;
+}
+
+.pagination-active {
+	border: 1px solid #fe2724;
+}
+
+.pagination-active a {
+	color: #fe2724;
+} */

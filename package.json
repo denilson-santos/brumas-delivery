@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "@ttskch/select2-bootstrap4-theme": "^1.3.2",
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "node-sass": "^4.13.1",
+    "rateyo": "^2.3.5",
+    "select2": "^4.0.13"
+  },
+  "name": "brumas-delivery",
+  "description": "O projeto foi feito utilizando POO e MVC, que consiste na construção de uma loja virtual com a utilização de várias libs do composer com o objetivo de treinar os conhecimentos adquiridos em php.",
+  "version": "1.0.0",
+  "main": "index.php",
+  "devDependencies": {},
+  "scripts": {
+    "bs-sass": "node-sass assets/scss/bootstrap/config.scss assets/css/bootstrap/config.css",
+    "bs-sass-watch": "node-sass --watch assets/scss/bootstrap/config.scss assets/css/bootstrap/config.css",
+    "bs-sass-min-watch": "node-sass --watch assets/scss/bootstrap/config.scss assets/css/bootstrap/config.css --output-style compressed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denilson-santos/brumas-delivery.git"
+  },
+  "keywords": [],
+  "author": "Denilson da Silva Santos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denilson-santos/brumas-delivery/issues"
+  },
+  "homepage": "https://github.com/denilson-santos/brumas-delivery#readme"
+}
