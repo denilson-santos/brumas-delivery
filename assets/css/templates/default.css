@@ -373,21 +373,6 @@ footer h3 {
 	font-weight: bold;
 }
 
-#filter-price input {
-	padding-bottom: 5px; 
-	border: 0; 
-	color: #000; 
-	font-weight: bold;	
-}
-
-#filter-price #slider-range {
-	margin: 7px;
-}
-
-#filter-price .ui-slider-range {
-	/* background-color: #fe2724; */
-} 
-
 .filter-item {
 	height: 25px;
 }
@@ -399,6 +384,10 @@ footer h3 {
 
 .filter-item input {
 	margin-right: 5px;
+}
+
+.rating-page-home.jq-ry-container {
+	padding: 0;
 }
 
 .option-filter, .option-name {

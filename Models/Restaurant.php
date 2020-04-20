@@ -230,21 +230,6 @@ class Restaurant extends Model {
  
     }
 
-    // public function getMaxPrice() {
-    //     $data = 0;
-
-    //     $stm = $this->db->prepare(
-    //         'SELECT MAX(promo_price) AS max_promo_price, 
-    //         (SELECT MAX(price) FROM restaurant WHERE promo = 0 ) 
-    //         AS max_price FROM restaurant');
-
-    //     $stm->execute();
-        
-    //     $data = $stm->fetch(\PDO::FETCH_ASSOC);
-        
-    //     return max($data);
-    // }
-
     // Monta a clausula 'where' a partir dos filtros
     private function buildWhere($filters, $filtersRemoved) {
         $where = ['1=1'];
@@ -303,14 +288,6 @@ class Restaurant extends Model {
         if(!empty($filters['searchTerm'])) {
             $where[] = 'restaurant.name LIKE :searchTerm';
         }
-
-        // if (isset($filters['rangePrice0']) || isset($filters['rangePrice1'])) {
-        //     if (!empty($filters['promotion']) || $filtersRemoved == 'promotion') {
-        //         $where[] = 'promo_price BETWEEN :range_price0 AND :range_price1';  
-        //     } else {
-        //         $where[] = 'price BETWEEN :range_price0 AND :range_price1 AND promo = :promo0 OR '.implode(' AND ', $where).' AND promo_price BETWEEN :range_price0 AND :range_price1 AND promo = :promo1';
-        //     }
-        // }
 
         return $where;
     }

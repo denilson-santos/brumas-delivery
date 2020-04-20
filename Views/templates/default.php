@@ -190,17 +190,7 @@
 										?>
 									</div>
 								</div>
-								<div class="filter-box">
-									<div class="filter-title">
-										<?php $this->language->get('PRICES'); ?>
-									</div>
-									<div class="filter-content" id="filter-price">
-										<input type="hidden" id="range-price0" name="filters[rangePrice0]" value="<?php echo $viewData['filters']['rangePrice0'] ?>">
-										<input type="hidden" id="range-price1" name="filters[rangePrice1]" value="<?php echo $viewData['filters']['rangePrice1'] ?>">
-										<input type="text" id="amount" readonly>
-										<div id="slider-range"></div>
-									</div>
-								</div>
+						
 								<div class="filter-box">
 									<div class="filter-title">
 										<?php $this->language->get('RATINGS'); ?>
@@ -479,7 +469,6 @@
 	    </footer>
 		<script type="text/javascript">
 			var BASE_URL = '<?php echo BASE_URL; ?>';
-			var maxFilterPrice = parseInt(<?php echo (!empty($viewData['filters']['maxFilterPrice']))? $viewData['filters']['maxFilterPrice'] : 0; ?>);
 		</script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/jquery/dist/jquery.min.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/plugins/jQuery-ui/js/jquery-ui.min.js"></script>
