@@ -1,20 +1,4 @@
-$(function () {
-    $('#slider-range').slider({
-        range: true,
-        min: 0,
-        max: maxFilterPrice,
-        values: [$('#range-price0').val(), $('#range-price1').val()],
-        slide: function (event, ui) {
-            $('#amount').val('R$' + ui.values[0] + ' - R$' + ui.values[1]);
-        },
-        change: function(event, ui) {
-            $('#range-price'+ui.handleIndex).val(ui.value);  
-            $('.filter-area form').submit(); 
-        }
-    });
-  
-    $('#amount').val('R$' + $('#slider-range').slider('values', 0) + ' - R$' + $('#slider-range').slider('values', 1));
-    
+$(function () {    
     $('.filter-area').find('input, select').on('change', function () {
         $('.filter-area form').submit();
     }); 
