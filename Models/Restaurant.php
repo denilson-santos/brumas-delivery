@@ -89,7 +89,7 @@ class Restaurant extends Model {
         if ($stm->rowCount() > 0) {
             $data = $stm->fetchAll(\PDO::FETCH_ASSOC);
             
-        }  
+        }
 
         return $data;
     }
@@ -150,7 +150,7 @@ class Restaurant extends Model {
         return $data;
     }
 
-    public function getTotalRestaurantsOpen($filters = []) {
+    public function getTotalRestaurantsOpen($filters = [], $queryType = 'count') {
         // alterar hora de teste para function current_time
 
         $data = 0;
@@ -158,22 +158,25 @@ class Restaurant extends Model {
         $where = $this->buildWhere($filters, 'status');
 
         $stm = $this->db->prepare(
-            'SELECT COUNT(*) AS total_restaurants_open FROM restaurant_operation WHERE "19:41:00" BETWEEN open1 AND close1 OR "19:41:00" BETWEEN open2 AND close2 
+            'SELECT * FROM restaurant_operation WHERE "19:41:00" BETWEEN open1 AND close1 OR "19:41:00" BETWEEN open2 AND close2 
             AND restaurant_id IN(SELECT id_restaurant FROM restaurant WHERE '.implode(" AND ", $where).')');
         // print_r($stm); exit;
 
         $this->bindWhere($filters, $stm, 'status');
         $stm->execute();
             
-        // Pega o total de restaurants que estão funcionando por dia da semana
         if ($stm->rowCount() > 0) {
-            $data = $stm->fetch(\PDO::FETCH_ASSOC);
+            $data = $stm->fetchAll(\PDO::FETCH_ASSOC);
         }  
 
-        return $data['total_restaurants_open'];
+        if ($queryType == 'list') {
+            return $data;
+        }
+        
+        return $data['total_restaurants_open'] = count($data);
     }
 
-    public function getTotalRestaurantsClosed($filters = []) {
+    public function getTotalRestaurantsClosed($filters = [], $queryType = 'count') {
         // alterar hora de teste para function current_time
 
         $data = 0;
@@ -181,7 +184,7 @@ class Restaurant extends Model {
         $where = $this->buildWhere($filters, 'status');
 
         $stm = $this->db->prepare(
-            'SELECT COUNT(*) AS total_restaurants_closed FROM restaurant_operation WHERE "19:41:00" NOT BETWEEN open1 AND close1 AND "19:41:00" NOT BETWEEN open2 AND close2 
+            'SELECT * FROM restaurant_operation WHERE "19:41:00" NOT BETWEEN open1 AND close1 AND "19:41:00" NOT BETWEEN open2 AND close2 
             AND restaurant_id IN(SELECT id_restaurant FROM restaurant WHERE '.implode(" AND ", $where).')');
         // print_r($stm); exit;
 
@@ -190,10 +193,15 @@ class Restaurant extends Model {
             
         // Pega o total de restaurants que estão funcionando por dia da semana
         if ($stm->rowCount() > 0) {
-            $data = $stm->fetch(\PDO::FETCH_ASSOC);
+            $data = $stm->fetchAll(\PDO::FETCH_ASSOC);
         }  
 
-        return $data['total_restaurants_closed'];
+        if ($queryType == 'list') {
+            return $data;
+        }
+        
+        return $data['total_restaurants_closed'] = count($data);
+
     }
 
     public function getTotalRestaurantsByPaymentTypes($filters = []) {

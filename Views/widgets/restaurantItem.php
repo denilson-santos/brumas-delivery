@@ -50,16 +50,21 @@
             <h5 class="card-title restaurant-name text-cc"><?php echo $name ?></h5>
             <h6 class="card-subtitle restaurant-main-categories"><?php echo implode(' & ', $main_categories_name) ?></h6>
 
-            <div class="rating-page-home row justify-content-between align-items-center">
+            <div class="rating-page-home rating-page-home-<?php echo $id_restaurant ?> row justify-content-between align-items-center">
                 <div class="col-md-7 pl-0 pr-2">
                     <div class="rating-read-only float-left"></div>
-                    <span class="restaurant-rating float-right text-ccred">3.1</span>
-                    <input type="hidden" class="restaurant-rating" value="<?php echo $rating ?>">
+                    <span class="restaurant-rating restaurant-rating-<?php echo $id_restaurant ?> float-right"><?php echo number_format($rating, 1) ?></span>
+                    <input type="hidden" class="id-restaurant" value="<?php echo $id_restaurant ?>">
                 </div>
 
                 <div class="col px-0 text-right">
-                    <div class="badge badge-pill badge-cc-green">Aberto</div>
-                    <!-- <div class="badge badge-pill badge-cc-gray text-white">Fechado</div> -->
+                    <?php
+                        if ($status == 1) {
+                            echo '<div class="badge badge-pill badge-cc-green">Aberto</div>';
+                        } else {
+                            echo '<div class="badge badge-pill badge-cc-gray text-white">Fechado</div>';
+                        }
+                    ?>                    
                 </div>
             </div>
         </div>

@@ -2,11 +2,23 @@
 <div class="row restaurants">
 <?php
 
-foreach ($restaurants as $restaurant) {
+foreach ($restaurants as $key => $restaurant) {
     $mainCategories = explode(',', $restaurant['main_categories']);
 
     foreach ($mainCategories as $mainCategory) {
         $restaurant['main_categories_name'][] =  $categories[$mainCategory-1]['name'];
+    }
+
+    foreach ($restaurantsOpen as $restaurantOpen) {
+        if ($restaurantOpen['restaurant_id'] == $restaurant['id_restaurant']) {
+            $restaurant['status'] = 1;
+        }
+    }
+
+    foreach ($restaurantsClosed as $restaurantClosed) {
+        if ($restaurantClosed['restaurant_id'] == $restaurant['id_restaurant']) {
+            $restaurant['status'] = 0;
+        }
     }
 
     echo "
@@ -15,6 +27,10 @@ foreach ($restaurants as $restaurant) {
     echo " 
     </div>";
 }
+
+$totalRestaurants = count($restaurants);
+
+echo "<input type='hidden' class='totalRestaurants' value='$totalRestaurants'>";
 
 ?>
 

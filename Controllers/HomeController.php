@@ -30,6 +30,8 @@ class HomeController extends Controller {
 
         $data = [
             'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
+            'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected, 'list'),
+            'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected, 'list'),
             'totalItens' => $restaurant->getTotalRestaurants($filtersSelected),
             'numberPages' => ceil($restaurant->getTotalRestaurants($filtersSelected) / $limit),
             'currentPage' => $currentPage,
@@ -43,6 +45,8 @@ class HomeController extends Controller {
 
         ];
 
+        // print_r($data['restaurantsOpen']);
+        // exit;
         $this->loadTemplateDefault('pages/home/home', $data);
     }
 
