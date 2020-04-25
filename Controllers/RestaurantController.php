@@ -4,36 +4,31 @@ namespace Controllers;
 use Core\Controller;
 use Models\Category;
 use Models\Filter;
-use Models\Plate;
+use Models\Restaurant;
 
-class PlateController extends Controller {
+class RestaurantController extends Controller {
     public function index() {
         header('Location: '.BASE_URL);        
     }
 
     public function open($id) {
-        $plate = new Plate();
+        $restaurant = new Restaurant();
         $category = new Category();
         
         $data = [];
        
-        $plateInfo = $plate->getPlate($id);
+        $restaurantInfo = $restaurant->getRestaurant($id);
  
-        if (!empty($plateInfo)) {
+        if (!empty($restaurantInfo)) {
             $data = [
-                'plateInfo' => $plateInfo,
-                'plateImages' => $plate->getImagesByPlateId($id),
+                'restaurantInfo' => $restaurantInfo,
+                // 'restaurantImage' => $restaurant->getImagesByRestaurantId($id),
                 'categories' => $category->getListCategories()
             ];
 
-            $this->loadTemplateHeaderFooter('pages/plate/plate', $data);
+            $this->loadTemplateHeaderFooter('pages/restaurant/restaurant', $data);
         } else {
             header('Location: '.BASE_URL);
         }
-    }
-
-    public function setQuantity($quantity) {
-        $plate = new Plate();
-        $plate->setQuantity($quantity);
     }
 }

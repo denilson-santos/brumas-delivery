@@ -1,4 +1,4 @@
-.restaurant-item {
+/* .restaurant-item {
 	padding: 10px;
 	border: 1px solid #fff;
 }
@@ -10,6 +10,10 @@
 .restaurant-item a {
 	text-decoration: none;
 	display: block;
+} */
+
+.restaurants {
+	padding: 0px 11px;
 }
 
 .restaurant-tags {
@@ -20,12 +24,12 @@
 	height: 30px;
 	position: relative;
 	line-height: 30px;
-	background-color: #000;
 	color: #fff;
 	padding-left: 8px;
 	padding-right: 8px;
 	clear: both;
 	margin-top: 5px;
+	z-index: 999;
 }
 
 .restaurant-tag-promotion {
@@ -45,19 +49,19 @@
     border-bottom: 30px solid transparent;
 }
 
-.restaurant-tag-bestseller {
-	background-color: #59b210;
+.restaurant-tag-featured {
+	background-color: #fe2724;
 	font-weight: 600;
 }
 
-.restaurant-tag-bestseller:before {
+.restaurant-tag-featured:before {
 	content: "";
     position: absolute;
     right: -20px;
     bottom: 0;
     width: 0;
     height: 0;
-    border-left: 20px solid #59b210;
+    border-left: 20px solid #fe2724;
     border-top: 0px solid transparent;
     border-bottom: 30px solid transparent;
 }
@@ -80,14 +84,61 @@
 }
 
 .restaurant-name {
-	font-weight: bold;
-	color: #0e53a5;
+	color: #212529;
+}
+
+.restaurant-main-categories {
+	font-weight: 500;
+	color: #aaa;
+	margin-bottom: 5px;
+}
+
+.rating-page-home .jq-ry-container {
+	padding: 0;
 }
 
 .restaurant-brand {
 	color: #000;
 	font-size: 11px;
 	margin-bottom: 15px;
+}
+
+
+.restaurant-item .card .card-body {
+	/* box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.125); */
+}
+
+.restaurant-item a {
+	text-decoration: none;
+}
+
+.restaurant-item .separator {
+	background-color: rgba(0,0,0,0.3);
+	width: 100%;
+	height: 35px;
+	position: absolute;
+	top: 58%;
+}
+
+.restaurant-item img.restaurant-separator {
+	position: relative;
+    top: 17%;
+    left: 23%;
+    width: 55%;
+}
+
+.restaurant-item .rating-page-home {
+	padding: 0 15px;
+}
+
+.restaurant-item .rating-page-home span.average-rating {
+	line-height: 18px;
+	font-weight: 600;
+	color: #212529;
+}
+
+.restaurant-item .card:hover {
+	border-color: rgba(0,0,0,0.3);
 }
 
 .product-price {

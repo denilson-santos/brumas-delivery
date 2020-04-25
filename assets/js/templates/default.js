@@ -70,10 +70,10 @@ $(function () {
         });
     });
 
-    $(".rating-page-home.rating").rateYo({
+    $(".rating-filter-page-home.rating").rateYo({
         rating: parseInt($('input.rating-page-home').val()),
         starWidth: '18px',
-        ratedFill: '#fe2724',
+        ratedFill: '#ffcb2e',
         normalFill: '#ddd',
         fullStar: true,
         spacing: '3px',
@@ -82,6 +82,17 @@ $(function () {
         $('input.rating-page-home').val(data.rating);
         $('.filter-area form').submit();
     });   
+
+    $(".rating-page-home .rating-read-only").rateYo({
+        rating: 3.1,
+        starWidth: '18px',
+        readOnly: true,
+        ratedFill: '#ffcb2e',
+        // ratedFill: '#fe2724',
+        normalFill: '#ddd',
+        spacing: '3px',
+        starSvg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>'
+    }); 
 
     
     // if ($('select.payment-type option').hasClass('all-types')) { $('.payment-type').select2('data');
