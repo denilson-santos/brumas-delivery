@@ -29,7 +29,7 @@
   --cc-default: #ccc;
   --cc-green: #59b210;
   --cc-red: #fe2724;
-  --cc-gray: #ddd;
+  --cc-gray: #ccc;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -1374,19 +1374,19 @@ pre {
 .table-cc-gray,
 .table-cc-gray > th,
 .table-cc-gray > td {
-  background-color: whitesmoke; }
+  background-color: #f1f1f1; }
 
 .table-cc-gray th,
 .table-cc-gray td,
 .table-cc-gray thead th,
 .table-cc-gray tbody + tbody {
-  border-color: #ededed; }
+  border-color: #e4e4e4; }
 
 .table-hover .table-cc-gray:hover {
-  background-color: #e8e8e8; }
+  background-color: #e4e4e4; }
   .table-hover .table-cc-gray:hover > td,
   .table-hover .table-cc-gray:hover > th {
-    background-color: #e8e8e8; }
+    background-color: #e4e4e4; }
 
 .table-active,
 .table-active > th,
@@ -2135,29 +2135,29 @@ fieldset:disabled a.btn {
 
 .btn-cc-gray {
   color: #212529;
-  background-color: #ddd;
-  border-color: #ddd; }
+  background-color: #ccc;
+  border-color: #ccc; }
   .btn-cc-gray:hover {
     color: #212529;
-    background-color: #cacaca;
-    border-color: #c4c4c4; }
+    background-color: #b9b9b9;
+    border-color: #b3b3b3; }
   .btn-cc-gray:focus, .btn-cc-gray.focus {
     color: #212529;
-    background-color: #cacaca;
-    border-color: #c4c4c4;
-    box-shadow: 0 0 0 0.2rem rgba(193, 193, 194, 0.5); }
+    background-color: #b9b9b9;
+    border-color: #b3b3b3;
+    box-shadow: 0 0 0 0.2rem rgba(178, 179, 180, 0.5); }
   .btn-cc-gray.disabled, .btn-cc-gray:disabled {
     color: #212529;
-    background-color: #ddd;
-    border-color: #ddd; }
+    background-color: #ccc;
+    border-color: #ccc; }
   .btn-cc-gray:not(:disabled):not(.disabled):active, .btn-cc-gray:not(:disabled):not(.disabled).active,
   .show > .btn-cc-gray.dropdown-toggle {
     color: #212529;
-    background-color: #c4c4c4;
-    border-color: #bdbdbd; }
+    background-color: #b3b3b3;
+    border-color: #acacac; }
     .btn-cc-gray:not(:disabled):not(.disabled):active:focus, .btn-cc-gray:not(:disabled):not(.disabled).active:focus,
     .show > .btn-cc-gray.dropdown-toggle:focus {
-      box-shadow: 0 0 0 0.2rem rgba(193, 193, 194, 0.5); }
+      box-shadow: 0 0 0 0.2rem rgba(178, 179, 180, 0.5); }
 
 .btn-outline-primary {
   color: #007bff;
@@ -2391,25 +2391,25 @@ fieldset:disabled a.btn {
       box-shadow: 0 0 0 0.2rem rgba(254, 39, 36, 0.5); }
 
 .btn-outline-cc-gray {
-  color: #ddd;
-  border-color: #ddd; }
+  color: #ccc;
+  border-color: #ccc; }
   .btn-outline-cc-gray:hover {
     color: #212529;
-    background-color: #ddd;
-    border-color: #ddd; }
+    background-color: #ccc;
+    border-color: #ccc; }
   .btn-outline-cc-gray:focus, .btn-outline-cc-gray.focus {
-    box-shadow: 0 0 0 0.2rem rgba(221, 221, 221, 0.5); }
+    box-shadow: 0 0 0 0.2rem rgba(204, 204, 204, 0.5); }
   .btn-outline-cc-gray.disabled, .btn-outline-cc-gray:disabled {
-    color: #ddd;
+    color: #ccc;
     background-color: transparent; }
   .btn-outline-cc-gray:not(:disabled):not(.disabled):active, .btn-outline-cc-gray:not(:disabled):not(.disabled).active,
   .show > .btn-outline-cc-gray.dropdown-toggle {
     color: #212529;
-    background-color: #ddd;
-    border-color: #ddd; }
+    background-color: #ccc;
+    border-color: #ccc; }
     .btn-outline-cc-gray:not(:disabled):not(.disabled):active:focus, .btn-outline-cc-gray:not(:disabled):not(.disabled).active:focus,
     .show > .btn-outline-cc-gray.dropdown-toggle:focus {
-      box-shadow: 0 0 0 0.2rem rgba(221, 221, 221, 0.5); }
+      box-shadow: 0 0 0 0.2rem rgba(204, 204, 204, 0.5); }
 
 .btn-link {
   font-weight: 400;
@@ -3957,13 +3957,13 @@ input[type="button"].btn-block {
 
 .badge-cc-gray {
   color: #212529;
-  background-color: #ddd; }
+  background-color: #ccc; }
   a.badge-cc-gray:hover, a.badge-cc-gray:focus {
     color: #212529;
-    background-color: #c4c4c4; }
+    background-color: #b3b3b3; }
   a.badge-cc-gray:focus, a.badge-cc-gray.focus {
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(221, 221, 221, 0.5); }
+    box-shadow: 0 0 0 0.2rem rgba(204, 204, 204, 0.5); }
 
 .jumbotron {
   padding: 2rem 1rem;
@@ -4101,13 +4101,13 @@ input[type="button"].btn-block {
     color: #570d0d; }
 
 .alert-cc-gray {
-  color: #737373;
-  background-color: #f8f8f8;
-  border-color: whitesmoke; }
+  color: #6a6a6a;
+  background-color: whitesmoke;
+  border-color: #f1f1f1; }
   .alert-cc-gray hr {
-    border-top-color: #e8e8e8; }
+    border-top-color: #e4e4e4; }
   .alert-cc-gray .alert-link {
-    color: #5a5a5a; }
+    color: #515151; }
 
 @keyframes progress-bar-stripes {
   from {
@@ -4421,15 +4421,15 @@ input[type="button"].btn-block {
     border-color: #841413; }
 
 .list-group-item-cc-gray {
-  color: #737373;
-  background-color: whitesmoke; }
+  color: #6a6a6a;
+  background-color: #f1f1f1; }
   .list-group-item-cc-gray.list-group-item-action:hover, .list-group-item-cc-gray.list-group-item-action:focus {
-    color: #737373;
-    background-color: #e8e8e8; }
+    color: #6a6a6a;
+    background-color: #e4e4e4; }
   .list-group-item-cc-gray.list-group-item-action.active {
     color: #fff;
-    background-color: #737373;
-    border-color: #737373; }
+    background-color: #6a6a6a;
+    border-color: #6a6a6a; }
 
 .close {
   float: right;
@@ -5139,12 +5139,12 @@ button.bg-cc-red:focus {
   background-color: #ee0401 !important; }
 
 .bg-cc-gray {
-  background-color: #ddd !important; }
+  background-color: #ccc !important; }
 
 a.bg-cc-gray:hover, a.bg-cc-gray:focus,
 button.bg-cc-gray:hover,
 button.bg-cc-gray:focus {
-  background-color: #c4c4c4 !important; }
+  background-color: #b3b3b3 !important; }
 
 .bg-white {
   background-color: #fff !important; }
@@ -5216,7 +5216,7 @@ button.bg-cc-gray:focus {
   border-color: #fe2724 !important; }
 
 .border-cc-gray {
-  border-color: #ddd !important; }
+  border-color: #ccc !important; }
 
 .border-white {
   border-color: #fff !important; }
@@ -7488,10 +7488,10 @@ a.text-cc-red:hover, a.text-cc-red:focus {
   color: #d50401 !important; }
 
 .text-cc-gray {
-  color: #ddd !important; }
+  color: #ccc !important; }
 
 a.text-cc-gray:hover, a.text-cc-gray:focus {
-  color: #b7b7b7 !important; }
+  color: #a6a6a6 !important; }
 
 .text-body {
   color: #212529 !important; }

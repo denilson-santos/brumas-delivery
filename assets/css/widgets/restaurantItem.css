@@ -131,7 +131,7 @@
 	padding: 0 15px;
 }
 
-.restaurant-item .rating-page-home span.average-rating {
+.restaurant-item .rating-page-home span.restaurant-rating {
 	line-height: 18px;
 	font-weight: 600;
 	color: #212529;
