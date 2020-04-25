@@ -1,23 +1,23 @@
 <h1>Resultados encontrados para "<?php echo (!empty($categoryName) ? $categoryName : 'Todas as categorias'); ?>":</h1>
-<div class="row">
+<div class="row restaurants">
 <?php
-$count = 0;
 
 foreach ($restaurants as $restaurant) {
-    echo '
-    <div class="col-sm-4">';
-        $this->loadView('widgets/restaurantItem', $restaurant);
-    echo ' 
-    </div>';
+    $mainCategories = explode(',', $restaurant['main_categories']);
 
-    if ($count >= 2) {
-        $count = 0;
-        echo '</div><div class="row">';
-    } else {
-        $count++;
+    foreach ($mainCategories as $mainCategory) {
+        $restaurant['main_categories_name'][] =  $categories[$mainCategory-1]['name'];
     }
+
+    echo "
+    <div class='col-sm-4 px-1 pb-2 restaurant-item'>";
+        $this->loadView('widgets/restaurantItem', $restaurant);
+    echo " 
+    </div>";
 }
+
 ?>
+
 </div>
 
 <nav aria-label="pagination">

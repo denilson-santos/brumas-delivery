@@ -17,12 +17,12 @@ class Controller {
         require 'Views/'.$viewPatch.'.php';
     }
 
-    public function loadTemplateDefault($viewPatch, $viewData = []) {
-        require 'Views/templates/default.php';
+    public function loadViewNotExtract($viewPatch, $viewData = []) {
+        require 'Views/'.$viewPatch.'.php';
     }
 
-    public function loadTemplate($viewPatch, $viewData = []) {
-        require 'Views/template.php';
+    public function loadTemplateDefault($viewPatch, $viewData = []) {
+        require 'Views/templates/default.php';
     }
 
     public function loadTemplateHeaderFooter($viewPatch, $viewData = []) {

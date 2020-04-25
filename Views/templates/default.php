@@ -203,7 +203,7 @@
 												$noneItem = (empty($viewData['filters']['totalRatingsByStars']) ? 'none-item' : '');
 												?>
 												
-												<div class="rating-page-home rating"></div>
+												<div class="rating-filter-page-home rating"></div>
 												<input type="hidden" name="filters[rating]" class="rating-page-home" value="<?php echo $viewData['filters']['ratingSelected'] ?>">
 											</div>
 											<div class='float-right <?php echo $noneItem; ?>'>
@@ -336,7 +336,7 @@
 				  		</div>
 				  	</aside> 
 				  </div>
-				  <!-- Plates -->
+				  <!-- Restaurants -->
 				  <div class="col-sm-9">
 					  <?php $this->loadView($viewPatch, $viewData); ?>
 				  </div>

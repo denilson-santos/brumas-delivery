@@ -30,7 +30,7 @@ class Restaurant extends Model {
 
         if ($stm->rowCount() > 0) {
             $data = $stm->fetchAll(\PDO::FETCH_ASSOC);
-        } 
+        }
 
         return $data;
     }
