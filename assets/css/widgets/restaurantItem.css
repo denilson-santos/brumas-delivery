@@ -32,19 +32,19 @@
 	z-index: 999;
 }
 
-.restaurant-tag-promotion {
-	background-color: #f8484a;
+.restaurant-tag-onsale {
+	background-color: #ffc929;
 	font-weight: 600;
 }
 
-.restaurant-tag-promotion:before {
+.restaurant-tag-onsale:before {
 	content: "";
     position: absolute;
     right: -20px;
     bottom: 0;
     width: 0;
     height: 0;
-    border-left: 20px solid #f8484a;
+    border-left: 20px solid #ffc929;
     border-top: 0px solid transparent;
     border-bottom: 30px solid transparent;
 }
@@ -132,6 +132,7 @@
 }
 
 .restaurant-item .rating-page-home span.restaurant-rating {
+	font-size: 15px;
 	line-height: 18px;
 	font-weight: 600;
 	color: #212529;

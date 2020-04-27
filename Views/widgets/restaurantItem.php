@@ -20,6 +20,15 @@
             </div>';
         // }
         ?>
+        <?php
+        // if ($new == 1) { 
+            echo '
+            <div class="restaurant-tag restaurant-tag-onsale float-left">';
+                $this->language->get('ONSALE');
+            echo '
+            </div>';
+        // }
+        ?>
     </div> 
     <!-- <div class="restaurant-image">
         <img src="<?php echo BASE_URL.'media/restaurants/'.$images[0]['url'] ?>" alt="" width="100%">
