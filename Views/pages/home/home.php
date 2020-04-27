@@ -27,11 +27,6 @@ foreach ($restaurants as $key => $restaurant) {
     echo " 
     </div>";
 }
-
-$totalRestaurants = count($restaurants);
-
-echo "<input type='hidden' class='totalRestaurants' value='$totalRestaurants'>";
-
 ?>
 
 </div>

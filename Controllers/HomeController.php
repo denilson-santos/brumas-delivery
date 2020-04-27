@@ -38,7 +38,7 @@ class HomeController extends Controller {
             'categories' => $category->getListCategories(),
             'filtersSelected' => $filtersSelected,
             'filters' => $filter->getFilters($filtersSelected),
-            // 'sidebarWidgetsFeatured' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
+            'sidebarWidgetsFeatured' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
             // 'footerWidgetsFeatured' => $restaurant->getListRestaurants(0, 3, ['featured' => 1], true),
             // 'widgetsPromotion' => $restaurant->getListRestaurants(0, 3, ['promo' => 1], true),
             // 'widgetsTopRated' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1]),

@@ -329,7 +329,7 @@
 				  		</div>
 
 				  		<div class="widget">
-				  			<h1><?php $this->language->get('FEATUREDES'); ?></h1>
+				  			<h1><?php $this->language->get('FEATUREDS'); ?></h1>
 				  			<div class="widget_body">
 								<?php $this->loadView('widgets/widgetItem', ['listWidgets' => $viewData['sidebarWidgetsFeatured']]) ?>
 				  			</div>
@@ -348,7 +348,7 @@
 	    		<div class="row">
 				  <div class="col-sm-4">
 				  	<div class="widget">
-			  			<h1><?php $this->language->get('FEATUREDPLATES'); ?></h1>
+			  			<h1><?php $this->language->get('ONSALE'); ?></h1>
 			  			<div class="widget_body">
 						  	<?php $this->loadView('widgets/widgetItem', ['listWidgets' => $viewData['footerWidgetsFeatured']]) ?>
 			  			</div>
@@ -356,7 +356,7 @@
 				  </div>
 				  <div class="col-sm-4">
 				  	<div class="widget">
-			  			<h1><?php $this->language->get('ONSALEPLATES'); ?></h1>
+			  			<h1><?php $this->language->get('TOPRATEDS'); ?></h1>
 			  			<div class="widget_body">
 			  				<?php $this->loadView('widgets/widgetItem', ['listWidgets' => $viewData['widgetsPromotion']]) ?>
 			  			</div>
@@ -364,7 +364,7 @@
 				  </div>
 				  <div class="col-sm-4">
 				  	<div class="widget">
-			  			<h1><?php $this->language->get('TOPRATEDPLATES'); ?></h1>
+			  			<h1><?php $this->language->get('NEW'); ?></h1>
 			  			<div class="widget_body">
 							<?php $this->loadView('widgets/widgetItem', ['listWidgets' => $viewData['widgetsTopRated']]) ?>
 			  			</div>
@@ -475,6 +475,7 @@
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/rateyo/min/jquery.rateyo.min.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/templates/default.js"></script>
+		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/widgets/widgetItem.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/select2/dist/js/select2.min.js"></script>
 	</body>
 </html>
