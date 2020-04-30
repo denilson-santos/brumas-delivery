@@ -59,7 +59,7 @@
             <h5 class="card-title restaurant-name text-cc"><?php echo $name ?></h5>
             <h6 class="card-subtitle restaurant-main-categories"><?php echo implode(' & ', $main_categories_name) ?></h6>
 
-            <div class="rating-page-home rating-page-home-<?php echo $id_restaurant ?> row justify-content-between align-items-center">
+            <div class="rating-restaurant-widget rating-restaurant-widget-<?php echo $id_restaurant ?> row justify-content-between align-items-center">
                 <div class="col-md-7 pl-0 pr-2">
                     <div class="rating-read-only float-left"></div>
                     <span class="restaurant-rating restaurant-rating-<?php echo $id_restaurant ?> float-right"><?php echo number_format($rating, 1) ?></span>

@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/
 		templates/headerFooter.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/pages/restaurant/restaurant.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/widgetItem.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/restaurantItemSmall.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>vendor/fortawesome/font-awesome/css/all.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/rateyo/min/jquery.rateyo.min.css" type="text/css" />
 	</head>

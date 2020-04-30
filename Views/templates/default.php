@@ -12,7 +12,8 @@
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/
 		templates/default.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/restaurantItem.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/widgetItem.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/restaurantItemSmall.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/restaurantItemMedium.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>vendor/fortawesome/font-awesome/css/all.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/rateyo/min/jquery.rateyo.min.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/select2/dist/css/select2.min.css" />
@@ -160,7 +161,7 @@
 				  <div class="col-sm-3">
 				  	<aside>
 				  		<h1><?php $this->language->get('FILTERBY'); ?>:</h1>
-				  		<div class="filter-area">
+				  		<div class="filter-area mb-1">
 							<form method="GET">
 								<input type="hidden" name="term" value="<?php echo (!empty($viewData['searchTerm']) ? $viewData['searchTerm'] : '') ?>">
 								<input type="hidden" name="category" value="<?php echo (!empty($viewData['category']) ? $viewData['category'] : '') ?>">
@@ -330,8 +331,8 @@
 
 				  		<div class="widget">
 				  			<h1><?php $this->language->get('FEATUREDS'); ?></h1>
-				  			<div class="widget_body">
-								<?php $this->loadView('widgets/widgetItem', ['listWidgets' => $viewData['sidebarWidgetsFeatured']]) ?>
+				  			<div class="widget-body">
+								<?php $this->loadView('widgets/restaurantItemSmall', ['listWidgets' => $viewData['sidebarWidgetsFeatureds']]) ?>
 				  			</div>
 				  		</div>
 				  	</aside> 
@@ -344,29 +345,29 @@
 	    	</div>
 	    </section>
 	    <footer>
-	    	<div class="container">
+	    	<div class="container p-0">
 	    		<div class="row">
 				  <div class="col-sm-4">
 				  	<div class="widget">
 			  			<h1><?php $this->language->get('ONSALE'); ?></h1>
-			  			<div class="widget_body">
-						  	<?php $this->loadView('widgets/widgetItem', ['listWidgets' => $viewData['footerWidgetsFeatured']]) ?>
+			  			<div class="widget-body">
+						  	<?php $this->loadView('widgets/restaurantItemMedium', ['listWidgets' => $viewData['footerWidgetsOnSale']]) ?>
 			  			</div>
 			  		</div>
 				  </div>
 				  <div class="col-sm-4">
 				  	<div class="widget">
 			  			<h1><?php $this->language->get('TOPRATEDS'); ?></h1>
-			  			<div class="widget_body">
-			  				<?php $this->loadView('widgets/widgetItem', ['listWidgets' => $viewData['widgetsPromotion']]) ?>
+			  			<div class="widget-body">
+			  				<?php $this->loadView('widgets/restaurantItemMedium', ['listWidgets' => $viewData['footerWidgetsTopRateds']]) ?>
 			  			</div>
 			  		</div>
 				  </div>
 				  <div class="col-sm-4">
 				  	<div class="widget">
 			  			<h1><?php $this->language->get('NEW'); ?></h1>
-			  			<div class="widget_body">
-							<?php $this->loadView('widgets/widgetItem', ['listWidgets' => $viewData['widgetsTopRated']]) ?>
+			  			<div class="widget-body">
+							<?php $this->loadView('widgets/restaurantItemMedium', ['listWidgets' => $viewData['footerWidgetsNew']]) ?>
 			  			</div>
 			  		</div>
 				  </div>
@@ -475,7 +476,8 @@
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/rateyo/min/jquery.rateyo.min.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/templates/default.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/widgets/widgetItem.js"></script>
+		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/widgets/restaurantItemSmall.js"></script>
+		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/widgets/restaurantItemMedium.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/select2/dist/js/select2.min.js"></script>
 	</body>
 </html>

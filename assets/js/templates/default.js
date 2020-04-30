@@ -87,7 +87,7 @@ $(function () {
         var idRestaurant = element.value;
         var rating = parseFloat($(`span.restaurant-rating-${idRestaurant}`).html());
         
-        $(`.rating-page-home-${idRestaurant} .rating-read-only`).rateYo({
+        $(`.rating-restaurant-widget-${idRestaurant} .rating-read-only`).rateYo({
             rating: rating,
             starWidth: '18px',
             readOnly: true,

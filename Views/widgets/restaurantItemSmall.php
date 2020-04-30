@@ -6,21 +6,19 @@ foreach ($listWidgets as $widget) {
     // $promoPrice = ($defaultPriceClass == 'old-price' ? 'R$ '.number_format($widget['promo_price'], 2, ',', '.') : ''); 
    
     echo '
-        <div class="widget-item">
+        <div class="restaurant-item-small">
             <a href="'.BASE_URL.'restaurant/open/'.$widget['id_restaurant'].'">
-                <div class="widget-info">
-                    <div class="widget-restaurant-name">'.$widget['name'].'</div>
-                    <div class="widget-restaurant-rating">
-                        <div class="col-md-7 pl-0 pr-1">
-                            <div class="rating-page-home-widget rating-read-only float-left"></div>
-                            <span class="restaurant-rating-widget float-right">4.1</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="widget-image">
+                <div class="widget-image col-md-5">
                     <img src="'.BASE_URL.'media/restaurants/'.$widget['image'].'" alt="" width="80">
                 </div>
-                <div class="clear"></div>
+                
+                <div class="widget-info col">
+                    <div class="widget-restaurant-name">'.$widget['name'].'</div>
+                    <div class="widget-restaurant-rating">
+                        <div class="rating-restaurant-widget-small rating-read-only float-left"></div>
+                        <span class="restaurant-rating-widget float-right">4.1</span>
+                    </div>
+                </div>
             </a>
         </div>
     ';
