@@ -83,7 +83,7 @@ $(function () {
         $('.filter-area form').submit();
     });   
 
-    $('.id-restaurant').each((index, element) => { 
+    $('.rating-restaurant-widget .id-restaurant').each((index, element) => { 
         var idRestaurant = element.value;
         var rating = parseFloat($(`span.restaurant-rating-${idRestaurant}`).html());
         

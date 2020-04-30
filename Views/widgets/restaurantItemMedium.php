@@ -9,14 +9,15 @@ foreach ($listWidgets as $widget) {
         <div class="restaurant-item-medium">
             <a href="'.BASE_URL.'restaurant/open/'.$widget['id_restaurant'].'">
                 <div class="widget-image col-md-5">
-                    <img src="'.BASE_URL.'media/restaurants/'.$widget['image'].'" alt="" width="110">
+                    <img src="'.BASE_URL.'media/restaurants/'.$widget['image'].'" alt="" width="115">
                 </div>
                 
                 <div class="widget-info col">
                     <div class="widget-restaurant-name">'.$widget['name'].'</div>
                     <div class="widget-restaurant-rating">
-                        <div class="rating-restaurant-widget-medium rating-read-only float-left"></div>
-                        <span class="restaurant-rating-widget float-right">4.1</span>
+                        <div class="restaurant-rating-widget-medium restaurant-rating-widget-medium-'.$widget['id_restaurant'].' rating-read-only float-left"></div>
+                        <span class="restaurant-rating-medium restaurant-rating-medium-'.$widget['id_restaurant']. ' float-right">'.number_format($widget['rating'], 1).'</span>
+                        <input type="hidden" class="id-restaurant" value="'.$widget['id_restaurant'].'">
                     </div>
                 </div>
             </a>
