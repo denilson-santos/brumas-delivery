@@ -287,6 +287,10 @@ class Restaurant extends Model {
             $where[] = 'featured = :featured';  
         } 
 
+        if (!empty($filters['new'])) {
+            $where[] = 'new = :new';  
+        } 
+
         if (!empty($filters['option']) && $filtersRemoved != 'option') {
             $inParams = $this->buildIN($filters['option'], 'option');
 
@@ -345,6 +349,10 @@ class Restaurant extends Model {
         if (!empty($filters['featured'])) {
             $stm->bindValue(':featured', 1);  
         } 
+
+        if (!empty($filters['new'])) {
+            $stm->bindValue(':new', 1);  
+        }
 
         if(!empty($filters['option']) && $filtersRemoved != 'option') {
             $this->bindIN($filters['option'], 'option', $stm);

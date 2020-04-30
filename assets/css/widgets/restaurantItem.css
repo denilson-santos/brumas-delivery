@@ -127,11 +127,15 @@
     width: 55%;
 }
 
-.restaurant-item .rating-page-home {
+.restaurant-item .rating-restaurant-widget {
 	padding: 0 15px;
 }
 
-.restaurant-item .rating-page-home span.restaurant-rating {
+.restaurant-item .jq-ry-container {
+	padding: 0;
+}
+
+.restaurant-item .rating-restaurant-widget span.restaurant-rating {
 	font-size: 15px;
 	line-height: 18px;
 	font-weight: 600;

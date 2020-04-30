@@ -38,11 +38,10 @@ class HomeController extends Controller {
             'categories' => $category->getListCategories(),
             'filtersSelected' => $filtersSelected,
             'filters' => $filter->getFilters($filtersSelected),
-            'sidebarWidgetsFeatured' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
-            // 'footerWidgetsFeatured' => $restaurant->getListRestaurants(0, 3, ['featured' => 1], true),
-            // 'widgetsPromotion' => $restaurant->getListRestaurants(0, 3, ['promo' => 1], true),
-            // 'widgetsTopRated' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1]),
-
+            'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
+            'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
+            'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1]),
+            'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], 1)
         ];
 
         // print_r($data['restaurantsOpen']);
