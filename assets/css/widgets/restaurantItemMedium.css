@@ -24,7 +24,7 @@
     justify-content: center;
 }
 
-.restaurant-item-medium .widget-info span.restaurant-rating-widget {
+.restaurant-item-medium .widget-info span.restaurant-rating-medium {
 	color: #212529;
 	margin-right: 82px;
 	font-size: 14px;
@@ -53,7 +53,7 @@
 }
 */
 
-.restaurant-item-medium .rating-restaurant-widget-medium.jq-ry-container {
+.restaurant-item-medium .restaurant-rating-widget-medium.jq-ry-container {
 	padding: 0;
 }
 

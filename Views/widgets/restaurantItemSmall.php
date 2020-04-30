@@ -15,8 +15,9 @@ foreach ($listWidgets as $widget) {
                 <div class="widget-info col">
                     <div class="widget-restaurant-name">'.$widget['name'].'</div>
                     <div class="widget-restaurant-rating">
-                        <div class="rating-restaurant-widget-small rating-read-only float-left"></div>
-                        <span class="restaurant-rating-widget float-right">4.1</span>
+                        <div class="restaurant-rating-widget-small restaurant-rating-widget-small-'.$widget['id_restaurant'].' rating-read-only float-left"></div>
+                        <span class="restaurant-rating-small restaurant-rating-small-'.$widget['id_restaurant']. ' float-right">'.number_format($widget['rating'], 1).'</span>
+                        <input type="hidden" class="id-restaurant" value="'.$widget['id_restaurant'].'">
                     </div>
                 </div>
             </a>
