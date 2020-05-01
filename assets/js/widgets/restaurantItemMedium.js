@@ -4,7 +4,7 @@ $(function () {
         var rating = parseFloat($(`span.restaurant-rating-medium-${idRestaurant}`).html());
         
         $(`.restaurant-rating-widget-medium-${idRestaurant}.rating-read-only`).rateYo({
-            rating: 4.5,
+            rating: rating,
             starWidth: '18px',
             ratedFill: '#ffc929',
             normalFill: '#ddd',
