@@ -24,7 +24,7 @@
         // if ($new == 1) { 
             echo '
             <div class="restaurant-tag restaurant-tag-onsale float-left">';
-                $this->language->get('ONSALE');
+                $this->language->get('PROMOTION');
             echo '
             </div>';
         // }
@@ -56,11 +56,11 @@
         </div>
 
         <div class="card-body">
-            <h5 class="card-title restaurant-name text-cc"><?php echo $name ?></h5>
+            <h5 class="card-title restaurant-name text-cc"><?php echo strlen($name) <= 22 ? $name : substr($name, 0, 21).'...' ?></h5>
             <h6 class="card-subtitle restaurant-main-categories"><?php echo implode(' & ', $main_categories_name) ?></h6>
 
             <div class="rating-restaurant-widget rating-restaurant-widget-<?php echo $id_restaurant ?> row justify-content-between align-items-center">
-                <div class="col-md-7 pl-0 pr-2">
+                <div class="col-md-7 pl-0 pr-1">
                     <div class="rating-read-only float-left"></div>
                     <span class="restaurant-rating restaurant-rating-<?php echo $id_restaurant ?> float-right"><?php echo number_format($rating, 1) ?></span>
                     <input type="hidden" class="id-restaurant" value="<?php echo $id_restaurant ?>">
