@@ -22,7 +22,7 @@ foreach ($restaurants as $key => $restaurant) {
     }
 
     echo "
-    <div class='col-sm-4 px-1 pb-2 restaurant-item'>";
+    <div class='col-sm-4 px-2 pb-3 restaurant-item'>";
         $this->loadView('widgets/restaurantItem', $restaurant);
     echo " 
     </div>";

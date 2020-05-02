@@ -16,7 +16,7 @@ class HomeController extends Controller {
         $filtersSelected = [];
         $currentPage = 1;
         $offset = 0;
-        $limit = 6;
+        $limit = 9;
 
         if (isset($_GET['filters']) && is_array($_GET['filters'])) {
             $filtersSelected = $_GET['filters'];
