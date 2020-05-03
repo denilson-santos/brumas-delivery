@@ -329,7 +329,7 @@
 							</form>
 				  		</div>
 
-				  		<div class="widget">
+				  		<div class="widget-small">
 				  			<h1><?php $this->language->get('FEATUREDS'); ?></h1>
 				  			<div class="widget-body">
 								<?php $this->loadView('widgets/restaurantItemSmall', ['listWidgets' => $viewData['sidebarWidgetsFeatureds']]) ?>
@@ -348,7 +348,7 @@
 	    	<div class="container p-0">
 	    		<div class="row">
 				  <div class="col-sm-4">
-				  	<div class="widget">
+				  	<div class="widget-medium">
 			  			<h1><?php $this->language->get('ONSALE'); ?></h1>
 			  			<div class="widget-body">
 						  	<?php $this->loadView('widgets/restaurantItemMedium', ['listWidgets' => $viewData['footerWidgetsOnSale']]) ?>
@@ -356,7 +356,7 @@
 			  		</div>
 				  </div>
 				  <div class="col-sm-4">
-				  	<div class="widget">
+				  	<div class="widget-medium">
 			  			<h1><?php $this->language->get('TOPRATEDS'); ?></h1>
 			  			<div class="widget-body">
 			  				<?php $this->loadView('widgets/restaurantItemMedium', ['listWidgets' => $viewData['footerWidgetsTopRateds']]) ?>
@@ -364,7 +364,7 @@
 			  		</div>
 				  </div>
 				  <div class="col-sm-4">
-				  	<div class="widget">
+				  	<div class="widget-medium">
 			  			<h1><?php $this->language->get('NEW'); ?></h1>
 			  			<div class="widget-body">
 							<?php $this->loadView('widgets/restaurantItemMedium', ['listWidgets' => $viewData['footerWidgetsNew']]) ?>

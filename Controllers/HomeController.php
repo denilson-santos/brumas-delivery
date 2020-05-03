@@ -40,7 +40,7 @@ class HomeController extends Controller {
             'filters' => $filter->getFilters($filtersSelected),
             'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
             'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
-            'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1]),
+            'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
             'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true)
         ];
 

@@ -6,11 +6,17 @@
 .restaurant-item-medium a {
 	display: flex;
 	text-decoration: none;
+	border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-.widget h1 {
-	border-bottom:1px solid #E0E0E0;
-	padding-bottom:15px;
+.restaurant-item-medium a:hover {
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.widget-medium h1 {
+	border-bottom: 3px solid #fe2724;
+    padding-bottom: 7px;
+    display: inline-block;
 }
 
 .restaurant-item-medium .widget-image {
