@@ -41,10 +41,10 @@ class HomeController extends Controller {
             'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
             'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
             'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1]),
-            'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], 1)
+            'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true)
         ];
 
-        // print_r($data['restaurantsOpen']);
+        // print_r($data['categories']);
         // exit;
         $this->loadTemplateDefault('pages/home/home', $data);
     }
