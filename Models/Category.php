@@ -4,10 +4,14 @@ namespace Models;
 use Core\Model;
 
 class Category extends Model {
-    public function getListCategories() {
+    public function getListCategories($orderBy = '') {
         $data = [];
         
-        $stm = $this->db->query('SELECT * FROM category ORDER BY name');
+        if (!empty($orderBy)) {
+            $orderBy = 'ORDER BY' .$orderBy;
+        }
+
+        $stm = $this->db->query('SELECT * FROM category '.$orderBy);
         
         if ($stm->rowCount() > 0) {
             $data = $stm->fetchAll(\PDO::FETCH_ASSOC);

@@ -17,6 +17,12 @@
 	padding: 0;
 }
 
+.restaurant-item-medium .widget-image img {
+	width: 115px;
+	height: 115px;
+	object-fit: cover;
+}
+
 .restaurant-item-medium .widget-info {
 	padding: 0;
 	display: flex;

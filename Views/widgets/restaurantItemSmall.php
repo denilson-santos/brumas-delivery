@@ -9,7 +9,7 @@ foreach ($listWidgets as $widget) {
         <div class="restaurant-item-small">
             <a href="'.BASE_URL.'restaurant/open/'.$widget['id_restaurant'].'">
                 <div class="widget-image col-md-5">
-                    <img src="'.BASE_URL.'media/restaurants/'.$widget['image'].'" alt="" width="80">
+                    <img src="'.BASE_URL.'media/restaurants/'.$widget['image'].'" alt="">
                 </div>
                 
                 <div class="widget-info col">

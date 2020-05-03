@@ -6,7 +6,9 @@ foreach ($restaurants as $key => $restaurant) {
     $mainCategories = explode(',', $restaurant['main_categories']);
 
     foreach ($mainCategories as $mainCategory) {
-        $restaurant['main_categories_name'][] =  $categories[$mainCategory-1]['name'];
+        if ($mainCategory == $categories[$mainCategory-1]['id_category']) {
+            $restaurant['main_categories_name'][] = $categories[$mainCategory-1]['name'];
+        }
     }
 
     foreach ($restaurantsOpen as $restaurantOpen) {
