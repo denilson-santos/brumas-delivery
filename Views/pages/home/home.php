@@ -47,8 +47,10 @@ foreach ($restaurants as $key => $restaurant) {
         $url['p'] = $p;
         $url = http_build_query($url);
 
+        $colorPagination = empty($active) ? 'text-dark' : ''; 
+
         echo "
-        <li class='page-item $active'><a class='page-link' href='".BASE_URL."?$url"."'>$p</a></li>
+        <li class='page-item $active'><a class='page-link $colorPagination' href='".BASE_URL."?$url"."'>$p</a></li>
         ";
     }
     ?>
