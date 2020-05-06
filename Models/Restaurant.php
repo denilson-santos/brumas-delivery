@@ -153,7 +153,8 @@ class Restaurant extends Model {
     public function getTotalRestaurantsOpen($filters = [], $queryType = 'count') {
         // alterar hora de teste para function current_time
 
-        $data = 0;
+        $data = [];
+        $count = 0;
 
         $where = $this->buildWhere($filters, 'status');
 
@@ -173,13 +174,16 @@ class Restaurant extends Model {
             return $data;
         }
         
-        return $data['total_restaurants_open'] = count($data);
+        $data['total_restaurants_open'] = count($data);
+
+        return $data['total_restaurants_open'] ?? $count;
     }
 
     public function getTotalRestaurantsClosed($filters = [], $queryType = 'count') {
         // alterar hora de teste para function current_time
 
-        $data = 0;
+        $data = [];
+        $count = 0;
 
         $where = $this->buildWhere($filters, 'status');
 
@@ -200,7 +204,9 @@ class Restaurant extends Model {
             return $data;
         }
         
-        return $data['total_restaurants_closed'] = count($data);
+        $data['total_restaurants_closed'] = count($data);
+
+        return $data['total_restaurants_closed'] ?? $count;
 
     }
 
