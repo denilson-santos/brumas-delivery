@@ -32,6 +32,7 @@ class HomeController extends Controller {
             'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
             'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected, 'list'),
             'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected, 'list'),
+            'restaurantsInPromotion' => $restaurant->getListRestaurants($offset, $limit, ['promotion' => 1]),
             'totalItens' => $restaurant->getTotalRestaurants($filtersSelected),
             'numberPages' => ceil($restaurant->getTotalRestaurants($filtersSelected) / $limit),
             'currentPage' => $currentPage,
@@ -44,7 +45,7 @@ class HomeController extends Controller {
             'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true)
         ];
 
-        // print_r($data['categories']);
+        // print_r($data['restaurantsInPromotion']);
         // exit;
         $this->loadTemplateDefault('pages/home/home', $data);
     }

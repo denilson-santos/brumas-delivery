@@ -23,6 +23,15 @@ foreach ($restaurants as $key => $restaurant) {
         }
     }
 
+    $restaurant['onsale'] = 0;
+    foreach ($restaurantsInPromotion as $restaurantInPromotion) {
+        if ($restaurantInPromotion['id_restaurant'] == $restaurant['id_restaurant']) {
+            $restaurant['onsale'] = 1;
+        }
+    }
+
+    // print_r($restaurant);
+
     echo "
     <div class='col-sm-4 px-2 pb-3 restaurant-item'>";
         $this->loadView('widgets/restaurantItem', $restaurant);
