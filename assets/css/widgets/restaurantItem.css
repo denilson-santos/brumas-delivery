@@ -85,6 +85,23 @@
 	border-bottom: 25px solid transparent;
 }
 
+.restaurant-tag-top-rated {
+	background-color: #fa7602;
+	/* box-shadow: 0px 1px 4px #000; */
+}
+
+.restaurant-tag-top-rated:before {
+	content: "";
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid #fa7602;
+    border-top: 0px solid transparent;
+	border-bottom: 25px solid transparent;
+}
+
 .restaurant-name {
 	color: #212529;
 }

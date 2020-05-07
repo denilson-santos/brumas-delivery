@@ -3,31 +3,37 @@
     <div class="restaurant-tags">
         
         <?php
-        // if ($featured == 1) { 
+        if ($featured == 1) { 
             echo '
             <div class="restaurant-tag restaurant-tag-featured float-left">';
                 $this->language->get('FEATURED');
             echo '
             </div>';
-        // }
-        ?>
-        <?php
-        // if ($new == 1) { 
+        }
+ 
+        if ($new == 1) { 
             echo '
             <div class="restaurant-tag restaurant-tag-new float-left">';
                 $this->language->get('NEW');
             echo '
             </div>';
-        // }
-        ?>
-        <?php
-        // if ($new == 1) { 
+        }
+        
+        if ($onsale == 1) { 
             echo '
             <div class="restaurant-tag restaurant-tag-onsale float-left">';
-                $this->language->get('PROMOTION');
+                $this->language->get('ONSALE');
             echo '
             </div>';
-        // }
+        }
+
+        if ($top_rated == 1) { 
+            echo '
+            <div class="restaurant-tag restaurant-tag-top-rated float-left">';
+                $this->language->get('TOPRATEDS');
+            echo '
+            </div>';
+        }
         ?>
     </div> 
     <!-- <div class="restaurant-image">
