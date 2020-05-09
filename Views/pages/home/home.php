@@ -43,7 +43,7 @@ foreach ($restaurants as $key => $restaurant) {
 </div>
 
 <nav aria-label="pagination">
-  <ul class="pagination">
+  <ul class="pagination ml-1">
     <?php
     for ($p=1; $p <= $numberPages; $p++) { 
         if ($currentPage == $p) {

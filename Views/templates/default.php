@@ -58,32 +58,13 @@
 						<a href="<?php echo BASE_URL; ?>"><img title="Brumas Delivery" src="<?php echo BASE_URL; ?>assets/images/logo-red.png" /></a>
 					</div>
 					<div class="col-sm-6 block-header-2">
-						<div class="head-help"><i class="fas fa-phone-alt"></i>(11) 9999-9999</div>
+						<div class="head-help ml-n5"><i class="fas fa-phone-alt"></i>(77) 9999-9999</div>
 						<div class="head-email"><i class="fas fa-envelope"></i>contato@<span>brumasdelivery.com.br</span></div>
 						
 						<div class="search-area">
 							<form method="GET">
 								<input type="text" name="term" required placeholder="<?php $this->language->get('SEARCHFORANITEM'); ?>" value="<?php echo (!empty($viewData['searchTerm'])? $viewData['searchTerm'] : '') ?>"/>
-								<select name="category">
-									<option value=""><?php $this->language->get('ALLCATEGORIES'); ?></option>
-									<?php 
-									foreach ($viewData['categories'] as $category) {
-										$selected = (!empty($viewData['category']) && $viewData['category'] == $category['id_category']? 'selected="selected"' : '');
-
-										echo "
-											<option $selected value='".$category['id_category']."'>".$category['name']."</option>
-										";
-
-										if (count($category['subs_category']) > 0) {
-											$this->loadView('pages/home/render/menuSubCategory', [
-												'subs' => $category['subs_category'],
-												'level' => 1,
-												'to' => 'search',
-												'category' => (!empty($viewData['category']) ? $viewData['category'] : '')
-											]);
-										}
-									} 
-									?>
+								
 								</select>
 								<input type="submit" value="" class="btn-cc-red" id="search" />
 						    </form>
