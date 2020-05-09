@@ -86,20 +86,19 @@ header {
 .block-header-2 {
 	text-align: center;
 	padding: 0;
-	left: -30px;
 }
 
 .search-area {
-	width: 600px;
-	height: 46px;
-	clear: both;
-	border: 1px solid #c6c6c6;
-	border-radius: 25px;
-	margin-top: 10px;
-	overflow: hidden;
+	height: 40px;
+    clear: both;
+    border: 1px solid #c6c6c6;
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+    margin: 10px 30px;
 }
 
-.search-area input, .search-area select {
+.search-area input {
 	border: 0;
 	margin: 0;
 	padding: 0;
@@ -107,32 +106,23 @@ header {
 }
 
 .search-area input[type=text] {
-	height: 44px;
-	float: left;
-	width: 60%;
-	padding-left: 15px;
-}
-
-.search-area select {
-	width: 25%;
-	height: 44px;
-	float: left;
-	border-left: 1px solid #CCC;
-	border-radius: 0px;
-	padding: 0 5px 0 5px;
+	height: 40px;
+	line-height: 40px;
+    float: left;
+    width: 88%;
+    padding-left: 15px;
 }
 
 .search-area input[type=submit] {
-	width: 13%;
-	height: 44px;
-	border-radius: 25px;
-	float: left;
-	background-image: url('../../images/search.png');
-	background-size: auto 50%;
-	background-repeat: no-repeat;
-	background-position: center;
-	position: relative;
-	left: 13px;
+	width: 12%;
+    height: 38px;
+    float: left;
+    background-image: url(../../images/search.png);
+    background-size: auto 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    left: 1px;
 }
 
 .cart-area {

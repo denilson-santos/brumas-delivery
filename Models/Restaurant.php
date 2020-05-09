@@ -5,7 +5,7 @@ use Core\Model;
 
 class Restaurant extends Model {
     
-    public function getListRestaurants($offset = 0, $limit = 3, $filters = [], $random = false) {
+    public function getListRestaurants($offset = 0, $limit = 9, $filters = [], $random = false) {
         $data = [];
         $orderByRandom = ''; 
 
@@ -304,7 +304,7 @@ class Restaurant extends Model {
         }
 
         if(!empty($filters['searchTerm'])) {
-            $where[] = 'restaurant.name LIKE :searchTerm';
+            $where[] = 'restaurant.name LIKE :searchTerm OR id_restaurant IN(SELECT restaurant_id FROM plate WHERE plate.name LIKE :searchTerm OR category_id IN(SELECT id_category FROM category WHERE category.name LIKE :searchTerm))';
         }
 
         return $where;
