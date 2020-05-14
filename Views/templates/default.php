@@ -63,7 +63,7 @@
 						
 						<div class="search-area">
 							<form method="GET">
-								<input type="text" name="term" required placeholder="<?php $this->language->get('SEARCHFORANITEM'); ?>" value="<?php echo (!empty($viewData['searchTerm'])? $viewData['searchTerm'] : '') ?>"/>
+								<input type="text" name="term" required placeholder="<?php $this->language->get('SEARCHFORANITEM'); ?>" value="<?php echo (!empty($viewData['filtersSelected']['searchTerm'])? $viewData['filtersSelected']['searchTerm'] : '') ?>"/>
 								
 								</select>
 								<input type="submit" value="" class="btn-cc-red" id="search" />
@@ -144,8 +144,7 @@
 				  		<h1><?php $this->language->get('FILTERBY'); ?>:</h1>
 				  		<div class="filter-area mb-1">
 							<form method="GET">
-								<input type="hidden" name="term" value="<?php echo (!empty($viewData['searchTerm']) ? $viewData['searchTerm'] : '') ?>">
-								<input type="hidden" name="category" value="<?php echo (!empty($viewData['category']) ? $viewData['category'] : '') ?>">
+								<input type="hidden" name="term" value="<?php echo (!empty($viewData['filtersSelected']['searchTerm']) ? $viewData['filtersSelected']['searchTerm'] : '') ?>">
 
 								<div class="filter-box">
 									<div class="filter-title"><?php $this->language->get('NEIGHBORHOODS'); ?></div>
