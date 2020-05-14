@@ -304,7 +304,7 @@ class Restaurant extends Model {
         }
 
         if(!empty($filters['searchTerm'])) {
-            $where[] = 'restaurant.name LIKE :searchTerm OR id_restaurant IN(SELECT restaurant_id FROM plate WHERE plate.name LIKE :searchTerm OR category_id IN(SELECT id_category FROM category WHERE category.name LIKE :searchTerm))';
+            $where[] = 'restaurant.name LIKE :searchTerm OR '.implode(" AND ", $where).' AND id_restaurant IN(SELECT restaurant_id FROM plate WHERE plate.name LIKE :searchTerm OR category_id IN(SELECT id_category FROM category WHERE category.name LIKE :searchTerm))';
         }
 
         return $where;

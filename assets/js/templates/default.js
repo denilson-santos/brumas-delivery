@@ -13,13 +13,10 @@ $(function () {
        $('.filter-area form input[name="category"] ').html('');
 
        var searchTerm = $('input[name="term"]').val();
-       var category = $('select[name="category"]').val();
     
        console.log('term',searchTerm);
-       console.log('category', category);
 
        $('.filter-area form input[name="term"] ').val(searchTerm);
-       $('.filter-area form input[name="category"] ').val(category);
        $(".filter-area form").attr("action", BASE_URL+"search");
        $('.filter-area form').submit();
    });
