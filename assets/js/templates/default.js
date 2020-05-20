@@ -96,7 +96,13 @@ $(function () {
     
     });
 
-
+    $(".center").slick({
+        dots: false,
+        infinite: true,
+        // centerMode: true,
+        slidesToShow: 6,
+        // slidesToScroll: 3
+    });
 
     // for (var i = 1; i <= totalReestaurants; i++) {
         
