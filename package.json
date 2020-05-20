@@ -4,9 +4,10 @@
     "bootstrap": "^4.4.1",
     "jquery": "^3.5.0",
     "minimist": "^1.2.5",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "rateyo": "^2.3.5",
-    "select2": "^4.0.13"
+    "select2": "^4.0.13",
+    "slick-carousel": "^1.8.1"
   },
   "name": "brumas-delivery",
   "description": "O projeto foi feito utilizando POO e MVC, que consiste na construção de uma loja virtual com a utilização de várias libs do composer com o objetivo de treinar os conhecimentos adquiridos em php.",

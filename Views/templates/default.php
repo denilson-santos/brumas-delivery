@@ -18,7 +18,8 @@
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/rateyo/min/jquery.rateyo.min.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/select2/dist/css/select2.min.css" />
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
-		
+		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/slick-carousel/slick/slick.css" />
+		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/slick-carousel/slick/slick-theme.css" />
 	</head>
 	<body>
 		<nav class="navbar topnav navbar-expand-lg">
@@ -88,54 +89,24 @@
 		</header>
 		
 		<div class="category-area">
-			<nav class="navbar">
-				<div class="container">
-					<ul class="navbar-nav flex-row">
-						<li class="dropdown menu-category">
-					        <a class="dropdown-toggle category-nav btn btn-cc-red" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-								<?php 
-								echo (!empty($viewData['categoryFilter']) ? 'Categoria - '.end($viewData['categoryFilter'])['name'] : 'Todas as Categorias');
-								?>
-					        <span class="caret"></span></a>
-					        <ul class="dropdown-menu">
-							  <?php 
-								echo "
-									<li><a class='dropdown-item' href='".BASE_URL."category/enter/0'".">Todas as Categorias</a></li>
-								";
+			<div class="container">
+			<section class="category-slider center slider">
+				<?php 
+					foreach ($viewData['categories'] as $category) {
+						$categoryImgPath = '/media/categories/'.pathinfo($category['image'], PATHINFO_FILENAME).'/'.$category['image'];
 
-							 	foreach ($viewData['categories'] as $category) {
-									echo "
-										<li><a class='dropdown-item' href='".BASE_URL."category/enter/".$category['id_category']."'>".$category['name']."</a></li>
-									";
-
-									if (count($category['subs_category']) > 0) {
-										$this->loadView('pages/home/render/menuSubCategory', [
-											'subs' => $category['subs_category'],
-											'level' => 1,
-											'to' => 'menu'
-										]);
-									}
-								} 
-							  ?>
-					        </ul>
-						  </li>
-						<?php
-							if (!empty($viewData['categoryFilter'])) {
-								foreach ($viewData['categoryFilter'] as $item) {
-									echo "
-										<li class='category-item'><a href='".BASE_URL."category/enter/".$item['id_category']."' class='nav text-dark text-decoration-none'>".$item['name']."<span><img src=".BASE_URL.'assets/images/breadcrumb.png'." width='20'></span></a></li>
-									";
-								}
-							} else {
-								echo "
-										<li class='category-item'><a href='".BASE_URL."category/enter/0"."' class='nav text-dark text-decoration-none'>Todas as Categorias <span><img src=".BASE_URL.'assets/images/breadcrumb.png'." width='20'></span></a></li>
-									";
-							}
-						?>
-					</ul>
-				</div>
-			</nav>
+						echo "
+						<div class='content'>
+							<img src='$categoryImgPath'>
+							<span>".$category['name']."</span>
+						</div>
+						";
+					}
+				?>
+			</section>
+			</div>	
 		</div>
+
 		<section>
 			<div class="container">
 				<div class="row">
@@ -459,5 +430,6 @@
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/widgets/restaurantItemSmall.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/widgets/restaurantItemMedium.js"></script>
 		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/select2/dist/js/select2.min.js"></script>
+		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/slick-carousel/slick/slick.js"></script>
 	</body>
 </html>
