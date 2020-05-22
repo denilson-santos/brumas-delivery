@@ -90,15 +90,17 @@
 		
 		<div class="category-area">
 			<div class="container">
-			<section class="category-slider center slider">
+			<section id="category-slide">
 				<?php 
 					foreach ($viewData['categories'] as $category) {
 						$categoryImgPath = '/media/categories/'.pathinfo($category['image'], PATHINFO_FILENAME).'/'.$category['image'];
 
 						echo "
-						<div class='content'>
-							<img src='$categoryImgPath'>
-							<span>".$category['name']."</span>
+						<div class='content category-".$category['id_category']."'>
+							<a href='/category/open/".$category['id_category']."'>
+								<img src='$categoryImgPath'>
+								<span>".$category['name']."</span>
+							</a>
 						</div>
 						";
 					}
