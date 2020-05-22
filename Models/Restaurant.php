@@ -250,7 +250,7 @@ class Restaurant extends Model {
         $inParamsRestaurant = '';
 
         if (!empty($filters['category']) && $filtersRemoved != 'category') {
-            $where[] = 'category_id = :id_category';
+            $where[] = 'id_restaurant IN(SELECT restaurant_id FROM plate WHERE category_id = :categoryId )';
         }
 
         if (!empty($filters['neighborhood']) && $filtersRemoved != 'neighborhood') {
@@ -328,7 +328,7 @@ class Restaurant extends Model {
     // Adiciona ou não um bind depedendo da existencia de um filtro que foi adicionado na clausula where
     private function bindWhere($filters, &$stm, $filtersRemoved) {       
         if (!empty($filters['category']) && $filtersRemoved != 'category') {
-            $stm->bindValue(':id_category', $filters['category']);
+            $stm->bindValue(':categoryId', $filters['category']);
         }
 
         if (!empty($filters['neighborhood']) && $filtersRemoved != 'neighborhood') {

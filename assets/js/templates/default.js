@@ -96,13 +96,21 @@ $(function () {
     
     });
 
-    $(".center").slick({
+    $("#category-slide").slick({
         dots: false,
         infinite: true,
-        // centerMode: true,
         slidesToShow: 6,
-        // slidesToScroll: 3
+        slidesToScroll: 1,
+        zIndex: -999,
+        prevArrow: '<i class="fas fa-chevron-left arrow-left"></i>',
+        nextArrow: '<i class="fas fa-chevron-right arrow-right"></i>',
     });
+
+    var categoryClicked = window.location.href.split('/').pop();
+
+    $('#category-slide').append(`<input type="hidden" class="category-${categoryClicked}">`);
+
+    $(`#category-slide .category-${categoryClicked}`).css('opacity', 0.7);
 
     // for (var i = 1; i <= totalReestaurants; i++) {
         
