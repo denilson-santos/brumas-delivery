@@ -106,33 +106,10 @@ $(function () {
         nextArrow: '<i class="fas fa-chevron-right arrow-right"></i>',
     });
 
-    var categoryClicked = window.location.href.split('/').pop();
+    var categoryClicked = window.location.pathname.split('/').pop();
 
     $('#category-slide').append(`<input type="hidden" class="category-${categoryClicked}">`);
-
     $(`#category-slide .category-${categoryClicked}`).css('opacity', 0.7);
-
-    // for (var i = 1; i <= totalReestaurants; i++) {
-        
-    // }
-    
-    // if ($('select.payment-type option').hasClass('all-types')) { $('.payment-type').select2('data');
-    //     console.log('true');
-    //     filterType.val(null); 
-    //     // $(this).removeClass('all-types');
-    // } 
-
-    // var filterPaymentType = $('.payment-type').select2('data');
-
-    // filterPaymentType.forEach(element => {
-        // console.log(element.id);
-        // filterType.val(null).trigger('change'); 
-    // });
-
-    // $('.menu-category ul.dropdown-menu .dropdown-item').on('click', function () {
-    //     $('a.category-nav').html('');
-    // });
-
 });
 
 
