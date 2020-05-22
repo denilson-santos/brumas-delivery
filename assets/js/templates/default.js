@@ -106,7 +106,7 @@ $(function () {
         nextArrow: '<i class="fas fa-chevron-right arrow-right"></i>',
     });
 
-    var categoryClicked = window.location.href.split('/').pop();
+    var categoryClicked = window.location.pathname.split('/').pop();
 
     $('#category-slide').append(`<input type="hidden" class="category-${categoryClicked}">`);
 
