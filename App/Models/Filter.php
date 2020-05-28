@@ -1,7 +1,7 @@
 <?php
-namespace Models;
+namespace App\Models;
 
-use Core\Model;
+use App\Core\Model;
 
 class Filter extends Model {
     public function getFilters($filtersSelected) {

@@ -1,8 +1,8 @@
 <?php 
-namespace Core;
+namespace App\Core;
 
-use Config\Config;
-use Core\Language;
+use App\Config\Config;
+use App\Core\Language;
 
 class Controller {
     protected $language;
@@ -14,23 +14,23 @@ class Controller {
 
     public function loadView($viewPatch, $viewData = []) {
         extract($viewData);
-        require 'Views/'.$viewPatch.'.php';
+        require 'App/Views/'.$viewPatch.'.php';
     }
 
     public function loadViewNotExtract($viewPatch, $viewData = []) {
-        require 'Views/'.$viewPatch.'.php';
+        require 'App/Views/'.$viewPatch.'.php';
     }
 
     public function loadTemplateDefault($viewPatch, $viewData = []) {
-        require 'Views/templates/default.php';
+        require 'App/Views/templates/default.php';
     }
 
     public function loadTemplateHeaderFooter($viewPatch, $viewData = []) {
-        require 'Views/templates/headerFooter.php';
+        require 'App/Views/templates/headerFooter.php';
     }
 
     public function loadViewInTemplate($viewPatch, $viewData = []) {
         extract($viewData);
-        require 'Views/'.$viewPatch.'.php';
+        require 'App/Views/'.$viewPatch.'.php';
     }
 }

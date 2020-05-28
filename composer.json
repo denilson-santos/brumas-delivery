@@ -4,14 +4,15 @@
         "kriswallsmith/buzz": "^1.0",
         "nyholm/psr7": "^1.2",
         "fortawesome/font-awesome": "^5.10",
-        "vlucas/phpdotenv": "^3.6"
+        "vlucas/phpdotenv": "^3.6",
+        "coffeecode/router": "^1.0"
     },
     "autoload": { 
         "psr-4": { 
-            "Controllers\\": "Controllers/",
-            "Core\\": "Core/",
-            "Models\\": "Models/",
-            "Config\\": "Config/"
+            "App\\Controllers\\": "App/Controllers/",
+            "App\\Core\\": "App/Core/",
+            "App\\Models\\": "App/Models/",
+            "App\\Config\\": "App/Config/"
         }
     }
 }
