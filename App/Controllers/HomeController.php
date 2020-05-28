@@ -1,13 +1,13 @@
 <?php
-namespace Controllers;
+namespace App\Controllers;
 
-use Core\Controller;
-use Models\Restaurant;
-use Models\Category;
-use Models\Filter;
+use App\Core\Controller;
+use App\Models\Restaurant;
+use App\Models\Category;
+use App\Models\Filter;
 
 class HomeController extends Controller {  
-    public function index() {
+    public function index($data) {
         $restaurant = new Restaurant();
         $category = new Category();
         $filter = new Filter();
@@ -49,5 +49,4 @@ class HomeController extends Controller {
         // exit;
         $this->loadTemplateDefault('pages/home/home', $data);
     }
-
 } 

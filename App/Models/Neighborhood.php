@@ -1,7 +1,7 @@
 <?php
-namespace models;
+namespace App\Models;
 
-use Core\Model;
+use App\Core\Model;
 
 class Neighborhood extends Model {
     public function getListNeighborhoods() {

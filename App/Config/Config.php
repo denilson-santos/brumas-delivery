@@ -1,5 +1,7 @@
 <?php
-namespace Config;
+namespace App\Config;
+
+use PDOException;
 
 class Config {
     private $connection;

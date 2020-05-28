@@ -1,7 +1,7 @@
 <?php
-namespace Core;
+namespace App\Core;
 
-use Config\Config;
+use App\Config\Config;
 
 class Model {
     protected $db;

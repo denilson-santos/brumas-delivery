@@ -1,7 +1,7 @@
 <?php
-namespace Models;
+namespace App\Models;
 
-use Core\Model;
+use App\Core\Model;
 
 class Option extends Model {
     public function getOptionName($id) {

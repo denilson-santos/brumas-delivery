@@ -5,21 +5,21 @@
 		<title>Brumas Delivery</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/plugins/jQuery-ui/css/jquery-ui.min.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/plugins/jQuery-ui/css/jquery-ui.structure.min.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/plugins/jQuery-ui/css/jquery-ui.theme.min.css" type="text/css" />
+		<link rel="stylesheet" href="/assets/plugins/jQuery-ui/css/jquery-ui.min.css" type="text/css" />
+		<link rel="stylesheet" href="/assets/plugins/jQuery-ui/css/jquery-ui.structure.min.css" type="text/css" />
+		<link rel="stylesheet" href="/assets/plugins/jQuery-ui/css/jquery-ui.theme.min.css" type="text/css" />
 		<link rel="stylesheet" href="/assets/css/bootstrap/config.css" type="text/css"/>
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/
+		<link rel="stylesheet" href="/assets/css/
 		templates/default.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/restaurantItem.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/restaurantItemSmall.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/widgets/restaurantItemMedium.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>vendor/fortawesome/font-awesome/css/all.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/rateyo/min/jquery.rateyo.min.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/select2/dist/css/select2.min.css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/slick-carousel/slick/slick.css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>node_modules/slick-carousel/slick/slick-theme.css" />
+		<link rel="stylesheet" href="/assets/css/widgets/restaurantItem.css" type="text/css" />
+		<link rel="stylesheet" href="/assets/css/widgets/restaurantItemSmall.css" type="text/css" />
+		<link rel="stylesheet" href="/assets/css/widgets/restaurantItemMedium.css" type="text/css" />
+		<link rel="stylesheet" href="/vendor/fortawesome/font-awesome/css/all.css" type="text/css" />
+		<link rel="stylesheet" href="/node_modules/rateyo/min/jquery.rateyo.min.css" type="text/css" />
+		<link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css" />
+		<link rel="stylesheet" href="/node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css" />
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css" />
 	</head>
 	<body>
 		<nav class="navbar topnav navbar-expand-lg">
@@ -48,6 +48,10 @@
 					<li class="nav-item menu-border">
 						<a class="nav-link" href="<?php echo BASE_URL; ?>login"><?php $this->language->get('LOGIN'); ?></a>
 					</li>
+
+					<li class="nav-item menu-border">
+						<a class="nav-link" href="<?php echo BASE_URL; ?>register"><?php $this->language->get('REGISTER'); ?></a>
+					</li>
 				</ul>
 			</div>			
 		</nav>
@@ -56,7 +60,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-3 logo">
-						<a href="<?php echo BASE_URL; ?>"><img title="Brumas Delivery" src="<?php echo BASE_URL; ?>assets/images/logo-red.png" /></a>
+						<a href="<?php echo BASE_URL; ?>"><img title="Brumas Delivery" src="/assets/images/logo-red.png" /></a>
 					</div>
 					<div class="col-sm-6 block-header-2">
 						<div class="head-help ml-n5"><i class="fas fa-phone-alt"></i>(77) 9999-9999</div>
@@ -424,14 +428,14 @@
 		<script type="text/javascript">
 			var BASE_URL = '<?php echo BASE_URL; ?>';
 		</script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/jquery/dist/jquery.min.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/plugins/jQuery-ui/js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/rateyo/min/jquery.rateyo.min.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/templates/default.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/widgets/restaurantItemSmall.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/widgets/restaurantItemMedium.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/select2/dist/js/select2.min.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>node_modules/slick-carousel/slick/slick.js"></script>
+		<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/jQuery-ui/js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<script type="text/javascript" src="/node_modules/rateyo/min/jquery.rateyo.min.js"></script>
+		<script type="text/javascript" src="/assets/js/templates/default.js"></script>
+		<script type="text/javascript" src="/assets/js/widgets/restaurantItemSmall.js"></script>
+		<script type="text/javascript" src=/assets/js/widgets/restaurantItemMedium.js"></script>
+		<script type="text/javascript" src="/node_modules/select2/dist/js/select2.min.js"></script>
+		<script type="text/javascript" src="/node_modules/slick-carousel/slick/slick.js"></script>
 	</body>
 </html>
