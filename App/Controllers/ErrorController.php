@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Controllers\Controller;
 
 class ErrorController extends Controller {  
     public function index($data) {

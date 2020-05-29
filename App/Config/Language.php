@@ -1,5 +1,5 @@
 <?php
-namespace App\Core;
+namespace App\Config;
 
 use App\Config\Config;
 

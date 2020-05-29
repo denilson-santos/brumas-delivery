@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-use App\Core\Model;
+use App\Models\Model;
 
 class PaymentTypes extends Model {
     
