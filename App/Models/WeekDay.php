@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-use App\Core\Model;
+use App\Models\Model;
 
 class WeekDay extends Model {
     public function getListWeekDays() {

@@ -1,7 +1,7 @@
 <?php 
 namespace Controllers;
 
-use Core\Controller;
+use App\Core\Controller;
 use Models\Category;
 use Models\Filter;
 use Models\Restaurant;

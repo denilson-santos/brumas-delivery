@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Controllers\Controller;
 use App\Models\Restaurant;
 use App\Models\Category;
 use App\Models\Filter;
@@ -47,6 +47,6 @@ class HomeController extends Controller {
 
         // print_r($data['restaurantsInPromotion']);
         // exit;
-        $this->loadTemplateDefault('pages/home/home', $data);
+        $this->loadView('pages/home/home', $data);
     }
 } 
