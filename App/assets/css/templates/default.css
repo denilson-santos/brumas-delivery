@@ -1,4 +1,4 @@
-* {
+/* * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box; 
@@ -164,7 +164,7 @@ header {
 	font-size:12px;
 	background-color:#fe2724;
 	border-radius:10px;
-}
+} */
 
 .category-area {
 	margin-top:27px;
@@ -264,7 +264,7 @@ h1 {
     padding: 15px;
 }
 
-footer {
+/* footer {
 	padding-top:30px;
 	background-color: #F9F9F9;
     border-top: 1px solid #e0e0e0;
@@ -372,7 +372,7 @@ footer h3 {
 
 .dropdown-menu {
 	width: 100%;
-}
+} */
 
 .filter-box {
 	border-bottom: 1px solid #ccc;

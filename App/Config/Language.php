@@ -21,8 +21,16 @@ class Language {
         $this->iniDicionary = parse_ini_file('languages/'.$this->language.'.ini');
     }
 
+    public function getLanguage() {
+        return $this->language;
+    }
+
+    public function getIniDicionary() {
+        return $this->iniDicionary;
+    }
+
     // recebe a palavra como 1 param e deixa por padrao atraves do param return com value false a mensagem em formato "echo", caso fique true o formato será retornado
-    public function get($word, $returnType = false) {
+    public function getWord($word, $returnType = false) {
         $text = $word;
 
         if (!empty($this->iniDicionary[$word])) {
