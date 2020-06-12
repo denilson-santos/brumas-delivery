@@ -303,8 +303,8 @@ class Restaurant extends Model {
             $where[] = 'id_restaurant IN(SELECT restaurant_id FROM restaurant_option WHERE restaurant_option.value IN ('.$inParams.'))';
         }
 
-        if(!empty($filters['searchTerm'])) {
-            $where[] = 'restaurant.name LIKE :searchTerm OR '.implode(" AND ", $where).' AND id_restaurant IN(SELECT restaurant_id FROM plate WHERE plate.name LIKE :searchTerm OR category_id IN(SELECT id_category FROM category WHERE category.name LIKE :searchTerm))';
+        if(!empty($filters['search'])) {
+            $where[] = 'restaurant.name LIKE :search OR '.implode(" AND ", $where).' AND id_restaurant IN(SELECT restaurant_id FROM plate WHERE plate.name LIKE :search OR category_id IN(SELECT id_category FROM category WHERE category.name LIKE :search))';
         }
 
         return $where;
@@ -364,8 +364,8 @@ class Restaurant extends Model {
             $this->bindIN($filters['option'], 'option', $stm);
         }
 
-        if(!empty($filters['searchTerm'])) {
-            $stm->bindValue(':searchTerm', '%'.$filters['searchTerm'].'%');  
+        if(!empty($filters['search'])) {
+            $stm->bindValue(':search', '%'.$filters['search'].'%');  
         }
 
         // if (isset($filters['rangePrice0']) || isset($filters['rangePrice1'])) {

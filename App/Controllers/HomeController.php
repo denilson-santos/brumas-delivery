@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Filter;
 
 class HomeController extends Controller {  
-    public function index($data) {
+    public function index($request) {
         $restaurant = new Restaurant();
         $category = new Category();
         $filter = new Filter();
@@ -18,14 +18,18 @@ class HomeController extends Controller {
         $offset = 0;
         $limit = 9;
 
-        if (isset($_GET['filters']) && is_array($_GET['filters'])) {
+        if (!empty($_GET['filters']) && is_array($_GET['filters'])) {
             $filtersSelected = $_GET['filters'];
         }
 
-        if (isset($_GET['p'])) {
+        if (!empty($_GET['category'])) {
+            $filtersSelected['category'] = $_GET['category'];
+        }
+
+        if (!empty($_GET['p'])) {
             $currentPage = $_GET['p'];
         }
-            
+
         $offset = ($currentPage * $limit) - $limit;
 
         $data = [

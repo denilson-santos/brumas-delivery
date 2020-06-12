@@ -8,7 +8,6 @@ use App\Config\Language;
 use Twig\TwigFunction;
 
 class Controller {
-    public $requestUrl;
     private $loader;
     private $twig;
     private $template;
@@ -19,8 +18,10 @@ class Controller {
         $this->config = new Config();
         $this->loader = new FilesystemLoader('App/Views');
         $this->twig = new Environment($this->loader);
+        $this->twig->addGlobal('GET_URL', $_GET);
         $this->language = new Language();
-        $this->requestUrl = $_GET;
+
+        // print_r($_GET); exit;
 
         // Add function of PHP to use in twig 
         
@@ -43,6 +44,9 @@ class Controller {
         
         // array_push
         $this->twig->addFunction(new TwigFunction('array_push', 'array_push'));
+        
+        // array_key_exists
+        $this->twig->addFunction(new TwigFunction('array_key_exists', 'array_key_exists'));
         
         // array_fill_keys
         $this->twig->addFunction(new TwigFunction('array_fill_keys', 'array_fill_keys'));

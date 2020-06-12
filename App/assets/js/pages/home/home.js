@@ -7,20 +7,6 @@ $(function () {
         theme: 'bootstrap4'
     });
 
-    $('#search').on('click', function (e) { 
-       e.preventDefault();
-       $('.filter-area form input[name="term"] ').html('');
-       $('.filter-area form input[name="category"] ').html('');
-
-       var searchTerm = $('input[name="term"]').val();
-    
-       console.log('term',searchTerm);
-
-       $('.filter-area form input[name="term"] ').val(searchTerm);
-       $(".filter-area form").attr("action", BASE_URL+"search");
-       $('.filter-area form').submit();
-    });
-
     $(".rating-filter-page-home.rating").rateYo({
         rating: parseInt($('input.rating-page-home').val()),
         starWidth: '18px',
@@ -44,8 +30,65 @@ $(function () {
         nextArrow: '<i class="fas fa-chevron-right arrow-right"></i>',
     });
 
-    var categoryClicked = window.location.pathname.split('/').pop();
+    function getAllUrlParams(url) {
 
-    $('#category-slide').append(`<input type="hidden" class="category-${categoryClicked}">`);
-    $(`#category-slide .category-${categoryClicked}`).css('opacity', 0.7);
+        var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+        var obj = {};
+
+        if (queryString) {
+            queryString = queryString.split('#')[0];
+        
+            var arr = queryString.split('&');
+        
+            for (var i = 0; i < arr.length; i++) {
+            var a = arr[i].split('=');
+        
+            var paramName = a[0];
+            var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+        
+            paramName = paramName.toLowerCase();
+            if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
+        
+            if (paramName.match(/\[(\d+)?\]$/)) {
+        
+                var key = paramName.replace(/\[(\d+)?\]/, '');
+                if (!obj[key]) obj[key] = [];
+        
+                if (paramName.match(/\[\d+\]$/)) {
+                var index = /\[(\d+)\]/.exec(paramName)[1];
+                obj[key][index] = paramValue;
+                } else {
+                obj[key].push(paramValue);
+                }
+            } else {
+                if (!obj[paramName]) {
+                obj[paramName] = paramValue;
+                } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+                obj[paramName] = [obj[paramName]];
+                obj[paramName].push(paramValue);
+                } else {
+                obj[paramName].push(paramValue);
+                }
+            }
+            }
+        }
+        
+        return obj;
+    }
+
+    var urlParams = getAllUrlParams(window.location.href);
+
+    for (var prop in urlParams) {
+        var value = urlParams[prop];
+        
+        if (prop.indexOf('category') >= 0) {
+            var categoryClicked = value;
+            break;
+        }
+    }
+
+    // console.log(categoryClicked);
+    
+    $(`#category-slide .category-${categoryClicked}`).css('opacity', 0.7);       
+
 });
