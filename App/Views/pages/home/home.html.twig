@@ -6,9 +6,15 @@
         <section id="category-slide">
             {% for category in categories %}
                 {% set categoryImgPath = '/media/categories/'~pathinfo(category['image'])['filename']~'/'~category['image'] %}
+
+                {% set url = GET_URL %}
+                                
+                {% set url = url|merge({'category': category['id_category']}) %}
+                
+                {% set url = http_build_query(url) %}
                 
                 <div class="content category-{{ category['id_category'] }}">
-                    <a href="/category/open/{{ category['id_category'] }}">
+                    <a href="/?category={{ category['id_category'] }}">
                         <img src="{{ categoryImgPath }}" width="150">
                         <span>{{ category['name'] }}</span>
                     </a>
@@ -26,7 +32,8 @@
                         <h1>{{ iniDicionary['FILTERBY'] }}:</h1>
                         <div class="filter-area mb-1">
                             <form method="GET">
-                                <input type="hidden" name="term" value="{{ (notEmpty(filtersSelected['searchTerm']) ? filtersSelected['searchTerm'] : '') }}">
+                                <input type="hidden" name="filters[search]" value="{{ (notEmpty(filtersSelected['search']) ? filtersSelected['search'] : '') }}">
+                                <input type="hidden" name="filters[category]" value="{{ (notEmpty(filtersSelected['category']) ? filtersSelected['category'] : '') }}">
 
                                 <div class="filter-box">
                                     <div class="filter-title">{{ iniDicionary['NEIGHBORHOODS'] }}</div>
@@ -40,7 +47,7 @@
                                                     
                                                 <div class='float-left'>
                                                     <label class='form-check-label'>
-                                                        <input type='checkbox' class='form-check-input' name='filters[neighborhood][]' id='box-neighborhood' value="{{ neighborhood['id_neighborhood'] }}" {{ checked }}>{{ neighborhood['name'] }}
+                                                        <input type='checkbox' class='form-check-input' name='filters[neighborhood][]' id="box-neighborhood-{{ neighborhood['id_neighborhood'] }}" value="{{ neighborhood['id_neighborhood'] }}" {{ checked }}>{{ neighborhood['name'] }}
                                                     </label>
                                                 </div>
                                                 <div class='float-right $noneItem'>({{ neighborhood['count'] }})
@@ -100,7 +107,7 @@
                                             <div class='filter-item form-check'>
                                                 <div class='float-left'>
                                                     <label class='form-check-label'>
-                                                        <input type='checkbox' class='form-check-input' name='filters[weekDay][]' id='box-week-day' value="{{ weekDay['id_week_day'] }}" {{ checked }}>{{ weekDay['name'] }}
+                                                        <input type='checkbox' class='form-check-input' name='filters[weekDay][]' id="box-week-day-{{ weekDay['id_week_day'] }}" value="{{ weekDay['id_week_day'] }}" {{ checked }}>{{ weekDay['name'] }}
                                                     </label>
                                                 </div>
                                                 <div class='float-right $noneItem'>({{ weekDay['count'] }})
@@ -224,13 +231,15 @@
                                     {% set active = "" %}
                                 {% endif %}
 
-                                {% set url = [] %}
+                                {% set url = GET_URL %}
+                                
                                 {% set url = url|merge({'p': loop.index}) %}
+                                
                                 {% set url = http_build_query(url) %}
 
                                 {% set colorPagination = empty(active) ? "text-dark" : "" %}
 
-                                <li class="page-item {{ active }}"><a class="page-link {{ colorPagination }}" href="{{ BASE_URL }}/?{{ url }}">{{ p }}</a></li>
+                                <li class="page-item {{ active }}"><a class="page-link {{ colorPagination }}" href="/?{{ url }}">{{ p }}</a></li>
                             {% endfor %}
                         </ul>
                     </nav>

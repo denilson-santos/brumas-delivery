@@ -1,17 +1,18 @@
 <?php
-namespace Controllers;
+namespace App\Controllers;
 
-use Core\Controller;
-use Models\Restaurant;
-use Models\Category;
-use Models\Filter;
+use App\Controllers\Controller;
+use App\Models\Restaurant;
+use App\Models\Category;
+use App\Models\Filter;
 
 class CategoryController extends Controller {  
-    public function open($id) {
+    public function open($request) {
         $restaurant = new Restaurant();
         $category = new Category();
         $filter = new Filter();
         
+        $id = $request['id'];
         $data = [];
         $filtersSelected = [];
         $currentPage = 1;
@@ -44,12 +45,14 @@ class CategoryController extends Controller {
             'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
             'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
             'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
-            'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true)
+            'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true),
+            'language' => $this->language->getLanguage(),
+            'iniDicionary' => $this->language->getIniDicionary()
         ];
 
         // print_r($data['restaurantsInPromotion']);
         // exit;
-        $this->loadTemplateDefault('pages/home/home', $data);
+        $this->loadView('pages/home/home', $data);
     }
 
 } 

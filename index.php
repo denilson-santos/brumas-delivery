@@ -26,6 +26,7 @@
     $router->group(null);
     $router->get('/', 'HomeController:index');
     $router->get('/home', 'HomeController:index');
+    $router->get('/category/{id}', 'CategoryController:open');
 
     // Error
     // 400 Bad Request
