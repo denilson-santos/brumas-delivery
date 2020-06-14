@@ -118,15 +118,15 @@ h1 {
 
 .filter-item {
 	height: 25px;
+	font-weight: 400;
 }
 
 .filter-item label {
 	display: flex;
-	font-weight: normal;
 }
 
 .filter-item input {
-	margin-right: 5px;
+	margin-top: 0.23rem;
 }
 
 .rating-filter-page-home.jq-ry-container {
