@@ -19,7 +19,20 @@
     
     // Routes
     $router = new Router(BASE_URL);
+    
+    /*
+     * Admin Panel
+    */ 
+    $router->namespace("App\Controllers\admin");
 
+    // Dashboard
+    $router->group('admin');
+    $router->get('/', 'DashboardController:index');
+    $router->get('/dashboard', 'DashboardController:index');
+
+    /*
+     * Site
+    */ 
     $router->namespace("App\Controllers");
 
     // Home
