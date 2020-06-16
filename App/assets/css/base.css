@@ -60,8 +60,8 @@ header {
 }
 
 .logo img {
-	width: 40%;
-    margin-top: -10px;
+	width: 60%;
+    margin-top: 33px;
 	margin-left: -16px;
 }
 
@@ -129,7 +129,7 @@ header {
 
 .cart-area {
 	float: right;
-	margin-top: 20px;
+	margin-top: 24px;
 }
 
 .cart-icon {
