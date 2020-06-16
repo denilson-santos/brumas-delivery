@@ -12,7 +12,7 @@ body {
 }
 
 .topnav.navbar {
-	background-color: #fe2724;
+	background-color: #fa3734;
 	border-bottom: 1px solid #e0e0e0;
 	min-height: 40px;
 	margin-bottom: 0px;
@@ -60,8 +60,8 @@ header {
 }
 
 .logo img {
-	width: 51%;
-	margin-top: 18px;
+	width: 40%;
+    margin-top: -10px;
 	margin-left: -16px;
 }
 
@@ -78,11 +78,11 @@ header {
 	padding-left: 30px;
 	padding-right: 10px;
 	font-size: 20px;
-	color: #fe2724;
+	color: #fa3734;
 }
 
 .head-email span {
-	color: #fe2724;
+	color: #fa3734;
 }
 
 .block-header-2 {
@@ -129,7 +129,7 @@ header {
 
 .cart-area {
 	float: right;
-	margin-top: 27px;
+	margin-top: 20px;
 }
 
 .cart-icon {
@@ -151,7 +151,7 @@ header {
 }
 
 .cart-total span {
-	color:#fe2724;
+	color:#fa3734;
 	font-size:20px;
 	font-weight: bold;
 }
@@ -164,7 +164,7 @@ header {
 	color:#FFF;
 	font-weight: bold;
 	font-size:12px;
-	background-color:#fe2724;
+	background-color:#fa3734;
 	border-radius:10px;
 }
 
@@ -237,7 +237,7 @@ footer h3 {
 }
 
 .link-groups a:hover {
-	color:#fe2724;
+	color:#fa3734;
 }
 
 .link-groups ul,

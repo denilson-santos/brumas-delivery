@@ -10,7 +10,7 @@ body {
 }
 
 .topnav.navbar {
-	background-color: #fe2724;
+	background-color: #fa3734;
 	border-bottom: 1px solid #e0e0e0;
 	min-height: 40px;
 	margin-bottom: 0px;
@@ -76,11 +76,11 @@ header {
 	padding-left: 30px;
 	padding-right: 10px;
 	font-size: 20px;
-	color: #fe2724;
+	color: #fa3734;
 }
 
 .head-email span {
-	color: #fe2724;
+	color: #fa3734;
 }
 
 .block-header-2 {
@@ -159,7 +159,7 @@ header {
 }
 
 .cart-total span {
-	color:#fe2724;
+	color:#fa3734;
 	font-size:20px;
 	font-weight: bold;
 }
@@ -172,7 +172,7 @@ header {
 	color:#FFF;
 	font-weight: bold;
 	font-size:12px;
-	background-color:#fe2724;
+	background-color:#fa3734;
 	border-radius:10px;
 }
 

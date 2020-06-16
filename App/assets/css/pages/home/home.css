@@ -37,7 +37,7 @@
 }
 
 #category-slide i:hover {
-	color: #fe2724;
+	color: #fa3734;
 }
 
 #category-slide .arrow-left {
@@ -71,7 +71,7 @@
 #category-slide .content span {
 	font-size: 18px;
     font-weight: 600;
-    color: #fe2724;
+    color: #fa3734;
 }
 
 section {
@@ -111,7 +111,7 @@ h1 {
 	margin-bottom: 5px;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #eee;
-	color: #fe2724;
+	color: #fa3734;
 	font-size: 17px;
 	font-weight: bold;
 }
@@ -154,11 +154,11 @@ h1 {
 }
 
 .select2-container--bootstrap4.select2-container--focus .select2-selection {
-    -webkit-box-shadow: 0 0 0 0.08rem #fe2724 !important;
-    box-shadow: 0 0 0 0.08rem #fe2724 !important;
+    -webkit-box-shadow: 0 0 0 0.08rem #fa3734 !important;
+    box-shadow: 0 0 0 0.08rem #fa3734 !important;
 }
 
 .select2-container--bootstrap4 .select2-results__option--highlighted {
-	background-color: #fe2724 !important;
+	background-color: #fa3734 !important;
 	color: #fff !important;
 }

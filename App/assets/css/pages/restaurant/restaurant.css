@@ -87,7 +87,7 @@
 }
 
 .rating-page-restaurant .add-favorites:hover {
-	color: #fe2724;
+	color: #fa3734;
 	cursor: pointer;
 }
 
@@ -146,8 +146,8 @@
 }
 
 .restaurant-header a.active {
-	color: #fe2724 !important;
-	border-bottom: 2px solid #fe2724 !important;
+	color: #fa3734 !important;
+	border-bottom: 2px solid #fa3734 !important;
 	padding-bottom: 10px;
 }
 
@@ -162,7 +162,7 @@
 .restaurant-information-title span {
 	font-size: 25px;
 	font-weight: 600;
-	border-bottom: 2px solid #fe2724;
+	border-bottom: 2px solid #fa3734;
 	padding-bottom: 2px;
 }
 
@@ -250,7 +250,7 @@
 .reviews-rating .row .review-rating-progress > span {
 	display: block;
     height: 100%;
-    background-color: #fe2724;
+    background-color: #fa3734;
     border-radius: inherit;
 }
 

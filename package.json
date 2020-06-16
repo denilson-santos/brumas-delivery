@@ -72,7 +72,7 @@
   },
   "scripts": {
     "stisla-sass": "node-sass App/assets/admin/scss/ -o App/assets/admin/css",
-    "custom-sass": "node-sass assets/scss/bootstrap/config.scss assets/css/bootstrap/config.css",
+    "custom-sass": "node-sass App/assets/scss/bootstrap/config.scss App/assets/css/bootstrap/config.css",
     "custom-sass-watch": "node-sass --watch assets/scss/bootstrap/config.scss assets/css/bootstrap/config.css",
     "custom-sass-min-watch": "node-sass --watch assets/scss/bootstrap/config.scss assets/css/bootstrap/config.css --output-style compressed"
   },

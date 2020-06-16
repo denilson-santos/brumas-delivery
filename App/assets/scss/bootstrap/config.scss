@@ -2,21 +2,21 @@
 $theme-colors: (
   'cc-default': #ccc,
   'cc-green': #59b210,
-  'cc-red': #fe2724,
+  'cc-red': #fa3734,
   'cc-gray': #ccc
 );
 
 // Dropdowns
-$dropdown-link-active-bg: #fe2724 !default;
+$dropdown-link-active-bg: #fa3734 !default;
 $dropdown-link-active-color: #fff !default;
 $dropdown-link-hover-color: #000 !default;
 
 // Pagination
-$pagination-color: #fe2724 !default;
-$pagination-hover-color:  #fe2724 !default;
-$pagination-border-color: #fe2724 !default;
-$pagination-hover-border-color: #fe2724 !default;
+$pagination-color: #fa3734 !default;
+$pagination-hover-color:  #fa3734 !default;
+$pagination-border-color: #fa3734 !default;
+$pagination-hover-border-color: #fa3734 !default;
 $pagination-active-color: #fff !default;
-$pagination-active-bg: #fe2724 !default;
+$pagination-active-bg: #fa3734 !default;
 
-@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../../node_modules/bootstrap/scss/bootstrap';

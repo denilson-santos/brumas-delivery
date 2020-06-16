@@ -52,7 +52,7 @@
 }
 
 .restaurant-tag-featured {
-	background-color: #fe2724;
+	background-color: #fa3734;
 	/* box-shadow: 0px 1px 4px #000; */
 }
 
@@ -63,7 +63,7 @@
     bottom: 0;
     width: 0;
     height: 0;
-    border-left: 20px solid #fe2724;
+    border-left: 20px solid #fa3734;
     border-top: 0px solid transparent;
 	border-bottom: 25px solid transparent;
 }
@@ -193,7 +193,7 @@
 } */
 
 /* .pagination-item:hover {
-	border: 1px solid #fe2724;
+	border: 1px solid #fa3734;
 }
 
 .pagination-item a {
@@ -203,13 +203,13 @@
 }
 
 .pagination-item a:hover {
-	color: #fe2724;
+	color: #fa3734;
 }
 
 .pagination-active {
-	border: 1px solid #fe2724;
+	border: 1px solid #fa3734;
 }
 
 .pagination-active a {
-	color: #fe2724;
+	color: #fa3734;
 } */
