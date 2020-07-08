@@ -3,7 +3,7 @@ $(function () {
         $('.filter-area form').submit();
     }); 
 
-    var filterType = $('.payment-type').select2({
+    $('.payment-type').select2({
         theme: 'bootstrap4'
     });
 

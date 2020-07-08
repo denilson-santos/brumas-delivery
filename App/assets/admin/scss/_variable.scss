@@ -1,5 +1,6 @@
 $colors: (
-  primary:    		#6777ef,
+  // primary:    		#6777ef,
+  primary:    		#fa3734,
   secondary:      #cdd3d8,
   success:        #47c363,
   info:           #3abaf4,
@@ -12,17 +13,18 @@ $colors: (
   muted:          #98a6ad,
   body:           #f4f6f9,
   font:           #6c757d,
-  fontdark:       #34395e,
+  fontdark:       #6C757D,
   white:          #ffffff,
 
   // Form Control
   formcontrol_normal_background:    #fdfdff,
-  formcontrol_normal_border:        #e4e6fc,
+  formcontrol_normal_border:        #ced4da,
   formcontrol_focus_background:     #fefeff,
-  formcontrol_focus_border:         #95a0f4,
+  formcontrol_focus_border:         #fa3734,
 
   // Utilities
-  section_title_line: #6777ef,
+  section_title_line: #fa3734,
+  // section_title_line: #6777ef,
 );
 
 $font_family:   'Nunito', 'Segoe UI', arial;

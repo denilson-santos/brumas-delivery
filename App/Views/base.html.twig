@@ -9,17 +9,13 @@
 		<link rel="stylesheet" href="/App/assets/plugins/jQuery-ui/css/jquery-ui.theme.min.css" type="text/css" />
 		<link rel="stylesheet" href="/App/assets/css/bootstrap/config.css" type="text/css"/>
 		<link rel="stylesheet" href="/App/assets/css/base.css" type="text/css" />
-		<link rel="stylesheet" href="/App/assets/css/pages/home/home.css" type="text/css" />
-		<link rel="stylesheet" href="/App/assets/css/pages/home/modals/newsletter.css" type="text/css" />
-		<link rel="stylesheet" href="/App/assets/css/widgets/restaurantItem.css" type="text/css" />
-		<link rel="stylesheet" href="/App/assets/css/widgets/restaurantItemSmall.css" type="text/css" />
-		<link rel="stylesheet" href="/App/assets/css/widgets/restaurantItemMedium.css" type="text/css" />
 		<link rel="stylesheet" href="/vendor/fortawesome/font-awesome/css/all.css" type="text/css" />
 		<link rel="stylesheet" href="/node_modules/rateyo/min/jquery.rateyo.min.css" type="text/css" />
 		<link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css" />
 		<link rel="stylesheet" href="/node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
 		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css" />
 		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css" />
+		{% block css %}{% endblock css %}
 	</head>
 	<body>
 		{% set BASE_URL = getCurrentBaseUrl() %}
@@ -52,6 +48,10 @@
 
 					<li class="nav-item menu-border">
 						<a class="nav-link" href="{{ BASE_URL }}/register">{{ iniDicionary['REGISTER'] }}</a>
+					</li>
+
+					<li class="nav-item menu-border">
+						<a class="nav-link" href="{{ BASE_URL }}/be-a-parter">{{ iniDicionary['BEAPARTNER'] }}</a>
 					</li>
 				</ul>
 			</div>			
@@ -169,8 +169,6 @@
 	    		</div>
 			</div>
 
-			<!-- Modal Newsletter -->
-			{% include "pages/home/modals/newsletter.html.twig" %}
 	    </footer>
 		<script type="text/javascript">
 			var BASE_URL = '{{ BASE_URL }}';
@@ -178,14 +176,10 @@
 		<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 		<script type="text/javascript" src="/App/assets/plugins/jQuery-ui/js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script type="text/javascript" src="/node_modules/rateyo/min/jquery.rateyo.min.js"></script>
 		<script type="text/javascript" src="/App/assets/js/base.js"></script>
-		<script type="text/javascript" src="/App/assets/js/pages/home/home.js"></script>
-		<script type="text/javascript" src="/App/assets/js/widgets/restaurantItem.js"></script>
-		<script type="text/javascript" src="/App/assets/js/widgets/restaurantItemSmall.js"></script>
-		<script type="text/javascript" src="/App/assets/js/widgets/restaurantItemMedium.js"></script>
-		<script type="text/javascript" src="/App/assets/js/pages/home/modals/newsletter.js"></script>
+		<script type="text/javascript" src="/node_modules/rateyo/min/jquery.rateyo.min.js"></script>
 		<script type="text/javascript" src="/node_modules/select2/dist/js/select2.min.js"></script>
 		<script type="text/javascript" src="/node_modules/slick-carousel/slick/slick.js"></script>
+		{% block js %}{% endblock js %}
 	</body>
 </html>
