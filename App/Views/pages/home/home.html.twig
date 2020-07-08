@@ -1,5 +1,13 @@
 {% extends "base.html.twig" %}
 
+{% block css %}
+    <link rel="stylesheet" href="/App/assets/css/pages/home/home.css" type="text/css" />
+    <link rel="stylesheet" href="/App/assets/css/pages/home/modals/newsletter.css" type="text/css" />
+    <link rel="stylesheet" href="/App/assets/css/widgets/restaurantItem.css" type="text/css" />
+    <link rel="stylesheet" href="/App/assets/css/widgets/restaurantItemSmall.css" type="text/css" />
+    <link rel="stylesheet" href="/App/assets/css/widgets/restaurantItemMedium.css" type="text/css" />
+{% endblock css %}
+
 {% block home %}
     <div class="category-area">
         <div class="container">
@@ -281,4 +289,17 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal Newsletter -->
+	{% include "pages/home/modals/newsletter.html.twig" %}
 {% endblock home %}
+
+{% block js %}
+    <script type="text/javascript" src="/App/assets/js/pages/home/home.js"></script>
+    <script type="text/javascript" src="/App/assets/js/widgets/restaurantItem.js"></script>
+    <script type="text/javascript" src="/App/assets/js/widgets/restaurantItemSmall.js"></script>
+    <script type="text/javascript" src="/App/assets/js/widgets/restaurantItemMedium.js"></script>
+    <script type="text/javascript" src="/App/assets/js/pages/home/modals/newsletter.js"></script>
+    <script type="text/javascript" src="/node_modules/select2/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="/node_modules/slick-carousel/slick/slick.js"></script>
+{% endblock js %}

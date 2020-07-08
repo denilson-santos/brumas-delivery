@@ -11,8 +11,9 @@
   }
   &:not(.table-sm) thead th {
     border-bottom: none;
-    background-color: rgba(0, 0, 0, 0.04);
-    color: #666;
+    background-color: color(primary);
+    color: #fff;
+    border-color: color(primary);
     padding-top: 15px;
     padding-bottom: 15px;
   }
@@ -22,7 +23,7 @@
   }
   &.table-bordered td,
   &.table-bordered th {
-    border-color: #f6f6f6;
+    border-color: #ddd;
   }
 }
 
@@ -42,7 +43,7 @@ table tr:hover .table-links {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 @include media-breakpoint-down(xs) {

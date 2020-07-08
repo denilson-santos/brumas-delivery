@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Cadastre-se</title>
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="/App/assets/css/bootstrap/config.css" type="text/css"/>
+  <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="/node_modules/jquery-ui-dist/jquery-ui.min.css">
+  <link rel="stylesheet" href="/node_modules/selectric/public/selectric.css">
+  <link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css" />
+  <link rel="stylesheet" href="/node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/App/assets/admin/css/style.css">
+  <link rel="stylesheet" href="/App/assets/admin/css/components.css">
+  <link rel="stylesheet" href="/App/assets/css/pages/register/register.css">
+  <!-- <link rel="stylesheet" href="/App/assets/css/pages/register/modals/operation.css"> -->
+</head>
+
+<body>
+  <div id="app">
+    <section class="section">
+      <div class="container mt-5">
+        <div class="row col-10 offset-1">
+          <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+            <div class="login-brand">
+              <img src="/App/assets/images/logo-brumas-delivery-white.png" alt="logo" width="200">
+            </div>
+
+            <form method="POST" class="register">
+              <!-- progressbar -->
+              <ul id="progressbar">
+                <li class="active">Informações Pessoais</li>
+                <li>Informações da Conta</li>
+              </ul>
+              
+              <fieldset class="register-step-1">
+                <div class="card card-primary">
+                  <div class="card-header"><h4>Cadastre-se</h4></div>
+    
+                  <div class="card-body">
+                    <div class="form-divider">
+                      <i class="fa fa-genderless"></i>
+                      Informações Pessoais
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-6">
+                        <label for="first_name">Nome</label>
+                        <input id="first_name" type="text" class="form-control" name="first_name" placeholder="Digite seu nome" autofocus>
+                      </div>
+                      <div class="form-group col-6">
+                        <label for="last_name">Sobrenome</label>
+                        <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Digite seu sobrenome">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-6">
+                        <label for="email">Email</label>
+                        <input id="email" type="email" class="form-control" name="email" placeholder="Digite seu email">
+                      </div>
+
+                      <div class="form-group col-6">
+                        <label for="phone">Telefone</label>
+                        <input id="phone" type="tel" class="form-control" name="phone" placeholder="Digite seu telefone" data-mask="(00) 0000-00000">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-6">
+                        <label>Endereço</label>
+                        <input type="text" class="form-control" placeholder="Endereço">
+                      </div>
+
+                      <div class="form-group col-4">
+                        <label>Bairro</label>
+                        <input type="text" class="form-control" placeholder="Bairro">
+                      </div>
+
+                      <div class="form-group col-2">
+                        <label>Número</label>
+                        <input type="text" class="form-control" placeholder="N.º">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-4">
+                        <label>Estado</label>
+                        <select class="form-control selectric">
+                          <option>Selecione</option>
+                          <option>Bahia - BA</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-4">
+                        <label>Cidade</label>
+                        <select class="form-control selectric">
+                          <option>Selecione</option>
+                          <option>Brumado</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-4">
+                        <label>Complemento</label>
+                        <input type="text" class="form-control" placeholder="Complemento">
+                      </div>
+                    </div>
+
+                    <div class="form-group col-3 float-right p-0 mt-2">
+                      <button type="submit" data-step="1" class="next btn btn-primary btn-lg btn-block">
+                        Proxímo
+                      </button>
+                    </div>
+                    
+                  </div>
+                </div>
+
+                <footer class="simple-footer text-white">
+                  Copyright &copy; Brumas Delivery 2020
+                </footer>
+              </fieldset>
+              
+              <fieldset class="register-step-2">
+                <div class="card card-primary">
+                  <div class="card-header"><h4>Cadastre-se</h4></div>
+    
+                  <div class="card-body">
+                    <div class="form-divider">
+                      <i class="fa fa-genderless"></i>
+                      Informações da Conta
+                    </div>
+
+                    <div class="form-group">
+                      <label for="user-name">Usuário</label>
+                      <input id="user_name" type="text" class="form-control" name="user-name" placeholder="Crie um nome de usuário" autofocus>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-6">
+                        <label for="password">Senha</label>
+                        <input id="password" type="password" class="form-control" name="password" placeholder="Crie uma senha">
+                      </div>
+
+                      <div class="form-group col-6">
+                        <label for="confirm-password">Confirmar Senha</label>
+                        <input id="confirm_password" type="password" class="form-control" name="password" placeholder="Confirme a senha">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="agree" class="custom-control-input" id="agree">
+                        <label class="custom-control-label" for="agree">Eu concordo com os termos e condições</label>
+                      </div>
+                    </div>
+
+                    <div class="row justify-content-between">
+                      <div class="form-group col-3">
+                        <button type="submit" data-step="2" class="previous btn btn-light btn-lg btn-block">
+                          Voltar
+                        </button>
+                      </div>
+      
+                      <div class="form-group col-4">
+                        <button type="submit" data-step="2" class="next btn btn-primary btn-lg btn-block">
+                          Cadastrar
+                        </button>
+                      </div>
+                    </div>      
+                    
+                  </div>
+                </div>
+
+                <footer class="simple-footer text-white">
+                  Copyright &copy; Brumas Delivery 2020
+                </footer>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- General JS Scripts -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="module" src="/node_modules/popper.js/dist/popper.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/node_modules/nicescroll/dist/jquery.nicescroll.min.js"></script>
+  <script type="module" src="/node_modules/moment/dist/moment.js"></script>
+  <script src="/App/assets/admin/js/stisla.js"></script>
+
+  <!-- JS Libraies -->
+  <script src="/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+  <script src="/node_modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+  <script src="/node_modules/selectric/public/jquery.selectric.min.js"></script>
+  <script src="/node_modules/select2/dist/js/select2.min.js"></script>
+  <script src="/node_modules/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+
+  <!-- Template JS File -->
+  <script src="/App/assets/admin/js/scripts.js"></script>
+  <script src="/App/assets/admin/js/custom.js"></script>
+  <script src="/App/assets/js/pages/register/register.js"></script>
+
+  <!-- Page Specific JS File -->
+  <!-- <script src="/App/assets/js/pages/register/modals/operation.js"></script> -->
+</body>
+</html>

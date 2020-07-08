@@ -30,6 +30,8 @@
     $router->get('/', 'DashboardController:index');
     $router->get('/dashboard', 'DashboardController:index');
 
+    // Login admin
+
     /*
      * Site
     */ 
@@ -40,6 +42,13 @@
     $router->get('/', 'HomeController:index');
     $router->get('/home', 'HomeController:index');
     $router->get('/category/{id}', 'CategoryController:open');
+
+    // Login 
+
+    // Register
+    $router->get('/register', 'AccountController:registerIndex');
+    $router->get('/be-a-parter', 'AccountController:registerPartnerIndex');
+
 
     // Error
     // 400 Bad Request
