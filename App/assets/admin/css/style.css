@@ -930,7 +930,7 @@ select.form-control:not([size]):not([multiple]) {
     border-top: none; }
   .table:not(.table-sm):not(.table-md):not(.dataTable) td,
   .table:not(.table-sm):not(.table-md):not(.dataTable) th {
-    padding: 0 25px;
+    padding: 0 20px;
     height: 60px;
     vertical-align: middle; }
   .table:not(.table-sm) thead th {

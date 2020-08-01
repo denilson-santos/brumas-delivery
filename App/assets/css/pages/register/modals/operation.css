@@ -1,4 +1,51 @@
-.table-operation thead th {
-    width: 20%;
+.table-operation {
+    table-layout: fixed;
+}
+
+.table-operation th {
     text-align: center;
+    border-left-width: 1px;
+}
+
+.table-operation th, 
+.table-operation td {
+    vertical-align: middle;
+}
+
+.table-operation th:nth-child(1) {
+    width: 23%;
+}
+
+.table-operation th:nth-child(2) {
+    width: 16%;
+}
+
+.table-operation th:nth-child(3) {
+    width: 16%;
+}
+
+.table-operation th:nth-child(4) {
+    width: 16%;
+}
+
+.table-operation th:nth-child(5) {
+    width: 16%;
+}
+
+.table-operation th:nth-child(6) {
+    width: 13%;
+}
+
+.table-operation .actions {
+    display: flex;
+}
+
+.table-operation .action {
+    /* width: -webkit-fill-available;
+    border-radius: 50%; */
+    margin: 0 2px;
+}
+
+#addWeekDay {
+    border-radius: 50%;
 }

@@ -48,7 +48,7 @@
     // Register
     $router->get('/register', 'AccountController:registerIndex');
     $router->get('/be-a-parter', 'AccountController:registerPartnerIndex');
-
+    $router->get('/be-a-parter/action', 'AccountController:registerPartnerAction');
 
     // Error
     // 400 Bad Request

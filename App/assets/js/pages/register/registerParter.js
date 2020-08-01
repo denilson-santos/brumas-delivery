@@ -6,14 +6,17 @@ $(function () {
     var left, opacity, scale, animating;
 
     $('form.register-parter .next').click(function(e) { 
-        e.preventDefault(); 
-        
-        if(animating) return false;
-        animating = true;
-        
         step = $(this).data('step');
+
+        if (!step) step = $(this).data('last-step');
+
+        if (!isValid($(`form.register-parter .register-parter-step-${step}`), step)) {
+            return false;
+        } 
+                
         currentStep = $(`.register-parter-step-${step}`);
         nextStep = $(`.register-parter-step-${step+1}`);
+        animating = true;
 
         $("#progressbar li").eq($("fieldset").index(nextStep)).addClass("active");
     
@@ -38,7 +41,7 @@ $(function () {
                 nextStep.css({'left': left, 'opacity': opacity});
         }, 
             duration: 800, 
-            complete: function(){
+            complete: function() {
                 currentStep.hide();
                 animating = false;
             }, 
@@ -48,8 +51,6 @@ $(function () {
     });
 
     $("form.register-parter .previous").click(function(e) {
-        e.preventDefault(); 
-
         if(animating) return false;
         animating = true;
         
@@ -89,13 +90,191 @@ $(function () {
     });
     
     // Adapts the select multiple of the selectric to accept only 2 checked options
-    var mainCategories = $('.main-categories').selectric();
+    var mainCategories = $('.restaurant-main-categories').selectric();
     
     mainCategories.on('selectric-before-change', function(event, element, selectric) {                
         if (selectric.state.selectedIdx.length == 3) {
-            $(`.selectric-main-categories ul li:nth-child(${selectric.state.selectedIdx[0] + 1})`).removeClass('selected');
+            $(`.selectric-restaurant-main-categories ul li:nth-child(${selectric.state.selectedIdx[0] + 1})`).removeClass('selected');
             selectric.state.selectedIdx.shift();
         }        
     });
+    
+    // Registration Form Validation
+    $('.register-parter').validate( {
+        rules: {
+            // Personal Information
+            firstName: 'required',
+            lastName: 'required',
+            email: {
+                required: true,
+                email : true
+            },
+            phone: {
+                required: true,
+                // 8 digits without mask / 14 digits with mask
+                minlength: 14
+            },
+            address: 'required',
+            neighborhood: 'required',
+            number: 'required',
+            state: 'required',
+            city: 'required',   
+            complement: false,
+
+            // Restaurant Information
+            restaurantName: 'required',
+            restaurantCnpj: {
+                required: true,
+                // 14 digits without mask / 18 digits with mask
+                minlength: 18
+            },
+            restaurantEmail: {
+                required: true,
+                email : true
+            },
+            restaurantPhone: {
+                required: true,
+                // 8 digits without mask / 14 digits with mask
+                minlength: 14
+            },
+            restaurantMainCategories: 'required',
+            restaurantAddress: 'required',
+            restaurantNeighborhood: 'required',
+            restaurantNumber: 'required',
+            restaurantState: 'required',
+            restaurantCity: 'required',
+            restaurantComplement: false,
+            
+            // Account Information
+            accountUserName: 'required',
+            accountPassword: {
+                required: true,
+                minlength: 4
+            },
+            accountConfirmPassword: {
+                required: true,
+                minlength: 4,
+                equalTo: '#accountPassword'
+            },
+            accountTerms: "required"
+        },
+        messages: {
+            // Personal Information
+            firstName: 'Digite seu primeiro nome',
+            lastName: 'Digite seu sobrenome',
+            email: {
+                required: 'Digite seu email',
+                email : 'Digite um email válido'
+            },
+            phone: {
+                required: 'Digite seu telefone',
+                minlength: 'O telefone precisa ter no mínimo 8 dígitos'
+            },
+            address: 'Digite seu endereço',
+            neighborhood: 'Digite seu bairro',
+            number: 'Número ?',
+            state: 'Informe o seu estado',
+            city: 'Informe a sua cidade',   
+            
+            // Restaurant Information
+            restaurantName: 'Digite o nome do restaurante',
+            restaurantCnpj: {
+                required:'Digite o cnpj do restaurante',
+                minlength: 'O cnpj precisa ter no mínimo 14 dígitos'
+            },
+            restaurantEmail: {
+                required: 'Digite o email do restaurante',
+                email : 'Digite um email válido'
+            },
+            restaurantPhone: {
+                required: 'Digite o telefone do restaurante',
+                minlength: 'O telefone precisa ter no mínimo 8 dígitos'
+            },
+            restaurantMainCategories: 'Selecione 1 ou no máx 2 categorias principais para o restaurante',
+            restaurantAddress: 'Digite o endereço do restaurante',
+            restaurantNeighborhood: 'Digite o bairro do restaurante',
+            restaurantNumber: 'Número ?',
+            restaurantState: 'Informe o estado',
+            restaurantCity: 'Informe a cidade',   
+
+            // Account Information
+            accountUserName: 'Digite seu usuário',
+            accountPassword: {
+                required: 'Digite sua senha',
+                minlength: 'A senha precisa ter no mínimo 4 caracteres'
+            },
+            accountConfirmPassword: {
+                required: 'Digite novamente sua senha',
+                minlength: 'A senha precisa ter no mínimo 4 caracteres',
+                equalTo: 'As senhas não conferem, tente novamente'
+            },
+            accountTerms: 'Aceite os termos'
+        },
+        errorElement: 'div',
+        errorPlacement: function ( error, element ) {
+            // Add the `help-block` class to the error element
+            error.addClass('invalid-feedback');
+
+            if ( element.prop('type') === 'checkbox') {
+                error.insertAfter(element.parents('label').addClass('is-invalid').removeClass('is-valid') );
+            } else if ( element.prop('') === 'checkbox') {
+                error.insertAfter(element.parents('label').addClass('is-invalid').removeClass('is-valid') );
+            } else {
+                error.insertAfter( element );
+            }
+
+            // check if element has Selectric initialized on it
+            var selectTric = element.data('selectric');
+            
+            error.appendTo( selectTric ? element.closest( '.' + selectTric.classes.wrapper ).parent() : element.parent() );
+
+            if (selectTric) {
+                element.closest('.selectric-wrapper').find('div.selectric').css('border-color', '#fa3734');
+            }
+        },
+        highlight: function (element, errorClass, validClass) {
+            $( element ).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $( element ).addClass('is-valid').removeClass('is-invalid');
+        }, 
+        submitHandler: function () {
+            alert('Novo Cadastro Realizado com Sucesso!');
+            return true;
+        }
+    } );
+
+    $('.register-parter select').on('change', function(e) {
+        $(this).valid();
+
+        $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
+    });
+
+    
+    // $('.register-parter #restaurantAddOperation').on('click', function(e) {
+    //     $(this).valid();
+
+    //     $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
+    // });
+
+    function isValid(currentStep, step) {
+        var validation = true;
+        var formStepElements = currentStep.find('input,select');
+        
+        if (step === 2) {
+            if (!isValidOperation($('.table-operation input')) && !$('#restaurantOperation-error').html()) {
+                $('button#restaurantAddOperation').after('<div id="restaurantOperation-error" class="error invalid-feedback" style="display: block;                margin-top: 0.40rem;">Horários inválidos</div>');
+            } else {
+                $('#restaurantOperation-error').remove();
+            }
+            
+        }
+
+        $(formStepElements).each(function (index, element) {
+            if (!formStepElements.eq(index).valid()) validation = false;
+        });
+        
+        return validation;
+    }
 });
 

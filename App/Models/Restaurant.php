@@ -159,7 +159,7 @@ class Restaurant extends Model {
         $where = $this->buildWhere($filters, 'status');
 
         $stm = $this->db->prepare(
-            'SELECT * FROM restaurant_operation WHERE "19:41:00" BETWEEN open1 AND close1 OR "19:41:00" BETWEEN open2 AND close2 
+            'SELECT * FROM restaurant_operation WHERE "19:41:00" BETWEEN open_1 AND close_1 OR "19:41:00" BETWEEN open_2 AND close_2 
             AND restaurant_id IN(SELECT id_restaurant FROM restaurant WHERE '.implode(" AND ", $where).')');
         // print_r($stm); exit;
 
@@ -188,7 +188,7 @@ class Restaurant extends Model {
         $where = $this->buildWhere($filters, 'status');
 
         $stm = $this->db->prepare(
-            'SELECT * FROM restaurant_operation WHERE "19:41:00" NOT BETWEEN open1 AND close1 AND "19:41:00" NOT BETWEEN open2 AND close2 
+            'SELECT * FROM restaurant_operation WHERE "19:41:00" NOT BETWEEN open_1 AND close_1 AND "19:41:00" NOT BETWEEN open_2 AND close_2 
             AND restaurant_id IN(SELECT id_restaurant FROM restaurant WHERE '.implode(" AND ", $where).')');
         // print_r($stm); exit;
 
@@ -276,10 +276,10 @@ class Restaurant extends Model {
 
             if (count($filters['status']) == 1 && $filters['status'][0] == 1) {
                 // Restaurants open
-                $where[] = 'id_restaurant IN(SELECT restaurant_id FROM restaurant_operation WHERE "19:41:00" BETWEEN open1 AND close1 OR "19:41:00" BETWEEN open2 AND close2)';
+                $where[] = 'id_restaurant IN(SELECT restaurant_id FROM restaurant_operation WHERE "19:41:00" BETWEEN open_1 AND close_1 OR "19:41:00" BETWEEN open_2 AND close_2)';
             } else if (count($filters['status']) == 1 && $filters['status'][0] == 0) {
                 // Restaurants closed
-                $where[] = 'id_restaurant IN(SELECT restaurant_id FROM restaurant_operation WHERE "19:41:00" NOT BETWEEN open1 AND close1 AND "19:41:00" NOT BETWEEN open2 AND close2)';
+                $where[] = 'id_restaurant IN(SELECT restaurant_id FROM restaurant_operation WHERE "19:41:00" NOT BETWEEN open_1 AND close_1 AND "19:41:00" NOT BETWEEN open_2 AND close_2)';
             }
         }
 

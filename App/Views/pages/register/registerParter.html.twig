@@ -14,6 +14,9 @@
   <link rel="stylesheet" href="/node_modules/selectric/public/selectric.css">
   <link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css" />
   <link rel="stylesheet" href="/node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
+  <link rel="stylesheet" href="/node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
+  <link rel="stylesheet" href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="/App/assets/admin/css/style.css">
@@ -52,12 +55,12 @@
 
                     <div class="row">
                       <div class="form-group col-6">
-                        <label for="first_name">Nome</label>
-                        <input id="first_name" type="text" class="form-control" name="first_name" placeholder="Digite seu nome" autofocus>
+                        <label for="firstName">Nome</label>
+                        <input id="firstName" type="text" class="form-control" name="firstName" placeholder="Digite seu nome" autofocus>
                       </div>
                       <div class="form-group col-6">
-                        <label for="last_name">Sobrenome</label>
-                        <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Digite seu sobrenome">
+                        <label for="lastName">Sobrenome</label>
+                        <input id="lastName" type="text" class="form-control" name="lastName" placeholder="Digite seu sobrenome">
                       </div>
                     </div>
 
@@ -75,50 +78,51 @@
 
                     <div class="row">
                       <div class="form-group col-6">
-                        <label>Endereço</label>
-                        <input type="text" class="form-control" placeholder="Endereço">
+                        <label for="address">Endereço</label>
+                        <input type="text" id="address" class="form-control" name="address" placeholder="Endereço">
                       </div>
 
                       <div class="form-group col-4">
-                        <label>Bairro</label>
-                        <input type="text" class="form-control" placeholder="Bairro">
+                        <label for="neighborhood">Bairro</label>
+                        <input type="text" id="neighborhood" class="form-control" name="neighborhood" placeholder="Bairro">
                       </div>
 
                       <div class="form-group col-2">
-                        <label>Número</label>
-                        <input type="text" class="form-control" placeholder="N.º">
+                        <label for="number">Número</label>
+                        <input type="text" id="number" class="form-control" name="number" placeholder="N.º">
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="form-group col-4">
-                        <label>Estado</label>
-                        <select class="form-control selectric">
-                          <option>Selecione</option>
+                        <label for="state">Estado</label>
+                        <select id="state" class="form-control selectric" name="state">
+                          <option selected disabled>Selecione</option>
                           <option>Bahia - BA</option>
                         </select>
                       </div>
 
                       <div class="form-group col-4">
-                        <label>Cidade</label>
-                        <select class="form-control selectric">
-                          <option>Selecione</option>
+                        <label for="city">Cidade</label>
+                        <select id="city" class="form-control selectric" name="city">
+                          <option selected disabled>Selecione</option>
                           <option>Brumado</option>
                         </select>
                       </div>
 
                       <div class="form-group col-4">
-                        <label>Complemento</label>
-                        <input type="text" class="form-control" placeholder="Complemento">
+                        <label for="complement">Complemento</label>
+                        <input type="text" id="complement" name="complement" class="form-control" placeholder="Complemento">
                       </div>
                     </div>
 
                     <div class="form-group col-3 float-right p-0 mt-2">
-                      <button type="submit" data-step="1" class="next btn btn-primary btn-lg btn-block">
+                      <button type="button" data-step="1" class="next btn btn-primary btn-lg btn-block">
                         Proxímo
                       </button>
+                      <button id="restaurantAddOperation" class="form-control btn btn-primary trigger--fire-modal-1"><i class="fas fa-history mr-1"></i> Adicionar</button>
                     </div>
-                    
+
                   </div>
                 </div>
 
@@ -139,31 +143,32 @@
 
                     <div class="row">
                       <div class="form-group col-6">
-                        <label for="first_name">Nome</label>
-                        <input id="first_name" type="text" class="form-control" name="restaurant-name" placeholder="Digite o nome do restaurante" autofocus>
+                        <label for="restaurantName">Nome</label>
+                        <input id="restaurantName" type="text" class="form-control" name="restaurantName" placeholder="Digite o nome do restaurante" autofocus>
                       </div>
                       <div class="form-group col-6">
-                        <label for="last_name">CNPJ</label>
-                        <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Digite o cnpj do restaurante" data-mask="00.000.000/0000-00" data-mask-reverse="true">
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="form-group col-6">
-                        <label for="email">Email</label>
-                        <input id="email" type="email" class="form-control" name="email" placeholder="Digite o email do restaurante">
-                      </div>
-
-                      <div class="form-group col-6">
-                        <label for="phone">Telefone</label>
-                        <input id="phone" type="tel" class="form-control" name="phone" placeholder="Digite o telefone do restaurante" data-mask="(00) 0000-00000">
+                        <label for="restaurantCnpj">CNPJ</label>
+                        <input id="restaurantCnpj" type="text" class="form-control" name="restaurantCnpj" placeholder="Digite o cnpj do restaurante" data-mask="00.000.000/0000-00" data-mask-reverse="true">
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="form-group col-6">
-                        <label for="email">Categorias Principais (max 2)</label>
-                        <select class="form-control main-categories" multiple="multiple">
+                        <label for="restaurantEmail">Email</label>
+                        <input id="restaurantEmail" type="email" class="form-control" name="restaurantEmail" placeholder="Digite o email do restaurante">
+                      </div>
+
+                      <div class="form-group col-6">
+                        <label for="restaurantPhone">Telefone</label>
+                        <input id="restaurantPhone" type="tel" class="form-control" name="restaurantPhone" placeholder="Digite o telefone do restaurante" data-mask="(00) 0000-00000">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-6">
+                        <label for="restaurantMainCategories">Categorias Principais</label>
+                        <select id="restaurantMainCategories" class="form-control restaurant-main-categories selectri" name="restaurantMainCategories"
+                        multiple="multiple">
                           <option disabled>Selecione</option>
                           <option>Pizzas</option>
                           <option>Bebidas</option>
@@ -176,47 +181,47 @@
 
                       <div class="form-group col-6">
                         <label>Funcionamento</label>
-                        <button id="addOperation" class="form-control btn btn-primary"><i class="fas fa-history mr-1"></i> Adicionar Horários</button>
+                        <button id="restaurantAddOperation" class="form-control btn btn-primary"><i class="fas fa-history mr-1"></i> Adicionar Horários</button>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="form-group col-6">
-                        <label>Endereço</label>
-                        <input type="text" class="form-control" placeholder="Endereço">
+                        <label for="restaurantAddress">Endereço</label>
+                        <input type="text" id="restaurantAddress" class="form-control" name="restaurantAddress" placeholder="Endereço">
                       </div>
 
                       <div class="form-group col-4">
-                        <label>Bairro</label>
-                        <input type="text" class="form-control" placeholder="Bairro">
+                        <label for="restaurantNeighborhood">Bairro</label>
+                        <input type="text" id="restaurantNeighborhood" class="form-control" name="restaurantNeighborhood" placeholder="Bairro">
                       </div>
 
                       <div class="form-group col-2">
-                        <label>Número</label>
-                        <input type="text" class="form-control" placeholder="N.º">
+                        <label for="restaurantNumber">Número</label>
+                        <input type="text" id="restaurantNumber" class="form-control" name="restaurantNumber" placeholder="N.º">
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="form-group col-4">
-                        <label>Estado</label>
-                        <select class="form-control selectric">
-                          <option>Selecione</option>
+                        <label for="restaurantState">Estado</label>
+                        <select id="restaurantState" class="form-control selectric" name="restaurantState">
+                          <option selected disabled>Selecione</option>
                           <option>Bahia - BA</option>
                         </select>
                       </div>
 
                       <div class="form-group col-4">
-                        <label>Cidade</label>
-                        <select class="form-control selectric">
-                          <option>Selecione</option>
+                        <label for="restaurantCity">Cidade</label>
+                        <select id="restaurantCity" class="form-control selectric" name="restaurantCity">
+                          <option selected disabled>Selecione</option>
                           <option>Brumado</option>
                         </select>
                       </div>
 
                       <div class="form-group col-4">
-                        <label>Complemento</label>
-                        <input type="text" class="form-control" placeholder="Complemento">
+                        <label for="restaurantComplement">Complemento</label>
+                        <input type="text" id="restaurantComplement" class="form-control" name="restaurantComplement" placeholder="Complemento">
                       </div>
                     </div>
 
@@ -228,7 +233,7 @@
                       </div>
       
                       <div class="form-group col-3">
-                        <button type="submit" data-step="2" class="next btn btn-primary btn-lg btn-block">
+                        <button type="button" data-step="2" class="next btn btn-primary btn-lg btn-block">
                           Próximo
                         </button>
                       </div>
@@ -253,38 +258,38 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="user-name">Usuário</label>
-                      <input id="user_name" type="text" class="form-control" name="user-name" placeholder="Crie um nome de usuário" autofocus>
+                      <label for="accountUserName">Usuário</label>
+                      <input id="accountUserName" type="text" class="form-control" name="accountUserName" placeholder="Crie um nome de usuário" autofocus>
                     </div>
 
                     <div class="row">
                       <div class="form-group col-6">
-                        <label for="password">Senha</label>
-                        <input id="password" type="password" class="form-control" name="password" placeholder="Crie uma senha">
+                        <label for="accountPassword">Senha</label>
+                        <input id="accountPassword" type="password" class="form-control" name="accountPassword" placeholder="Crie uma senha">
                       </div>
 
                       <div class="form-group col-6">
-                        <label for="confirm-password">Confirmar Senha</label>
-                        <input id="confirm_password" type="password" class="form-control" name="password" placeholder="Confirme a senha">
+                        <label for="accountConfirmPassword">Confirmar Senha</label>
+                        <input id="accountConfirmPassword" type="password" class="form-control" name="accountConfirmPassword" placeholder="Confirme a senha">
                       </div>
                     </div>
 
                     <div class="form-group">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="agree" class="custom-control-input" id="agree">
-                        <label class="custom-control-label" for="agree">Eu concordo com os termos e condições</label>
+                        <input type="checkbox" name="accountTerms" class="custom-control-input" id="accountTerms">
+                        <label class="custom-control-label" for="accountTerms">Eu concordo com os termos e condições</label>
                       </div>
                     </div>
 
                     <div class="row justify-content-between">
                       <div class="form-group col-3">
-                        <button type="submit" data-step="3" class="previous btn btn-light btn-lg btn-block">
+                        <button type="button" data-step="3" class="previous btn btn-light btn-lg btn-block">
                           Voltar
                         </button>
                       </div>
       
                       <div class="form-group col-4">
-                        <button type="submit" data-step="3" class="next btn btn-primary btn-lg btn-block">
+                        <button type="submit" data-last-step="3" data-step="" class="next btn btn-primary btn-lg btn-block last-step">
                           Cadastrar
                         </button>
                       </div>
@@ -321,13 +326,18 @@
   <script src="/node_modules/selectric/public/jquery.selectric.min.js"></script>
   <script src="/node_modules/select2/dist/js/select2.min.js"></script>
   <script src="/node_modules/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+  <script src="/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="/node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+  <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script src="/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
 
   <!-- Template JS File -->
   <script src="/App/assets/admin/js/scripts.js"></script>
   <script src="/App/assets/admin/js/custom.js"></script>
-  <script src="/App/assets/js/pages/register/registerParter.js"></script>
-
+  
   <!-- Page Specific JS File -->
+  <script src="/App/assets/js/pages/register/registerParter.js"></script>
   <script src="/App/assets/js/pages/register/modals/operation.js"></script>
 </body>
 </html>
