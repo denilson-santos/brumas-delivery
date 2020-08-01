@@ -14,11 +14,12 @@ class Controller {
     private $config;
     protected $language;
 
-    public function __construct() {
+    public function __construct($router) {
         $this->config = new Config();
         $this->loader = new FilesystemLoader('App/Views');
         $this->twig = new Environment($this->loader);
         $this->twig->addGlobal('GET_URL', $_GET);
+        $this->twig->addGlobal('router', $router);
         $this->language = new Language();
 
         // print_r($_GET); exit;

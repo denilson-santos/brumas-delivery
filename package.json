@@ -26,6 +26,7 @@
     "jquery-pwstrength": "https://github.com/matoilic/jquery.pwstrength",
     "jquery-sparkline": "^2.4.0",
     "jquery-ui-dist": "^1.12.1",
+    "jquery-validation": "^1.19.2",
     "jquery.nicescroll": "^3.7.6",
     "jquery_upload_preview": "https://github.com/opoloo/jquery_upload_preview",
     "jqvmap": "https://github.com/10bestdesign/jqvmap",
