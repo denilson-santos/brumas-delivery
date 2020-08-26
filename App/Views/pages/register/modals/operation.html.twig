@@ -1,14 +1,18 @@
 <div id="modalAddOperation">
     <table class="table table-striped table-bordered table-operation">
         <thead>
-          <tr>
-            <th scope="col">Dia</th>
-            <th scope="col">Abertura*</th>
-            <th scope="col">Fechamento*</th>
-            <th scope="col">Abertura</th>
-            <th scope="col">Fechamento</th>
-            <th scope="col">Ações</th>
-          </tr>
+            <tr>
+                <th rowspan="2">Dia</th>
+                <th colspan="2">1º Horário</th>
+                <th colspan="2">2º Horário</th>
+                <th rowspan="2">Ações</th>
+            </tr>
+            <tr>
+                <th>Abertura</th>
+                <th>Fechamento</th>
+                <th>Abertura</th>
+                <th>Fechamento</th>
+            </tr>
         </thead>
         <tbody>
         {# 

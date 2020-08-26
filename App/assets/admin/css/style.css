@@ -937,7 +937,7 @@ select.form-control:not([size]):not([multiple]) {
     border-bottom: none;
     background-color: #fa3734;
     color: #fff;
-    border-color: #fa3734;
+    border-color: #ffffff;
     padding-top: 15px;
     padding-bottom: 15px; }
   .table.table-md th,

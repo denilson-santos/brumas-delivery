@@ -3,8 +3,11 @@
 }
 
 .table-operation th {
+    border-color: #ccc !important;
     text-align: center;
     border-left-width: 1px;
+    padding: 8px 20px !important;
+    height: 38px !important;
 }
 
 .table-operation th, 
@@ -13,19 +16,19 @@
 }
 
 .table-operation th:nth-child(1) {
-    width: 23%;
+    width: 16%;
 }
 
 .table-operation th:nth-child(2) {
-    width: 16%;
+    width: 20%;
 }
 
 .table-operation th:nth-child(3) {
-    width: 16%;
+    width: 20%;
 }
 
 .table-operation th:nth-child(4) {
-    width: 16%;
+    width: 8%;
 }
 
 .table-operation th:nth-child(5) {

@@ -69,15 +69,19 @@ $(function () {
     });
 
     // Add row
+    var count = 0
+    ;
     $('#addWeekDay').on('click', function () {
         $('#addWeekDay').attr('disabled', true);
-        var weekDays = renderWeekDays();
+        
+        count++;
 
-        $('.table-operation').append(`<tr><td>${weekDays}</td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action"><i class="fas fa-trash-alt"></i></button></div></td></tr>`);
+        var weekDays = renderWeekDays(count);
+
+        $('.table-operation').append(`<tr data-row="${count}"><td>${weekDays}</td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action"><i class="fas fa-trash-alt"></i></button></div></td></tr>`);
 
         refreshSelect();
         refreshMask();      
-
     });
 
     $('#addWeekDay').click();
@@ -89,21 +93,26 @@ $(function () {
         var currentRow = $(this).closest('tr');
         var currentRowElements = currentRow.find('input.time, select');
         var renderedRow = '';
-        var column = '';
-
-        var allSelects = $('.table-operation select[name="weekDay"]');
-    
-        allSelects.each(function (index, element) {
-            console.log(allSelects.eq(index).val());
-        });
 
         currentRowElements.each( function (index, element) {
             if (index === 0) {
-                $('.selected-week-days').append(`<input type="hidden" value="${currentRowElements.eq(index).val()}">`);
+                // Verify if the row exist in div hidden
+                if ($(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).data('row')) {
+                    $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-week-day-index', currentRowElements.eq(index).data().selectric.state.selectedIdx);                    
+                    $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-week-day', currentRowElements.eq(index).val());                    
+                } else {
+                    $('.selected-week-days').append(`<input type="hidden" data-week-day-index="${currentRowElements.eq(index).data().selectric.state.selectedIdx}" data-week-day="${currentRowElements.eq(index).val()}" data-row="${currentRow.data('row')}">`);
+                }
 
-                renderedRow += `<td>${currentRowElements.eq(index).val()}</td>`;
+                if (currentRowElements.eq(index).data().selectric.state.selectedIdx === 8) {
+                    $('#addWeekDay').attr('disabled', true);
+                } else {
+                    $('#addWeekDay').attr('disabled', false);
+                }
+
+                renderedRow += `<td>${currentRowElements.eq(index).val() || '-'}</td>`;
             } else {
-                renderedRow += `<td class="text-center">${currentRowElements.eq(index).val()}</td>`;
+                renderedRow += `<td class="text-center">${currentRowElements.eq(index).val() || '-'}</td>`;
             }
         });
 
@@ -121,12 +130,12 @@ $(function () {
         var currentRowElements = currentRow.find('td');
         var renderedRow = '';
 
-        // weekDays.forEach(day => {
-        //     options += `<option class="form-control text-center time" ${day === currentRowElements.eq(0).html() ? 'selected' : ''}>${day}</option>`;
-        // });
-        var weekDays = renderWeekDays(currentRowElements.eq(0).html());
+        // var weekDays = renderWeekDays(currentRowElements.eq(0).html());
+        var weekDays = renderWeekDays(currentRow.data('row'));
 
-        var renderedRow = `<td>${weekDays}</td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(1).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(2).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(3).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(4).html()}></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action"><i class="fas fa-trash-alt"></i></button></div></td>`;
+        console.log(currentRow.data('row'));
+
+        var renderedRow = `<td>${weekDays}</td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(1).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(2).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(3).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(4).html()}></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action" disabled><i class="fas fa-trash-alt"></i></button></div></td>`;
 
         currentRow.html(renderedRow);
         
@@ -136,44 +145,51 @@ $(function () {
 
     // Delete row
     $('.table-operation').on('click', '.delete', function () {
-        $(this).closest('tr').remove();
+        var rowElement = $(this).closest('tr');
+        
+        rowElement.remove();
+        
+        $(`.selected-week-days input[data-row="${rowElement.data('row')}"]`).remove();
+
+        if ($(`.selected-week-days input`).length === 0) {
+            count = 0;
+        }
+
     });
 });
 
-function renderWeekDays(weekDay = '') {
-    var allselectOptions = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo', 'Todos os dias'];
-    var selectedWeekDays = $('.selected-week-days').find('input');
-    var options = '<option selected disabled>Selecione</option>';
+function renderWeekDays(row) {
+    var allOptionsWeekDay = ['Selecione', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo', 'Todos os dias'];
+    var options = '';
     var status = '';
-
-    var allSelects = $('.table-operation select[name="weekDay"]');
+    var optionAllDays = '';
     
-    // allSelects.each(function (index, element) {
-    //     console.log(allSelects.eq(index).val());        
-    // });
+    allOptionsWeekDay.forEach((option, index) => {
+        var selectedWeekDay = $(`.selected-week-days input[data-week-day-index="${index}"]`).data();
 
-    allselectOptions.forEach((option, index) => {
-        // if (option === weekDay) {
-        //     status = 'selected';
-        // } else {
-        //     status = '';
-        // }
-        // console.log(index);
-        // console.log(allSelects.eq(index).val());
+        console.log(selectedWeekDay);
 
-        if (allSelects.eq(index).val()) {
+        if (index === 0) { 
+            status = 'disabled selected'; 
+        } else if (selectedWeekDay) {
             status = 'disabled';
+            
+            if (selectedWeekDay.row === row) {
+                status = 'selected';
+            } 
+            
+            if (selectedWeekDay.row != row && selectedWeekDay.row >= 1) {
+                optionAllDays = 'disabled';                
+            }
         } else {
             status = '';
+
+            if (index === 8) {
+                status = optionAllDays;
+            }
         }
-
-        // selectedWeekDays.each(function (index, element) {           
-        //     if (option === selectedWeekDays.eq(index).val()) {
-        //         status = 'disabled';
-        //     }
-        // });
-
-        options += `<option ${status}>${option}</option>`;
+        
+        options += `<option data-index="${index}" ${status}>${option}</option>`;
     });
     
     return `<select name="weekDay" class="form-control selectric" name="weekDay">${options}</select>`;
@@ -181,7 +197,7 @@ function renderWeekDays(weekDay = '') {
 
 function refreshSelect() {
     // Selectric
-    var weekDays = $('.table-operation select[name="weekDay"]').selectric();
+    $('.table-operation select[name="weekDay"]').selectric();
 }
 
 function refreshMask() {
