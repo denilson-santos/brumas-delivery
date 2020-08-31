@@ -261,18 +261,20 @@ $(function () {
         var validation = true;
         var formStepElements = currentStep.find('input,select');
         
-        if (step === 2) {
-            if (!isValidOperation($('.table-operation input')) && !$('#restaurantOperation-error').html()) {
-                $('button#restaurantAddOperation').after('<div id="restaurantOperation-error" class="error invalid-feedback" style="display: block;                margin-top: 0.40rem;">Horários inválidos</div>');
-            } else {
-                $('#restaurantOperation-error').remove();
-            }
-            
-        }
-
         $(formStepElements).each(function (index, element) {
             if (!formStepElements.eq(index).valid()) validation = false;
         });
+        
+        if (step === 2) {
+            if ($('.selected-week-days input').length === 0) {
+                $('#restaurantOperation-error.error').remove();
+                $('button#restaurantAddOperation').after('<div id="restaurantOperation-error" class="error invalid-feedback" style="display: block;                margin-top: 0.40rem;">Horários inválidos</div>');
+                validation = false;
+            } else {
+                $('#restaurantOperation-error.error').remove();
+            }
+            
+        }
         
         return validation;
     }
