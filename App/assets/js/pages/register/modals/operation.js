@@ -15,30 +15,9 @@ $(function () {
                 text: 'Salvar',
                 id: 'saveAddOperation',
                 class: 'btn btn-primary',
-                handler: function(currentModal) {
-                    var validation = isValidOperation(currentModal.find('.table-operation'));
+                handler: function(currentModal) {               
                     
-                    // Object.keys(validation.weekDays).forEach(day => {
-                    //     // if(validateOperation[day].validateRequired) hasOneValidateRequired = true;
-                    //     if (!validation.weekDays[day].validateRequired) {
-                    //         $(`.table-operation input[name="${day}Open1"]`).css('border-color', '#fa3734');
-                    //         $(`.table-operation input[name="${day}Close1"]`).css('border-color', '#fa3734');
-                    //         // $(`.table-operation input[name="${day}Open1"]`).css('border-color', '#ced4da');
-                    //         // $(`.table-operation input[name="${day}Close1"]`).css('border-color', '#ced4da');
-                    //         return false;
-                    //     } else {
-                    //         $(`.table-operation input[name="${day}Open1"]`).css('border-color', '#ced4da');
-                    //         $(`.table-operation input[name="${day}Close1"]`).css('border-color', '#ced4da');
-                    //         // $(`.table-operation input[name="${day}Open1"]`).css('border-color', '#fa3734');
-                    //         // $(`.table-operation input[name="${day}Close1"]`).css('border-color', '#fa3734');
-                    //     }
-                    // });
-
-                    // if (validation.weekDays) {
-                    //     $('.table-operation input.required').css('border-color', '#28a745');
-                    // } else {
-                    //     $('.table-operation input.required').css('border-color', '#fa3734');
-                    // }
+                    
                 }
             }
         ],
@@ -54,45 +33,66 @@ $(function () {
                 down: 'fas fa-chevron-down'
             },
             showMeridian: false,
-            defaultTime: '0:00'
+            defaultTime: '00:00',
+            minuteStep: 1
         });    
     });
 
     $('.table-operation').on('selectric-change', 'select[name="weekDay"]', function(event, element, selectric) {      
-        // console.log(selectric.state.selectedIdx);
-        $(element).attr('data-day-selected', selectric.state.selectedIdx);
-        // console.log(selectric.state.selectedIdx);
-        // if (selectric.state.selectedIdx.length == 3) {
-        //     $(`.selectric-restaurant-main-categories ul li:nth-child(${selectric.state.selectedIdx[0] + 1})`).removeClass('selected');
-        //     selectric.state.selectedIdx.shift();
-        // }        
+        $(element).attr('data-day-selected', selectric.state.selectedIdx);     
     });
 
     // Add row
-    var count = 0
-    ;
+    var count = 0;
+    var editing = false;
+
     $('#addWeekDay').on('click', function () {
-        $('#addWeekDay').attr('disabled', true);
+        if (editing) return;
+
+        editing = true;
+
+        if ($('.no-operation').html()) {
+            $('.no-operation').remove();
+            $('#addWeekDay').attr('disabled', false);
+        } else {
+            $('#addWeekDay').attr('disabled', true);
+        }
+        
+        $('#saveAddOperation').attr('disabled', true);
         
         count++;
 
         var weekDays = renderWeekDays(count);
 
-        $('.table-operation').append(`<tr data-row="${count}"><td>${weekDays}</td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><input type="text" name="sundayOpen1" class="form-control text-center time"></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action"><i class="fas fa-trash-alt"></i></button></div></td></tr>`);
+        var newRow = $(`<tr data-row="${count}"><td>${weekDays}</td><td><input type="text" name="open1" class="form-control text-center time"></td><td><input type="text" name="close1" class="form-control text-center time"></td><td><input type="text" name="open2" class="form-control text-center time"></td><td><input type="text" name="close2" class="form-control text-center time"></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action"><i class="fas fa-trash-alt"></i></button></div></td></tr>`).appendTo('.table-operation');
+
+        disableTableInputs(newRow);
 
         refreshSelect();
-        refreshMask();      
+        refreshMask();  
     });
 
     $('#addWeekDay').click();
     
     // Save row
     $('.table-operation').on('click', '.save', function () {
-        $('#addWeekDay').attr('disabled', false);
+        console.log(editing);
 
         var currentRow = $(this).closest('tr');
         var currentRowElements = currentRow.find('input.time, select');
         var renderedRow = '';
+
+        var validation = validateOperation(currentRowElements);
+
+        if (!validation.validateRow) {
+            validateOperationStyle(validation);
+            return;
+        }
+
+        editing = false;
+
+        $('#addWeekDay').attr('disabled', false);
+        $('#saveAddOperation').attr('disabled', false);
 
         currentRowElements.each( function (index, element) {
             if (index === 0) {
@@ -101,7 +101,7 @@ $(function () {
                     $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-week-day-index', currentRowElements.eq(index).data().selectric.state.selectedIdx);                    
                     $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-week-day', currentRowElements.eq(index).val());                    
                 } else {
-                    $('.selected-week-days').append(`<input type="hidden" data-week-day-index="${currentRowElements.eq(index).data().selectric.state.selectedIdx}" data-week-day="${currentRowElements.eq(index).val()}" data-row="${currentRow.data('row')}">`);
+                    $('.selected-week-days').append(`<input type="hidden" data-week-day-index="${currentRowElements.eq(index).data().selectric.state.selectedIdx}" data-week-day="${currentRowElements.eq(index).val()}" data-open-1="" data-close-1="" data-open-2="" data-close-2="" data-row="${currentRow.data('row')}">`);
                 }
 
                 if (currentRowElements.eq(index).data().selectric.state.selectedIdx === 8) {
@@ -118,13 +118,18 @@ $(function () {
 
         renderedRow += '<td><div class="actions"><button type="button" class="btn btn-primary btn-sm edit action"><i class="fas fa-pencil-alt"></i></button><button type="button" class="btn btn-primary btn-sm delete action"><i class="fas fa-trash-alt"></i></button></div></td>';
         
-        currentRow.html(renderedRow);
-        
+        currentRow.html(renderedRow);   
+
+        enableTableInputs();
     });
 
     // Edit row
     $('.table-operation').on('click', '.edit', function () {
+        if (editing) return;
+        editing = true;
+
         $('#addWeekDay').attr('disabled', true);
+        $('#saveAddOperation').attr('disabled', true);
 
         var currentRow = $(this).closest('tr');
         var currentRowElements = currentRow.find('td');
@@ -135,10 +140,11 @@ $(function () {
 
         console.log(currentRow.data('row'));
 
-        var renderedRow = `<td>${weekDays}</td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(1).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(2).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(3).html()}></td><td><input type="text" class="form-control text-center time" value=${currentRowElements.eq(4).html()}></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action" disabled><i class="fas fa-trash-alt"></i></button></div></td>`;
+        var renderedRow = `<td>${weekDays}</td><td><input type="text" name="open1" class="form-control text-center time" value=${currentRowElements.eq(1).html()}></td><td><input type="text" name="close1" class="form-control text-center time" value=${currentRowElements.eq(2).html()}></td><td><input type="text"  name="open2" class="form-control text-center time" value=${currentRowElements.eq(3).html()}></td><td><input type="text"  name="close2" class="form-control text-center time" value=${currentRowElements.eq(4).html()}></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action" disabled><i class="fas fa-trash-alt"></i></button></div></td>`;
 
         currentRow.html(renderedRow);
-        
+
+        disableTableInputs(currentRow);
         refreshSelect();
         refreshMask();        
     });
@@ -147,14 +153,27 @@ $(function () {
     $('.table-operation').on('click', '.delete', function () {
         var rowElement = $(this).closest('tr');
         
+        if (editing && !rowElement.find('td:first-child').children().eq(0).length) return;
+
+        rowElement = $(this).closest('tr');
+        
         rowElement.remove();
+        
+        editing = false;
         
         $(`.selected-week-days input[data-row="${rowElement.data('row')}"]`).remove();
 
-        if ($(`.selected-week-days input`).length === 0) {
-            count = 0;
+        if ($(`.selected-week-days input`).length === 0) count = 0;
+        
+        $('#addWeekDay').attr('disabled', false);
+
+        if (!$('.table-operation tbody tr').length) {
+            $('#saveAddOperation').attr('disabled', true);
+
+            $('.table-operation tbody').append(`<tr row=${count} class="text-center no-operation"><td colspan="6">Nenhum Horário Adicionado!</td></tr>`);
         }
 
+        enableTableInputs();
     });
 });
 
@@ -166,8 +185,6 @@ function renderWeekDays(row) {
     
     allOptionsWeekDay.forEach((option, index) => {
         var selectedWeekDay = $(`.selected-week-days input[data-week-day-index="${index}"]`).data();
-
-        console.log(selectedWeekDay);
 
         if (index === 0) { 
             status = 'disabled selected'; 
@@ -202,127 +219,123 @@ function refreshSelect() {
 
 function refreshMask() {
     // Masks
-    $('.table-operation input.time').mask('00:00', { placeholder: '-- : --' });
+    $('.table-operation input.time').mask('00:00', { 
+        placeholder: '-- : --', 
+        reverse: true 
+    });
 }
 // Operation Validation
-// 
+function validateOperation(rowElements) {
+    var weekDay = rowElements.eq(0).val();
+    var dayOpen1 = rowElements.eq(1).val();
+    var dayClose1 = rowElements.eq(2).val();
+    var dayOpen2 = rowElements.eq(3).val();
+    var dayClose2 = rowElements.eq(4).val();
 
+    var validateWeekDay = !!weekDay ?? false;
+    var validateSchedule1 = !!dayOpen1 && !!dayClose1;
+    var validateSchedule2 = !!validateSchedule1 && (!!dayOpen2 && !!dayClose2 || !dayOpen2 && !dayClose2 );
 
-
-// function isValidOperation(table) {
-//     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-//     var validate = true;
+    if (dayOpen1.length === 4) {
+        dayOpen1 = `0${dayOpen1}`;
+    }
     
-//     var validateOperation = {};
+    if (dayClose1.length === 4) {
+        dayClose1 = `0${dayClose1}`;
+    }
     
-//     weekDays.forEach(day => {
-//         var dayOpen1 = table.find(`input[name="${day}Open1"]`).eq(0).val();
-//         var dayClose1 = table.find(`input[name="${day}Close1"]`).eq(0).val();
-//         var dayOpen2 = table.find(`input[name="${day}Open2"]`).eq(0).val();
-//         var dayClose2 = table.find(`input[name="${day}Close2"]`).eq(0).val();
-//         var validate = false;
-//         var validate1 = true;
-//         var validate2 = true;
-        
-//         // var validate1 = !!dayOpen1 && !dayClose1 || !dayOpen1 && !!dayClose1;
-//         // var validate2 = !!dayOpen2 && !dayClose2 || !dayOpen2 && !!dayClose2;
-
-//         if ((!dayOpen1 && !dayClose1) && (!dayOpen2 && !dayClose2)) {
-//             validate1 = false;
-//             validate2 = false;
-//         } else if (!!dayOpen1 && !dayClose1 || !dayOpen1 && !!dayClose1) {
-//             validate1 = false;
-//             validate2 = true
-//         } else if (!!dayOpen2 && !dayClose2 || !dayOpen2 && !!dayClose2) {
-//             validate2 = false;
-//         }
-
-//         // if (!!dayOpen2.val() && !dayClose2.val() || !dayOpen2.val() && !!dayClose2.val()) {
-//         //     validate2 = false;
-//         // }
-
-//         validateOperation[day] = {
-//             validate1,
-//             validate2
-//         };       
-//     });
-
-//     // var hasOneValidateRequired = false;
-
-//     // Object.keys(validateOperation).forEach(day => {
+    if (dayOpen2.length === 4) {
+        dayOpen2 = `0${dayOpen2}`;
+    }
     
-//     //     if(validateOperation[day].validateRequired) hasOneValidateRequired = true;
-//     // });
+    if (dayClose2.length === 4) {
+        dayClose2 = `0${dayClose2}`;
+    }
 
-//     // if (validate && !hasOneValidateRequired) {
-//     //     validate = false
-//     // }
-    
-//     console.log({ weekDays: validateOperation, validate });   
-    
-//     return {
-//         weekDays: validateOperation,
-//         validate
-//     };
-// }
+    // Parse schedules to mins and validate range of schedules
+    if (validateSchedule1) {
+        console.log(dayOpen1);
+        console.log(dayClose1);
+        console.log(dayOpen2);
+        console.log(dayClose2);
 
-function isValidOperation(table) {
-    var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    var validate = true;
-    
-    var validateOperation = {};
-    
-    weekDays.forEach(day => {
-        var dayOpenRequired = table.find(`input[name="${day}Open1"]`).eq(0).val();
-        var dayCloseRequired = table.find(`input[name="${day}Close1"]`).eq(0).val();
-        var dayOpenOptional = table.find(`input[name="${day}Open2"]`).eq(0).val();
-        var dayCloseOptional = table.find(`input[name="${day}Close2"]`).eq(0).val();
-        
-        var validateRequired = !!dayOpenRequired && !!dayCloseRequired || !dayOpenRequired && !dayCloseRequired;
-        var validateOptional = !!dayOpenOptional && !!dayCloseOptional || !dayOpenOptional && !dayCloseOptional;
-
-        if (!!dayOpenRequired && !dayCloseRequired || !dayOpenRequired && !!dayCloseRequired) {
-            validate = false;
+        if (dayOpen1 >= dayClose1) {
+            validateSchedule1 = false;
+            validateSchedule2 = false;
         }
 
-        if (!!dayOpenOptional && !dayCloseOptional || !dayOpenOptional && !!dayCloseOptional) {
-            validate = false;
-        }
+        if (dayOpen1 && dayClose2) {
+            if (dayOpen2 > dayClose2) {
+                validateSchedule1 = false;
+                validateSchedule2 = false;
+            } else if (dayOpen2 <= dayOpen1 || dayOpen2 <= dayClose1 ) {
+                validateSchedule2 = false;
+            }
 
-        if (!dayOpenRequired && !dayCloseRequired && !dayOpenOptional && !dayCloseOptional) {
-            validate = false;
-        } else {
-            validate = true;
         }
+    }
 
-        validateOperation[day] = {
-            validateRequired,
-            validateOptional
-        };       
+    var validateRow = !!validateWeekDay && !!validateSchedule1 && validateSchedule2;
+    
+    validation = {
+        validateWeekDay,
+        validateSchedule1,
+        validateSchedule2,
+        validateRow
+    }
+    
+    console.log(validation);
+
+    return validation;
+}    
+
+function validateOperationStyle(validation) {
+    if (!validation.validateWeekDay) {
+        $('.table-operation td .selectric-wrapper .selectric').css('border-color', '#fa3734');
+        $('.table-operation td .selectric-wrapper .selectric').css('border-color', '#fa3734');
+    } else {
+        $('.table-operation td .selectric-wrapper .selectric').css('border-color', '#ced4da');
+        $('.table-operation td .selectric-wrapper .selectric').css('border-color', '#ced4da');
+    }
+
+    if (!validation.validateSchedule1) {
+        $(`.table-operation input[name="open1"]`).css('border-color', '#fa3734');
+        $(`.table-operation input[name="close1"]`).css('border-color', '#fa3734');
+    } else {
+        $(`.table-operation input[name="open1"]`).css('border-color', '#ced4da');
+        $(`.table-operation input[name="close1"]`).css('border-color', '#ced4da');
+    }
+
+    if (!validation.validateSchedule2) {
+        $(`.table-operation input[name="open2"]`).css('border-color', '#fa3734');
+        $(`.table-operation input[name="close2"]`).css('border-color', '#fa3734');
+    } else {
+        $(`.table-operation input[name="open2"]`).css('border-color', '#ced4da');
+        $(`.table-operation input[name="close2"]`).css('border-color', '#ced4da');
+    }
+}
+// lembrar de usar a lib para validacao no back - Respect/Validation
+
+function disableTableInputs(currentRow) {
+    console.log('CurrentRow',currentRow);
+
+    var elementRow = $('.table-operation tbody').children('tr');
+
+    console.log(elementRow);
+
+    elementRow.each(function (index, row) {
+        console.log('Loop Row', $(row));
+         if (!$(row).is(currentRow)) {
+            $(row).last().find('button').each(function (index, button) {
+                $(button).attr('disabled', true);
+            }) ;
+         }
+       
     });
-
-    // var hasOneValidateRequired = false;
-
-    Object.keys(validateOperation).forEach(day => {
-    
-        if(validateOperation[day].validateRequired) validate = true;
-    });
-
-    // if (validate && !hasOneValidateRequired) {
-    //     validate = false
-    // }
-    
-    console.log(
-        {
-            days: validateOperation,
-            validate
-        });   
-    
-    return {
-        days: validateOperation,
-        validate
-    };
 }
 
+function enableTableInputs() {
+    var elementRow = $('.table-operation tbody').children('tr');   
 
-// lembrar de usar a lib para validacao no back - Respect/Validation
+    elementRow.find('button').attr('disabled', false);
+}
