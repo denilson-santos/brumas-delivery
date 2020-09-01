@@ -266,7 +266,7 @@ $(function () {
         });
         
         if (step === 2) {
-            if ($('.selected-week-days input').length === 0) {
+            if (!$('.selected-week-days input').length || $('.selected-week-days input').length != $('.table-operation tbody tr').length) {
                 $('#restaurantOperation-error.error').remove();
                 $('button#restaurantAddOperation').after('<div id="restaurantOperation-error" class="error invalid-feedback" style="display: block;                margin-top: 0.40rem;">Horários inválidos</div>');
                 validation = false;
