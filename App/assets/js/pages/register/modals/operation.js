@@ -16,8 +16,7 @@ $(function () {
                 id: 'saveAddOperation',
                 class: 'btn btn-primary',
                 handler: function(currentModal) {               
-                    
-                    
+                    $.destroyModal(currentModal);
                 }
             }
         ],
@@ -51,13 +50,9 @@ $(function () {
 
         editing = true;
 
-        if ($('.no-operation').html()) {
-            $('.no-operation').remove();
-            $('#addWeekDay').attr('disabled', false);
-        } else {
-            $('#addWeekDay').attr('disabled', true);
-        }
+        if ($('.no-operation').html()) $('.no-operation').remove();
         
+        $('#addWeekDay').attr('disabled', true);
         $('#saveAddOperation').attr('disabled', true);
         
         count++;
@@ -166,8 +161,9 @@ $(function () {
         if ($(`.selected-week-days input`).length === 0) count = 0;
         
         $('#addWeekDay').attr('disabled', false);
-
+        
         if (!$('.table-operation tbody tr').length) {
+            // $('#addWeekDay').attr('disabled', false);
             $('#saveAddOperation').attr('disabled', true);
 
             $('.table-operation tbody').append(`<tr row=${count} class="text-center no-operation"><td colspan="6">Nenhum Horário Adicionado!</td></tr>`);
