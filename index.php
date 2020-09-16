@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    // session_start();
     
     require 'vendor/autoload.php';
 
@@ -46,9 +46,10 @@
     // Login 
 
     // Register
-    $router->get('/register', 'AccountController:registerIndex');
-    $router->get('/be-a-parter', 'AccountController:registerPartnerIndex');
-    $router->get('/be-a-parter/action', 'AccountController:registerPartnerAction');
+    $router->get('/register', 'RegisterController:registerIndex');
+    $router->post('/register-action', 'RegisterController:registerIndexAction');
+    $router->get('/be-a-partner', 'RegisterController:registerPartnerIndex');
+    $router->get('/be-a-partner/action', 'RegisterController:registerPartnerAction');
 
     // Error
     // 400 Bad Request
@@ -60,8 +61,8 @@
 
     $router->dispatch();
 
-    if ($router->error()) {
-        $router->redirect("/ooops/{$router->error()}");
-    }
+    // if ($router->error()) {
+    //     $router->redirect("/ooops/{$router->error()}");
+    // }
 
     

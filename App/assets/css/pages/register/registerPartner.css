@@ -6,24 +6,24 @@ body {
     background-repeat: no-repeat;
 }
 
-form.register-parter fieldset {
+form.register-partner fieldset {
     position: relative;
 }
 
-form.register-parter fieldset:not(:first-of-type) {
+form.register-partner fieldset:not(:first-of-type) {
     display: none;
 }
 
-form.register-parter .card {
+form.register-partner .card {
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
     border: none;
 }
 
-form.register-parter .card-header {
+form.register-partner .card-header {
     border: none;
 }
 
-form.register-parter .card-header h4 {
+form.register-partner .card-header h4 {
     padding: 0;
     margin: 10px auto;
     font-weight: 600;
@@ -31,13 +31,13 @@ form.register-parter .card-header h4 {
     color: #6C757D;
 }
 
-form.register-parter .form-divider {
+form.register-partner .form-divider {
     font-weight: 500;
     font-size: 14px;
     color: #fa3734;
 }
 
-form.register-parter .form-divider i {
+form.register-partner .form-divider i {
     margin-right: 3px;
 }
 

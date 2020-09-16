@@ -6,22 +6,32 @@ use Twig\Environment;
 use App\Config\Config;
 use App\Config\Language;
 use Twig\TwigFunction;
+use voku\helper\AntiXSS;
 
 class Controller {
     private $loader;
     private $twig;
     private $template;
     private $config;
+    
+    protected $antiXss;
     protected $language;
-
+    protected $userLevels; 
+    
     public function __construct($router) {
         $this->config = new Config();
         $this->loader = new FilesystemLoader('App/Views');
+        $this->antiXss = new AntiXSS();
+        $this->language = new Language();
         $this->twig = new Environment($this->loader);
         $this->twig->addGlobal('GET_URL', $_GET);
         $this->twig->addGlobal('router', $router);
-        $this->language = new Language();
 
+        $this->userLevels = [
+            'admin' => 1,
+            'partner' => 2,
+            'customer' => 3
+        ];
         // print_r($_GET); exit;
 
         // Add function of PHP to use in twig 

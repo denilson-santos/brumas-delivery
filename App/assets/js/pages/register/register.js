@@ -89,8 +89,8 @@ $(function () {
         });
     });
 
-    // Registration Form Validation
-    $('.register').validate( {
+    // Client Validation
+    $('form.register').validate( {
         rules: {
             // Personal Information
             firstName: 'required',
@@ -99,7 +99,7 @@ $(function () {
                 required: true,
                 email : true
             },
-            phone: {
+            cellphone: {
                 required: true,
                 // 14 digits with mask, without mask => 8
                 minlength: 14
@@ -132,9 +132,9 @@ $(function () {
                 required: 'Digite seu email',
                 email : 'Digite um email válido'
             },
-            phone: {
-                required: 'Digite seu telefone',
-                minlength: 'O telefone precisa ter no mínimo 8 dígitos'
+            cellPhone: {
+                required: 'Digite seu celular',
+                minlength: 'O celular precisa ter no mínimo 8 dígitos'
             },
             address: 'Digite seu endereço',
             neighborhood: 'Digite seu bairro',
@@ -183,11 +183,42 @@ $(function () {
         unhighlight: function (element, errorClass, validClass) {
             $( element ).addClass('is-valid').removeClass('is-invalid');
         }, 
-        submitHandler: function () {
+        submitHandler: function (form) {
             alert('Novo Cadastro Realizado com Sucesso!');
-            return true;
+            form = $(form).serialize();
+            console.log(form);
+            $.ajax({
+                type: "POST",
+                url: "/register-action",
+                data: form,
+                success: function (response) {
+                    response = JSON.parse(response);
+                    
+                    if (!response.validate) {
+                        tooltip = '<ul>';
+
+                        var errors = response.errors;
+                        console.log(errors);
+                        // Get messages of server valiadation
+                        for (var field in errors) {
+                            var error = errors[field];
+                            tooltip += `<li>${error[0]}</li>`;
+                        }
+
+                        tooltip += '</ul>';
+                        
+                        $('.register .server-validation a').attr('data-original-title', tooltip);
+                        $('.register .server-validation').css('display', 'block');
+                    } else {
+                        $('.register .server-validation a').attr('data-original-title', '');
+                        $('.register .server-validation').css('display', 'none');
+                    }
+
+                }
+            });
+            return false;
         }
-    } );
+    });
 
     $('.register select').on('change', function(e) {
         $(this).valid();
