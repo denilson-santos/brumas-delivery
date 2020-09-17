@@ -6,7 +6,9 @@
         "fortawesome/font-awesome": "^5.10",
         "vlucas/phpdotenv": "^3.6",
         "coffeecode/router": "^1.0",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "vlucas/valitron": "^1.4",
+        "voku/anti-xss": "^4.1"
     },
     "autoload": { 
         "psr-4": { 

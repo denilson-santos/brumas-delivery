@@ -5,17 +5,17 @@ $(function () {
     // style
     var left, opacity, scale, animating;
 
-    $('form.register-parter .next').click(function(e) { 
+    $('form.register-partner .next').click(function(e) { 
         step = $(this).data('step');
 
         if (!step) step = $(this).data('last-step');
 
-        if (!isValid($(`form.register-parter .register-parter-step-${step}`), step)) {
+        if (!isValid($(`form.register-partner .register-partner-step-${step}`), step)) {
             return false;
         } 
                 
-        currentStep = $(`.register-parter-step-${step}`);
-        nextStep = $(`.register-parter-step-${step+1}`);
+        currentStep = $(`.register-partner-step-${step}`);
+        nextStep = $(`.register-partner-step-${step+1}`);
         animating = true;
 
         $("#progressbar li").eq($("fieldset").index(nextStep)).addClass("active");
@@ -50,13 +50,13 @@ $(function () {
         });
     });
 
-    $("form.register-parter .previous").click(function(e) {
+    $("form.register-partner .previous").click(function(e) {
         if(animating) return false;
         animating = true;
         
         step = $(this).data('step');
-        currentStep = $(`.register-parter-step-${step}`);
-        previousStep = $(`.register-parter-step-${step-1}`);
+        currentStep = $(`.register-partner-step-${step}`);
+        previousStep = $(`.register-partner-step-${step-1}`);
         
         //de-activate current step on progressbar
         $("#progressbar li").eq($("fieldset").index(currentStep)).removeClass("active");
@@ -100,7 +100,7 @@ $(function () {
     });
     
     // Registration Form Validation
-    $('.register-parter').validate( {
+    $('.register-partner').validate( {
         rules: {
             // Personal Information
             firstName: 'required',
@@ -244,14 +244,14 @@ $(function () {
         }
     } );
 
-    $('.register-parter select').on('change', function(e) {
+    $('.register-partner select').on('change', function(e) {
         $(this).valid();
 
         $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
     });
 
     
-    // $('.register-parter #restaurantAddOperation').on('click', function(e) {
+    // $('.register-partner #restaurantAddOperation').on('click', function(e) {
     //     $(this).valid();
 
     //     $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');

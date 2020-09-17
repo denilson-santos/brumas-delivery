@@ -32,8 +32,7 @@ $(function () {
                 down: 'fas fa-chevron-down'
             },
             showMeridian: false,
-            defaultTime: '00:00',
-            minuteStep: 1
+            defaultTime: '00:00'
         });    
     });
 
