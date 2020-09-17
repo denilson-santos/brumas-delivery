@@ -33,7 +33,6 @@ class User extends Model {
     }
 
     public function validateRegister($request) {
-        // voku/anti-xss
         $validator = new Validator($request);
 
         // Restaurant Partner level
