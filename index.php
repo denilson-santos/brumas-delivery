@@ -49,7 +49,7 @@
     $router->get('/register', 'RegisterController:registerIndex');
     $router->post('/register-action', 'RegisterController:registerIndexAction');
     $router->get('/be-a-partner', 'RegisterController:registerPartnerIndex');
-    $router->get('/be-a-partner/action', 'RegisterController:registerPartnerAction');
+    $router->post('/be-a-partner-action', 'RegisterController:registerPartnerAction');
 
     // Error
     // 400 Bad Request

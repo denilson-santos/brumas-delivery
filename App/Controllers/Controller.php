@@ -24,6 +24,7 @@ class Controller {
         $this->antiXss = new AntiXSS();
         $this->language = new Language();
         $this->twig = new Environment($this->loader);
+
         $this->twig->addGlobal('GET_URL', $_GET);
         $this->twig->addGlobal('router', $router);
 
@@ -92,25 +93,32 @@ class Controller {
         echo $this->template;
     }
 
-    // public function loadView($viewPatch, $viewData = []) {
-    //     extract($viewData);
-    //     require 'App/Views/'.$viewPatch.'.php';
-    // }
+    public function sanitizeInputs($request) {
+        foreach ($request as $field => $value) {
+            $request[$field] = $this->antiXss->xss_clean($value);
+        }
 
-    // public function loadViewNotExtract($viewPatch, $viewData = []) {
-    //     require 'App/Views/'.$viewPatch.'.php';
-    // }
+        return $request;
+    }
 
-    // public function loadTemplateDefault($viewPatch, $viewData = []) {
-    //     require 'App/Views/templates/default.php';
-    // }
+    public function clearMasks($request, $keys) {
+        foreach ($request as $field => $value) {
+            if (in_array($field, $keys)) {
+                // Regex for remove space, bars, dots and parentheses
+                $request[$field] = preg_replace('/\s|\/|\-|\.|\(|\)/', '', $value);
+            }
+        }
 
-    // public function loadTemplateHeaderFooter($viewPatch, $viewData = []) {
-    //     require 'App/Views/templates/headerFooter.php';
-    // }
+        return $request;
+    }
 
-    // public function loadViewInTemplate($viewPatch, $viewData = []) {
-    //     extract($viewData);
-    //     require 'App/Views/'.$viewPatch.'.php';
-    // }
+    public function formatDates($request, $keys) {
+        foreach ($request as $field => $value) {
+            if (in_array($field, $keys)) {
+                $request[$field] = date('Y-m-d', $value);
+            }
+        }
+
+        return $request;
+    }
 }

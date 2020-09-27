@@ -103,84 +103,193 @@ $(function () {
     $('.register-partner').validate( {
         rules: {
             // Personal Information
-            firstName: 'required',
-            lastName: 'required',
+            firstName: {
+                required: true,
+                minlength: 2,
+                maxlength: 50
+            },
+            lastName: {
+                required: true,
+                minlength: 4,
+                maxlength: 30
+            },
             email: {
                 required: true,
+                minlength: 7,
+                maxlength: 100,
                 email : true
             },
-            phone: {
+            cellPhone: {
                 required: true,
-                // 8 digits without mask / 14 digits with mask
-                minlength: 14
+                // 9 digits without mask / 15 digits with mask
+                minlength: 15,
+                maxlength: 15
             },
-            address: 'required',
-            neighborhood: 'required',
-            number: 'required',
-            state: 'required',
-            city: 'required',   
-            complement: false,
+            address: {
+                required: true,
+                minlength: 4,
+                maxlength: 50,
+            },
+            neighborhood: {
+                required: true,
+                minlength: 4,
+                maxlength: 50,
+            },
+            number: {
+                required: true,
+                maxlength: 11
+            },
+            state: {
+                required: true,
+                digits: true
+            },
+            city: {
+                required: true,
+                digits: true
+            },   
+            complement: {
+                required: false,
+                maxlength: 50
+            },
 
             // Restaurant Information
-            restaurantName: 'required',
+            restaurantName: {
+                required: true,
+                minlength: 2,
+                maxlength: 50,
+            },
             restaurantCnpj: {
                 required: true,
                 // 14 digits without mask / 18 digits with mask
-                minlength: 18
+                minlength: 18,
+                maxlength: 18
             },
             restaurantEmail: {
                 required: true,
+                minlength: 7,
+                maxlength: 100,
                 email : true
             },
             restaurantPhone: {
                 required: true,
-                // 8 digits without mask / 14 digits with mask
-                minlength: 14
+                // 10 digits without mask / 14 digits with mask
+                minlength: 14,
+                maxlength: 14
             },
-            restaurantMainCategories: 'required',
-            restaurantAddress: 'required',
-            restaurantNeighborhood: 'required',
-            restaurantNumber: 'required',
-            restaurantState: 'required',
-            restaurantCity: 'required',
-            restaurantComplement: false,
+            restaurantCellPhone: {
+                required: true,
+                // 11 digits without mask / 16 digits with mask
+                minlength: 16,
+                maxlength: 16
+            },
+            restaurantMainCategories: {
+                required: true
+            },
+            restaurantAddress: {
+                required: true,
+                minlength: 4,
+                maxlength: 50
+            },
+            restaurantNeighborhood: {
+                required: true,
+                minlength: 4,
+                maxlength: 50,
+            },
+            restaurantNumber: {
+                required: true,
+                maxlength: 11
+            },
+            restaurantState: {
+                required: true,
+                digits: true
+            },
+            restaurantCity: {
+                required: true,
+                digits: true
+            },
+            restaurantComplement: {
+                required: false,
+                maxlength: 50
+            },
             
             // Account Information
-            accountUserName: 'required',
+            accountUserName: {
+                required: true,
+                minlength: 2,
+                maxlength: 30
+            },
             accountPassword: {
                 required: true,
-                minlength: 4
+                minlength: 4,
+                maxlength: 50
             },
             accountConfirmPassword: {
                 required: true,
                 minlength: 4,
+                maxlength: 50,
                 equalTo: '#accountPassword'
             },
-            accountTerms: "required"
+            accountTerms: 'required'
         },
         messages: {
             // Personal Information
-            firstName: 'Digite seu primeiro nome',
-            lastName: 'Digite seu sobrenome',
+            firstName: {
+                required: 'Digite seu primeiro nome',
+                minlength: 'O seu primeiro nome precisa ter no mínimo 2 caracteres',
+                maxlength: 'O seu primeiro nome precisa ter no máximo 50 caracteres'
+            },
+            lastName: { 
+                required: 'Digite seu sobrenome',
+                minlength: 'O seu sobrenome precisa ter no mínimo 4 caracteres',
+                maxlength: 'O seu sobrenome precisa ter no máximo 30 caracteres'
+            },
             email: {
                 required: 'Digite seu email',
+                minlength: 'O email precisa ter no mínimo 7 caracteres',
+                maxlength: 'O email precisa ter no máximo 100 caracteres',
                 email : 'Digite um email válido'
             },
-            phone: {
-                required: 'Digite seu telefone',
-                minlength: 'O telefone precisa ter no mínimo 8 dígitos'
+            cellPhone: {
+                required: 'Digite seu celular',
+                minlength: 'O celular precisa ter no mínimo o DDD + 9 dígitos',
+                maxlength: 'O celular precisa ter no máximo o DDD + 9 dígitos'
             },
-            address: 'Digite seu endereço',
-            neighborhood: 'Digite seu bairro',
-            number: 'Número ?',
-            state: 'Informe o seu estado',
-            city: 'Informe a sua cidade',   
+            address: {
+                required: 'Digite seu endereço',
+                minlength: 'O endereço precisa ter no mínimo 4 caracteres',
+                maxlength: 'O endereço precisa ter no máximo 50 caracteres'
+            },
+            neighborhood: {
+                required: 'Digite seu bairro',
+                minlength: 'O bairro precisa ter no mínimo 4 caracteres',
+                maxlength: 'O bairro precisa ter no máximo 50 caracteres'
+            },
+            number: {
+                required: 'Número ?',
+                maxlength: 'O seu número precisa ter no máximo 11 caracteres'
+            },
+            state: {
+                required: 'Informe seu estado',
+                digits: 'Informe um estado válido',
+            },
+            city: {
+                required: 'Informe sua cidade',
+                digits: 'Informe uma cidade válida'
+            },
+            complement: {
+                maxlength: 'O complemento precisa ter no máximo 50 caracteres'
+            },
             
             // Restaurant Information
-            restaurantName: 'Digite o nome do restaurante',
+            restaurantName: {
+                required: 'Digite o nome do restaurante',
+                minlength: 'O nome do restaurante precisa ter no mínimo 2 caracteres',
+                maxlength: 'O nome do restaurante precisa ter no máximo 50 caracteres'
+            },
             restaurantCnpj: {
-                required:'Digite o cnpj do restaurante',
-                minlength: 'O cnpj precisa ter no mínimo 14 dígitos'
+                required: 'Digite o cnpj do restaurante',
+                minlength: 'O cnpj precisa ter no mínimo 14 dígitos',
+                maxlength: 'O cnpj precisa ter no máximo 14 dígitos'
             },
             restaurantEmail: {
                 required: 'Digite o email do restaurante',
@@ -188,24 +297,56 @@ $(function () {
             },
             restaurantPhone: {
                 required: 'Digite o telefone do restaurante',
-                minlength: 'O telefone precisa ter no mínimo 8 dígitos'
+                minlength: 'O telefone precisa ter no mínimo o DDD + 8 dígitos',
+                maxlength: 'O telefone precisa ter no máximo o DDD + 8 dígitos'
+            },
+            restaurantCellPhone: {
+                required: 'Digite o celular do restaurante',
+                minlength: 'O celular precisa ter no mínimo o DDD + 9 dígitos',
+                maxlength: 'O celular precisa ter no máximo o DDD + 9 dígitos'
             },
             restaurantMainCategories: 'Selecione 1 ou no máx 2 categorias principais para o restaurante',
-            restaurantAddress: 'Digite o endereço do restaurante',
-            restaurantNeighborhood: 'Digite o bairro do restaurante',
-            restaurantNumber: 'Número ?',
-            restaurantState: 'Informe o estado',
-            restaurantCity: 'Informe a cidade',   
+            restaurantAddress: {
+                required: 'Digite o endereço do restaurante',
+                minlength: 'O endereço precisa ter no mínimo 4 caracteres',
+                maxlength: 'O endereço precisa ter no máximo 50 caracteres'
+            },
+            restaurantNeighborhood: {
+                required: 'Digite o bairro do restaurante',
+                minlength: 'O bairro precisa ter no máximo 4 caracteres',
+                maxlength: 'O bairro precisa ter no máximo 50 caracteres'
+            },
+            restaurantNumber: {
+                required: 'Número ?',
+                maxlength: 'O número precisa ter no máximo 11 caracteres'
+            },
+            restaurantState: {
+                required: 'Informe o estado',
+                digits: 'Informe um estado válido'
+            },
+            restaurantCity: {
+                required: 'Informe a cidade',
+                digits: 'Informe uma cidade válida'
+            },
+            complement: {
+                maxlength: 'O complemento precisa ter no máximo 50 caracteres'
+            },
 
             // Account Information
-            accountUserName: 'Digite seu usuário',
+            accountUserName: {
+                required: 'Digite seu usuário',
+                minlength: 'O usuário precisa ter no mínimo 2 caracteres',
+                maxlength: 'O usuário precisa ter no máximo 30 caracteres'
+            },
             accountPassword: {
                 required: 'Digite sua senha',
-                minlength: 'A senha precisa ter no mínimo 4 caracteres'
+                minlength: 'A senha precisa ter no mínimo 4 caracteres',
+                maxlength: 'A senha precisa ter no máximo 50 caracteres'
             },
             accountConfirmPassword: {
                 required: 'Digite novamente sua senha',
                 minlength: 'A senha precisa ter no mínimo 4 caracteres',
+                maxlength: 'A senha precisa ter no máximo 50 caracteres',
                 equalTo: 'As senhas não conferem, tente novamente'
             },
             accountTerms: 'Aceite os termos'
@@ -238,8 +379,41 @@ $(function () {
         unhighlight: function (element, errorClass, validClass) {
             $( element ).addClass('is-valid').removeClass('is-invalid');
         }, 
-        submitHandler: function () {
+        submitHandler: function (form) {
             alert('Novo Cadastro Realizado com Sucesso!');
+
+            // form = $(form).serialize();
+            // console.log(form);
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/be-a-partner-action",
+            //     data: form,
+            //     success: function (response) {
+            //         // response = JSON.parse(response);
+            //         console.log(response);
+            //         // if (!response.validate) {
+            //         //     tooltip = '<ul>';
+
+            //         //     var errors = response.errors;
+            //         //     console.log(errors);
+            //         //     // Get messages of server valiadation
+            //         //     for (var field in errors) {
+            //         //         var error = errors[field];
+            //         //         tooltip += `<li>${error[0]}</li>`;
+            //         //     }
+
+            //         //     tooltip += '</ul>';
+                        
+            //         //     $('.register .server-validation a').attr('data-original-title', tooltip);
+            //         //     $('.register .server-validation').css('display', 'block');
+            //         // } else {
+            //         //     $('.register .server-validation a').attr('data-original-title', '');
+            //         //     $('.register .server-validation').css('display', 'none');
+            //         // }
+
+            //     }
+            // });
+
             return true;
         }
     } );

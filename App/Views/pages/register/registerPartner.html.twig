@@ -35,7 +35,7 @@
               <img src="/App/assets/images/logo-brumas-delivery-white.png" alt="logo" width="200">
             </div>
 
-            <form method="POST" class="register-partner">
+            <form method="POST" action="/be-a-partner-action" class="register-partner">
               <!-- progressbar -->
               <ul id="progressbar">
                 <li class="active">Responsável</li>
@@ -71,8 +71,8 @@
                       </div>
 
                       <div class="form-group col-6">
-                        <label for="phone">Telefone</label>
-                        <input id="phone" type="tel" class="form-control" name="phone" placeholder="Digite seu telefone" data-mask="(00) 0000-00000">
+                        <label for="cellPhone">Celular</label>
+                        <input id="cellPhone" type="tel" class="form-control" name="cellPhone" placeholder="Digite seu celular" data-mask="(00) 0000-00000">
                       </div>
                     </div>
 
@@ -97,16 +97,16 @@
                       <div class="form-group col-4">
                         <label for="state">Estado</label>
                         <select id="state" class="form-control selectric" name="state">
-                          <option selected disabled>Selecione</option>
-                          <option>Bahia - BA</option>
+                          <option value="" selected disabled>Selecione</option>
+                          <option value="5">Bahia - BA</option>
                         </select>
                       </div>
 
                       <div class="form-group col-4">
                         <label for="city">Cidade</label>
                         <select id="city" class="form-control selectric" name="city">
-                          <option selected disabled>Selecione</option>
-                          <option>Brumado</option>
+                          <option value="" selected disabled>Selecione</option>
+                          <option value="336">Brumado</option>
                         </select>
                       </div>
 
@@ -152,29 +152,36 @@
                     </div>
 
                     <div class="row">
-                      <div class="form-group col-6">
+                      <div class="form-group col-12">
                         <label for="restaurantEmail">Email</label>
                         <input id="restaurantEmail" type="email" class="form-control" name="restaurantEmail" placeholder="Digite o email do restaurante">
                       </div>
+                    </div>
 
+                    <div class="row">
                       <div class="form-group col-6">
                         <label for="restaurantPhone">Telefone</label>
-                        <input id="restaurantPhone" type="tel" class="form-control" name="restaurantPhone" placeholder="Digite o telefone do restaurante" data-mask="(00) 0000-00000">
+                        <input id="restaurantPhone" type="tel" class="form-control" name="restaurantPhone" placeholder="Digite o telefone do restaurante" data-mask="(00) 0000-0000">
+                      </div>
+
+                      <div class="form-group col-6">
+                        <label for="restaurantCellPhone">Celular</label>
+                        <input id="restaurantCellPhone" type="tel" class="form-control" name="restaurantCellPhone" placeholder="Digite o celular do restaurante" data-mask="(00) 0 0000-0000">
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="form-group col-6">
                         <label for="restaurantMainCategories">Categorias Principais</label>
-                        <select id="restaurantMainCategories" class="form-control restaurant-main-categories selectri" name="restaurantMainCategories"
+                        <select id="restaurantMainCategories" class="form-control restaurant-main-categories selectri" name="restaurantMainCategories[]"
                         multiple="multiple">
-                          <option disabled>Selecione</option>
-                          <option>Pizzas</option>
-                          <option>Bebidas</option>
-                          <option>Sorvetes</option>
-                          <option>Lanches</option>
-                          <option>Bolos</option>
-                          <option>Sobremesas</option>
+                          <option value="" disabled>Selecione</option>
+                          <option value="1">Pizzas</option>
+                          <option value="2">Bebidas</option>
+                          <option value="3">Sorvetes</option>
+                          <option value="4">Lanches</option>
+                          <option value="5">Bolos</option>
+                          <option value="6">Sobremesas</option>
                         </select>
                       </div>
 
@@ -205,16 +212,16 @@
                       <div class="form-group col-4">
                         <label for="restaurantState">Estado</label>
                         <select id="restaurantState" class="form-control selectric" name="restaurantState">
-                          <option selected disabled>Selecione</option>
-                          <option>Bahia - BA</option>
+                          <option value="" selected disabled>Selecione</option>
+                          <option value="5">Bahia - BA</option>
                         </select>
                       </div>
 
                       <div class="form-group col-4">
                         <label for="restaurantCity">Cidade</label>
                         <select id="restaurantCity" class="form-control selectric" name="restaurantCity">
-                          <option selected disabled>Selecione</option>
-                          <option>Brumado</option>
+                          <option value="" selected disabled>Selecione</option>
+                          <option value="336">Brumado</option>
                         </select>
                       </div>
 
@@ -288,7 +295,7 @@
                       </div>
       
                       <div class="form-group col-4">
-                        <button type="submit" data-last-step="3" data-step="" class="next btn btn-primary btn-lg btn-block last-step">
+                        <button type="submit" data-last-step="3" data-step="" class="btn btn-primary btn-lg btn-block last-step">
                           Cadastrar
                         </button>
                       </div>
