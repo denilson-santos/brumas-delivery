@@ -32,12 +32,141 @@ class User extends Model {
         }
     }
 
+    public function sanitizeRegister($request) {
+
+    }
+
     public function validateRegister($request) {
         $validator = new Validator($request);
 
+        Validator::addRule('arrayLengthMax', function($field, $value, array $params, array $fields) {
+            if (count($value) > $params[0]) {
+                return false;
+            }
+            return true;
+        }, 'array length max items');
+
         // Restaurant Partner level
         if ($request['userLevel'] === 2) {
+            // firstName
+            $validator->rule('required', 'firstName')->message('Digite seu primeiro nome');
+            $validator->rule('lengthMin', 'firstName', 2)->message('O seu primeiro nome precisa ter no mínimo 2 caracteres');
+            $validator->rule('lengthMax', 'firstName', 30)->message('O seu primeiro nome precisa ter no máximo 30 caracteres');
 
+            // lastName
+            $validator->rule('required', 'lastName')->message('Digite seu sobrenome');
+            $validator->rule('lengthMin', 'lastName', 4)->message('O seu sobrenome precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'lastName', 30)->message('O seu sobrenome precisa ter no máximo 30 caracteres');
+
+            // email
+            $validator->rule('required', 'email')->message('Digite seu email');
+            $validator->rule('lengthMin', 'email', 7)->message('O email precisa ter no mínimo 7 caracteres');
+            $validator->rule('lengthMax', 'email', 100)->message('O email precisa ter no máximo 30 caracteres');
+            $validator->rule('email', 'email')->message('Digite um email válido');
+
+            // cellPhone
+            $validator->rule('required', 'cellPhone')->message('Digite seu celular');
+            $validator->rule('lengthMin', 'cellPhone', 11)->message('O celular precisa ter no mínimo o DDD + 9 dígitos');
+            $validator->rule('lengthMax', 'cellPhone', 11)->message('O celular precisa ter no máximo o DDD + 9 dígitos');
+
+            // address
+            $validator->rule('required', 'address')->message('Digite seu endereço');
+            $validator->rule('lengthMin', 'address', 4)->message('O endereço precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'address', 50)->message('O endereço precisa ter no máximo 50 caracteres');
+
+            // neighborhood
+            $validator->rule('required', 'neighborhood')->message('Digite seu bairro');
+            $validator->rule('lengthMin', 'neighborhood', 4)->message('O bairro precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'neighborhood', 50)->message('O bairro precisa ter no máximo 50 caracteres');
+
+            // number
+            $validator->rule('required', 'number')->message('Digite seu número');
+            $validator->rule('lengthMax', 'number', 11)->message('O seu número precisa ter no máximo 11 caracteres');
+
+            // state
+            $validator->rule('required', 'state')->message('Informe seu estado');
+            $validator->rule('integer', 'state')->message('Informe um estado válido');
+
+            // city
+            $validator->rule('required', 'city')->message('Informe sua cidade');
+            $validator->rule('integer', 'city')->message('Informe uma cidade válida');
+
+            // complement
+            $validator->rule('lengthMax', 'complement', 50)->message('O complemento precisa ter no máximo 50 caracteres');
+
+            // restaurantName
+            $validator->rule('required', 'restaurantName')->message('Digite o nome do restaurante');
+            $validator->rule('lengthMin', 'restaurantName', 2)->message('O nome do restaurante precisa ter no mínimo 2 caracteres');
+            $validator->rule('lengthMax', 'restaurantName', 50)->message('O nome do restaurant precisa ter no máximo 50 caracteres');
+
+            // restaurantCnpj
+            $validator->rule('required', 'restaurantCnpj')->message('Digite o cnpj do restaurante');
+            $validator->rule('lengthMin', 'restaurantCnpj', 14)->message('O cnpj precisa ter no mínimo 14 dígitos');
+            $validator->rule('lengthMax', 'restaurantCnpj', 14)->message('O cnpj precisa ter no máximo 14 dígitos');
+
+            // restaurantEmail
+            $validator->rule('required', 'restaurantEmail')->message('Digite o email do restaurante');
+            $validator->rule('lengthMin', 'restaurantEmail', 7)->message('O email precisa ter no mínimo 7 caracteres');
+            $validator->rule('lengthMax', 'restaurantEmail', 100)->message('O email precisa ter no máximo 100 caracteres');
+            $validator->rule('email', 'restaurantEmail')->message('Digite um email válido');
+
+            // restaurantPhone
+            $validator->rule('required', 'restaurantPhone')->message('Digite o telefone do restaurante');
+            $validator->rule('lengthMin', 'restaurantPhone', 10)->message('O telefone precisa ter no mínimo o DDD + 8 dígitos');
+            $validator->rule('lengthMax', 'restaurantPhone', 10)->message('O telefone precisa ter no máximo o DDD + 8 dígitos');
+
+            // restaurantCellPhone
+            $validator->rule('required', 'restaurantCellPhone')->message('Digite o celular do restaurante');
+            $validator->rule('lengthMin', 'restaurantCellPhone', 11)->message('O celular precisa ter no mínimo o DDD + 9 dígitos');
+            $validator->rule('lengthMax', 'restaurantCellPhone', 11)->message('O celular precisa ter no máximo o DDD + 9 dígitos');
+
+            // restaurantMainCategories 
+            $validator->rule('required', 'restaurantMainCategories')->message('Selecione 1 ou no máx 2 categorias principais para o restaurante');
+            $validator->rule('arrayLengthMax', 'restaurantMainCategories', 2)->message('Selecione no máximo 2 categorias');
+
+            // restaurantAddress
+            $validator->rule('required', 'restaurantAddress')->message('Digite o endereço do restaurante');
+            $validator->rule('lengthMin', 'restaurantAddress', 4)->message('O endereço precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'restaurantAddress', 50)->message('O endereço precisa ter no máximo 50 caracteres');
+
+            // restaurantNeighborhood
+            $validator->rule('required', 'restaurantNeighborhood')->message('Digite o bairro do restaurante');
+            $validator->rule('lengthMin', 'restaurantNeighborhood', 4)->message('O bairro precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'restaurantNeighborhood', 50)->message('O bairro precisa ter no máximo 50 caracteres');
+
+            // restaurantNumber
+            $validator->rule('required', 'restaurantNumber')->message('Digite o número do restaurante');
+            $validator->rule('lengthMax', 'restaurantNumber', 11)->message('O número precisa ter no máximo 11 caracteres');
+
+            // restaurantState
+            $validator->rule('required', 'restaurantState')->message('Informe o estado do restaurante');
+            $validator->rule('integer', 'restaurantState')->message('Informe um estado válido');
+
+            // restaurantCity
+            $validator->rule('required', 'restaurantCity')->message('Informe a cidade do restaurante');
+            $validator->rule('integer', 'restaurantCity')->message('Informe uma cidade válida');
+
+            // restaurantComplement
+            $validator->rule('lengthMax', 'restaurantComplement', 50)->message('O complemento precisa ter no máximo 50 caracteres');
+
+            // accountUserName
+            $validator->rule('required', 'accountUserName')->message('Digite seu usuário');
+            $validator->rule('lengthMin', 'accountUserName', 2)->message('O usuário precisa ter no mínimo 2 caracteres');
+            $validator->rule('lengthMax', 'accountUserName', 30)->message('O usuário precisa ter no máximo 30 caracteres');
+
+            // password
+            $validator->rule('required', 'accountPassword')->message('Digite sua senha');
+            $validator->rule('lengthMin', 'accountPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'accountPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
+
+            // confirmPassword
+            $validator->rule('required', 'accountConfirmPassword')->message('Digite novamente sua senha');
+            $validator->rule('lengthMin', 'accountConfirmPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'accountConfirmPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
+            $validator->rule('equals', 'accountPassword', 'accountConfirmPassword')->message('As senhas não conferem, tente novamente');
+
+            // terms
+            $validator->rule('required', 'accountTerms')->message('Aceite os termos');
         // Customer level
         } else if ($request['userLevel'] === 3) {
             // firstName
@@ -104,38 +233,13 @@ class User extends Model {
 
             // terms
             $validator->rule('required', 'accountTerms')->message('Aceite os termos');
+        }
 
-            if($validator->validate()) {
-                return ['validate' => true];
-            } else {
-                // Errors
-                return ['validate' => false, 'errors' => $validator->errors()];
-            }
-
-          
-
-            // $this->validator->add('firstName', 'required({label} must have at least {min} characters)(First Name)');
-
-            // if ($this->validator->validate(['firstName' => 'a', 'lastName' => ''])) {
-
-                // send notifications to stakeholders
-                // save the form data to a database
-            
-            // } else {
-            //     $messages = $this->validator->getRuleFactory();
-            //     // $fieldsError = [];
-
-            //     print_r($messages);
-            //     // foreach ($messages as $field => $message) {
-                    
-            //     //     foreach ($message as $error) {
-            //     //         $fieldsError[$field] = (string) $error;
-            //     //     }
-            //     // }
-
-            //     // echo json_encode($fieldsError);
-            
-            // }
+        if($validator->validate()) {
+            return ['validate' => true];
+        } else {
+            // Errors
+            print_r(['validate' => false, 'errors' => $validator->errors()]);
         }
     }
 }
