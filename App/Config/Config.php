@@ -19,12 +19,14 @@ class Config {
     }
 
     public function getConnection() {
-            if($this->environment == 'development') {
-                $this->server = $_ENV['SERVER_LOCAL'];
-                $this->dbname = $_ENV['DB_NAME_LOCAL'];
-                $this->user = $_ENV['USER_LOCAL'];
-                $this->password = $_ENV['PASSWORD_LOCAL'];
-            } else {
+        if (!empty($this->connection)) return $this->connection;           
+
+        if($this->environment == 'development') {
+            $this->server = $_ENV['SERVER_LOCAL'];
+            $this->dbname = $_ENV['DB_NAME_LOCAL'];
+            $this->user = $_ENV['USER_LOCAL'];
+            $this->password = $_ENV['PASSWORD_LOCAL'];
+        } else {
             $this->base_url = $_ENV['BASE_URL'];
             $this->server = $_ENV['SERVER'];
             $this->dbname = $_ENV['DB_NAME'];
@@ -45,6 +47,7 @@ class Config {
         }
     }
 
+    
     public function getCurrentBaseUrl() {
         if($this->environment == 'development') {
             return $this->base_url = $_ENV['BASE_URL_LOCAL'];

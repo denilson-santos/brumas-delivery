@@ -186,7 +186,9 @@ $(function () {
         submitHandler: function (form) {
             alert('Novo Cadastro Realizado com Sucesso!');
             form = $(form).serialize();
-            console.log(form);
+            
+            // console.log(form);
+
             $.ajax({
                 type: "POST",
                 url: "/register-action",

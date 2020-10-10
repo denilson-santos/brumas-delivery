@@ -103,51 +103,51 @@ $(function () {
     $('.register-partner').validate( {
         rules: {
             // Personal Information
-            firstName: {
+            accountFirstName: {
                 required: true,
                 minlength: 2,
                 maxlength: 50
             },
-            lastName: {
+            accountLastName: {
                 required: true,
                 minlength: 4,
                 maxlength: 30
             },
-            email: {
+            accountEmail: {
                 required: true,
                 minlength: 7,
                 maxlength: 100,
-                email : true
+                email: true
             },
-            cellPhone: {
+            accountCellPhone: {
                 required: true,
                 // 9 digits without mask / 15 digits with mask
-                minlength: 15,
-                maxlength: 15
+                minlength: 16,
+                maxlength: 16
             },
-            address: {
+            accountAddress: {
                 required: true,
                 minlength: 4,
                 maxlength: 50,
             },
-            neighborhood: {
+            accountNeighborhood: {
                 required: true,
                 minlength: 4,
                 maxlength: 50,
             },
-            number: {
+            accountNumber: {
                 required: true,
                 maxlength: 11
             },
-            state: {
+            accountState: {
                 required: true,
                 digits: true
             },
-            city: {
+            accountCity: {
                 required: true,
                 digits: true
             },   
-            complement: {
+            accountComplement: {
                 required: false,
                 maxlength: 50
             },
@@ -233,50 +233,50 @@ $(function () {
         },
         messages: {
             // Personal Information
-            firstName: {
+            accountFirstName: {
                 required: 'Digite seu primeiro nome',
                 minlength: 'O seu primeiro nome precisa ter no mínimo 2 caracteres',
                 maxlength: 'O seu primeiro nome precisa ter no máximo 50 caracteres'
             },
-            lastName: { 
+            accountLastName: { 
                 required: 'Digite seu sobrenome',
                 minlength: 'O seu sobrenome precisa ter no mínimo 4 caracteres',
                 maxlength: 'O seu sobrenome precisa ter no máximo 30 caracteres'
             },
-            email: {
+            accountEmail: {
                 required: 'Digite seu email',
                 minlength: 'O email precisa ter no mínimo 7 caracteres',
                 maxlength: 'O email precisa ter no máximo 100 caracteres',
-                email : 'Digite um email válido'
+                email: 'Digite um email válido'
             },
-            cellPhone: {
+            accountCellPhone: {
                 required: 'Digite seu celular',
                 minlength: 'O celular precisa ter no mínimo o DDD + 9 dígitos',
                 maxlength: 'O celular precisa ter no máximo o DDD + 9 dígitos'
             },
-            address: {
+            accountAddress: {
                 required: 'Digite seu endereço',
                 minlength: 'O endereço precisa ter no mínimo 4 caracteres',
                 maxlength: 'O endereço precisa ter no máximo 50 caracteres'
             },
-            neighborhood: {
+            accountNeighborhood: {
                 required: 'Digite seu bairro',
                 minlength: 'O bairro precisa ter no mínimo 4 caracteres',
                 maxlength: 'O bairro precisa ter no máximo 50 caracteres'
             },
-            number: {
+            accountNumber: {
                 required: 'Número ?',
                 maxlength: 'O seu número precisa ter no máximo 11 caracteres'
             },
-            state: {
+            accountState: {
                 required: 'Informe seu estado',
                 digits: 'Informe um estado válido',
             },
-            city: {
+            accountCity: {
                 required: 'Informe sua cidade',
                 digits: 'Informe uma cidade válida'
             },
-            complement: {
+            accountComplement: {
                 maxlength: 'O complemento precisa ter no máximo 50 caracteres'
             },
             
@@ -328,7 +328,7 @@ $(function () {
                 required: 'Informe a cidade',
                 digits: 'Informe uma cidade válida'
             },
-            complement: {
+            restaurantComplement: {
                 maxlength: 'O complemento precisa ter no máximo 50 caracteres'
             },
 
@@ -380,41 +380,69 @@ $(function () {
             $( element ).addClass('is-valid').removeClass('is-invalid');
         }, 
         submitHandler: function (form) {
+            var operation = '';
+            var data = {};
+            var row = {};
+            var field = '';
+
             alert('Novo Cadastro Realizado com Sucesso!');
+            
+            form = $(form).serialize();
 
-            // form = $(form).serialize();
-            // console.log(form);
-            // $.ajax({
-            //     type: "POST",
-            //     url: "/be-a-partner-action",
-            //     data: form,
-            //     success: function (response) {
-            //         // response = JSON.parse(response);
-            //         console.log(response);
-            //         // if (!response.validate) {
-            //         //     tooltip = '<ul>';
+            $('.selected-week-days input').each(function (index, element) {
+                data = $(element).data();
 
-            //         //     var errors = response.errors;
-            //         //     console.log(errors);
-            //         //     // Get messages of server valiadation
-            //         //     for (var field in errors) {
-            //         //         var error = errors[field];
-            //         //         tooltip += `<li>${error[0]}</li>`;
-            //         //     }
+                for (const key in data) {
+                
+                    if (!Array.isArray(row[key])) row[key] = [];
+                    
+                    field = `${key}%5B%5D=${data[key]}&`;
+                    field = field.replaceAll(':', '%3A');
+                    field = field.replaceAll('ç', '%C3%A7');
+                    
+                    row[key].push(field);
+                }
+            });
 
-            //         //     tooltip += '</ul>';
+            // console.log(row);
+
+            for (const key in row) operation += row[key].join('');
+
+            // console.log('Query String -> '+operation);
+
+            data = form+'&'+operation;
+
+            // console.log(data);
+
+            $.ajax({
+                type: "POST",
+                url: "/be-a-partner-action",
+                data: data,
+                success: function (response) {
+                    response = JSON.parse(response);
+                    console.log(response);
+                    if (!response.validate) {
+                        tooltip = '<ul>';
+
+                        var errors = response.errors;
+                        // Get messages of server valiadation
+                        for (var field in errors) {
+                            var error = errors[field];
+                            tooltip += `<li>${error[0]}</li>`;
+                        }
+
+                        tooltip += '</ul>';
                         
-            //         //     $('.register .server-validation a').attr('data-original-title', tooltip);
-            //         //     $('.register .server-validation').css('display', 'block');
-            //         // } else {
-            //         //     $('.register .server-validation a').attr('data-original-title', '');
-            //         //     $('.register .server-validation').css('display', 'none');
-            //         // }
+                        $('.register-partner .server-validation a').attr('data-original-title', tooltip);
+                        $('.register-partner .server-validation').css('display', 'block');
+                    } else {
+                        $('.register-partner .server-validation a').attr('data-original-title', '');
+                        $('.register-partner .server-validation').css('display', 'none');
+                    }
+                }
+            });
 
-            //     }
-            // });
-
-            return true;
+            return false;
         }
     } );
 

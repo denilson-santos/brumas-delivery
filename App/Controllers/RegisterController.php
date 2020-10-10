@@ -12,11 +12,11 @@ class RegisterController extends Controller {
     }
     
     public function registerIndexAction($request) {
-        $user = new User();
-        
         $request['userLevel'] = $this->userLevels['customer'];
+        
+        $user = new User($request);
 
-        $validation = $user->validateRegister($request);            
+        $validation = $user->validateUserRegister();            
 
         if ($validation['validate']) {
             echo json_encode($validation);
@@ -30,26 +30,39 @@ class RegisterController extends Controller {
         $this->loadView('pages/register/registerPartner', $data);
     }
 
-    public function registerPartnerAction($request) {
-        $user = new User();
-        
+    public function registerPartnerAction($request) {        
+        // print_r($request); exit;
         $request['userLevel'] = $this->userLevels['partner'];
-
+        
         $request = $this->sanitizeInputs($request);
-
+        
         $maskedFields = [
-            'cellPhone', 
-            'phone', 
+            'accountCellPhone', 
+            'accountPhone', 
             'restaurantCnpj',
             'restaurantPhone',
             'restaurantCellPhone'
         ];
 
         $request = $this->clearMasks($request, $maskedFields);
-
-        // $DateFields = ['nascimento'];
-        // $request = $this->formatDates($request, $DateFields);
         
-        $validation = $user->validateRegister($request);
+        // $dateFields = ['nascimento'];
+        // $request = $this->formatDates($request, $dateFields);
+        
+        // Group operation data
+        $operation = array_slice($request, 26, 7, true);
+        array_splice($request, 26, 7);
+
+        $request['operation'] = $operation;
+
+        $user = new User($request);
+
+        $validation = $user->validateUserRegister();
+
+        if ($validation['validate']) {
+            echo json_encode($validation);
+        } else {
+            echo json_encode($validation);
+        }
     }
 }
