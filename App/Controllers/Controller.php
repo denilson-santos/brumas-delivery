@@ -95,7 +95,13 @@ class Controller {
 
     public function sanitizeInputs($request) {
         foreach ($request as $field => $value) {
-            $request[$field] = $this->antiXss->xss_clean($value);
+            if (is_array($value)) {
+                foreach ($value as $key => $v) {
+                    $request[$field][$key] = $this->antiXss->xss_clean($v);
+                }
+            } else {
+                $request[$field] = $this->antiXss->xss_clean($value);
+            }
         }
 
         return $request;

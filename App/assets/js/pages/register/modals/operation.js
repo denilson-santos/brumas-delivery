@@ -88,14 +88,14 @@ $(function () {
         $('#addWeekDay').attr('disabled', false);
         $('#saveAddOperation').attr('disabled', false);
 
-        currentRowElements.each( function (index, element) {
+        currentRowElements.each( function (index, element) {           
             if (index === 0) {
                 // Verify if the row exist in div hidden
                 if ($(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).data('row')) {
-                    $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-week-day-index', currentRowElements.eq(index).data().selectric.state.selectedIdx);                    
+                    $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-day-index', currentRowElements.eq(index).data().selectric.state.selectedIdx);                    
                     $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-week-day', currentRowElements.eq(index).val());                    
                 } else {
-                    $('.selected-week-days').append(`<input type="hidden" data-week-day-index="${currentRowElements.eq(index).data().selectric.state.selectedIdx}" data-week-day="${currentRowElements.eq(index).val()}" data-open-1="" data-close-1="" data-open-2="" data-close-2="" data-row="${currentRow.data('row')}">`);
+                    $('.selected-week-days').append(`<input type="hidden" data-day-index="${currentRowElements.eq(index).data().selectric.state.selectedIdx}" data-week-day="${currentRowElements.eq(index).val()}" data-row="${currentRow.data('row')}">`);
                 }
 
                 if (currentRowElements.eq(index).data().selectric.state.selectedIdx === 8) {
@@ -106,6 +106,17 @@ $(function () {
 
                 renderedRow += `<td>${currentRowElements.eq(index).val() || '-'}</td>`;
             } else {
+                if (index === 1) {
+                    console.log(currentRowElements.eq(index).val());
+                    $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-open1', currentRowElements.eq(index).val());
+                } else if (index === 2) {
+                    $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-close1', currentRowElements.eq(index).val());
+                } else if (index === 3) {
+                    $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-open2', currentRowElements.eq(index).val());
+                } else {
+                    $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-close2', currentRowElements.eq(index).val());
+                }
+
                 renderedRow += `<td class="text-center">${currentRowElements.eq(index).val() || '-'}</td>`;
             }
         });
@@ -179,7 +190,7 @@ function renderWeekDays(row) {
     var optionAllDays = '';
     
     allOptionsWeekDay.forEach((option, index) => {
-        var selectedWeekDay = $(`.selected-week-days input[data-week-day-index="${index}"]`).data();
+        var selectedWeekDay = $(`.selected-week-days input[data-day-index="${index}"]`).data();
 
         if (index === 0) { 
             status = 'disabled selected'; 
