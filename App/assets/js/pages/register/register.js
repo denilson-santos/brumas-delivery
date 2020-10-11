@@ -93,23 +93,23 @@ $(function () {
     $('form.register').validate( {
         rules: {
             // Personal Information
-            firstName: 'required',
-            lastName: 'required',
-            email: {
+            accountFirstName: 'required',
+            accountLastName: 'required',
+            accountEmail: {
                 required: true,
                 email : true
             },
-            cellphone: {
+            accountCellphone: {
                 required: true,
                 // 14 digits with mask, without mask => 8
                 minlength: 14
             },
-            address: 'required',
-            neighborhood: 'required',
-            number: 'required',
-            state: 'required',
-            city: 'required',   
-            complement: false,
+            accountAddress: 'required',
+            accountNeighborhood: 'required',
+            accountNumber: 'required',
+            accountState: 'required',
+            accountCity: 'required',   
+            accountComplement: false,
             
             // Account Information
             accountUserName: 'required',
@@ -126,21 +126,21 @@ $(function () {
         },
         messages: {
             // Personal Information
-            firstName: 'Digite seu primeiro nome',
-            lastName: 'Digite seu sobrenome',
-            email: {
+            accountFirstName: 'Digite seu primeiro nome',
+            accountLastName: 'Digite seu sobrenome',
+            accountEmail: {
                 required: 'Digite seu email',
                 email : 'Digite um email válido'
             },
-            cellPhone: {
+            accountCellPhone: {
                 required: 'Digite seu celular',
                 minlength: 'O celular precisa ter no mínimo 8 dígitos'
             },
-            address: 'Digite seu endereço',
-            neighborhood: 'Digite seu bairro',
-            number: 'Número ?',
-            state: 'Informe o seu estado',
-            city: 'Informe a sua cidade',   
+            accountAddress: 'Digite seu endereço',
+            accountNeighborhood: 'Digite seu bairro',
+            accountNumber: 'Número ?',
+            accountState: 'Informe o seu estado',
+            accountCity: 'Informe a sua cidade',   
             
             // Account Information
             accountUserName: 'Digite seu usuário',

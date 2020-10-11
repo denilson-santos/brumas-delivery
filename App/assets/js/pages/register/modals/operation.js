@@ -70,8 +70,6 @@ $(function () {
     
     // Save row
     $('.table-operation').on('click', '.save', function () {
-        console.log(editing);
-
         var currentRow = $(this).closest('tr');
         var currentRowElements = currentRow.find('input.time, select');
         var renderedRow = '';
@@ -107,7 +105,6 @@ $(function () {
                 renderedRow += `<td>${currentRowElements.eq(index).val() || '-'}</td>`;
             } else {
                 if (index === 1) {
-                    console.log(currentRowElements.eq(index).val());
                     $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-open1', currentRowElements.eq(index).val());
                 } else if (index === 2) {
                     $(`.selected-week-days input[data-row="${currentRow.data('row')}"]`).attr('data-close1', currentRowElements.eq(index).val());
@@ -142,8 +139,6 @@ $(function () {
 
         // var weekDays = renderWeekDays(currentRowElements.eq(0).html());
         var weekDays = renderWeekDays(currentRow.data('row'));
-
-        console.log(currentRow.data('row'));
 
         var renderedRow = `<td>${weekDays}</td><td><input type="text" name="open1" class="form-control text-center time" value=${currentRowElements.eq(1).html()}></td><td><input type="text" name="close1" class="form-control text-center time" value=${currentRowElements.eq(2).html()}></td><td><input type="text"  name="open2" class="form-control text-center time" value=${currentRowElements.eq(3).html()}></td><td><input type="text"  name="close2" class="form-control text-center time" value=${currentRowElements.eq(4).html()}></td><td><div class="actions"><button type="button" class="btn btn-primary btn-sm save action"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary btn-sm delete action" disabled><i class="fas fa-trash-alt"></i></button></div></td>`;
 
@@ -242,28 +237,28 @@ function validateOperation(rowElements) {
     var validateSchedule1 = !!dayOpen1 && !!dayClose1;
     var validateSchedule2 = !!validateSchedule1 && (!!dayOpen2 && !!dayClose2 || !dayOpen2 && !dayClose2 );
 
-    if (dayOpen1.length === 4) {
-        dayOpen1 = `0${dayOpen1}`;
-    }
+    // if (dayOpen1.length === 4) {
+    //     dayOpen1 = `0${dayOpen1}`;
+    // }
     
-    if (dayClose1.length === 4) {
-        dayClose1 = `0${dayClose1}`;
-    }
+    // if (dayClose1.length === 4) {
+    //     dayClose1 = `0${dayClose1}`;
+    // }
     
-    if (dayOpen2.length === 4) {
-        dayOpen2 = `0${dayOpen2}`;
-    }
+    // if (dayOpen2.length === 4) {
+    //     dayOpen2 = `0${dayOpen2}`;
+    // }
     
-    if (dayClose2.length === 4) {
-        dayClose2 = `0${dayClose2}`;
-    }
+    // if (dayClose2.length === 4) {
+    //     dayClose2 = `0${dayClose2}`;
+    // }
 
     // Parse schedules to mins and validate range of schedules
     if (validateSchedule1) {
-        console.log(dayOpen1);
-        console.log(dayClose1);
-        console.log(dayOpen2);
-        console.log(dayClose2);
+        // console.log(dayOpen1);
+        // console.log(dayClose1);
+        // console.log(dayOpen2);
+        // console.log(dayClose2);
 
         if (dayOpen1 >= dayClose1) {
             validateSchedule1 = false;
@@ -271,8 +266,7 @@ function validateOperation(rowElements) {
         }
 
         if (dayOpen1 && dayClose2) {
-            if (dayOpen2 > dayClose2) {
-                validateSchedule1 = false;
+            if (dayOpen2 >= dayClose2) {
                 validateSchedule2 = false;
             } else if (dayOpen2 <= dayOpen1 || dayOpen2 <= dayClose1 ) {
                 validateSchedule2 = false;
@@ -323,14 +317,9 @@ function validateOperationStyle(validation) {
 // lembrar de usar a lib para validacao no back - Respect/Validation
 
 function disableTableInputs(currentRow) {
-    console.log('CurrentRow',currentRow);
-
     var elementRow = $('.table-operation tbody').children('tr');
 
-    console.log(elementRow);
-
     elementRow.each(function (index, row) {
-        console.log('Loop Row', $(row));
          if (!$(row).is(currentRow)) {
             $(row).last().find('button').each(function (index, button) {
                 $(button).attr('disabled', true);

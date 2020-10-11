@@ -13,12 +13,22 @@ class RegisterController extends Controller {
     
     public function registerIndexAction($request) {
         $request['userLevel'] = $this->userLevels['customer'];
+
+        $request = $this->sanitizeInputs($request);
+
+        $maskedFields = [
+            'restaurantCellPhone'
+        ];
+
+        $request = $this->clearMasks($request, $maskedFields);
         
         $user = new User($request);
 
         $validation = $user->validateUserRegister();            
 
         if ($validation['validate']) {
+            // $user->saveUser();
+
             echo json_encode($validation);
         } else {
             echo json_encode($validation);

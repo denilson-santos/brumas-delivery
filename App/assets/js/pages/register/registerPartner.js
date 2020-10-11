@@ -99,6 +99,14 @@ $(function () {
         }        
     });
     
+    // Add new rules in plugin validation
+    $.validator.addMethod('cnpj', function(value, element) {
+        if (validateCnpj(value)) {
+            return true;
+        }
+        return false;
+    }, 'Invalid cnpj');
+
     // Registration Form Validation
     $('.register-partner').validate( {
         rules: {
@@ -162,7 +170,8 @@ $(function () {
                 required: true,
                 // 14 digits without mask / 18 digits with mask
                 minlength: 18,
-                maxlength: 18
+                maxlength: 18,
+                cnpj: true
             },
             restaurantEmail: {
                 required: true,
@@ -289,7 +298,8 @@ $(function () {
             restaurantCnpj: {
                 required: 'Digite o cnpj do restaurante',
                 minlength: 'O cnpj precisa ter no mínimo 14 dígitos',
-                maxlength: 'O cnpj precisa ter no máximo 14 dígitos'
+                maxlength: 'O cnpj precisa ter no máximo 14 dígitos',
+                cnpj: 'Digite um cnpj válido'
             },
             restaurantEmail: {
                 required: 'Digite o email do restaurante',
@@ -452,12 +462,13 @@ $(function () {
         $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
     });
 
-    
-    // $('.register-partner #restaurantAddOperation').on('click', function(e) {
-    //     $(this).valid();
-
-    //     $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
-    // });
+    // Prevents the operation modal from being called when pressing enter
+    $(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            return false;
+        }
+    });
 
     function isValid(currentStep, step) {
         var validation = true;
@@ -479,6 +490,60 @@ $(function () {
         }
         
         return validation;
+    }
+
+    function validateCnpj(cnpj) {
+ 
+        cnpj = cnpj.replace(/[^\d]+/g,'');
+     
+        if(cnpj == '') return false;
+         
+        if (cnpj.length != 14)
+            return false;
+     
+        // Elimina CNPJs invalidos conhecidos
+        if (cnpj == "00000000000000" || 
+            cnpj == "11111111111111" || 
+            cnpj == "22222222222222" || 
+            cnpj == "33333333333333" || 
+            cnpj == "44444444444444" || 
+            cnpj == "55555555555555" || 
+            cnpj == "66666666666666" || 
+            cnpj == "77777777777777" || 
+            cnpj == "88888888888888" || 
+            cnpj == "99999999999999")
+            return false;
+             
+        // Valida DVs
+        tamanho = cnpj.length - 2
+        numeros = cnpj.substring(0,tamanho);
+        digitos = cnpj.substring(tamanho);
+        soma = 0;
+        pos = tamanho - 7;
+        for (i = tamanho; i >= 1; i--) {
+          soma += numeros.charAt(tamanho - i) * pos--;
+          if (pos < 2)
+                pos = 9;
+        }
+        resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+        if (resultado != digitos.charAt(0))
+            return false;
+             
+        tamanho = tamanho + 1;
+        numeros = cnpj.substring(0,tamanho);
+        soma = 0;
+        pos = tamanho - 7;
+        for (i = tamanho; i >= 1; i--) {
+          soma += numeros.charAt(tamanho - i) * pos--;
+          if (pos < 2)
+                pos = 9;
+        }
+        resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+        if (resultado != digitos.charAt(1))
+              return false;
+               
+        return true;
+        
     }
 });
 
