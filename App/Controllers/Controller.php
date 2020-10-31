@@ -3,8 +3,7 @@ namespace App\Controllers;
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
-use App\Config\Config;
-use App\Config\Language;
+use App\Utils\Language;
 use Twig\TwigFunction;
 use voku\helper\AntiXSS;
 
@@ -12,14 +11,12 @@ class Controller {
     private $loader;
     private $twig;
     private $template;
-    private $config;
     
     protected $antiXss;
     protected $language;
     protected $userLevels; 
     
-    public function __construct($router) {
-        $this->config = new Config();
+    public function __construct($router) {;
         $this->loader = new FilesystemLoader('App/Views');
         $this->antiXss = new AntiXSS();
         $this->language = new Language();
@@ -85,7 +82,9 @@ class Controller {
         $this->twig->addFunction(new TwigFunction('http_build_query', 'http_build_query'));
 
         // getCurrentBaseUrl
-        $this->twig->addFunction(new TwigFunction('getCurrentBaseUrl', [$this->config,'getCurrentBaseUrl']));
+        $this->twig->addFunction(new TwigFunction('getCurrentBaseUrl', function() {
+            return BASE_URL;
+        }));
     }
 
     public function loadView($viewName, $viewData = []) {

@@ -1,7 +1,7 @@
 <?php
 namespace Controllers;
 
-use Core\Controller;
+use App\Controllers\Controller;
 
 class LangController extends Controller {
     public function index() {

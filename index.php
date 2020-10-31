@@ -1,5 +1,11 @@
 <?php
+    // Login
     // session_start();
+    // session_regenerate_id(true);
+
+    // Logout
+    // session_unset();
+    // session_destroy();
     
     require 'vendor/autoload.php';
 
@@ -13,9 +19,16 @@
     $dotenv = Dotenv::create(__DIR__);
     $dotenv->load();
     
+    // Global vars of config
     $config = new Config();
+    
+    define('SERVER', $config->getServer());
+    define('DB_NAME', $config->getDbName());
+    define('USER', $config->getUser());
+    define('PASSWORD', $config->getPassword());
     define('BASE_URL', $config->getCurrentBaseUrl());
-
+    define('DEFAULT_LANG', $config->getDefaultLang());
+    define('ENVIRONMENT', $config->getEnvironment());
     
     // Routes
     $router = new Router(BASE_URL);
@@ -46,8 +59,8 @@
     // Login 
 
     // Register
-    $router->get('/register', 'RegisterController:registerIndex');
-    $router->post('/register-action', 'RegisterController:registerIndexAction');
+    $router->get('/register', 'RegisterController:registerCustomerIndex');
+    $router->post('/register-action', 'RegisterController:registerCustomerIndexAction');
     $router->get('/be-a-partner', 'RegisterController:registerPartnerIndex');
     $router->post('/be-a-partner-action', 'RegisterController:registerPartnerAction');
 

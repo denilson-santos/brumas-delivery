@@ -2,32 +2,38 @@
 
 namespace App\Controllers;
 
-use App\Models\Restaurant;
+use App\Models\Neighborhood;
 use App\Models\User;
 
 class RegisterController extends Controller {  
-    public function registerIndex($request) {
-        $data = [];           
+    public function registerCustomerIndex($request) {
+        $neighborhood = new Neighborhood();
+        $data = [];
+        
+        $data = [
+            'neighborhoods' => $neighborhood->getListNeighborhoods(['city' => 336])
+        ];           
+
         $this->loadView('pages/register/register', $data);
     }
     
-    public function registerIndexAction($request) {
+    public function registerCustomerIndexAction($request) {
         $request['userLevel'] = $this->userLevels['customer'];
 
         $request = $this->sanitizeInputs($request);
 
         $maskedFields = [
-            'restaurantCellPhone'
+            'accountCellPhone'
         ];
 
         $request = $this->clearMasks($request, $maskedFields);
         
         $user = new User($request);
 
-        $validation = $user->validateUserRegister();            
+        $validation = $user->validateRegisterCustomerForm();            
 
         if ($validation['validate']) {
-            // $user->saveUser();
+            $user->saveRegisterCustomerForm();
 
             echo json_encode($validation);
         } else {
@@ -36,12 +42,17 @@ class RegisterController extends Controller {
     }
     
     public function registerPartnerIndex($request) {
+        $neighborhood = new Neighborhood();
         $data = [];
+        
+        $data = [
+            'neighborhoods' => $neighborhood->getListNeighborhoods(['city' => 336])
+        ];   
+
         $this->loadView('pages/register/registerPartner', $data);
     }
 
     public function registerPartnerAction($request) {        
-        // print_r($request); exit;
         $request['userLevel'] = $this->userLevels['partner'];
         
         $request = $this->sanitizeInputs($request);
@@ -67,7 +78,7 @@ class RegisterController extends Controller {
 
         $user = new User($request);
 
-        $validation = $user->validateUserRegister();
+        $validation = $user->validateRegisterPartnerForm();
 
         if ($validation['validate']) {
             echo json_encode($validation);

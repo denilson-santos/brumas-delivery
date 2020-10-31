@@ -93,64 +93,136 @@ $(function () {
     $('form.register').validate( {
         rules: {
             // Personal Information
-            accountFirstName: 'required',
-            accountLastName: 'required',
+            accountFirstName: {
+                required: true,
+                minlength: 2,
+                maxlength: 50 
+            },
+            accountLastName: {
+                required: true,
+                minlength: 4,
+                maxlength: 30
+            },
             accountEmail: {
                 required: true,
-                email : true
-            },
-            accountCellphone: {
+                minlength: 7,
+                maxlength: 100,
+                email: true
+            }, 
+            accountCellPhone: {
                 required: true,
-                // 14 digits with mask, without mask => 8
-                minlength: 14
+                // 9 digits without mask / 16 digits with mask
+                minlength: 16,
+                maxlength: 16
             },
-            accountAddress: 'required',
-            accountNeighborhood: 'required',
-            accountNumber: 'required',
-            accountState: 'required',
-            accountCity: 'required',   
-            accountComplement: false,
+            accountAddress: {
+                required: true,
+                minlength: 4,
+                maxlength: 50,
+            },
+            accountNeighborhood: {
+                required: true,
+                digits: true
+            },
+            accountNumber: {
+                required: true,
+                maxlength: 11
+            },
+            accountState: {
+                required: true,
+                digits: true
+            },
+            accountCity: {
+                required: true,
+                digits: true
+            },   
+            accountComplement: {
+                required: false,
+                maxlength: 50
+            },
             
             // Account Information
-            accountUserName: 'required',
+            accountUserName: {
+                required: true,
+                minlength: 2,
+                maxlength: 30
+            },
             accountPassword: {
                 required: true,
-                minlength: 4
+                minlength: 4,
+                maxlength: 255
             },
             accountConfirmPassword: {
                 required: true,
                 minlength: 4,
+                maxlength: 255,
                 equalTo: '#accountPassword'
             },
-            accountTerms: "required"
+            accountTerms: 'required'
         },
         messages: {
             // Personal Information
-            accountFirstName: 'Digite seu primeiro nome',
-            accountLastName: 'Digite seu sobrenome',
+            accountFirstName: {
+                required: 'Digite seu primeiro nome',
+                minlength: 'O seu primeiro nome precisa ter no mínimo 2 caracteres',
+                maxlength: 'O seu primeiro nome precisa ter no máximo 50 caracteres'
+            },
+            accountLastName: { 
+                required: 'Digite seu sobrenome',
+                minlength: 'O seu sobrenome precisa ter no mínimo 4 caracteres',
+                maxlength: 'O seu sobrenome precisa ter no máximo 30 caracteres'
+            },
             accountEmail: {
                 required: 'Digite seu email',
-                email : 'Digite um email válido'
+                minlength: 'O email precisa ter no mínimo 7 caracteres',
+                maxlength: 'O email precisa ter no máximo 100 caracteres',
+                email: 'Digite um email válido'
             },
             accountCellPhone: {
                 required: 'Digite seu celular',
-                minlength: 'O celular precisa ter no mínimo 8 dígitos'
+                minlength: 'O celular precisa ter no mínimo o DDD + 9 dígitos',
+                maxlength: 'O celular precisa ter no máximo o DDD + 9 dígitos'
             },
-            accountAddress: 'Digite seu endereço',
-            accountNeighborhood: 'Digite seu bairro',
-            accountNumber: 'Número ?',
-            accountState: 'Informe o seu estado',
-            accountCity: 'Informe a sua cidade',   
+            accountAddress: {
+                required: 'Digite seu endereço',
+                minlength: 'O endereço precisa ter no mínimo 4 caracteres',
+                maxlength: 'O endereço precisa ter no máximo 50 caracteres'
+            },
+            accountNeighborhood: {
+                required: 'Informe seu bairro',
+                digits: 'Informe um bairro válido'
+            },
+            accountNumber: {
+                required: 'Número ?',
+                maxlength: 'O seu número precisa ter no máximo 11 caracteres'
+            },
+            accountState: {
+                required: 'Informe seu estado',
+                digits: 'Informe um estado válido',
+            },
+            accountCity: {
+                required: 'Informe sua cidade',
+                digits: 'Informe uma cidade válida'
+            },
+            accountComplement: {
+                maxlength: 'O complemento precisa ter no máximo 50 caracteres'
+            },  
             
             // Account Information
-            accountUserName: 'Digite seu usuário',
+            accountUserName: {
+                required: 'Digite seu usuário',
+                minlength: 'O usuário precisa ter no mínimo 2 caracteres',
+                maxlength: 'O usuário precisa ter no máximo 30 caracteres'
+            },
             accountPassword: {
                 required: 'Digite sua senha',
-                minlength: 'A senha precisa ter no mínimo 4 caracteres'
+                minlength: 'A senha precisa ter no mínimo 4 caracteres',
+                maxlength: 'A senha precisa ter no máximo 255 caracteres'
             },
             accountConfirmPassword: {
                 required: 'Digite novamente sua senha',
                 minlength: 'A senha precisa ter no mínimo 4 caracteres',
+                maxlength: 'A senha precisa ter no máximo 255 caracteres',
                 equalTo: 'As senhas não conferem, tente novamente'
             },
             accountTerms: 'Aceite os termos'
@@ -184,7 +256,6 @@ $(function () {
             $( element ).addClass('is-valid').removeClass('is-invalid');
         }, 
         submitHandler: function (form) {
-            alert('Novo Cadastro Realizado com Sucesso!');
             form = $(form).serialize();
             
             // console.log(form);
@@ -193,6 +264,9 @@ $(function () {
                 type: "POST",
                 url: "/register-action",
                 data: form,
+                beforeSend: function() {
+                    $('form.register #submitRegister').attr('disabled', true);
+                },
                 success: function (response) {
                     response = JSON.parse(response);
                     
@@ -211,11 +285,36 @@ $(function () {
                         
                         $('.register .server-validation a').attr('data-original-title', tooltip);
                         $('.register .server-validation').css('display', 'block');
+
+                        iziToast.error({
+                            title: 'Erro ao efetuar o cadastro!',
+                            message: 'Tente Novamente!',
+                            position: 'topRight'
+                        });
                     } else {
                         $('.register .server-validation a').attr('data-original-title', '');
                         $('.register .server-validation').css('display', 'none');
-                    }
 
+                        iziToast.success({
+                            title: 'Cadastro realizado com sucesso!',
+                            message: 'Faça o login para continuar!',
+                            position: 'topRight'
+                        });
+
+                        setTimeout(function() {
+                            window.location.href = BASE_URL+'/login';
+                        }, 5000)
+                    }
+                },
+                complete: function() {
+                    $('form.register #submitRegister').attr('disabled', false);
+                },
+                error: function() {
+                    iziToast.error({
+                        title: 'Erro ao efetuar o cadastro!',
+                        message: 'Tente Novamente!',
+                        position: 'topRight'
+                    });
                 }
             });
             return false;
