@@ -1,7 +1,5 @@
 <?php
-namespace App\Config;
-
-use App\Config\Config;
+namespace App\Utils;
 
 class Language {
     private $language;
@@ -9,9 +7,7 @@ class Language {
 
     public function __construct() {
 
-        $config = new Config();
-
-        $this->language = $config->getDefaultLang();
+        $this->language = DEFAULT_LANG;
 
         if (!empty($_SESSION['language']) && file_exists('languages/'.$_SESSION['language'].'.ini')) {
             $this->language = $_SESSION['language'];

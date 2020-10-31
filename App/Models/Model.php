@@ -1,13 +1,12 @@
 <?php
 namespace App\Models;
 
-use App\Config\Config;
+use App\Database\Db;
 
 class Model {
     protected $db;
 
     public function __construct() {
-        $config = new Config();
-        $this->db = $config->getConnection();
+        $this->db = Db::getConnection();
     }
 }

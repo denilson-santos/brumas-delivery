@@ -107,6 +107,13 @@ $(function () {
         return false;
     }, 'Invalid cnpj');
 
+    $.validator.addMethod('arrayLengthMax', function(value, element, param) {
+        if (value.length <= param) {
+            return true;
+        }
+        return false;
+    }, 'Invalid array length very long');
+
     // Registration Form Validation
     $('.register-partner').validate( {
         rules: {
@@ -129,7 +136,7 @@ $(function () {
             },
             accountCellPhone: {
                 required: true,
-                // 9 digits without mask / 15 digits with mask
+                // 9 digits without mask / 16 digits with mask
                 minlength: 16,
                 maxlength: 16
             },
@@ -140,8 +147,7 @@ $(function () {
             },
             accountNeighborhood: {
                 required: true,
-                minlength: 4,
-                maxlength: 50,
+                digits: true
             },
             accountNumber: {
                 required: true,
@@ -192,7 +198,8 @@ $(function () {
                 maxlength: 16
             },
             restaurantMainCategories: {
-                required: true
+                required: true,
+                arrayLengthMax: 2
             },
             restaurantAddress: {
                 required: true,
@@ -201,8 +208,7 @@ $(function () {
             },
             restaurantNeighborhood: {
                 required: true,
-                minlength: 4,
-                maxlength: 50,
+                digits: true
             },
             restaurantNumber: {
                 required: true,
@@ -230,12 +236,12 @@ $(function () {
             accountPassword: {
                 required: true,
                 minlength: 4,
-                maxlength: 50
+                maxlength: 255
             },
             accountConfirmPassword: {
                 required: true,
                 minlength: 4,
-                maxlength: 50,
+                maxlength: 255,
                 equalTo: '#accountPassword'
             },
             accountTerms: 'required'
@@ -269,9 +275,8 @@ $(function () {
                 maxlength: 'O endereço precisa ter no máximo 50 caracteres'
             },
             accountNeighborhood: {
-                required: 'Digite seu bairro',
-                minlength: 'O bairro precisa ter no mínimo 4 caracteres',
-                maxlength: 'O bairro precisa ter no máximo 50 caracteres'
+                required: 'Informe seu bairro',
+                digits: 'Informe um bairro válido'
             },
             accountNumber: {
                 required: 'Número ?',
@@ -303,7 +308,9 @@ $(function () {
             },
             restaurantEmail: {
                 required: 'Digite o email do restaurante',
-                email : 'Digite um email válido'
+                minlength: 'O email precisa ter no mínimo 7 caracteres',
+                maxlength: 'O email precisa ter no máximo 100 caracteres',
+                email: 'Digite um email válido'
             },
             restaurantPhone: {
                 required: 'Digite o telefone do restaurante',
@@ -315,16 +322,18 @@ $(function () {
                 minlength: 'O celular precisa ter no mínimo o DDD + 9 dígitos',
                 maxlength: 'O celular precisa ter no máximo o DDD + 9 dígitos'
             },
-            restaurantMainCategories: 'Selecione 1 ou no máx 2 categorias principais para o restaurante',
+            restaurantMainCategories: {
+                required: 'Selecione 1 ou no máx 2 categorias principais para o restaurante',
+                arrayLengthMax: 'Informe categorias válidas'
+            },
             restaurantAddress: {
                 required: 'Digite o endereço do restaurante',
                 minlength: 'O endereço precisa ter no mínimo 4 caracteres',
                 maxlength: 'O endereço precisa ter no máximo 50 caracteres'
             },
             restaurantNeighborhood: {
-                required: 'Digite o bairro do restaurante',
-                minlength: 'O bairro precisa ter no máximo 4 caracteres',
-                maxlength: 'O bairro precisa ter no máximo 50 caracteres'
+                required: 'Informe o bairro do restaurante',
+                digits: 'Informe um bairro válido'
             },
             restaurantNumber: {
                 required: 'Número ?',
@@ -351,12 +360,12 @@ $(function () {
             accountPassword: {
                 required: 'Digite sua senha',
                 minlength: 'A senha precisa ter no mínimo 4 caracteres',
-                maxlength: 'A senha precisa ter no máximo 50 caracteres'
+                maxlength: 'A senha precisa ter no máximo 255 caracteres'
             },
             accountConfirmPassword: {
                 required: 'Digite novamente sua senha',
                 minlength: 'A senha precisa ter no mínimo 4 caracteres',
-                maxlength: 'A senha precisa ter no máximo 50 caracteres',
+                maxlength: 'A senha precisa ter no máximo 255 caracteres',
                 equalTo: 'As senhas não conferem, tente novamente'
             },
             accountTerms: 'Aceite os termos'
