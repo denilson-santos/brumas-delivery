@@ -297,7 +297,7 @@ $(function () {
 
                         iziToast.success({
                             title: 'Cadastro realizado com sucesso!',
-                            message: 'Faça o login para continuar!',
+                            message: 'Você será redirecionado para a tela de login!',
                             position: 'topRight'
                         });
 

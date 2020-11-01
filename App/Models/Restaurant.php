@@ -4,6 +4,41 @@ namespace App\Models;
 use App\Models\Model;
 
 class Restaurant extends Model {
+    private $data;
+
+    public function __construct($data = []) {
+        parent::__construct();
+        $this->data = $data;
+    }
+
+    public function saveRestaurant() {
+        try {
+            $stm = $this->db->prepare('INSERT INTO restaurant
+                SET address_id = :address_id,
+                    name = :name,
+                    cnpj = :cnpj,
+                    email = :email,
+                    main_categories = :main_categories
+            ');
+
+            $stm->bindValue(':address_id', $this->data['address_id']);
+            $stm->bindValue(':name', $this->data['name']);
+            $stm->bindValue(':cnpj', $this->data['cnpj']);
+            $stm->bindValue(':email', $this->data['email']);
+            $stm->bindValue(':main_categories', $this->data['main_categories']);
+
+            $stm->execute();
+            
+            return $this->db->lastInsertId();
+        } catch (\PDOException $error) {
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
     
     public function getListRestaurants($offset = 0, $limit = 9, $filters = [], $random = false) {
         $data = [];
@@ -398,5 +433,9 @@ class Restaurant extends Model {
                 $stm->bindValue($inParam, $value);
             }
         }
+    }
+
+    public function setData($data) {
+        $this->data = $data;
     }
 }

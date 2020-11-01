@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="/node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
   <link rel="stylesheet" href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css">
+  <link rel="stylesheet" href="/node_modules/izitoast/dist/css/iziToast.min.css">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="/App/assets/admin/css/style.css">
@@ -26,6 +27,8 @@
 </head>
 
 <body>
+  {% set BASE_URL = getCurrentBaseUrl() %}
+
   <div id="app">
     <section class="section">
       <div class="container mt-5">
@@ -121,12 +124,19 @@
                       </div>
                     </div>
 
-                    <div class="form-group col-3 float-right p-0 mt-2">
-                      <button type="button" data-step="1" class="next btn btn-primary btn-lg btn-block">
-                        Proxímo
-                      </button>
+                    <div class="row justify-content-between mt-2">
+                      <div class="form-group col-3">
+                        <a href="{{ route('name.home') }}" class="btn btn-light btn-lg btn-block">
+                          Voltar
+                        </a>
+                      </div>
+  
+                      <div class="form-group col-3">
+                        <button type="button" data-step="1" class="next btn btn-primary btn-lg btn-block">
+                          Proxímo
+                        </button>
+                      </div>
                     </div>
-
                   </div>
                 </div>
 
@@ -178,7 +188,7 @@
                     <div class="row">
                       <div class="form-group col-6">
                         <label for="restaurantMainCategories">Categorias Principais</label>
-                        <select id="restaurantMainCategories" class="form-control restaurant-main-categories" name="restaurantMainCategories"
+                        <select id="restaurantMainCategories" class="form-control restaurant-main-categories" name="restaurantMainCategories[]"
                         multiple="multiple">
                           <option value="" disabled>Selecione</option>
                           <option value="1">Pizzas</option>
@@ -309,7 +319,7 @@
                       </div>
       
                       <div class="form-group col-4">
-                        <button type="submit" data-last-step="3" data-step="" class="btn btn-primary btn-lg btn-block last-step">
+                        <button type="submit" id="submitRegisterPartner" data-last-step="3" data-step="" class="btn btn-primary btn-lg btn-block last-step">
                           Cadastrar
                         </button>
                       </div>
@@ -353,6 +363,7 @@
   <script src="/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
   <script src="/node_modules/moment/moment.js"></script>
+  <script src="/node_modules/izitoast/dist/js/iziToast.min.js"></script>
 
   <!-- Template JS File -->
   <script src="/App/assets/admin/js/scripts.js"></script>
@@ -361,5 +372,8 @@
   <!-- Page Specific JS File -->
   <script src="/App/assets/js/pages/register/registerPartner.js"></script>
   <script src="/App/assets/js/pages/register/modals/operation.js"></script>
+  <script>
+    var BASE_URL = '{{ BASE_URL }}';
+  </script>
 </body>
 </html>

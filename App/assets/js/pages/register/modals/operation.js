@@ -237,21 +237,21 @@ function validateOperation(rowElements) {
     var validateSchedule1 = !!dayOpen1 && !!dayClose1;
     var validateSchedule2 = !!validateSchedule1 && (!!dayOpen2 && !!dayClose2 || !dayOpen2 && !dayClose2 );
 
-    // if (dayOpen1.length === 4) {
-    //     dayOpen1 = `0${dayOpen1}`;
-    // }
+    if (dayOpen1.length === 4) {
+        dayOpen1 = `0${dayOpen1}`;
+    }
     
-    // if (dayClose1.length === 4) {
-    //     dayClose1 = `0${dayClose1}`;
-    // }
+    if (dayClose1.length === 4) {
+        dayClose1 = `0${dayClose1}`;
+    }
     
-    // if (dayOpen2.length === 4) {
-    //     dayOpen2 = `0${dayOpen2}`;
-    // }
+    if (dayOpen2.length === 4) {
+        dayOpen2 = `0${dayOpen2}`;
+    }
     
-    // if (dayClose2.length === 4) {
-    //     dayClose2 = `0${dayClose2}`;
-    // }
+    if (dayClose2.length === 4) {
+        dayClose2 = `0${dayClose2}`;
+    }
 
     // Parse schedules to mins and validate range of schedules
     if (validateSchedule1) {

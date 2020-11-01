@@ -137,7 +137,9 @@ class User extends Model {
         }
     }
 
-    public function validateRegisterPartnerForm() {        
+    public function validateRegisterPartnerForm() {   
+        // print_r($this->data); exit;
+        
         $validator = new Validator($this->data);
 
         $validator->addRule('arrayLengthMax', function($field, $value, array $params, array $fields) {
@@ -402,21 +404,26 @@ class User extends Model {
             $dayClose1 = $rows['close1'][$i];
             $dayOpen2 = $rows['open2'][$i];
             $dayClose2 = $rows['close2'][$i];     
-
-            // echo '<br>';
-            // print_r($weekDay);
-            // echo '<br>';
-            // print_r($dayOpen1);
-            // echo '<br>';
-            // print_r($dayOpen2);
-            // echo '<br>';
-            // print_r($dayClose1);
-            // echo '<br>';
-            // print_r($dayClose2);
             
             $validateWeekDay = $weekDay ?? false;
             $validateSchedule1 = $dayOpen1 && $dayClose1;
             $validateSchedule2 = $validateSchedule1 && ($dayOpen2 && $dayClose2 || !$dayOpen2 && !$dayClose2 );
+
+            if (strlen($dayOpen1) === 4) {
+                $dayOpen1 = "0$dayOpen1";
+            }
+            
+            if (strlen($dayClose1) === 4) {
+                $dayClose1 = "0$dayClose1";
+            }
+            
+            if (strlen($dayOpen2) === 4) {
+                $dayOpen2 = "0$dayOpen2";
+            }
+            
+            if (strlen($dayClose2) === 4) {
+                $dayClose2 = "0$dayClose2";
+            }
 
             // Parse schedules to mins and validate range of schedules
             if ($validateSchedule1) {
@@ -469,11 +476,11 @@ class User extends Model {
             $userPhone->saveUserPhone();
             
             $dataAddress = [
-                'neighborhood_id' => $this->data['accountNeighborhood'] ?? NULL, 
-                'user_id' => $userId ?? NULL, 
-                'name' => $this->data['accountAddress'] ?? NULL, 
-                'number' => $this->data['accountNumber'] ?? NULL, 
-                'complement' => $this->data['accountComplement'] ?? NULL
+                'neighborhood_id' => $this->data['accountNeighborhood'], 
+                'user_id' => $userId, 
+                'name' => $this->data['accountAddress'], 
+                'number' => $this->data['accountNumber'], 
+                'complement' => $this->data['accountComplement']
             ];
 
             $address = new Address($dataAddress);
@@ -490,56 +497,116 @@ class User extends Model {
         }
     }
 
-    // public function saveRegisterPartnerForm() {
-    //     try {
-    //         $this->db->beginTransaction();
+    public function saveRegisterPartnerForm() {
+        try {
+            $this->db->beginTransaction();
             
-    //         $userId = $this->saveUser();
-
-    //         $userPhone = new UserPhone();
-
-    //         $dataUserPhone = [
-    //             [
-    //                 'user_id' => $userId,
-    //                 'phone_type_id' => 1,
-    //                 'number' => $this->data['accountCellPhone']
-    //             ],
-    //             [
-    //                 'user_id' => $userId,
-    //                 'phone_type_id' => 2,
-    //                 'number' => $this->data['accountPhone']
-    //             ]
-    //         ];
-
-    //         foreach ($dataUserPhone as $row) {
-    //             $userPhone->setData($row);
-    //             $userPhone->saveUserPhone();
-    //         }
-
-    //         $dataAddress = [
-    //             'city_id', 
-    //             'neighborhood_id', 
-    //             'user_id', 
-    //             'name', 
-    //             'zip_code', 
-    //             'number', 
-    //             'complement'
-    //         ];
-
-    //         $address = new Address($dataAddress);
-    //         $address->saveAddress();
+            $userId = $this->saveUser();       
             
+            $dataUserPhone = [
+                'user_id' => $userId,
+                'phone_type_id' => 2,
+                'number' => $this->data['accountCellPhone']
+            ];
 
-    //         $this->db->commit();
-    //     } catch (\PDOException $error) {
-    //         $this->db->rollBack();
+            $userPhone = new UserPhone($dataUserPhone);
+
+            $userPhone->saveUserPhone();
             
-    //         // For debug
-    //         // echo "Message: " . $error->getMessage() . "<br>";
-    //         // echo "Name of file: ". $error->getFile() . "<br>";
-    //         // echo "Row: ". $error->getLine() . "<br>";
-    //     }
-    // }
+            $dataAddress = [
+                'neighborhood_id' => $this->data['accountNeighborhood'], 
+                'user_id' => $userId, 
+                'name' => $this->data['accountAddress'], 
+                'number' => $this->data['accountNumber'], 
+                'complement' => $this->data['accountComplement']
+            ];
+
+            $address = new Address($dataAddress);
+            
+            $address->saveAddress();
+
+            
+            // Restaurant
+
+            $dataAddress = [
+                'neighborhood_id' => $this->data['restaurantNeighborhood'], 
+                'user_id' => $userId, 
+                'name' => $this->data['restaurantAddress'], 
+                'number' => $this->data['restaurantNumber'], 
+                'complement' => $this->data['restaurantComplement']
+            ];
+
+            $address = new Address($dataAddress);
+            
+            $addressId = $address->saveAddress();
+
+            $dataRestaurant = [
+                'address_id' => $addressId, 
+                'name' => $this->data['restaurantName'], 
+                'cnpj' => $this->data['restaurantCnpj'],  
+                'email' => $this->data['restaurantEmail'],  
+                'main_categories' => implode(',', $this->data['restaurantMainCategories'])
+            ];
+
+            $restaurant = new Restaurant($dataRestaurant);
+
+            $restaurantId = $restaurant->saveRestaurant();
+
+            $dataRestaurantPhone = [
+                [
+                    'restaurant_id' => $restaurantId,
+                    'phone_type_id' => 1,
+                    'number' => $this->data['restaurantPhone']
+                ],
+                [
+                    'restaurant_id' => $restaurantId,
+                    'phone_type_id' => 2,
+                    'number' => $this->data['restaurantCellPhone']
+                ]
+            ];
+
+            $restaurantPhone = new RestaurantPhone();
+
+            foreach ($dataRestaurantPhone as $row) {
+                $restaurantPhone->setData($row);
+                $restaurantPhone->saveRestaurantPhone();
+            }
+
+            $restaurantOperation = new RestaurantOperation();
+
+            $countOperationRows = count($this->data['operation']['row']);;
+
+            for ($i=0; $i < $countOperationRows; $i++) { 
+                $dataRestaurantOperation = [
+                    'restaurant_id' => $restaurantId, 
+                    'week_day_id' => $this->data['operation']['dayIndex'][$i],
+                    'open_1' => $this->data['operation']['open1'][$i],
+                    'close_1' => $this->data['operation']['close1'][$i],
+                    'open_2' => $this->data['operation']['open2'][$i],
+                    'close_2' => $this->data['operation']['close2'][$i]
+                ];    
+
+                $restaurantOperation->setData($dataRestaurantOperation);
+                $restaurantOperation->saveRestaurantOperation();
+            }
+
+            $restaurantPhone = new RestaurantPhone();
+
+            foreach ($dataRestaurantPhone as $row) {
+                $restaurantPhone->setData($row);
+                $restaurantPhone->saveRestaurantPhone();
+            }
+
+            $this->db->commit();
+        } catch (\PDOException $error) {
+            $this->db->rollback();
+            
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
 
     public function setData($data) {
         $this->data = $data;

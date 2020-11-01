@@ -23,7 +23,6 @@ class Controller {
         $this->twig = new Environment($this->loader);
 
         $this->twig->addGlobal('GET_URL', $_GET);
-        $this->twig->addGlobal('router', $router);
 
         $this->userLevels = [
             'admin' => 1,
@@ -34,6 +33,9 @@ class Controller {
 
         // Add function of PHP to use in twig 
         
+        // Route
+        $this->twig->addFunction(new TwigFunction('route', [$router, 'route']));
+
         // empty
         $this->twig->addFunction(new TwigFunction('empty', 'empty'));
         $this->twig->addFunction(new TwigFunction('notEmpty', '!empty'));
