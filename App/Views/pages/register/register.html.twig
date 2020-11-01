@@ -20,7 +20,6 @@
   <link rel="stylesheet" href="/App/assets/admin/css/style.css">
   <link rel="stylesheet" href="/App/assets/admin/css/components.css">
   <link rel="stylesheet" href="/App/assets/css/pages/register/register.css">
-  <!-- <link rel="stylesheet" href="/App/assets/css/pages/register/modals/operation.css"> -->
 </head>
 
 <body>
@@ -32,7 +31,9 @@
         <div class="row col-10 offset-1">
           <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
             <div class="login-brand">
-              <img src="/App/assets/images/logo-brumas-delivery-white.png" alt="logo" width="200">
+              <a href="{{ route('name.home') }}">
+                <img src="/App/assets/images/logo-brumas-delivery-white.png" alt="logo" width="200">
+              </a>
             </div>
 
             <form class="register">
@@ -120,13 +121,20 @@
                       </div>
 
                     </div>
-
-                    <div class="form-group col-3 float-right p-0 mt-2">
-                      <button type="button" data-step="1" class="next btn btn-primary btn-lg btn-block">
-                        Proxímo
-                      </button>
-                    </div>
                     
+                    <div class="row justify-content-between mt-2">
+                      <div class="form-group col-3">
+                        <a href="{{ route('name.home') }}" class="btn btn-light btn-lg btn-block">
+                          Voltar
+                        </a>
+                      </div>
+
+                      <div class="form-group col-3">
+                        <button type="button" data-step="1" class="next btn btn-primary btn-lg btn-block">
+                          Proxímo
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 

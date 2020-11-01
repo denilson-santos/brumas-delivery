@@ -52,7 +52,7 @@ class RegisterController extends Controller {
         $this->loadView('pages/register/registerPartner', $data);
     }
 
-    public function registerPartnerAction($request) {        
+    public function registerPartnerAction($request) {      
         $request['userLevel'] = $this->userLevels['partner'];
         
         $request = $this->sanitizeInputs($request);
@@ -81,6 +81,8 @@ class RegisterController extends Controller {
         $validation = $user->validateRegisterPartnerForm();
 
         if ($validation['validate']) {
+            $user->saveRegisterPartnerForm();
+
             echo json_encode($validation);
         } else {
             echo json_encode($validation);

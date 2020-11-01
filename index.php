@@ -52,11 +52,12 @@
 
     // Home
     $router->group(null);
-    $router->get('/', 'HomeController:index');
+    $router->get('/', 'HomeController:index', 'name.home');
     $router->get('/home', 'HomeController:index');
     $router->get('/category/{id}', 'CategoryController:open');
 
     // Login 
+    $router->get('/login', 'LoginController:index', 'name.login');
 
     // Register
     $router->get('/register', 'RegisterController:registerCustomerIndex');

@@ -437,6 +437,9 @@ $(function () {
                 type: "POST",
                 url: "/be-a-partner-action",
                 data: data,
+                beforeSend: function() {
+                    $('form.register-partner #submitRegisterPartner').attr('disabled', true);
+                },
                 success: function (response) {
                     response = JSON.parse(response);
                     console.log(response);
@@ -454,10 +457,36 @@ $(function () {
                         
                         $('.register-partner .server-validation a').attr('data-original-title', tooltip);
                         $('.register-partner .server-validation').css('display', 'block');
+
+                        iziToast.error({
+                            title: 'Erro ao efetuar o cadastro!',
+                            message: 'Tente Novamente!',
+                            position: 'topRight'
+                        });
                     } else {
                         $('.register-partner .server-validation a').attr('data-original-title', '');
                         $('.register-partner .server-validation').css('display', 'none');
+
+                        iziToast.success({
+                            title: 'Cadastro realizado com sucesso!',
+                            message: 'Você será redirecionado para a tela de login!',
+                            position: 'topRight'
+                        });
+
+                        setTimeout(function() {
+                            window.location.href = BASE_URL+'/login';
+                        }, 5000)
                     }
+                },
+                complete: function() {
+                    $('form.register-partner #submitRegisterPartner').attr('disabled', false);
+                },
+                error: function() {
+                    iziToast.error({
+                        title: 'Erro ao efetuar o cadastro!',
+                        message: 'Tente Novamente!',
+                        position: 'topRight'
+                    });
                 }
             });
 

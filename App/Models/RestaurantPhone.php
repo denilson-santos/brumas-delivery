@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class UserPhone extends Model {
+class RestaurantPhone extends Model {
     private $data;
 
     public function __construct($data = []) {
@@ -10,15 +10,15 @@ class UserPhone extends Model {
         $this->data = $data;
     }
 
-    public function saveUserPhone() {
+    public function saveRestaurantPhone() {
         try {
-            $stm = $this->db->prepare('INSERT INTO user_phone
-                SET user_id = :user_id,
+            $stm = $this->db->prepare('INSERT INTO restaurant_phone
+                SET restaurant_id = :restaurant_id,
                     phone_type_id = :phone_type_id,
                     number = :number
             ');
 
-            $stm->bindValue(':user_id', $this->data['user_id']);
+            $stm->bindValue(':restaurant_id', $this->data['restaurant_id']);
             $stm->bindValue(':phone_type_id', $this->data['phone_type_id']);
             $stm->bindValue(':number', $this->data['number']);
 
