@@ -40,7 +40,7 @@ class Restaurant extends Model {
         }
     }
     
-    public function getListRestaurants($offset = 0, $limit = 9, $filters = [], $random = false) {
+    public function getListRestaurants($offset = 0, $limit = 9, $filters = [], $random = false, $staticFilters = ['analized' => 1, 'approved' => 1,'random' => 0]) {
         $data = [];
         $orderByRandom = ''; 
 
