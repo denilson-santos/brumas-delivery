@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Cadastre-se</title>
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="/assets/css/bootstrap/custom.css" type="text/css"/>
+  <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="/node_modules/jquery-ui-dist/jquery-ui.min.css">
+  <link rel="stylesheet" href="/node_modules/selectric/public/selectric.css">
+  <link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css" />
+  <link rel="stylesheet" href="/node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
+  <link rel="stylesheet" href="/node_modules/izitoast/dist/css/iziToast.min.css">
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/assets/admin/css/bootstrap/style.css">
+  <link rel="stylesheet" href="/assets/admin/css/bootstrap/components.css">
+  <link rel="stylesheet" href="/assets/css/general.css" type="text/css"/>
+  <link rel="stylesheet" href="/assets/admin/css/auth/register/register.css">
+</head>
+
+<body>
+  {% set BASE_URL = getCurrentBaseUrl() %}
+
+  <div id="app">
+    <section class="section">
+      <div class="container mt-5">
+        <div class="row col-10 offset-1">
+          <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+            <div class="login-brand">
+              <a href="{{ route('name.home') }}">
+                <img src="/assets/images/logo-brumas-delivery-white.png" alt="logo" width="200">
+              </a>
+            </div>
+
+            <form class="register">
+              <!-- progressbar -->
+              <ul id="progressbar">
+                <li class="active">Informações Pessoais</li>
+                <li>Informações da Conta</li>
+              </ul>
+              
+              <fieldset class="register-step-1">
+                <div class="card card-primary">
+                  <div class="card-header pb-0"><h4>Cadastre-se</h4></div>
+    
+                  <div class="card-body">
+                    <div class="form-divider">
+                      <i class="fa fa-genderless"></i>
+                      Informações Pessoais
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-6">
+                        <label for="accountFirstName">Nome</label>
+                        <input id="accountFirstName" type="text" class="form-control" name="accountFirstName" placeholder="Digite seu nome" autofocus>
+                      </div>
+                      <div class="form-group col-6">
+                        <label for="accountLastName">Sobrenome</label>
+                        <input id="accountLastName" type="text" class="form-control" name="accountLastName" placeholder="Digite seu sobrenome">
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-6">
+                        <label for="accountEmail">Email</label>
+                        <input id="accountEmail" type="text" class="form-control" name="accountEmail" placeholder="Digite seu email">
+                      </div>
+
+                      <div class="form-group col-6">
+                        <label for="accountCellPhone">Celular</label>
+                        <input id="accountCellPhone" type="tel" class="form-control" name="accountCellPhone" placeholder="Digite seu celular" data-mask="(00) 0 0000-0000">
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <label for="accountState">Estado</label>
+                        <select id="accountState" class="form-control selectric" name="accountState">
+                          <option value="" disabled selected>Selecione</option>
+                          <option value="5">Bahia - BA</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-4">
+                        <label for="accountCity">Cidade</label>
+                        <select id="accountCity" class="form-control selectric" name="accountCity">
+                          <option value="" selected disabled>Selecione</option>
+                          <option value="336">Brumado</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-4">
+                        <label for="accountNeighborhood">Bairro</label>
+                        <select id="accountNeighborhood" class="form-control selectric" name="accountNeighborhood">
+                          <option value="" selected disabled>Selecione</option>
+                          {% for neighborhood in neighborhoods %}
+                            <option value="{{ neighborhood['id_neighborhood'] }}">{{ neighborhood['name'] }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-6">
+                        <label for="accountAddress">Endereço</label>
+                        <input type="text" id="accountAddress" class="form-control" name="accountAddress" placeholder="Endereço">
+                      </div>
+
+                      <div class="form-group col-4">
+                        <label for="accountComplement">Complemento</label>
+                        <input type="text" id="accountComplement" class="form-control" placeholder="Complemento" name="accountComplement">
+                      </div>
+
+                      <div class="form-group col-2">
+                        <label for="accountNumber">Número</label>
+                        <input type="text" id="accountNumber" class="form-control" name="accountNumber" placeholder="N.º">
+                      </div>
+
+                    </div>
+                    
+                    <div class="form-row justify-content-between mt-2">
+                      <div class="form-group col-3">
+                        <a href="{{ route('name.home') }}" class="btn btn-light btn-lg btn-block">
+                          Voltar
+                        </a>
+                      </div>
+
+                      <div class="form-group col-3">
+                        <button type="button" data-step="1" class="next btn btn-primary btn-lg btn-block">
+                          Proxímo
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <footer class="simple-footer text-white">
+                  Copyright &copy; Brumas Delivery 2020
+                </footer>
+              </fieldset>
+              
+              <fieldset class="register-step-2">
+                <div class="card card-primary">
+                  <div class="card-header pb-0"><h4>Cadastre-se</h4></div>
+                  <div class="server-validation text-center">
+                    <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Cadastro inválido!</a>  
+                  </div>
+    
+                  <div class="card-body">
+
+                    <div class="form-divider">
+                      <i class="fa fa-genderless"></i>
+                      Informações da Conta
+                    </div>
+
+                    <div class="form-group">
+                      <label for="accountUserName">Usuário</label>
+                      <input id="accountUserName" type="text" class="form-control" name="accountUserName" placeholder="Crie um nome de usuário" autofocus>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-6">
+                        <label for="accountPassword">Senha</label>
+                        <input id="accountPassword" type="password" class="form-control" name="accountPassword" placeholder="Crie uma senha">
+                      </div>
+
+                      <div class="form-group col-6">
+                        <label for="accountConfirmPassword">Confirmar Senha</label>
+                        <input id="accountConfirmPassword" type="password" class="form-control" name="accountConfirmPassword" placeholder="Confirme a senha">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="accountTerms" class="custom-control-input" id="accountTerms">
+                        <label class="custom-control-label" for="accountTerms">Eu concordo com os termos e condições</label>
+                      </div>
+                    </div>
+
+                    <div class="form-row justify-content-between">
+                      <div class="form-group col-3">
+                        <button type="button" data-step="2" class="previous btn btn-light btn-lg btn-block">
+                          Voltar
+                        </button>
+                      </div>
+      
+                      <div class="form-group col-4">
+                        <button type="submit" id="submitRegister" last-step="2" data-step="" class="btn btn-primary btn-lg btn-block">
+                          Cadastrar
+                        </button>
+                      </div>
+                    </div>      
+                    
+                  </div>
+                </div>
+
+                <footer class="simple-footer text-white">
+                  Copyright &copy; Brumas Delivery 2020
+                </footer>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- General JS Scripts -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/nicescroll/dist/jquery.nicescroll.min.js"></script>
+  <script src="/assets/admin/js/stisla.js"></script>
+
+  <!-- JS Libraies -->
+  <script src="/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+  <script src="/node_modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+  <script src="/node_modules/selectric/public/jquery.selectric.min.js"></script>
+  <script src="/node_modules/select2/dist/js/select2.min.js"></script>
+  <script src="/node_modules/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+  <script src="/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/node_modules/izitoast/dist/js/iziToast.min.js"></script>
+
+
+  <!-- Template JS File -->
+  <script src="/assets/admin/js/scripts.js"></script>
+  <script src="/assets/admin/js/custom.js"></script>
+  
+  <!-- Page Specific JS File -->
+  <script src="/assets/admin/js/auth/register/register.js"></script>
+  <script type="text/javascript">
+    var BASE_URL = '{{ BASE_URL }}';
+	</script>
+</body>
+</html>

@@ -34,16 +34,28 @@
     $router = new Router(BASE_URL);
     
     /*
-     * Admin Panel
+     * (Auth)Admin Panel
     */ 
+    $router->namespace("App\Controllers\admin\auth");
+    
+    // Login 
+    $router->get('/login', 'LoginController:index', 'name.login');
+
+    // Register
+    $router->get('/register', 'RegisterController:registerCustomerIndex');
+    $router->post('/register-action', 'RegisterController:registerCustomerIndexAction');
+    $router->get('/be-a-partner', 'RegisterController:registerPartnerIndex');
+    $router->post('/be-a-partner-action', 'RegisterController:registerPartnerAction');
+
+    /*
+     * Admin Panel
+    */
     $router->namespace("App\Controllers\admin");
 
     // Dashboard
     $router->group('admin');
     $router->get('/', 'DashboardController:index');
     $router->get('/dashboard', 'DashboardController:index');
-
-    // Login admin
 
     /*
      * Site
@@ -55,15 +67,6 @@
     $router->get('/', 'HomeController:index', 'name.home');
     $router->get('/home', 'HomeController:index');
     $router->get('/category/{id}', 'CategoryController:open');
-
-    // Login 
-    $router->get('/login', 'LoginController:index', 'name.login');
-
-    // Register
-    $router->get('/register', 'RegisterController:registerCustomerIndex');
-    $router->post('/register-action', 'RegisterController:registerCustomerIndexAction');
-    $router->get('/be-a-partner', 'RegisterController:registerPartnerIndex');
-    $router->post('/be-a-partner-action', 'RegisterController:registerPartnerAction');
 
     // Error
     // 400 Bad Request

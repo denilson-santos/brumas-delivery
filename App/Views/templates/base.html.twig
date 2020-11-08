@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Brumas Delivery</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<link rel="stylesheet" href="/assets/css/bootstrap/custom.css" type="text/css"/>
+		<link rel="stylesheet" href="/assets/css/general.css" type="text/css"/>
+
+		<link rel="stylesheet" href="/assets/plugins/jQuery-ui/css/jquery-ui.min.css" type="text/css" />
+		<link rel="stylesheet" href="/assets/plugins/jQuery-ui/css/jquery-ui.structure.min.css" type="text/css" />
+		<link rel="stylesheet" href="/assets/plugins/jQuery-ui/css/jquery-ui.theme.min.css" type="text/css" />
+		<link rel="stylesheet" href="/vendor/fortawesome/font-awesome/css/all.css" type="text/css" />
+		<link rel="stylesheet" href="/node_modules/rateyo/min/jquery.rateyo.min.css" type="text/css" />
+		<link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css" />
+		<link rel="stylesheet" href="/node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css" />
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css" />
+		
+		<link rel="stylesheet" href="/assets/css/style.css">
+		<link rel="stylesheet" href="/assets/css/components.css">
+
+		<link rel="stylesheet" href="/assets/css/templates/base.css" type="text/css" />
+		{% block css %}{% endblock css %}
+		<link rel="stylesheet" href="/assets/css/templates/header.css">
+		<link rel="stylesheet" href="/assets/css/templates/footer.css">
+	</head>
+	
+	<body>
+		{% set BASE_URL = getCurrentBaseUrl() %}
+
+		{% include 'templates/header.html.twig' %}
+		
+		{% block content %}{% endblock content %}
+		
+		{% include 'templates/footer.html.twig' %}
+	    
+		<script type="text/javascript">
+			var BASE_URL = '{{ BASE_URL }}';
+		</script>
+		<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/jQuery-ui/js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<script type="text/javascript" src="/node_modules/rateyo/min/jquery.rateyo.min.js"></script>
+		<script type="text/javascript" src="/node_modules/select2/dist/js/select2.min.js"></script>
+		<script type="text/javascript" src="/node_modules/slick-carousel/slick/slick.js"></script>
+		<script type="text/javascript" src="/assets/js/base.js"></script>
+		{% block js %}{% endblock js %}
+		<script type="text/javascript" src="/assets/js/templates/header.js"></script>
+		<script type="text/javascript" src="/assets/js/templates/footer.js"></script>
+	</body>
+</html>

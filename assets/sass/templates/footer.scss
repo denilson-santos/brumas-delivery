@@ -1,0 +1,100 @@
+footer {
+	background-color: #F9F9F9;
+    border-top: 1px solid #e0e0e0;
+}
+
+.sub-area {
+	margin-top:50px;
+	margin-bottom:50px;
+}
+
+.sub-area form {
+	margin:0;
+	padding:0;
+}
+
+.sub-area:before {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 1px;
+    width: 100%;
+    background-color: #e0e0e0;
+    z-index: 0;
+    margin-top: 30px;
+}
+
+.sub-area .sub-email {	
+	margin: 0;
+	width: 80%;
+	height: 50px;
+	display: inline-block;
+	border: 0;
+	padding: 0;
+	border: 1px solid #E0E0E0;
+	border-radius: 5px 0 0 5px;
+	outline: 0;
+	padding-left: 15px;
+}
+
+.sub-area input[type=submit] {
+	margin: 0;
+	width: 20%;
+	height: 50px;
+	display: inline-block;
+	border: 0;
+	padding: 0;
+	outline: 0;
+	border-radius: 0 5px 5px 0;
+	margin-left: -5px;
+	color: #FFF;
+}
+
+footer h3 {
+	margin-top: 0;
+	margin-left: 0;
+	margin-bottom: 30px;
+	font-size: 18px;
+}
+
+.links {
+	margin-bottom:50px;
+}
+
+.link-groups a {
+	color: #acacac;
+	text-decoration: none;
+}
+
+.link-groups a:hover {
+	color:#fa3734;
+}
+
+.link-groups ul,
+.link-groups li {
+	margin:0 0 12px 0;
+	padding:0;
+	list-style:none;
+}
+
+.copyright {
+	background-color: #3D3D3D;
+    padding: 17px 0;
+    line-height: 30px;
+    color: #8a8a8a;
+}
+
+.copyright span {
+	color:#FFF;
+}
+
+.payments {
+	text-align: right;
+}
+
+.payments img {
+	height:30px;
+	background-color:#FFF;
+	border-radius:4px;
+	margin-right:3px;
+}

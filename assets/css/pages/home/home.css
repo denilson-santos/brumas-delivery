@@ -1,0 +1,133 @@
+.category-area {
+  margin-top: 27px;
+  margin-bottom: 27px; }
+
+/* Carousel home */
+#category-slide {
+  width: 98%;
+  margin: auto; }
+
+#category-slide .slick-slide {
+  margin: 0px 20px; }
+
+#category-slide .slick-slide .content:hover {
+  opacity: 0.7; }
+
+#category-slide .slick-slide a {
+  text-decoration: none; }
+
+#category-slide .slick-slide img {
+  width: 100%;
+  border-radius: 3%; }
+
+#category-slide i {
+  cursor: pointer;
+  color: #ccc;
+  position: absolute;
+  top: 35%;
+  display: block;
+  font-size: 20px;
+  padding: 0; }
+
+#category-slide i:hover {
+  color: #fa3734; }
+
+#category-slide .arrow-left {
+  left: -24px; }
+
+#category-slide .arrow-right {
+  right: -24px; }
+
+/* .category-slider .slick-slide {
+	transition: all ease-in-out .3s;
+	opacity: .2;
+}
+
+.category-slider .slick-active {
+	opacity: .5;
+}
+
+.category-slider .slick-current {
+	opacity: 1;
+} */
+#category-slide .content {
+  text-align: center; }
+
+#category-slide .content img {
+  margin-bottom: 3px; }
+
+#category-slide .content span {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fa3734; }
+
+section {
+  margin-bottom: 30px; }
+
+section .container {
+  padding: 0; }
+
+h1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-left: 0;
+  padding-left: 0; }
+
+.filter-area {
+  border: 2px solid #ececec;
+  border-radius: 10px;
+  padding: 15px; }
+
+.filter-box {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding-bottom: 10px; }
+
+.filter-box .border-filter {
+  border-bottom: 1px solid #ccc;
+  margin: 10px 0; }
+
+.filter-title {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  color: #fa3734;
+  font-size: 17px;
+  font-weight: bold; }
+
+.filter-item {
+  height: 25px;
+  font-weight: 400; }
+
+.filter-item label {
+  display: flex; }
+
+.filter-item input {
+  margin-top: 0.23rem; }
+
+.rating-filter-page-home.jq-ry-container {
+  padding: 0; }
+
+.option-filter, .option-name {
+  margin-bottom: 5px; }
+
+.none-item {
+  color: #ccc; }
+
+.select2 {
+  width: 100% !important; }
+
+.select2-container--bootstrap4 .select2-selection {
+  border: none !important; }
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__rendered {
+  /* padding: 0 !important; */ }
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection {
+  -webkit-box-shadow: 0 0 0 0.08rem #fa3734 !important;
+  box-shadow: 0 0 0 0.08rem #fa3734 !important; }
+
+.select2-container--bootstrap4 .select2-results__option--highlighted {
+  background-color: #fa3734 !important;
+  color: #fff !important; }

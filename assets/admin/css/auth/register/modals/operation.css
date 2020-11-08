@@ -1,0 +1,42 @@
+.table-operation {
+  table-layout: fixed; }
+
+.table-operation th {
+  border-color: #ccc !important;
+  text-align: center;
+  border-left-width: 1px;
+  padding: 8px 20px !important;
+  height: 38px !important; }
+
+.table-operation th,
+.table-operation td {
+  vertical-align: middle; }
+
+.table-operation th:nth-child(1) {
+  width: 16%; }
+
+.table-operation th:nth-child(2) {
+  width: 20%; }
+
+.table-operation th:nth-child(3) {
+  width: 20%; }
+
+.table-operation th:nth-child(4) {
+  width: 8%; }
+
+.table-operation th:nth-child(5) {
+  width: 16%; }
+
+.table-operation th:nth-child(6) {
+  width: 13%; }
+
+.table-operation .actions {
+  display: flex; }
+
+.table-operation .action {
+  /* width: -webkit-fill-available;
+    border-radius: 50%; */
+  margin: 0 2px; }
+
+#addWeekDay {
+  border-radius: 50%; }

@@ -1,14 +1,11 @@
-{% extends "base.html.twig" %}
+{% extends "templates/base.html.twig" %}
 
 {% block css %}
-    <link rel="stylesheet" href="/App/assets/css/pages/home/home.css" type="text/css" />
-    <link rel="stylesheet" href="/App/assets/css/pages/home/modals/newsletter.css" type="text/css" />
-    <link rel="stylesheet" href="/App/assets/css/widgets/restaurantItem.css" type="text/css" />
-    <link rel="stylesheet" href="/App/assets/css/widgets/restaurantItemSmall.css" type="text/css" />
-    <link rel="stylesheet" href="/App/assets/css/widgets/restaurantItemMedium.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/pages/home/home.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/pages/home/modals/newsletter.css" type="text/css" />
 {% endblock css %}
 
-{% block home %}
+{% block content %}
     <div class="category-area">
         <div class="container">
         <section id="category-slide">
@@ -183,7 +180,7 @@
                             <h1>{{ iniDicionary['FEATUREDS'] }}</h1>
                             <div class="widget-body">
                                 {% for widget in sidebarWidgetsFeatureds %}
-                                    {% include 'widgets/restaurantItemSmall.html.twig' with {'widget': widget } %}
+                                    {% include 'pages/restaurant/restaurantItemSmall.html.twig' with {'widget': widget } %}
                                 {% endfor %}
                             </div>
                         </div>
@@ -226,7 +223,7 @@
                                 {% endif %}
                             {% endfor %}
 
-                            {% include "widgets/restaurantItem.html.twig" with restaurant %}
+                            {% include "pages/restaurant/restaurantItem.html.twig" with restaurant %}
                         {% endfor %}
                     </div>
 
@@ -261,7 +258,7 @@
                         <h1>{{ iniDicionary['ONSALE'] }}</h1>
                         <div class="widget-body">
                             {% for widget in footerWidgetsOnSale %}
-                                {% include 'widgets/restaurantItemMedium.html.twig' with {'widget': widget } %}
+                                {% include 'pages/restaurant/restaurantItemMedium.html.twig' with {'widget': widget } %}
                             {% endfor %}
                         </div>
                     </div>
@@ -271,7 +268,7 @@
                         <h1>{{ iniDicionary['TOPRATEDS'] }}</h1>
                         <div class="widget-body">
                             {% for widget in footerWidgetsTopRateds %}
-                                {% include 'widgets/restaurantItemMedium.html.twig' with {'widget': widget } %}
+                                {% include 'pages/restaurant/restaurantItemMedium.html.twig' with {'widget': widget } %}
                             {% endfor %}
                         </div>
                     </div>
@@ -281,7 +278,7 @@
                         <h1>{{ iniDicionary['NEW'] }}</h1>
                         <div class="widget-body">
                             {% for widget in footerWidgetsNew %}
-                                {% include 'widgets/restaurantItemMedium.html.twig' with {'widget': widget } %}
+                                {% include 'pages/restaurant/restaurantItemMedium.html.twig' with {'widget': widget } %}
                             {% endfor %}
                         </div>
                     </div>
@@ -292,14 +289,14 @@
 
     <!-- Modal Newsletter -->
 	{% include "pages/home/modals/newsletter.html.twig" %}
-{% endblock home %}
+{% endblock content %}
 
 {% block js %}
-    <script type="text/javascript" src="/App/assets/js/pages/home/home.js"></script>
-    <script type="text/javascript" src="/App/assets/js/widgets/restaurantItem.js"></script>
-    <script type="text/javascript" src="/App/assets/js/widgets/restaurantItemSmall.js"></script>
-    <script type="text/javascript" src="/App/assets/js/widgets/restaurantItemMedium.js"></script>
-    <script type="text/javascript" src="/App/assets/js/pages/home/modals/newsletter.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/home/home.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/restaurant/restaurantItem.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/restaurant/restaurantItemSmall.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/restaurant/restaurantItemMedium.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/home/modals/newsletter.js"></script>
     <script type="text/javascript" src="/node_modules/select2/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="/node_modules/slick-carousel/slick/slick.js"></script>
 {% endblock js %}

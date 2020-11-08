@@ -1,0 +1,19 @@
+#modalNewsletter .modal-title {
+  font-weight: 600; }
+
+#modalNewsletter .modal-body {
+  display: flex;
+  align-items: center; }
+
+#modalNewsletter .modal-body i {
+  font-size: 50px;
+  display: flex;
+  margin-right: 13px;
+  position: relative;
+  bottom: 5px; }
+
+#modalNewsletter .modal-body .success {
+  color: #59b210; }
+
+#modalNewsletter .modal-body .error {
+  color: #fa3734; }

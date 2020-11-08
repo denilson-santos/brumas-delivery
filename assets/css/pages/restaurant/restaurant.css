@@ -1,0 +1,302 @@
+.plate-prices {
+  font-size: 15px; }
+
+.plate-price {
+  color: #CCC; }
+
+.old-price {
+  text-decoration: line-through; }
+
+.current-price {
+  color: #000;
+  font-weight: bold; }
+
+.plate-prices span {
+  font-size: 25px;
+  font-weight: 500; }
+
+.form-purchase {
+  margin-top: 20px; }
+
+.form-purchase .quantity input {
+  outline: 0;
+  background-color: inherit;
+  height: 32px;
+  color: #000; }
+
+.form-purchase #quantity {
+  width: 38px;
+  height: 32px;
+  vertical-align: bottom;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-left: -5px;
+  margin-right: -4px; }
+
+.form-purchase #decrease {
+  border-radius: 5px 0 0 5px; }
+
+.form-purchase #increase {
+  border-radius: 0 5px 5px 0; }
+
+.main-image img {
+  width: 100%;
+  max-width: 440px; }
+
+.thumb-images {
+  display: flex;
+  justify-content: space-between; }
+
+.thumb-images .thumb-item {
+  width: 14%; }
+
+.thumb-images .thumb-item img {
+  width: 100%; }
+
+.rating-page-restaurant span.average-rating,
+.rating-page-restaurant span.all-ratings {
+  cursor: pointer;
+  padding-left: 5px; }
+
+.rating-page-restaurant .rating-read-only {
+  padding: 0;
+  cursor: pointer;
+  display: inline-block; }
+
+.rating-page-restaurant .add-favorites {
+  color: #bbb;
+  font-size: 30px; }
+
+.rating-page-restaurant .add-favorites:hover {
+  color: #fa3734;
+  cursor: pointer; }
+
+.restaurant-header {
+  padding: 30px 0;
+  background-color: rgba(0, 0, 0, 0.04); }
+
+.restaurant-header .restaurant-image {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  overflow: hidden; }
+
+.restaurant-header .restaurant-image img {
+  width: 100%; }
+
+.restaurant-header .restaurant-name {
+  font-weight: 400; }
+
+.restaurant-content .restaurant-categories {
+  font-size: 25px;
+  color: rgba(0, 0, 0, 0.6); }
+
+.restaurant-content .restaurant-categories,
+.restaurant-content .rating-page-restaurant,
+.restaurant-content .restaurant-info-1 {
+  color: rgba(0, 0, 0, 0.6); }
+
+.restaurant-content span {
+  line-height: 1.9rem; }
+
+.restaurant-header .restaurant-menu {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: 30px;
+  position: relative;
+  top: 30px; }
+
+.restaurant-header .restaurant-menu a {
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none; }
+
+.restaurant-header .restaurant-menu a:hover {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.6);
+  padding-bottom: 10px; }
+
+.restaurant-header a.active {
+  color: #fa3734 !important;
+  border-bottom: 2px solid #fa3734 !important;
+  padding-bottom: 10px; }
+
+.restaurant-body .restaurant-category,
+.restaurant-body .restaurant-rating-title,
+.restaurant-information-title {
+  margin: 25px 0 25px 0; }
+
+.restaurant-body .restaurant-category span,
+.restaurant-body .restaurant-rating-title span,
+.restaurant-information-title span {
+  font-size: 25px;
+  font-weight: 600;
+  border-bottom: 2px solid #fa3734;
+  padding-bottom: 2px; }
+
+.c-px-1 {
+  padding: 0 11px; }
+
+.restaurant-body .plates {
+  padding-right: 8px; }
+
+.restaurant-body .plates .plate-image {
+  /* width: 100%;
+	height: 100px;
+	overflow: hidden; */ }
+
+.restaurant-body .plates .plate-image img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center;
+  border-right: 1px solid #ddd; }
+
+.restaurant-body .plates .plate-info {
+  text-align: right; }
+
+.restaurant-body .plates .plate-title {
+  font-size: 18px;
+  margin-bottom: 15px; }
+
+.restaurant-body .plates .plate-prices {
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.6); }
+
+.restaurant-body .plates .plate-border {
+  border: 1px solid #ddd;
+  padding: 0 10px 0 0; }
+
+.restaurant-body .reviews-rating {
+  width: 340px; }
+
+.restaurant-body .reviews-rating .row {
+  width: 100%;
+  /* row */
+  display: block;
+  text-align: left;
+  height: 10px;
+  /* rating-row */
+  position: relative;
+  margin-bottom: 15px; }
+
+.reviews-rating .row .review-rating-label {
+  font-size: 16px;
+  text-align: right;
+  vertical-align: top;
+  display: inline-block;
+  margin-top: -3px;
+  min-width: 72px;
+  height: 15px;
+  line-height: 15px;
+  /* color: #999; */
+  font-weight: 300; }
+
+.reviews-rating .row .review-rating-progress {
+  height: 3px;
+  position: absolute;
+  background-color: #eee;
+  right: 45px;
+  top: 4px;
+  width: 200px; }
+
+.reviews-rating .row .review-rating-progress > span {
+  display: block;
+  height: 100%;
+  background-color: #fa3734;
+  border-radius: inherit; }
+
+.reviews-rating .row .review-rating-total {
+  position: absolute;
+  right: 0;
+  margin-top: -2px;
+  text-align: left;
+  width: 20px;
+  height: 15px;
+  line-height: 15px;
+  font-weight: 300; }
+
+#restaurant-rating .rating-page-restaurant svg {
+  width: 24px;
+  height: 24px; }
+
+#restaurant-rating .rating-page-restaurant span.average-rating {
+  font-size: 33px;
+  font-weight: 400;
+  padding-left: 0; }
+
+#restaurant-rating .rating-page-restaurant span.average-rating-max {
+  font-size: 22px;
+  font-weight: 300;
+  color: #bbb; }
+
+#restaurant-rating .rating-page-restaurant .rating-read-only {
+  top: -7px;
+  left: 15px; }
+
+#restaurant-rating .feedback-action select {
+  width: auto;
+  font-size: 14px; }
+
+#restaurant-rating .feedback-list .image {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1); }
+
+#restaurant-rating .feedback-list img {
+  width: 100%; }
+
+#restaurant-rating .feedback-list .name {
+  font-weight: 600;
+  font-size: 15px; }
+
+#restaurant-rating .feedback-list .comment {
+  padding-right: 10px; }
+
+#restaurant-rating .feedback-list .rating-page-restaurant-by-user {
+  padding: 1px 0; }
+
+#restaurant-info .restaurant-information-subtitle {
+  font-weight: bold;
+  font-size: 18px; }
+
+#restaurant-info .delivery-times .form-group {
+  width: 200px; }
+
+#restaurant-info .contact .form-group {
+  width: 270px; }
+
+#restaurant-info .contact .contact-label {
+  font-weight: 500; }
+
+#restaurant-info .contact i {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  margin-right: 9px; }
+
+#restaurant-info .social-icon {
+  text-align: center; }
+
+#restaurant-info .social i {
+  font-size: 23px; }
+
+#restaurant-info .contact span.phone,
+#restaurant-info .contact span.address,
+#restaurant-info .contact span.email {
+  margin-left: 28px; }
+
+#restaurant-info .delivery-times span,
+#restaurant-info .contact span,
+#restaurant-info .social-networks span,
+#restaurant-info .payment-online span,
+#restaurant-info .payment-delivery span {
+  font-size: 15px;
+  font-weight: 300; }
+
+#restaurant-info .payment-online img,
+#restaurant-info .payment-delivery img {
+  border-radius: 3px;
+  margin-right: 2px; }

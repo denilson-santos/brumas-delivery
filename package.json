@@ -73,10 +73,12 @@
     "nunjucks": "^3.1.7"
   },
   "scripts": {
-    "stisla-sass": "node-sass App/assets/admin/scss/ -o App/assets/admin/css",
-    "custom-sass": "node-sass App/assets/scss/bootstrap/config.scss App/assets/css/bootstrap/config.css",
-    "custom-sass-watch": "node-sass --watch assets/scss/bootstrap/config.scss assets/css/bootstrap/config.css",
-    "custom-sass-min-watch": "node-sass --watch assets/scss/bootstrap/config.scss assets/css/bootstrap/config.css --output-style compressed"
+    "sass": "node-sass assets/sass -o assets/css",
+    "sass-watch": "node-sass --watch assets/sass -o assets/css",
+    "sass-min-watch": "node-sass --watch assets/sass -o assets/css --output-style compressed",
+    "panel-sass": "node-sass assets/admin/sass -o assets/admin/css",
+    "panel-sass-watch": "node-sass --watch assets/admin/sass -o assets/admin/css",
+    "panel-sass-min-watch": "node-sass --watch assets/admin/sass -o assets/admin/css --output-style compressed"
   },
   "repository": {
     "type": "git",
