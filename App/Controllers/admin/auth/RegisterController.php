@@ -15,7 +15,7 @@ class RegisterController extends Controller {
             'neighborhoods' => $neighborhood->getListNeighborhoods(['city' => 336])
         ];           
 
-        $this->loadView('admin/auth/register/register', $data);
+        $this->loadView('admin/auth/register', $data);
     }
     
     public function registerCustomerIndexAction($request) {
@@ -50,7 +50,7 @@ class RegisterController extends Controller {
             'neighborhoods' => $neighborhood->getListNeighborhoods(['city' => 336])
         ];   
 
-        $this->loadView('admin/auth/register/registerPartner', $data);
+        $this->loadView('admin/auth/registerPartner', $data);
     }
 
     public function registerPartnerAction($request) {      

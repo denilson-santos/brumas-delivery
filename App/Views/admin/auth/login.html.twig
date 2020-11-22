@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Entrar</title>
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="/assets/css/bootstrap/custom.css" />
+  <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="/node_modules/jquery-ui-dist/jquery-ui.min.css" />
+  <link rel="stylesheet" href="/node_modules/selectric/public/selectric.css" />
+  <link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css" />
+  <link rel="stylesheet" href="/node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
+  <link rel="stylesheet" href="/node_modules/izitoast/dist/css/iziToast.min.css" />
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/assets/admin/css/bootstrap/style.css" />
+  <link rel="stylesheet" href="/assets/admin/css/bootstrap/components.css" />
+  <link rel="stylesheet" href="/assets/css/general.css" />
+  <link rel="stylesheet" href="/assets/admin/css/auth/login.css" />
+</head>
+
+<body>
+  {% set BASE_URL = getCurrentBaseUrl() %}
+
+  <div class="container mt-5">
+    <section class="section">
+      <div class="col-6 offset-3">
+        <div class="login-brand">
+          <a href="{{ route('name.home') }}">
+            <img src="/assets/images/logo-brumas-delivery-white.png" alt="logo" width="200">
+          </a>
+        </div>
+
+        <form class="login">  
+            <div class="card card-primary">
+              <div class="card-header pb-0"><h4>Entrar</h4></div>
+              <div class="server-validation text-center">
+                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Cadastro inválido!</a>  
+              </div>
+
+              <div class="card-body">
+                <div class="form-divider">
+                  <i class="fa fa-genderless"></i>
+                  Informações da Conta
+                </div>              
+
+                <div class="form-group">
+                  <label for="accountUserOrEmail">Usuário ou Email</label>
+                  <input id="accountUserOrEmail" type="text" class="form-control" name="accountUserOrEmail" placeholder="Digite seu usuário ou email">
+                </div>
+
+                <div class="form-group">
+                  <label for="accountPassword">Senha</label>
+                  <input id="accountPassword" type="password" class="form-control" name="accountPassword" placeholder="Digite sua senha">
+                </div>
+                
+                <div class="form-row justify-content-between mt-2">
+                  <div class="form-group col-3">
+                    <a href="{{ route('name.home') }}" class="btn btn-light btn-lg btn-block">
+                      Voltar
+                    </a>
+                  </div>
+
+                  <div class="form-group col-3">
+                    <button type="submit" id="submitLogin" class="btn btn-primary btn-lg btn-block">
+                      Entrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            <footer class="simple-footer text-white">
+              Copyright &copy; Brumas Delivery 2020
+            </footer>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <!-- General JS Scripts -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/nicescroll/dist/jquery.nicescroll.min.js"></script>
+  <script src="/assets/admin/js/stisla.js"></script>
+
+  <!-- JS Libraies -->
+  <script src="/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+  <script src="/node_modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+  <script src="/node_modules/selectric/public/jquery.selectric.min.js"></script>
+  <script src="/node_modules/select2/dist/js/select2.min.js"></script>
+  <script src="/node_modules/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+  <script src="/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/node_modules/izitoast/dist/js/iziToast.min.js"></script>
+
+
+  <!-- Template JS File -->
+  <script src="/assets/admin/js/scripts.js"></script>
+  <script src="/assets/admin/js/custom.js"></script>
+  
+  <!-- Page Specific JS File -->
+  <script src="/assets/admin/js/auth/login.js"></script>
+  <script type="text/javascript">
+    var BASE_URL = '{{ BASE_URL }}';
+	</script>
+</body>
+</html>
