@@ -4,12 +4,14 @@ namespace App\Controllers;
 use App\Models\Restaurant;
 use App\Models\Category;
 use App\Models\Filter;
+use App\Models\User;
 
 class HomeController extends Controller {  
     public function index($request) {
         $restaurant = new Restaurant();
         $category = new Category();
         $filter = new Filter();
+        $user = new User();
         
         $data = [];
         $filtersSelected = [];
@@ -47,13 +49,12 @@ class HomeController extends Controller {
             'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
             'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true),
             'language' => $this->language->getLanguage(),
-            'iniDicionary' => $this->language->getIniDicionary()
+            'iniDicionary' => $this->language->getIniDicionary(),
+            'userLogged' => $user->isLogged()
         ];
 
-        // print_r($this->requestUrl); exit;
 
-        // // print_r($data['restaurantsInPromotion']);
-        // print_r($this->language->getLanguage());
+        // print_r($data['userLogged']);
         // exit;
         $this->loadView('pages/home/home', $data);
     }

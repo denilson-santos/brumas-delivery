@@ -5,8 +5,17 @@ use App\Controllers\Controller;
 use App\Models\Restaurant;
 use App\Models\Category;
 use App\Models\Filter;
+use App\Models\User;
 
 class DashboardController extends Controller {  
+    public function __construct($router) {
+        parent::__construct($router);
+        
+        $user = new User();
+        
+        if (!$user->isLogged()) $router->redirect('name.login');
+    }
+
     public function index($request) {
         $restaurant = new Restaurant();
         $category = new Category();

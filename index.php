@@ -1,11 +1,6 @@
 <?php
-    // Login
-    // session_start();
-    // session_regenerate_id(true);
-
-    // Logout
-    // session_unset();
-    // session_destroy();
+    // Init session
+    session_start();
     
     require 'vendor/autoload.php';
 
@@ -34,12 +29,16 @@
     $router = new Router(BASE_URL);
     
     /*
-     * (Auth)Admin Panel
+     * (Auth) Admin Panel
     */ 
     $router->namespace("App\Controllers\admin\auth");
     
     // Login 
     $router->get('/login', 'LoginController:index', 'name.login');
+    $router->post('/login-action', 'LoginController:action');
+
+    // Logout
+    $router->get('/logout', 'LogoutController:logout', 'name.logout');
 
     // Register
     $router->get('/register', 'RegisterController:registerCustomerIndex');

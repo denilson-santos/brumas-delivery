@@ -8,7 +8,125 @@ class User extends Model {
 
     public function __construct($data = []) {
         parent::__construct();
+        
         $this->data = $data;
+    }
+
+    public function isAuthenticated() {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM user 
+                WHERE email = :userOrEmail or login = :userOrEmail
+            ');
+            
+            $stm->bindValue(':userOrEmail', $this->data['accountUserOrEmail']);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $user = $stm->fetch(\PDO::FETCH_ASSOC);
+
+                if (password_verify($this->data['accountPassword'], $user['password'])) {
+                    try {
+                        if ($user['token']) {
+                            $token = $user['token'];
+                        } else {
+                            $token = bin2hex(random_bytes(32));
+                        }
+
+                        $_SESSION['token'] = $token;
+                        
+                        $stm = $this->db->prepare('UPDATE user
+                            SET token = :token WHERE id_user = :idUser'
+                        );
+                        
+                        $stm->bindValue(':token', $token);
+                        $stm->bindValue(':idUser', $user['id_user']);
+    
+                        $stm->execute();
+                        
+                        // Generate new id
+                        session_regenerate_id(true);
+                        
+                        return true;
+                    } catch(\PDOException $error) {
+                        throw new \PDOException("Error in statement", 0);
+
+                        // For debug
+                        // echo "Message: " . $error->getMessage() . "<br>";
+                        // echo "Name of file: ". $error->getFile() . "<br>";
+                        // echo "Row: ". $error->getLine() . "<br>";
+                    }
+
+                }
+            }
+
+            throw new \PDOException('User not found', 0);
+        } catch (\PDOException $error) {
+            // Close session
+            session_unset();
+            session_destroy();
+
+            return false;
+            
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+
+    }
+
+    public function isAuthorized() {
+
+    }
+
+    public function isLogged() {
+        if (!empty($_SESSION['token'])) {
+            try {
+                $stm = $this->db->prepare('SELECT * FROM user
+                    WHERE token = :token
+                ');
+                
+                $stm->bindValue(':token', $_SESSION['token']);
+                $stm->execute();
+
+                if ($stm->rowCount() > 0) {
+                    $user = $stm->fetch(\PDO::FETCH_ASSOC);
+                    
+                    $userId = $user['id_user'];
+                    $level = $user['level'];
+
+                    // Get user information
+                    $userLogged = [];
+                    $userLogged = $user;
+                    $userLogged['user_phones'] = $this->getUserPhones($userId);
+                    $userLogged['addresses'] = $this->getAddresses($userId);
+                    $userLogged['rates'] = $this->getRates($userId);
+
+                    if ($level == 2) {
+                        // user, userPhone, address
+                    }
+                    
+                    return $userLogged;
+                }
+
+                throw new \PDOException('User not found', 0);
+            } catch(\PDOException $error) {
+                return false; 
+                // For debug
+                // echo "Message: " . $error->getMessage() . "<br>";
+                // echo "Name of file: ". $error->getFile() . "<br>";
+                // echo "Row: ". $error->getLine() . "<br>";
+            }
+        }
+
+        return false;
+    }
+
+    public function logout() {
+         // Close session
+         session_unset();
+         session_destroy();
     }
 
     public function saveUser() {
@@ -41,23 +159,6 @@ class User extends Model {
             // echo "Row: ". $error->getLine() . "<br>";
 
             throw new \PDOException("Error in statement", 0);
-        }
-    
-    
-    }
-
-    public function login($accountEmail, $senha) {
-        $stm = $this->connection->prepare("SELECT id_usuario, nome FROM usuario WHERE accountEmail = ? and senha = ?");
-        $stm->execute([$accountEmail, $senha]);
-
-        if($stm->rowCount() > 0) {
-            $row = $stm->fetch();
-            $_SESSION['id_usuario'] = $row["id_usuario"];
-            $_SESSION['nome'] = $row["nome"];
-                
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -294,6 +395,23 @@ class User extends Model {
 
         // terms
         $validator->rule('required', 'accountTerms')->message('Aceite os termos');
+
+        if($validator->validate()) {
+            return ['validate' => true];
+        } else {
+            // Errors
+            return ['validate' => false, 'errors' => $validator->errors()];
+        }
+    }
+
+    public function validateLoginForm() {
+        $validator = new Validator($this->data);
+
+        // login
+        $validator->rule('required', 'accountUserOrEmail')->message('Digite seu usuário');
+
+        // accountPassword
+        $validator->rule('required', 'accountPassword')->message('Digite sua senha');        
 
         if($validator->validate()) {
             return ['validate' => true];
@@ -601,6 +719,82 @@ class User extends Model {
         } catch (\PDOException $error) {
             $this->db->rollback();
             
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    // Relationships
+    public function getUserPhones($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM user_phone 
+                WHERE user_id = :userId
+            ');
+            
+            $stm->bindValue(':userId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $userPhones = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $userPhones;              
+            }
+       
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function getAddresses($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM address 
+                WHERE user_id = :userId
+            ');
+            
+            $stm->bindValue(':userId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $addresses = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $addresses;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function getRates($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM rate 
+                WHERE user_id = :userId
+            ');
+            
+            $stm->bindValue(':userId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $rates = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $rates;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
             // For debug
             // echo "Message: " . $error->getMessage() . "<br>";
             // echo "Name of file: ". $error->getFile() . "<br>";
