@@ -41,9 +41,9 @@
     $router->get('/logout', 'LogoutController:logout', 'name.logout');
 
     // Register
-    $router->get('/register', 'RegisterController:registerCustomerIndex');
+    $router->get('/register', 'RegisterController:registerCustomerIndex', 'name.register-customer');
     $router->post('/register-action', 'RegisterController:registerCustomerIndexAction');
-    $router->get('/be-a-partner', 'RegisterController:registerPartnerIndex');
+    $router->get('/be-a-partner', 'RegisterController:registerPartnerIndex', 'name.register-partner');
     $router->post('/be-a-partner-action', 'RegisterController:registerPartnerAction');
 
     /*
