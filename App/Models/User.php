@@ -100,13 +100,24 @@ class User extends Model {
                     $userLogged = [];
                     $userLogged = $user;
                     $userLogged['user_phones'] = $this->getUserPhones($userId);
-                    $userLogged['addresses'] = $this->getAddresses($userId);
+                    $userLogged['addresses'] = $this->getAddresses($userId, $level);
                     $userLogged['rates'] = $this->getRates($userId);
+                        
+                    if ($level == 2) {                
+                        $restaurant = new Restaurant();
+                        
+                        $restaurantInfo = $this->getRestaurant($userId);
+                        
+                        $restaurantId = $restaurantInfo['id_restaurant'];
+                        
+                        $restaurantInfo['phones'] = $restaurant->getRestaurantPhones($restaurantId);
+                        
+                        $restaurantInfo['operation'] = $restaurant->getRestaurantOperation($restaurantId);
 
-                    if ($level == 2) {
-                        // user, userPhone, address
+                        $userLogged['restaurant'] = $restaurantInfo;
                     }
-                    
+
+                    // print_r($userLogged); exit;
                     return $userLogged;
                 }
 
@@ -659,6 +670,7 @@ class User extends Model {
             $addressId = $address->saveAddress();
 
             $dataRestaurant = [
+                'user_id' => $userId, 
                 'address_id' => $addressId, 
                 'name' => $this->data['restaurantName'], 
                 'cnpj' => $this->data['restaurantCnpj'],  
@@ -708,12 +720,12 @@ class User extends Model {
                 $restaurantOperation->saveRestaurantOperation();
             }
 
-            $restaurantPhone = new RestaurantPhone();
+            // $restaurantPhone = new RestaurantPhone();
 
-            foreach ($dataRestaurantPhone as $row) {
-                $restaurantPhone->setData($row);
-                $restaurantPhone->saveRestaurantPhone();
-            }
+            // foreach ($dataRestaurantPhone as $row) {
+            //     $restaurantPhone->setData($row);
+            //     $restaurantPhone->saveRestaurantPhone();
+            // }
 
             $this->db->commit();
         } catch (\PDOException $error) {
@@ -752,20 +764,40 @@ class User extends Model {
         }
     }
 
-    public function getAddresses($id) {
+    public function getAddresses($id, $level) {
         try {        
-            $stm = $this->db->prepare('SELECT * FROM address 
-                WHERE user_id = :userId
-            ');
-            
-            $stm->bindValue(':userId', $id);
-            
-            $stm->execute();
+            if ($level == 1) {
 
-            if ($stm->rowCount() > 0) {
-                $addresses = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            } else if ($level == 2) {
+                $stm = $this->db->prepare('SELECT a.* FROM address a 
+                    JOIN restaurant r ON a.id_address = r.address_id 
+                    WHERE a.user_id = :userId
+                ');
+                
+                $stm->bindValue(':userId', $id);
+                
+                $stm->execute();
 
-                return $addresses;              
+                if ($stm->rowCount() > 0) {
+                    $addresses = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                    return $addresses;              
+                }
+            } else {
+
+                $stm = $this->db->prepare('SELECT * FROM address 
+                    WHERE user_id = :userId
+                ');
+                
+                $stm->bindValue(':userId', $id);
+                
+                $stm->execute();
+
+                if ($stm->rowCount() > 0) {
+                    $addresses = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                    return $addresses;              
+                }
             }
 
         } catch (\PDOException $error) {
@@ -791,6 +823,31 @@ class User extends Model {
                 $rates = $stm->fetchAll(\PDO::FETCH_ASSOC);
 
                 return $rates;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function getRestaurant($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM restaurant 
+                WHERE user_id = :userId
+            ');
+            
+            $stm->bindValue(':userId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $restaurant = $stm->fetch(\PDO::FETCH_ASSOC);
+
+                return $restaurant;              
             }
 
         } catch (\PDOException $error) {

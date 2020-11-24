@@ -435,6 +435,57 @@ class Restaurant extends Model {
         }
     }
 
+    // Relationships
+    public function getRestaurantPhones($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM restaurant_phone 
+                WHERE restaurant_id = :restaurantId
+            ');
+            
+            $stm->bindValue(':restaurantId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $phones = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $phones;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function getRestaurantOperation($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM restaurant_operation 
+                WHERE restaurant_id = :restaurantId
+            ');
+            
+            $stm->bindValue(':restaurantId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $operation = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $operation;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     public function setData($data) {
         $this->data = $data;
     }
