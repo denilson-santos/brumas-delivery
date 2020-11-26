@@ -4,7 +4,6 @@ $(function () {
             return false;
         } 
     });
-    
 
     // Client Validation
     $('form.login').validate( {

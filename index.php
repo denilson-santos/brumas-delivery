@@ -45,6 +45,8 @@
     $router->post('/register-action', 'RegisterController:registerCustomerIndexAction');
     $router->get('/be-a-partner', 'RegisterController:registerPartnerIndex', 'name.register-partner');
     $router->post('/be-a-partner-action', 'RegisterController:registerPartnerAction');
+    $router->post('/register/check-email', 'RegisterController:checkEmail');
+    $router->post('/register/check-user', 'RegisterController:checkUser');
 
     /*
      * Admin Panel
