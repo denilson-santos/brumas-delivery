@@ -101,17 +101,31 @@ $(function () {
     
     // Add new rules in plugin validation
     $.validator.addMethod('cnpj', function(value, element) {
-        if (validateCnpj(value)) {
-            return true;
-        }
-        return false;
+        return validateCnpj(value);
     }, 'Invalid cnpj');
 
-    $.validator.addMethod('arrayLengthMax', function(value, element, param) {
-        if (value.length <= param) {
+    $.validator.addMethod('uniqueEmail', function(value, element) {
+        validateUniqueEmail(value, element);
+
+        if ($(element).attr('data-unique') == 1) {
             return true;
+        } else {
+            return false;
         }
-        return false;
+    }, 'Email exists');
+
+    $.validator.addMethod('uniqueUser', function(value, element) {
+        validateUniqueUser(value, element);
+
+        if ($(element).attr('data-unique') == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }, 'User exists');
+
+    $.validator.addMethod('arrayLengthMax', function(value, element, param) {
+        return value.length <= param;
     }, 'Invalid array length very long');
 
     // Registration Form Validation
@@ -132,7 +146,8 @@ $(function () {
                 required: true,
                 minlength: 7,
                 maxlength: 100,
-                email: true
+                email: true,
+                uniqueEmail: true
             },
             accountCellPhone: {
                 required: true,
@@ -183,7 +198,8 @@ $(function () {
                 required: true,
                 minlength: 7,
                 maxlength: 100,
-                email : true
+                email : true,
+                uniqueEmail: true
             },
             restaurantPhone: {
                 required: true,
@@ -231,7 +247,8 @@ $(function () {
             accountUserName: {
                 required: true,
                 minlength: 2,
-                maxlength: 30
+                maxlength: 30,
+                uniqueUser: true
             },
             accountPassword: {
                 required: true,
@@ -262,7 +279,8 @@ $(function () {
                 required: 'Digite seu email',
                 minlength: 'O email precisa ter no mínimo 7 caracteres',
                 maxlength: 'O email precisa ter no máximo 100 caracteres',
-                email: 'Digite um email válido'
+                email: 'Digite um email válido',
+                uniqueEmail: 'Email já cadastrado'
             },
             accountCellPhone: {
                 required: 'Digite seu celular',
@@ -310,7 +328,8 @@ $(function () {
                 required: 'Digite o email do restaurante',
                 minlength: 'O email precisa ter no mínimo 7 caracteres',
                 maxlength: 'O email precisa ter no máximo 100 caracteres',
-                email: 'Digite um email válido'
+                email: 'Digite um email válido',
+                uniqueEmail: 'Email já cadastrado'
             },
             restaurantPhone: {
                 required: 'Digite o telefone do restaurante',
@@ -355,7 +374,8 @@ $(function () {
             accountUserName: {
                 required: 'Digite seu usuário',
                 minlength: 'O usuário precisa ter no mínimo 2 caracteres',
-                maxlength: 'O usuário precisa ter no máximo 30 caracteres'
+                maxlength: 'O usuário precisa ter no máximo 30 caracteres',
+                uniqueUser: 'o usuário já existe'
             },
             accountPassword: {
                 required: 'Digite sua senha',
@@ -404,8 +424,6 @@ $(function () {
             var row = {};
             var field = '';
 
-            alert('Novo Cadastro Realizado com Sucesso!');
-            
             form = $(form).serialize();
 
             $('.selected-week-days input').each(function (index, element) {
@@ -582,6 +600,40 @@ $(function () {
                
         return true;
         
+    }
+
+    function validateUniqueEmail(email, element) {
+        $.ajax({
+            type: 'POST',
+            url: BASE_URL + '/register/check-email',
+            data: { email },
+            success: function (response) {
+                response = JSON.parse(response);
+                
+                if (response.validate) {
+                    $(element).attr('data-unique', '1');
+                } else {
+                    $(element).attr('data-unique', '0');
+                }
+            }
+        });
+    }
+
+    function validateUniqueUser(user, element) {
+        $.ajax({
+            type: 'POST',
+            url: BASE_URL + '/register/check-user',
+            data: { user },
+            success: function (response) {
+                response = JSON.parse(response);
+                
+                if (response.validate) {
+                    $(element).attr('data-unique', '1');
+                } else {
+                    $(element).attr('data-unique', '0');
+                }
+            }
+        });
     }
 });
 

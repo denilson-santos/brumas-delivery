@@ -175,6 +175,15 @@ class User extends Model {
 
     public function validateRegisterCustomerForm() {        
         $validator = new Validator($this->data);
+
+        // Add new rules in plugin validation
+        $validator->addRule('uniqueEmail', function($field, $value, array $params, array $fields) {
+            return $this->validateUniqueEmail($value);
+        }, 'is exist email');
+
+        $validator->addRule('uniqueUser', function($field, $value, array $params, array $fields) {
+            return $this->validateUniqueUser($value);
+        }, 'is exist user');
        
         // firstName
         $validator->rule('required', 'accountFirstName')->message('Digite seu primeiro nome');
@@ -191,6 +200,7 @@ class User extends Model {
         $validator->rule('lengthMin', 'accountEmail', 7)->message('O email precisa ter no mínimo 7 caracteres');
         $validator->rule('lengthMax', 'accountEmail', 100)->message('O email precisa ter no máximo 30 caracteres');
         $validator->rule('email', 'accountEmail')->message('Digite um email válido');
+        $validator->rule('uniqueEmail', 'accountEmail')->message('Email já cadastrado');
 
         // cellPhone
         $validator->rule('required', 'accountCellPhone')->message('Digite seu celular');
@@ -225,6 +235,7 @@ class User extends Model {
         $validator->rule('required', 'accountUserName')->message('Digite seu usuário');
         $validator->rule('lengthMin', 'accountUserName', 2)->message('O usuário precisa ter no mínimo 2 caracteres');
         $validator->rule('lengthMax', 'accountUserName', 30)->message('O usuário precisa ter no máximo 30 caracteres');
+        $validator->rule('uniqueUser', 'accountUserName')->message('O usuário já existe');
 
         // accountPassword
         $validator->rule('required', 'accountPassword')->message('Digite sua senha');
@@ -250,30 +261,28 @@ class User extends Model {
     }
 
     public function validateRegisterPartnerForm() {   
-        // print_r($this->data); exit;
-        
         $validator = new Validator($this->data);
 
+        // Add new rules in plugin validation
         $validator->addRule('arrayLengthMax', function($field, $value, array $params, array $fields) {
-            if (count($value) > $params[0]) {
-                return false;
-            }
-            return true;
+            return count($value) <= $params[0];
         }, 'is array length max items');
 
         $validator->addRule('arrayLengthMin', function($field, $value, array $params, array $fields) {
-            if (count($value) <= $params[0]) {
-                return true;
-            }
-            return false;
+            return count($value) >= $params[0];
         }, 'is array length min items');
 
         $validator->addRule('cnpj', function($field, $value, array $params, array $fields) {
-            if ($this->validateCnpj($value)) {
-                return true;
-            }
-            return false;
+            return $this->validateCnpj($value);
         }, 'is invalid cnpj');
+
+        $validator->addRule('uniqueEmail', function($field, $value, array $params, array $fields) {
+            return $this->validateUniqueEmail($value);
+        }, 'is exist email');
+
+        $validator->addRule('uniqueUser', function($field, $value, array $params, array $fields) {
+            return $this->validateUniqueUser($value);
+        }, 'is exist user');
 
         $validator->addRule('operation', function($field, $value, array $params, array $fields) {            
             if ($this->validateOperation($value)) {
@@ -297,6 +306,7 @@ class User extends Model {
         $validator->rule('lengthMin', 'accountEmail', 7)->message('O email precisa ter no mínimo 7 caracteres');
         $validator->rule('lengthMax', 'accountEmail', 100)->message('O accountEmail precisa ter no máximo 30 caracteres');
         $validator->rule('email', 'accountEmail')->message('Digite um email válido');
+        $validator->rule('uniqueEmail', 'accountEmail')->message('Email já cadastrado');
 
         // accountCellPhone
         $validator->rule('required', 'accountCellPhone')->message('Digite seu celular');
@@ -330,7 +340,7 @@ class User extends Model {
         // restaurantName
         $validator->rule('required', 'restaurantName')->message('Digite o nome do restaurante');
         $validator->rule('lengthMin', 'restaurantName', 2)->message('O nome do restaurante precisa ter no mínimo 2 caracteres');
-        $validator->rule('lengthMax', 'restaurantName', 50)->message('O nome do restaurant precisa ter no máximo 50 caracteres');
+        $validator->rule('lengthMax', 'restaurantName', 50)->message('O nome do restaurante precisa ter no máximo 50 caracteres');
 
         // restaurantCnpj
         $validator->rule('required', 'restaurantCnpj')->message('Digite o cnpj do restaurante');
@@ -343,6 +353,7 @@ class User extends Model {
         $validator->rule('lengthMin', 'restaurantEmail', 7)->message('O email precisa ter no mínimo 7 caracteres');
         $validator->rule('lengthMax', 'restaurantEmail', 100)->message('O email precisa ter no máximo 100 caracteres');
         $validator->rule('email', 'restaurantEmail')->message('Digite um email válido');
+        $validator->rule('uniqueEmail', 'restaurantEmail')->message('Email já cadastrado');
 
         // restaurantPhone
         $validator->rule('required', 'restaurantPhone')->message('Digite o telefone do restaurante');
@@ -392,6 +403,7 @@ class User extends Model {
         $validator->rule('required', 'accountUserName')->message('Digite seu usuário');
         $validator->rule('lengthMin', 'accountUserName', 2)->message('O usuário precisa ter no mínimo 2 caracteres');
         $validator->rule('lengthMax', 'accountUserName', 30)->message('O usuário precisa ter no máximo 30 caracteres');
+        $validator->rule('uniqueUser', 'accountUserName')->message('O usuário já existe');
 
         // accountPassword
         $validator->rule('required', 'accountPassword')->message('Digite sua senha');
@@ -587,6 +599,48 @@ class User extends Model {
             return true;
         }
     }   
+
+    public function validateUniqueEmail($email) {
+        try {
+            $stm = $this->db->prepare('SELECT * FROM user
+                WHERE email = :email
+            ');
+            
+            $stm->bindValue(':email', $email);
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) return false;
+            return true;
+        } catch(\PDOException $error) {
+            return false; 
+            
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function validateUniqueUser($user) {
+        try {
+            $stm = $this->db->prepare('SELECT * FROM user
+                WHERE login = :user
+            ');
+            
+            $stm->bindValue(':user', $user);
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) return false;
+            return true;
+        } catch(\PDOException $error) {
+            return false; 
+            
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
 
     public function saveRegisterCustomerForm() {
         try {
