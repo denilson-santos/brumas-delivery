@@ -93,38 +93,28 @@ class RegisterController extends Controller {
     public function checkEmail($request) {
         $request = $this->sanitizeInputs($request);
         
-        $email = $request['email'];
+        $email = reset($request);
 
         $user = new User();
 
         if ($user->validateUniqueEmail($email)) {
-            echo json_encode([
-                'validate' => true
-            ]);
+            echo json_encode(true);
         } else {
-            echo json_encode([
-                'validate' => false, 
-                'errors' => ['Email já cadastrado']
-            ]);
+            echo json_encode(false);
         }
     }
 
     public function checkUser($request) {
         $request = $this->sanitizeInputs($request);
         
-        $userName = $request['user'];
+        $userName = $request['accountUserName'];
 
         $user = new User();
 
         if ($user->validateUniqueUser($userName)) {
-            echo json_encode([
-                'validate' => true
-            ]);
+            echo json_encode(true);
         } else {
-            echo json_encode([
-                'validate' => false, 
-                'errors' => ['O usuário já existe']
-            ]);
+            echo json_encode(false);
         }
     }
 }
