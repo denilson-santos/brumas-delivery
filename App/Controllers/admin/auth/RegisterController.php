@@ -78,7 +78,7 @@ class RegisterController extends Controller {
         $request['operation'] = $operation;
 
         $user = new User($request);
-
+    
         $validation = $user->validateRegisterPartnerForm();
 
         if ($validation['validate']) {

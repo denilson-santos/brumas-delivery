@@ -774,13 +774,6 @@ class User extends Model {
                 $restaurantOperation->saveRestaurantOperation();
             }
 
-            // $restaurantPhone = new RestaurantPhone();
-
-            // foreach ($dataRestaurantPhone as $row) {
-            //     $restaurantPhone->setData($row);
-            //     $restaurantPhone->saveRestaurantPhone();
-            // }
-
             $this->db->commit();
         } catch (\PDOException $error) {
             $this->db->rollback();

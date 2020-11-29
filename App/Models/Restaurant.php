@@ -14,13 +14,15 @@ class Restaurant extends Model {
     public function saveRestaurant() {
         try {
             $stm = $this->db->prepare('INSERT INTO restaurant
-                SET address_id = :address_id,
+                SET user_id = :user_id,
+                    address_id = :address_id,
                     name = :name,
                     cnpj = :cnpj,
                     email = :email,
                     main_categories = :main_categories
             ');
 
+            $stm->bindValue(':user_id', $this->data['user_id']);
             $stm->bindValue(':address_id', $this->data['address_id']);
             $stm->bindValue(':name', $this->data['name']);
             $stm->bindValue(':cnpj', $this->data['cnpj']);
