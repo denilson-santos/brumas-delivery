@@ -199,7 +199,7 @@ $(function () {
                 minlength: 16,
                 maxlength: 16
             },
-            restaurantMainCategories: {
+            'restaurantMainCategories[]': {
                 required: true,
                 arrayLengthMax: 2
             },
@@ -330,7 +330,7 @@ $(function () {
                 minlength: 'O celular precisa ter no mínimo o DDD + 9 dígitos',
                 maxlength: 'O celular precisa ter no máximo o DDD + 9 dígitos'
             },
-            restaurantMainCategories: {
+            'restaurantMainCategories[]': {
                 required: 'Selecione 1 ou no máx 2 categorias principais para o restaurante',
                 arrayLengthMax: 'Informe categorias válidas'
             },
@@ -423,6 +423,7 @@ $(function () {
                     if (!Array.isArray(row[key])) row[key] = [];
                     
                     field = `${key}%5B%5D=${data[key]}&`;
+                    field = field.replaceAll(' ', '%20');
                     field = field.replaceAll(':', '%3A');
                     field = field.replaceAll('ç', '%C3%A7');
                     
@@ -482,7 +483,7 @@ $(function () {
 
                         setTimeout(function() {
                             window.location.href = BASE_URL+'/login';
-                        }, 5000)
+                        }, 5000);
                     }
                 },
                 complete: function() {
@@ -531,6 +532,16 @@ $(function () {
             } else {
                 $('#restaurantOperation-error.error').remove();
             }
+
+            $('#fire-modal-1').on('hidden.bs.modal', function (e) {
+                if (!$('.selected-week-days input').length || $('.selected-week-days input').length != $('.table-operation tbody tr').length) {
+                    $('#restaurantOperation-error.error').remove();
+                    $('button#restaurantAddOperation').after('<div id="restaurantOperation-error" class="error invalid-feedback" style="display: block;                margin-top: 0.40rem;">Horários inválidos</div>');
+                    validation = false;
+                } else {
+                    $('#restaurantOperation-error.error').remove();
+                }   
+            });
             
         }
         
