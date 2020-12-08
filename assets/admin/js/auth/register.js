@@ -295,12 +295,6 @@ $(function () {
                         
                         $('.register .server-validation a').attr('data-original-title', tooltip);
                         $('.register .server-validation').css('display', 'block');
-
-                        iziToast.error({
-                            title: 'Erro ao efetuar o cadastro!',
-                            message: 'Tente Novamente!',
-                            position: 'topRight'
-                        });
                     } else {
                         $('.register .server-validation a').attr('data-original-title', '');
                         $('.register .server-validation').css('display', 'none');
@@ -311,30 +305,25 @@ $(function () {
                             position: 'topRight'
                         });
 
-                        setTimeout(function() {
-                            window.location.href = BASE_URL+'/login';
-                        }, 5000)
+                        // Redirect to login page
+                        window.location.href = BASE_URL+'/login';
                     }
                 },
                 complete: function() {
                     $('form.register #submitRegister').attr('disabled', false);
-                },
-                error: function() {
-                    iziToast.error({
-                        title: 'Erro ao efetuar o cadastro!',
-                        message: 'Tente Novamente!',
-                        position: 'topRight'
-                    });
                 }
             });
             return false;
         }
     });
 
+    // Validate selectric on change
     $('.register select').on('change', function(e) {
-        $(this).valid();
-
-        $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
+        if ($(this).valid()) {
+            $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
+        } else {
+            $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#fa2724');
+        }
     });
 
     function isValid(currentStep) {

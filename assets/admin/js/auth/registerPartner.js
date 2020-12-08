@@ -108,6 +108,10 @@ $(function () {
         return value.length <= param;
     }, 'Invalid array length very long');
 
+    $.validator.addMethod('filesize', function (value, element, param) {
+        return element.files[0].size <= (param * 1000000);
+    }, 'File size must be less');
+
     // Registration Form Validation
     $('.register-partner').validate( {
         rules: {
@@ -165,6 +169,12 @@ $(function () {
             },
 
             // Restaurant Information
+            restaurantBrand: {
+                required: true,
+                accept: 'jpg,jpeg,png',
+                // Value in mb
+                filesize: 30
+            },
             restaurantName: {
                 required: true,
                 minlength: 2,
@@ -302,6 +312,11 @@ $(function () {
             },
             
             // Restaurant Information
+            restaurantBrand: {
+                required: 'Adicione uma logo para o restaurante',
+                accept: 'Formato inválido, use: (.jpg, .jpeg ou .png)',
+                filesize: 'O limite para upload é de 30mb'
+            },
             restaurantName: {
                 required: 'Digite o nome do restaurante',
                 minlength: 'O nome do restaurante precisa ter no mínimo 2 caracteres',
@@ -388,6 +403,8 @@ $(function () {
                 error.insertAfter(element.parents('label').addClass('is-invalid').removeClass('is-valid') );
             } else if ( element.prop('') === 'checkbox') {
                 error.insertAfter(element.parents('label').addClass('is-invalid').removeClass('is-valid') );
+            } else if ( element.prop('type') === 'file') {
+                $('.restaurant-brand-area').css('borderColor', '#fa2724');  
             } else {
                 error.insertAfter( element );
             }
@@ -408,43 +425,27 @@ $(function () {
             $( element ).addClass('is-valid').removeClass('is-invalid');
         }, 
         submitHandler: function (form) {
-            var operation = '';
             var data = {};
             var row = {};
-            var field = '';
 
-            form = $(form).serialize();
+            var form = new FormData(form);
 
+            //  Add restaurant operation in FormData
             $('.selected-week-days input').each(function (index, element) {
                 data = $(element).data();
-
+            
                 for (const key in data) {
-                
                     if (!Array.isArray(row[key])) row[key] = [];
-                    
-                    field = `${key}%5B%5D=${data[key]}&`;
-                    field = field.replaceAll(' ', '%20');
-                    field = field.replaceAll(':', '%3A');
-                    field = field.replaceAll('ç', '%C3%A7');
-                    
-                    row[key].push(field);
+                    form.append(`${key}[]`, data[key]);
                 }
             });
-
-            // console.log(row);
-
-            for (const key in row) operation += row[key].join('');
-
-            // console.log('Query String -> '+operation);
-
-            data = form+'&'+operation;
-
-            // console.log(data);
 
             $.ajax({
                 type: "POST",
                 url: "/be-a-partner-action",
-                data: data,
+                contentType : false,
+                processData : false,
+                data: form,
                 beforeSend: function() {
                     $('form.register-partner #submitRegisterPartner').attr('disabled', true);
                 },
@@ -465,36 +466,16 @@ $(function () {
                         
                         $('.register-partner .server-validation a').attr('data-original-title', tooltip);
                         $('.register-partner .server-validation').css('display', 'block');
-
-                        iziToast.error({
-                            title: 'Erro ao efetuar o cadastro!',
-                            message: 'Tente Novamente!',
-                            position: 'topRight'
-                        });
                     } else {
                         $('.register-partner .server-validation a').attr('data-original-title', '');
                         $('.register-partner .server-validation').css('display', 'none');
 
-                        iziToast.success({
-                            title: 'Cadastro realizado com sucesso!',
-                            message: 'Você será redirecionado para a tela de login!',
-                            position: 'topRight'
-                        });
-
-                        setTimeout(function() {
-                            window.location.href = BASE_URL+'/login';
-                        }, 5000);
+                        // Redirect to login page
+                        window.location.href = BASE_URL+'/login';
                     }
                 },
                 complete: function() {
                     $('form.register-partner #submitRegisterPartner').attr('disabled', false);
-                },
-                error: function() {
-                    iziToast.error({
-                        title: 'Erro ao efetuar o cadastro!',
-                        message: 'Tente Novamente!',
-                        position: 'topRight'
-                    });
                 }
             });
 
@@ -502,10 +483,13 @@ $(function () {
         }
     } );
 
+    // Validate selectric on change
     $('.register-partner select').on('change', function(e) {
-        $(this).valid();
-
-        $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
+        if ($(this).valid()) {
+            $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
+        } else {
+            $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#fa2724');
+        }
     });
 
     // Prevents the operation modal from being called when pressing enter
@@ -515,6 +499,42 @@ $(function () {
             return false;
         }
     });
+
+    $('.restaurant-brand-area').on('click', function() {
+        $('#restaurantBrand').click();
+    });
+
+    $("#restaurantBrand").on('change', function() {
+        if ($(this).valid()) restaurantPreview(this);
+    });
+
+    $('.img-overlay span').on('click', function() {
+        $('.restaurant-brand-area').css('display', 'block');
+        $('.restaurant-img-preview').css('display', 'none');
+        $('#restaurantBrand').val('');
+    });
+
+    function restaurantPreview(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          
+          reader.onload = function(e) {
+            $('.restaurant-img-preview img').attr('src', e.target.result);
+            $('.restaurant-brand-area').css('display', 'none');
+            $('.restaurant-img-preview').css('display', 'block');
+          }
+
+          reader.onloadend = function() {
+            $('.restaurant-img-preview').css('pointerEvents', 'none');
+
+            setTimeout(function() {
+                $('.restaurant-img-preview').css('pointerEvents', 'auto');
+            }, 100)
+          }
+
+          reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
 
     function isValid(currentStep, step) {
         var validation = true;
