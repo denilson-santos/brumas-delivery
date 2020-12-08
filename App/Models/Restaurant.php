@@ -19,7 +19,8 @@ class Restaurant extends Model {
                     name = :name,
                     cnpj = :cnpj,
                     email = :email,
-                    main_categories = :main_categories
+                    main_categories = :main_categories,
+                    image = :image
             ');
 
             $stm->bindValue(':user_id', $this->data['user_id']);
@@ -28,6 +29,21 @@ class Restaurant extends Model {
             $stm->bindValue(':cnpj', $this->data['cnpj']);
             $stm->bindValue(':email', $this->data['email']);
             $stm->bindValue(':main_categories', $this->data['main_categories']);
+
+            // Save restaurant brand
+            $restaurantPath = '/var/www/projects/brumas-delivery/media/users/'.$this->data['user_id'].'/restaurant';
+
+            $relativeRestaurantPath = '/media/users/'.$this->data['user_id'].'/restaurant';
+
+            $name = $this->data['brand']['name'];
+            $type = $this->data['brand']['type'];
+            $tempPath = $this->data['brand']['tmp_name'];
+            $newPath = "$restaurantPath/brand/$name";
+
+            $this->saveImage($tempPath, $newPath, $type);
+            $this->resizeImage($newPath, 250);
+
+            $stm->bindValue(':image', $relativeRestaurantPath);
 
             $stm->execute();
             

@@ -53,8 +53,9 @@ class RegisterController extends Controller {
         $this->loadView('admin/auth/registerPartner', $data);
     }
 
-    public function registerPartnerAction($request) {      
+    public function registerPartnerAction($request) {
         $request['userLevel'] = $this->userLevels['partner'];
+        $request['restaurantBrand'] = $_FILES['restaurantBrand'];
         
         $request = $this->sanitizeInputs($request);
         

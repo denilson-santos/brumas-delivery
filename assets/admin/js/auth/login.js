@@ -55,7 +55,7 @@ $(function () {
                 url: "/login-action",
                 data: form,
                 beforeSend: function() {
-                    $('form.login #submitRegister').attr('disabled', true);
+                    $('form.login #submitLogin').attr('disabled', true);
                 },
                 success: function (response) {
                     response = JSON.parse(response);
@@ -75,36 +75,16 @@ $(function () {
                         
                         $('.login .server-validation a').attr('data-original-title', tooltip);
                         $('.login .server-validation').css('display', 'block');
-
-                        iziToast.error({
-                            title: 'Erro ao efetuar o login!',
-                            message: 'Tente Novamente!',
-                            position: 'topRight'
-                        });
                     } else {
                         $('.login .server-validation a').attr('data-original-title', '');
                         $('.login .server-validation').css('display', 'none');
 
-                        iziToast.success({
-                            title: 'Login realizado com sucesso!',
-                            message: 'Você será redirecionado para a tela inicial!',
-                            position: 'topRight'
-                        });
-
-                        setTimeout(function() {
-                            window.location.href = BASE_URL;
-                        }, 5000)
+                        // Redirect to home page
+                        window.location.href = BASE_URL;
                     }
                 },
                 complete: function() {
-                    $('form.login #submitRegister').attr('disabled', false);
-                },
-                error: function() {
-                    iziToast.error({
-                        title: 'Erro ao efetuar o login!',
-                        message: 'Tente Novamente!',
-                        position: 'topRight'
-                    });
+                    $('form.login #submitLogin').attr('disabled', false);
                 }
             });
             return false;

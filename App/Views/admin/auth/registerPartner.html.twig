@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css" />
   <link rel="stylesheet" href="/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css" />
   <link rel="stylesheet" href="/node_modules/izitoast/dist/css/iziToast.min.css" />
+  <link rel="stylesheet" href="/node_modules/dropzone/dist/min/dropzone.min.css" />
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="/assets/admin/css/bootstrap/style.css" />
@@ -39,7 +40,7 @@
               <img src="/assets/images/logo-brumas-delivery-white.png" alt="logo" width="200">
             </div>
 
-            <form method="POST" action="/be-a-partner-action" class="register-partner">
+            <form class="register-partner">
               <!-- progressbar -->
               <ul id="progressbar">
                 <li class="active">Responsável</li>
@@ -157,13 +158,41 @@
                     </div>
 
                     <div class="form-row">
-                      <div class="form-group col-6">
-                        <label for="restaurantName">Nome</label>
-                        <input id="restaurantName" type="text" class="form-control" name="restaurantName" placeholder="Digite o nome do restaurante" autofocus>
+                      <div class="form-group col-4">
+                        <label for="restaurantBrand">Logo</label>
+
+                        <div class="restaurant-brand-area">
+                          <span class="add-brand">
+                            <i class="fa fa-plus"></i> 
+                            Adicionar
+                          </span>
+                        </div>
+                        
+                        <div class="restaurant-img-preview" id="restaurant-img-preview">
+                          <div class="img-overlay">
+                            <span><i class="fa fa-times-circle"></i></span>
+                          </div>
+
+                          <img src="">
+                        </div>
+
+                        <input id="restaurantBrand" class="invisible position-absolute" type="file" name="restaurantBrand" accept=".jpg,.jpeg,.png">
                       </div>
-                      <div class="form-group col-6">
-                        <label for="restaurantCnpj">CNPJ</label>
-                        <input id="restaurantCnpj" type="text" class="form-control" name="restaurantCnpj" placeholder="Digite o cnpj do restaurante" data-mask="00.000.000/0000-00" data-mask-reverse="true">
+
+                      <div class="form-group col-8">
+                        <div class="form-row">
+                          <div class="form-group col-12">
+                            <label for="restaurantName">Nome</label>
+                            <input id="restaurantName" type="text" class="form-control" name="restaurantName" placeholder="Digite o nome do restaurante" autofocus>
+                          </div>
+                        </div>
+
+                        <div class="form-row">
+                          <div class="form-group mb-0 col-12">
+                            <label for="restaurantCnpj">CNPJ</label>
+                            <input id="restaurantCnpj" type="text" class="form-control" name="restaurantCnpj" placeholder="Digite o cnpj do restaurante" data-mask="00.000.000/0000-00" data-mask-reverse="true">
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -358,6 +387,7 @@
   <script src="/node_modules/select2/dist/js/select2.min.js"></script>
   <script src="/node_modules/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
   <script src="/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="/node_modules/jquery-validation/dist/additional-methods.min.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
   <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
@@ -365,6 +395,7 @@
   <script src="/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
   <script src="/node_modules/moment/moment.js"></script>
   <script src="/node_modules/izitoast/dist/js/iziToast.min.js"></script>
+  <script src="/node_modules/dropzone/dist/min/dropzone.min.js"></script>
 
   <!-- Template JS File -->
   <script src="/assets/admin/js/scripts.js"></script>

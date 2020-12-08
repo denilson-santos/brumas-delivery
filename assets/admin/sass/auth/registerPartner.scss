@@ -6,56 +6,123 @@ body {
     background-repeat: no-repeat;
 }
 
-form.register-partner fieldset {
-    position: relative;
-}
+form.register-partner {
+    fieldset {
+        position: relative;
+    }
 
-form.register-partner fieldset:not(:first-of-type) {
-    display: none;
-}
+    fieldset:not(:first-of-type) {
+        display: none;
+    }
 
-form.register-partner .card {
-    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-    border: none;
-}
+    .card {
+        box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+        border: none;
+    }
 
-form.register-partner .card-header {
-    border: none;
-}
+    .card-header {
+        border: none;
 
-form.register-partner .card-header h4 {
-    padding: 0;
-    margin: 10px auto;
-    font-weight: 600;
-    font-size: 20px;
-    color: #6C757D;
-}
+        h4 {
+            padding: 0;
+            margin: 10px auto;
+            font-weight: 600;
+            font-size: 20px;
+            color: #6C757D;
+        }
+    }
 
-form.register-partner .form-divider {
-    font-weight: 500;
-    font-size: 14px;
-    color: #fa3734;
-}
+    .form-divider {
+        font-weight: 500;
+        font-size: 14px;
+        color: #fa3734;
+    }
 
-form.register-partner .form-divider i {
-    margin-right: 3px;
-}
+    i {
+        margin-right: 3px;
+    }
 
-form.register-partner .server-validation i {
-    font-size: 16px;
-}
+    .server-validation {
+        display: none;
 
-form.register-partner .server-validation {
-    display: none;
-}
+        i {
+            font-size: 16px;
+        }
 
-form.register-partner .server-validation a {
-    text-decoration: none;
-    font-size: 16px;
-}
+        a {
+            text-decoration: none;
+            font-size: 16px;
 
-form.register-partner .server-validation a:hover {
-    color: #fa3734;
+            &:hover {
+                color: #fa3734;
+            }
+        }        
+    }
+
+    .restaurant-brand-area {
+        width: 137px;
+        height: 137px;
+
+        text-align: center;
+        line-height: 137px;
+        border: 2px dashed #ced4da;
+        border-radius: 0.25rem;
+        cursor: pointer;
+
+        span.add-brand {
+            color: #aaa;
+        }
+    }
+
+    .restaurant-img-preview {
+        display: none;
+
+        width: 137px;
+        height: 137px;
+
+        position: absolute;
+
+        img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            border-radius: 0.25rem;
+        }
+
+        .img-overlay {
+            visibility: hidden;
+            position: absolute;
+
+            background: transparent;
+            color: transparent;
+        }
+
+        &:hover {
+            .img-overlay {
+                visibility: visible;
+
+                width: 100%;
+                height: 100%;
+    
+                background: rgba(0,0,0, 0.2);
+                color: #fff;
+                transition: background 0.3s, color 0.3s;
+                border-radius: 0.25rem;
+                
+                span {
+                    position: absolute;
+                    
+                    top: 8px;
+                    right: 8px;
+    
+                    cursor: pointer;
+                    font-size: 20px;
+                }
+            }
+    
+        }
+    }
 }
 
 .tooltip-inner {

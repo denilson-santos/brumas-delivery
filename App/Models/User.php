@@ -290,7 +290,15 @@ class User extends Model {
             }
             return false;
         }, 'is invalid operation');
-     
+        
+        $validator->addRule('accept', function($field, $value, array $params, array $fields) {
+            return in_array($value['type'], $params[0]);
+        }, 'Formato inválido, use: (.jpg, .jpeg ou .png)');
+        
+        $validator->addRule('filesize', function($field, $value, array $params, array $fields) {
+            return $value['size'] <= ($params[0] * 1000000);
+        }, 'The upload limit is 30mb');
+
         // accountFirstName
         $validator->rule('required', 'accountFirstName')->message('Digite seu primeiro nome');
         $validator->rule('lengthMin', 'accountFirstName', 2)->message('O seu primeiro nome precisa ter no mínimo 2 caracteres');
@@ -336,6 +344,11 @@ class User extends Model {
 
         // accountComplement
         $validator->rule('lengthMax', 'accountComplement', 50)->message('O complemento precisa ter no máximo 50 caracteres');
+
+        // restaurantBrand
+        $validator->rule('required', 'restaurantBrand')->message('');
+        $validator->rule('filesize', 'restaurantBrand', 30)->message('O limite para upload é de 30mb');
+        $validator->rule('accept', 'restaurantBrand', ['image/jpg', 'image/jpeg', 'image/png'])->message('Formato inválido, use: (.jpg, .jpeg ou .png)');
 
         // restaurantName
         $validator->rule('required', 'restaurantName')->message('Digite o nome do restaurante');
@@ -645,9 +658,14 @@ class User extends Model {
     public function saveRegisterCustomerForm() {
         try {
             $this->db->beginTransaction();
-    
+
             $userId = $this->saveUser();       
             
+            // Create user tree of directories
+            $userPath = "/var/www/projects/brumas-delivery/media/users/$userId";
+            
+            mkdir("$userPath/image", 0777, true);
+
             $dataUserPhone = [
                 'user_id' => $userId,
                 'phone_type_id' => 1,
@@ -672,6 +690,9 @@ class User extends Model {
             $this->db->commit();
         } catch (\PDOException $error) {
             $this->db->rollback();
+
+            // Delete user tree
+            $this->rrmdir($userPath);
             
             // For debug
             // echo "Message: " . $error->getMessage() . "<br>";
@@ -683,15 +704,24 @@ class User extends Model {
     public function saveRegisterPartnerForm() {
         try {
             $this->db->beginTransaction();
-            
+
             $userId = $this->saveUser();       
+
+            // Create user tree of directories
+            $userPath = "/var/www/projects/brumas-delivery/media/users/$userId";
+            $restaurantPath = "$userPath/restaurant";
             
+            mkdir("$userPath/image", 0777, true);
+            mkdir("$restaurantPath/brand", 0777, true);
+            mkdir("$restaurantPath/categories", 0777, true);
+            mkdir("$restaurantPath/plates", 0777, true);
+
             $dataUserPhone = [
                 'user_id' => $userId,
                 'phone_type_id' => 2,
                 'number' => $this->data['accountCellPhone']
             ];
-
+            
             $userPhone = new UserPhone($dataUserPhone);
 
             $userPhone->saveUserPhone();
@@ -729,7 +759,8 @@ class User extends Model {
                 'name' => $this->data['restaurantName'], 
                 'cnpj' => $this->data['restaurantCnpj'],  
                 'email' => $this->data['restaurantEmail'],  
-                'main_categories' => implode(',', $this->data['restaurantMainCategories'])
+                'main_categories' => implode(',', $this->data['restaurantMainCategories']),
+                'brand' => $this->data['restaurantBrand']
             ];
 
             $restaurant = new Restaurant($dataRestaurant);
@@ -777,7 +808,10 @@ class User extends Model {
             $this->db->commit();
         } catch (\PDOException $error) {
             $this->db->rollback();
-            
+
+            // Delete user tree
+            $this->rrmdir($userPath);
+
             // For debug
             // echo "Message: " . $error->getMessage() . "<br>";
             // echo "Name of file: ". $error->getFile() . "<br>";

@@ -15,7 +15,7 @@
     "datatables": "^1.10.18",
     "datatables.net-responsive-bs4": "^2.2.3",
     "datatables.net-select-bs4": "^1.2.7",
-    "dropzone": "^5.5.1",
+    "dropzone": "^5.7.2",
     "flag-icon-css": "^3.2.1",
     "fullcalendar": "^3.10.0",
     "gmaps": "^0.4.24",
