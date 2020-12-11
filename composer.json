@@ -8,7 +8,8 @@
         "coffeecode/router": "^1.0",
         "twig/twig": "^3.0",
         "vlucas/valitron": "^1.4",
-        "voku/anti-xss": "^4.1"
+        "voku/anti-xss": "^4.1",
+        "intervention/image": "^2.5"
     },
     "autoload": { 
         "psr-4": { 

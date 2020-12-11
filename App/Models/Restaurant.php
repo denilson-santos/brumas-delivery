@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Models\Model;
+use Intervention\Image\ImageManager;
 
 class Restaurant extends Model {
     private $data;
@@ -36,14 +37,33 @@ class Restaurant extends Model {
             $relativeRestaurantPath = '/media/users/'.$this->data['user_id'].'/restaurant';
 
             $name = $this->data['brand']['name'];
-            $type = $this->data['brand']['type'];
             $tempPath = $this->data['brand']['tmp_name'];
             $newPath = "$restaurantPath/brand/$name";
+            $newRelativePath = "$relativeRestaurantPath/brand/$name";
 
-            $this->saveImage($tempPath, $newPath, $type);
-            $this->resizeImage($newPath, 250);
+            $image = new ImageManager(array('driver' => 'gd'));
+            $image = $image->make($tempPath);
 
-            $stm->bindValue(':image', $relativeRestaurantPath);
+            // Image width
+            $x = $image->width();
+            // // Image height
+            $y = $image->height();
+
+            $resize = 250;
+
+            if ($x > $y) {
+                $image->resize(null, $resize, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($newPath);
+            } else if ($y > $x) {
+                $image->resize($resize, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($newPath);
+            } else {
+                $image->resize($resize, $resize)->save($newPath);
+            }  
+
+            $stm->bindValue(':image', $newRelativePath);
 
             $stm->execute();
             
