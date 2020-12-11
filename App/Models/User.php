@@ -789,7 +789,7 @@ class User extends Model {
 
             $restaurantOperation = new RestaurantOperation();
 
-            $countOperationRows = count($this->data['operation']['row']);;
+            $countOperationRows = count($this->data['operation']['row']);
 
             for ($i=0; $i < $countOperationRows; $i++) { 
                 $dataRestaurantOperation = [

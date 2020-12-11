@@ -7,10 +7,10 @@
     use Dotenv\Dotenv;
     use App\Config\Config;
     use CoffeeCode\Router\Router;
-
+    
     // display errors
     ini_set('display_errors', 'On');
-    
+
     $dotenv = Dotenv::create(__DIR__);
     $dotenv->load();
     
