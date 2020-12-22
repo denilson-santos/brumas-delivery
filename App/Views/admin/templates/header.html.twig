@@ -1,0 +1,82 @@
+<div class="navbar-bg"></div>
+<nav class="navbar navbar-expand-lg main-navbar" id="adminNavbarNav">
+    <form class="form-inline mr-auto">
+        <ul class="navbar-nav mr-3">
+        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+        </ul>
+    </form>
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown dropdown-languages">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                {% if iniDicionary['LANGUAGE'] == "English" %}
+                    <img class="border border-white mb-1 mr-1" width="22px" src="/media/flags/usa.png">
+                {% else %}
+                    <img class="border border-white mb-1 mr-1" width="22px" src="/media/flags/brazil.png">
+                {% endif %}
+                {{ iniDicionary['LANGUAGE'] }}
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li data-lang="en">
+                    <a class="dropdown-item" href="javascript:void(0)">
+                        <img class="border border-white mb-1 mr-1" width="22px" src="/media/flags/usa.png">
+                        English
+                    </a>
+                </li>
+                <li data-lang="pt-br">
+                    <a class="dropdown-item" href="javascript:void(0)">
+                        <img class="border border-white mb-1 mr-1" width="22px" src="/media/flags/brazil.png">
+                        Português
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        {% if userIsLogged() %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <img alt="image" src="{{ userLogged['image'] ? userLogged['image'] : '/media/default/users/user-img-default-150x150.jpg' }}" class="rounded-circle mr-1" width="30">
+                    <div class="d-sm-none d-lg-inline-block">{{ userLogged['first_name'] ~ ' ' ~ userLogged['last_name'] }}</div>
+                </a>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ route('name.profile') }}">
+                        <i class="fas fa-user-alt"></i>
+                        Perfil
+                    </a>
+                    
+                    {% if userIsAuthorized(['admin', 'partner']) %}
+                        <a class="dropdown-item" href="{{ route('name.restaurant-details') }}">
+                            <i class="fas fa-utensils"></i>
+                            Restaurante
+                        </a>
+                    {% endif %}
+
+                    <a class="dropdown-item" href="{{ route('name.orders') }}"> 
+                        <i class="fas fa-list-alt"></i>
+                        Pedidos
+                    </a>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('name.logout') }}">
+                    <i class="fas fa-sign-out-alt"></i> 
+                    Sair
+                    </a>
+                </div>
+            </li>   
+        {% else %}
+            <li class="nav-item menu-border">
+                <a class="nav-link" href="{{ route('name.login') }}">{{ iniDicionary['LOGIN'] }}</a>
+            </li>
+
+            <li class="nav-item menu-border">
+                <a class="nav-link" href="{{ route('name.register-customer') }}">{{ iniDicionary['REGISTER'] }}</a>
+            </li>
+
+            <li class="nav-item menu-border">
+                <a class="nav-link" href="{{ route('name.register-partner') }}">{{ iniDicionary['BEAPARTNER'] }}</a>
+            </li>
+        {% endif %}
+
+    </ul>
+</nav>

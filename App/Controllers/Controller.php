@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controllers;
 
+use App\Models\User;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use App\Utils\Language;
@@ -29,10 +30,18 @@ class Controller {
             'partner' => 2,
             'customer' => 3
         ];
+
+        $user = new User();
         // print_r($_GET); exit;
 
         // Add function of PHP to use in twig 
         
+        //  IsAuthorized
+        $this->twig->addFunction(new TwigFunction('userIsLogged', [$user, 'isLogged']));
+
+        //  IsAuthorized
+        $this->twig->addFunction(new TwigFunction('userIsAuthorized', [$user, 'isAuthorized']));
+
         // Route
         $this->twig->addFunction(new TwigFunction('route', [$router, 'route']));
 

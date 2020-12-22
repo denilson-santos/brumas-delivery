@@ -1,15 +1,13 @@
 <?php
-namespace Controllers;
-
-use App\Controllers\Controller;
+namespace App\Controllers;
 
 class LangController extends Controller {
     public function index() {
 
     }
 
-    public function set($lang) {
-        $_SESSION['language'] = $lang; 
-        header('Location: '.BASE_URL);
+    public function set($request) {
+        $_SESSION['language'] = $request['language']; 
+        return true;
     }
 }

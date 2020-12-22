@@ -11,6 +11,26 @@
 
 .topnav #navbarNav {
 	padding: 0;
+	
+	.dropdown-menu {
+		font-size: 13px;
+		padding-top: 13px;
+
+		i {
+			margin-right: 10px;
+		}
+
+		a {
+			color: #555;
+			background-color: #fff;
+
+			transition: color 0.5s;
+			
+			&:hover {
+				color: #fa3734;
+			}
+		}
+	}
 }
 
 .topnav .navbar-nav li {
