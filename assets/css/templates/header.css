@@ -9,6 +9,17 @@
 
 .topnav #navbarNav {
   padding: 0; }
+  .topnav #navbarNav .dropdown-menu {
+    font-size: 13px;
+    padding-top: 13px; }
+    .topnav #navbarNav .dropdown-menu i {
+      margin-right: 10px; }
+    .topnav #navbarNav .dropdown-menu a {
+      color: #555;
+      background-color: #fff;
+      transition: color 0.5s; }
+      .topnav #navbarNav .dropdown-menu a:hover {
+        color: #fa3734; }
 
 .topnav .navbar-nav li {
   margin-top: 2px; }

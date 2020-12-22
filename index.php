@@ -53,10 +53,14 @@
     */
     $router->namespace("App\Controllers\admin");
 
-    // Dashboard
-    $router->group('admin');
-    $router->get('/', 'DashboardController:index');
-    $router->get('/dashboard', 'DashboardController:index');
+    // Acount
+    $router->get('/profile', 'UserController:index', 'name.profile');
+    $router->get('/orders', 'PurchaseController:index', 'name.orders');
+
+    // Restaurant
+    $router->get('/restaurant/details', 'RestaurantController:index', 'name.restaurant-details');
+    $router->get('/restaurant/plates', 'RestaurantController:index', 'name.restaurant-plates');
+    $router->get('/restaurant/orders', 'RestaurantController:index', 'name.restaurant-orders');
 
     /*
      * Site
@@ -68,6 +72,9 @@
     $router->get('/', 'HomeController:index', 'name.home');
     $router->get('/home', 'HomeController:index');
     $router->get('/category/{id}', 'CategoryController:open');
+
+    // Language
+    $router->post('/lang', 'LangController:set');
 
     // Error
     // 400 Bad Request

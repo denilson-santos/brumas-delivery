@@ -1,0 +1,17 @@
+#adminNavbarNav .dropdown-menu {
+  width: auto;
+  font-size: 13px;
+  padding-top: 13px; }
+  #adminNavbarNav .dropdown-menu i {
+    margin-right: 10px; }
+  #adminNavbarNav .dropdown-menu a {
+    color: #555;
+    background-color: #fff; }
+    #adminNavbarNav .dropdown-menu a.dropdown-item {
+      padding: 0.25rem 1.5rem;
+      font-weight: 400;
+      line-height: 1.5; }
+    #adminNavbarNav .dropdown-menu a:hover {
+      color: #fa3734 !important; }
+  #adminNavbarNav .dropdown-menu .dropdown-divider {
+    border-color: #e9ecef; }

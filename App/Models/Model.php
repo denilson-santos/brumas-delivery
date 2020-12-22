@@ -5,9 +5,16 @@ use App\Database\Db;
 
 class Model {
     protected $db;
+    protected $userLevels;
 
     public function __construct() {
         $this->db = Db::getConnection();
+
+        $this->roles = [
+            'admin' => 1,
+            'partner' => 2,
+            'customer' => 3
+        ];
     }
 
     public function rrmdir($path) {

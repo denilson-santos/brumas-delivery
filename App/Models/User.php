@@ -76,8 +76,16 @@ class User extends Model {
 
     }
 
-    public function isAuthorized() {
+    public function isAuthorized($roles) {
+        $level = $this->data['level'];
 
+        foreach ($roles as $role) {
+            $userLevel = $this->roles[$role];
+
+            if ($userLevel == $level) return true;
+        }
+
+        return false;
     }
 
     public function isLogged() {
@@ -118,6 +126,8 @@ class User extends Model {
                     }
 
                     // print_r($userLogged); exit;
+                    $this->data = $userLogged;
+
                     return $userLogged;
                 }
 
