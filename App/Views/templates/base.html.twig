@@ -30,11 +30,11 @@
 	<body>
 		{% set BASE_URL = getCurrentBaseUrl() %}
 
-		{% include 'templates/header.html.twig' %}
+		{% include "templates/header.html.twig" %}
 		
 		{% block content %}{% endblock content %}
 		
-		{% include 'templates/footer.html.twig' %}
+		{% include "templates/footer.html.twig" %}
 	    
 		<script type="text/javascript">
 			var BASE_URL = '{{ BASE_URL }}';
