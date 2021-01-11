@@ -54,13 +54,17 @@
     $router->namespace("App\Controllers\admin");
 
     // Acount
-    $router->get('/profile', 'UserController:index', 'name.profile');
-    $router->get('/orders', 'PurchaseController:index', 'name.orders');
+    $router->get('/account/profile', 'UserController:getProfile', 'name.account-profile');
+    $router->get('/account/rates', 'UserController:getRates', 'name.account-rates');
+    $router->get('/account/favorites', 'UserController:getFavorites', 'name.account-favorites');
+    $router->get('/account/orders', 'UserController:getOrders', 'name.account-orders');
 
     // Restaurant
     $router->get('/restaurant/details', 'RestaurantController:index', 'name.restaurant-details');
-    $router->get('/restaurant/plates', 'RestaurantController:index', 'name.restaurant-plates');
-    $router->get('/restaurant/orders', 'RestaurantController:index', 'name.restaurant-orders');
+    $router->get('/restaurant/plates', 'RestaurantController:getRestaurantPlates', 'name.restaurant-plates');
+    $router->get('/restaurant/orders', 'RestaurantController:getRestaurantOrders', 'name.restaurant-orders');
+    $router->get('/restaurant/rates', 'RestaurantController:getRestaurantRates', 'name.restaurant-rates');
+    $router->get('/restaurant/edit', 'RestaurantController:restaurantEdit', 'name.restaurant-edit');
 
     /*
      * Site

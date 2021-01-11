@@ -1,0 +1,64 @@
+<div class="tab-pane fade show active pt-0" id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
+    <div class="card">
+        <div class="card-header">
+            <h5>Geral</h5>
+        </div>
+
+        <div class="card-body pt-0">
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="restaurantName">Nome</label>
+                    <input type="text" class="form-control" name="restaurantName" id="restaurantName" placeholder="Digite o nome do restaurante" value="{{ userLogged['restaurant']['name'] }}">
+                </div>
+
+                <div class="form-group col-4">
+                    <label for="restaurantCnpj">CNPJ</label>
+                    <input type="text" class="form-control" name="restaurantCnpj" id="restaurantCnpj" placeholder="Digite o cnpj do restaurante" value="{{ userLogged['restaurant']['cnpj'] }}" data-mask="00.000.000/0000-00" data-mask-reverse="true">
+                </div>
+
+                <div class="form-group col-4">
+                    <label for="restaurantEmail">Email</label>
+                    <input type="text" class="form-control" name="restaurantEmail" id="restaurantEmail" placeholder="Digite o email do restaurante" value="{{ userLogged['restaurant']['email'] }}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="restaurantPhone">Telefone</label>
+                    <input type="text" class="form-control" name="restaurantPhone" id="restaurantPhone" placeholder="Digite o telefone do restaurante" value="{{ userLogged['restaurant']['phones'][0]['number'] }}" data-mask="(00) 0000-0000">
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="restaurantCellPhone">Celular</label>
+                    <input type="text" class="form-control" name="restaurantCellPhone" id="restaurantCellPhone" placeholder="Digite o celular do restaurante" value="{{ userLogged['restaurant']['phones'][1]['number'] }}" data-mask="(00) 0 0000-0000">
+                </div> 
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="restaurantMainCategories">Categorias Principais</label>
+                  <select id="restaurantMainCategories" class="form-control restaurant-main-categories" name="restaurantMainCategories[]"
+                  multiple="multiple">
+                    <option value="" disabled>Selecione</option>
+                    
+                    {% set mainCategories = explode(',', userLogged['restaurant']['main_categories']) %}
+
+                    {% for category in categories %}
+                        <option value="{{ category['id_category'] }}" {{ in_array(category['id_category'], mainCategories) ? 'selected' : '' }}>{{ category['name'] }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="form-group col-6">
+                  <label>Funcionamento</label>
+                  <button id="restaurantAddOperation" class="form-control btn btn-primary"><i class="fas fa-history mr-1"></i> Horários Cadastrados</button>
+                </div>
+            </div>
+
+            <button type="button" id="submitProfile" class="btn btn-primary" disabled>
+                Salvar
+            </button>
+        
+        </div>
+    </div>
+</div>

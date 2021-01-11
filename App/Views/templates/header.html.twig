@@ -42,7 +42,7 @@
                     </a>
 
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('name.profile') }}">
+                        <a class="dropdown-item" href="{{ route('name.account-profile') }}">
                             <i class="fas fa-user-alt"></i>
                             Perfil
                         </a>
@@ -50,13 +50,13 @@
                         {% if userIsAuthorized(['admin', 'partner']) %}
                             <a class="dropdown-item" href="{{ route('name.restaurant-details') }}">
                                 <i class="fas fa-utensils"></i>
-                                Restaurante
+                                Meu Restaurante
                             </a>
                         {% endif %}
 
                         <a class="dropdown-item" href="{{ route('name.orders') }}"> 
                             <i class="fas fa-list-alt"></i>
-                            Pedidos
+                            Meus Pedidos
                         </a>
 
                         <div class="dropdown-divider"></div>

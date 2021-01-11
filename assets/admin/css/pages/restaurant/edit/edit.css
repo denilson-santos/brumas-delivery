@@ -1,0 +1,87 @@
+section.restaurant-edit {
+  margin: auto;
+  max-width: 1500px; }
+  section.restaurant-edit form.restaurant-edit .sidebar-restaurant-edit .sidebar-options a {
+    color: #6C757D;
+    line-height: 26px; }
+    section.restaurant-edit form.restaurant-edit .sidebar-restaurant-edit .sidebar-options a#pills-edit-profile-tab {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0; }
+    section.restaurant-edit form.restaurant-edit .sidebar-restaurant-edit .sidebar-options a#pills-address-tab {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0; }
+    section.restaurant-edit form.restaurant-edit .sidebar-restaurant-edit .sidebar-options a#pills-change-password-tab {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0; }
+    section.restaurant-edit form.restaurant-edit .sidebar-restaurant-edit .sidebar-options a.active {
+      color: #fff; }
+    section.restaurant-edit form.restaurant-edit .sidebar-restaurant-edit .sidebar-options a:hover:not(.active) {
+      color: #fa3734; }
+  section.restaurant-edit form.restaurant-edit .user-photo-area {
+    display: none;
+    width: 137px;
+    height: 137px;
+    text-align: center;
+    line-height: 137px;
+    border: 2px dashed #ced4da;
+    border-radius: 50%;
+    cursor: pointer; }
+    section.restaurant-edit form.restaurant-edit .user-photo-area span.add-brand {
+      color: #aaa; }
+  section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media {
+    table-layout: fixed; }
+    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media th,
+    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media td {
+      vertical-align: middle; }
+    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media th:nth-child(3) {
+      width: 17%; }
+    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media .actions {
+      display: flex; }
+    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media .action {
+      /* width: -webkit-fill-available;
+                        border-radius: 50%; */
+      margin: 0 2px; }
+  section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media #addSocialMedia {
+    border-radius: 50%; }
+  section.restaurant-edit form.restaurant-edit .user-img-preview {
+    width: 137px;
+    height: 137px;
+    position: relative; }
+    section.restaurant-edit form.restaurant-edit .user-img-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid #ced4da; }
+    section.restaurant-edit form.restaurant-edit .user-img-preview .img-overlay {
+      visibility: hidden;
+      position: absolute;
+      background: transparent;
+      color: transparent; }
+    section.restaurant-edit form.restaurant-edit .user-img-preview:hover .img-overlay {
+      visibility: visible;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      color: #fff;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 50%; }
+      section.restaurant-edit form.restaurant-edit .user-img-preview:hover .img-overlay span {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        font-size: 20px; }
+  section.restaurant-edit form.restaurant-edit #pills-change-password a:hover {
+    color: #fa3734; }
+  section.restaurant-edit form.restaurant-edit .edit-field {
+    line-height: 30px;
+    border-radius: 50%;
+    width: 30px;
+    background: #fa3734;
+    margin-right: 40px;
+    text-align: center;
+    color: #fff;
+    height: 30px; }

@@ -1,0 +1,24 @@
+section.restaurant-plates {
+    margin: auto;
+    max-width: 1500px;
+
+    .table-restaurant-plates {
+        .plate-image {
+            width: 65px;
+            height: 45px;   
+            margin: 8px 0;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.25rem;
+        }
+    }
+        
+
+    #addPlate {
+        border-radius: 50%;
+    }
+}

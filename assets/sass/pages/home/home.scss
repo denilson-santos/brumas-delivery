@@ -162,3 +162,37 @@ h1 {
 	background-color: #fa3734 !important;
 	color: #fff !important;
 }
+
+section.home {
+	.page-item.active .page-link {
+		z-index: 3;
+		color: #fff !important;
+	}
+	
+	.page-item.disabled .page-link {
+		border-color: transparent;
+		background-color: #fed2d2;
+		color: #fa3734;
+		opacity: .6;
+	}
+
+    .page-link {
+		color: #fa3734 !important;
+		font-weight: 500;
+		transition: all .5s;
+		-webkit-transition: all .5s;
+		
+		border-radius: 3px;
+        margin: 0 3px;
+
+		border-color: transparent;
+        background-color: #fed2d2;
+        font-weight: 600;
+	
+		&:hover {
+			background-color: #fa3734;
+			color: #fff !important;
+			border-color: transparent;
+		}
+	}
+}

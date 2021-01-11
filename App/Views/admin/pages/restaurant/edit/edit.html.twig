@@ -1,0 +1,94 @@
+{% set myRestaurant = "active" %}
+{% set restaurantEdit = "active" %}
+
+{% extends "admin/templates/base.html.twig" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/edit/edit.css">
+{% endblock css %}
+
+{% block content %}
+  <div class="main-content">
+    <section class="section restaurant-edit">
+        <div class="section-header">
+            <h1>Editar Restaurante</h1>
+        </div>
+
+        <div class="section-body">
+            <form class="restaurant-edit">
+                <div class="row">
+                    <div class="sidebar-restaurant-edit col-xl-4 col-lg-12">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="user-photo-area m-auto">
+                                    <span class="add-photo">
+                                    <i class="fa fa-plus"></i> 
+                                    Adicionar
+                                    </span>
+                                </div>
+                                
+                                <div class="user-img-preview m-auto" id="user-img-preview">
+                                    <div class="img-overlay">
+                                    <span><i class="fa fa-times-circle"></i></span>
+                                    </div>
+    
+                                    <img src="{{ userLogged['image'] ?? '/media/default/users/user-img-default-150x150.jpg' }}">
+                                </div>
+    
+                                <input id="accountPhoto" class="invisible position-absolute" type="file" name="accountPhoto" accept=".jpg,.jpeg,.png">
+    
+                                <h5 class="mt-3 mb-0">{{ userLogged['first_name']~' '~userLogged['last_name']}}</h5>
+                                <span class="text-gray-light">{{ userLogged['email'] }}</span>
+                            </div>
+                        </div>
+    
+                        <div class="card sidebar-options">
+                            <div class="nav flex-column nav-pills" id="pills-restaurant-edit" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="pills-general-tab" data-toggle="pill" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">
+                                    <i class="fas fa-cog ml-0 mr-2"></i>
+                                    Geral
+                                </a>
+    
+                                <a class="nav-link" id="pills-address-tab" data-toggle="pill" href="#pills-address" role="tab" aria-controls="pills-address" aria-selected="false">
+                                    <i class="fas fa-map-marker-alt ml-0 mr-2"></i>
+                                    Endereço
+                                </a>
+                                
+                                <a class="nav-link" id="pills-social-media-tab" data-toggle="pill" href="#pills-social-media" role="tab" aria-controls="pills-social-media" aria-selected="false">
+                                    <i class="fas fa-share-alt ml-0 mr-2"></i>
+                                    Mídias Sociais
+                                </a>
+
+                                <a class="nav-link" id="pills-payment-methods-tab" data-toggle="pill" href="#pills-payment-methods" role="tab" aria-controls="pills-payment-methods" aria-selected="false">
+                                    <i class="fas fa-credit-card ml-0 mr-2"></i>
+                                    Formas de Pagamento
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="col-xl-8 col-lg-12">
+                        <div class="tab-content" id="pills-restaurant-edit">
+                            {% include "admin/pages/restaurant/edit/pills/general.html.twig" %}
+                            
+                            {% include "admin/pages/restaurant/edit/pills/address.html.twig" %}
+
+                            {% include "admin/pages/restaurant/edit/pills/socialMedias.html.twig" %}
+
+                            {% include "admin/pages/restaurant/edit/pills/paymentMethods.html.twig" %}                           
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+  </div>
+{% endblock content %}
+
+{% block js %}
+    <script>
+        var BASE_URL = '{{ BASE_URL }}';
+    </script>
+    <script src="/assets/admin/js/pages/restaurant/edit/pills/general.js"></script>
+    <script src="/assets/admin/js/pages/restaurant/edit/pills/socialMedias.js"></script>
+{% endblock js %}

@@ -1,0 +1,72 @@
+section.section-profile {
+  margin: auto;
+  max-width: 1500px; }
+  section.section-profile form.profile .sidebar-profile .sidebar-options a {
+    color: #6C757D;
+    line-height: 26px; }
+    section.section-profile form.profile .sidebar-profile .sidebar-options a#pills-edit-profile-tab {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0; }
+    section.section-profile form.profile .sidebar-profile .sidebar-options a#pills-address-tab {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0; }
+    section.section-profile form.profile .sidebar-profile .sidebar-options a#pills-change-password-tab {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0; }
+    section.section-profile form.profile .sidebar-profile .sidebar-options a.active {
+      color: #fff; }
+    section.section-profile form.profile .sidebar-profile .sidebar-options a:hover:not(.active) {
+      color: #fa3734; }
+  section.section-profile form.profile .user-photo-area {
+    display: none;
+    width: 137px;
+    height: 137px;
+    text-align: center;
+    line-height: 137px;
+    border: 2px dashed #ced4da;
+    border-radius: 50%;
+    cursor: pointer; }
+    section.section-profile form.profile .user-photo-area span.add-brand {
+      color: #aaa; }
+  section.section-profile form.profile .user-img-preview {
+    width: 137px;
+    height: 137px;
+    position: relative; }
+    section.section-profile form.profile .user-img-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid #ced4da; }
+    section.section-profile form.profile .user-img-preview .img-overlay {
+      visibility: hidden;
+      position: absolute;
+      background: transparent;
+      color: transparent; }
+    section.section-profile form.profile .user-img-preview:hover .img-overlay {
+      visibility: visible;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      color: #fff;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 50%; }
+      section.section-profile form.profile .user-img-preview:hover .img-overlay span {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        font-size: 20px; }
+  section.section-profile form.profile #pills-change-password a:hover {
+    color: #fa3734; }
+  section.section-profile form.profile .edit-field {
+    line-height: 30px;
+    border-radius: 50%;
+    width: 30px;
+    background: #fa3734;
+    margin-right: 40px;
+    text-align: center;
+    color: #fff;
+    height: 30px; }
