@@ -1,0 +1,85 @@
+{% set accountProfile = "active" %}
+
+{% extends "admin/templates/base.html.twig" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/assets/admin/css/pages/account/profile/profile.css">
+{% endblock css %}
+
+{% block content %}
+  <div class="main-content">
+    <section class="section section-profile">
+        <div class="section-header">
+            <h1>Perfil</h1>
+        </div>
+
+        <div class="section-body">
+            <form class="profile">
+                <div class="row">
+                    <div class="sidebar-profile col-xl-4 col-lg-12">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="user-photo-area m-auto">
+                                    <span class="add-photo">
+                                    <i class="fa fa-plus"></i> 
+                                    Adicionar
+                                    </span>
+                                </div>
+                                
+                                <div class="user-img-preview m-auto" id="user-img-preview">
+                                    <div class="img-overlay">
+                                    <span><i class="fa fa-times-circle"></i></span>
+                                    </div>
+                    
+                                    <img src="{{ userLogged['image'] ?? '/media/default/users/user-img-default-150x150.jpg' }}">
+                                </div>
+                    
+                                <input id="accountPhoto" class="invisible position-absolute" type="file" name="accountPhoto" accept=".jpg,.jpeg,.png">
+                    
+                                <h5 class="mt-3 mb-0">{{ userLogged['first_name']~' '~userLogged['last_name']}}</h5>
+                                <span class="text-gray-light">{{ userLogged['email'] }}</span>
+                            </div>
+                        </div>
+                    
+                        <div class="card sidebar-options">
+                            <div class="nav flex-column nav-pills" id="pills-profile" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="pills-edit-profile-tab" data-toggle="pill" href="#pills-edit-profile" role="tab" aria-controls="pills-edit-profile" aria-selected="true">
+                                    <i class="fas fa-cog ml-0 mr-2"></i>
+                                    Geral
+                                </a>
+                    
+                                <a class="nav-link" id="pills-address-tab" data-toggle="pill" href="#pills-address" role="tab" aria-controls="pills-address" aria-selected="false">
+                                    <i class="fas fa-map-marker-alt ml-0 mr-2"></i>
+                                    Endereço
+                                </a>
+                    
+                                <a class="nav-link" id="pills-change-password-tab" data-toggle="pill" href="#pills-change-password" role="tab" aria-controls="pills-change-password" aria-selected="false">
+                                    <i class="fas fa-lock ml-0 mr-2"></i>
+                                    Alterar Senha
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="col-xl-8 col-lg-12">
+                        <div class="tab-content" id="pills-profile">
+                            {% include "admin/pages/account/profile/pills/general.html.twig" %}
+                            
+                            {% include "admin/pages/account/profile/pills/address.html.twig" %}
+                            
+                            {% include "admin/pages/account/profile/pills/changePassword.html.twig" %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+  </div>
+{% endblock content %}
+
+{% block js %}
+    <script>
+        var BASE_URL = '{{ BASE_URL }}';
+    </script>
+    <script src="/assets/admin/js/pages/account/profile.js"></script>
+{% endblock js %}

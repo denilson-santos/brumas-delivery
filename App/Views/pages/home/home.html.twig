@@ -3,6 +3,7 @@
 {% block css %}
     <link rel="stylesheet" href="/assets/css/pages/home/home.css" type="text/css" />
     <link rel="stylesheet" href="/assets/css/pages/home/modals/newsletter.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/pages/restaurant/restaurantItem.css" type="text/css" />
 {% endblock css %}
 
 {% block content %}
@@ -29,7 +30,7 @@
         </div>	
     </div>
 
-    <section>
+    <section class="home">
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
@@ -227,28 +228,35 @@
                         {% endfor %}
                     </div>
 
-                    <nav aria-label="pagination">
-                        <ul class="pagination ml-1">                       
-                            {% for p in 1 .. numberPages %}
-                                {% if currentPage == loop.index %}
-                                    {% set active = "active" %}
-                                {% else %}
-                                    {% set active = "" %}
-                                {% endif %}
-
-                                {% set url = GET_URL %}
-                                
-                                {% set url = url|merge({'p': loop.index}) %}
-                                
-                                {% set url = http_build_query(url) %}
-
-                                {% set colorPagination = empty(active) ? "text-dark" : "" %}
-
-                                <li class="page-item {{ active }}"><a class="page-link {{ colorPagination }}" href="/?{{ url }}">{{ p }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </nav>
-        
+                    <div class="float-right">
+                        <nav aria-label="pagination">
+                            <ul class="pagination ml-1"> 
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
+                                </li>                      
+                                {% for p in 1 .. numberPages %}
+                                    {% if currentPage == loop.index %}
+                                        {% set active = "active" %}
+                                    {% else %}
+                                        {% set active = "" %}
+                                    {% endif %}
+    
+                                    {% set url = GET_URL %}
+                                    
+                                    {% set url = url|merge({'p': loop.index}) %}
+                                    
+                                    {% set url = http_build_query(url) %}
+    
+                                    {% set colorPagination = empty(active) ? "text-dark" : "" %}
+    
+                                    <li class="page-item {{ active }}"><a class="page-link {{ colorPagination }}" href="/?{{ url }}">{{ p }}</a></li>
+                                {% endfor %}
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
 

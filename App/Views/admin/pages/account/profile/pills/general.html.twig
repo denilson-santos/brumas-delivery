@@ -1,0 +1,43 @@
+<div class="tab-pane fade show active pt-0" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab">
+    <div class="card">
+        <div class="card-header">
+            <h5>Editar Perfil</h5>
+        </div>
+
+        <div class="card-body pt-0">
+            <div class="form-row">
+                <div class="form-group col-3">
+                    <label for="accountFirstName">Nome</label>
+                    <input type="text" class="form-control" name="accountFirstName" id="accountFirstName" placeholder="Digite seu primeiro nome" value="{{ userLogged['first_name'] }}">
+                </div>
+
+                <div class="form-group col-3">
+                    <label for="accountLastName">Sobrenome</label>
+                    <input type="text" class="form-control" name="accountLastName" id="accountLastName" placeholder="Digite seu sobrenome" value="{{ userLogged['last_name'] }}">
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="accountUserName">Usuário</label>
+                    <input type="text" class="form-control" name="accountUserName" id="accountUserName" placeholder="Digite seu usuário" value="{{ userLogged['login'] }}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="accountEmail">Email</label>
+                    <input type="text" class="form-control" name="accountFirstName" id="accountFirstName" placeholder="Digite seu email" value="{{ userLogged['email'] }}">
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="accountCellPhone">Celular</label>
+                    <input type="text" class="form-control" name="accountCellPhone" id="accountCellPhone" placeholder="Digite seu celular" value="{{ userLogged['user_phones'][0]['number'] }}">
+                </div> 
+            </div>
+
+            <button type="button" id="submitProfile" class="btn btn-primary" disabled>
+                Salvar
+            </button>
+        
+        </div>
+    </div>
+</div>

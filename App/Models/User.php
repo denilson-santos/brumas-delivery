@@ -107,8 +107,8 @@ class User extends Model {
                     // Get user information
                     $userLogged = [];
                     $userLogged = $user;
-                    $userLogged['user_phones'] = $this->getUserPhones($userId);
-                    $userLogged['addresses'] = $this->getAddresses($userId, $level);
+                    $userLogged['phones'] = $this->getUserPhones($userId);
+                    $userLogged['adresses'] = $this->getAddresses($userId, $level);
                     $userLogged['rates'] = $this->getRates($userId);
                         
                     if ($level == 2) {                

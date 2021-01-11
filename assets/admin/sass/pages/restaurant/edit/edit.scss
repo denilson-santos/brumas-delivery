@@ -1,0 +1,152 @@
+section.restaurant-edit {
+    margin: auto;
+    max-width: 1500px;
+
+    form.restaurant-edit {
+        .sidebar-restaurant-edit {
+            .sidebar-options a {
+                color: #6C757D;
+                line-height: 26px;
+                
+                &#pills-edit-profile-tab {
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+        
+                &#pills-address-tab {
+                    border-top-left-radius: 0;
+                    border-top-right-radius: 0;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+        
+                &#pills-change-password-tab {
+                    border-top-left-radius: 0;
+                    border-top-right-radius: 0;
+                }
+        
+                &.active {
+                    color: #fff;
+                }
+        
+                &:hover:not(.active) {
+                    color: #fa3734;
+                }
+            }
+        }
+    
+        .user-photo-area {
+            display: none;
+    
+            width: 137px;
+            height: 137px;
+    
+            text-align: center;
+            line-height: 137px;
+            border: 2px dashed #ced4da;
+            border-radius: 50%;
+            cursor: pointer;
+    
+            span.add-brand {
+                color: #aaa;
+            }
+        }
+    
+        #pills-restaurant-edit {
+            #pills-social-media {
+                table.restaurant-social-media {
+                    table-layout: fixed;
+                    
+                    & th, 
+                    & td {
+                        vertical-align: middle;
+                    }
+                    
+                    & th:nth-child(3) {
+                        width: 17%;
+                    }
+                    
+                    & .actions {
+                        display: flex;
+                    }
+                    
+                    & .action {
+                        /* width: -webkit-fill-available;
+                        border-radius: 50%; */
+                        margin: 0 2px;
+                    }
+                }
+                
+                #addSocialMedia {
+                    border-radius: 50%;
+                }                    
+            }
+
+        }
+
+        .user-img-preview {
+            width: 137px;
+            height: 137px;
+    
+            position: relative;
+    
+            img {
+                width: 100%;
+                height: 100%;
+    
+                object-fit: cover;
+                border-radius: 50%;
+    
+                border: 1px solid #ced4da;
+            }
+    
+            .img-overlay {
+                visibility: hidden;
+                position: absolute;
+    
+                background: transparent;
+                color: transparent;
+            }
+    
+            &:hover {
+                .img-overlay {
+                    visibility: visible;
+    
+                    width: 100%;
+                    height: 100%;
+        
+                    background: rgba(0,0,0, 0.2);
+                    color: #fff;
+                    transition: background 0.3s, color 0.3s;
+                    border-radius: 50%;
+                    
+                    span {
+                        position: absolute;
+                        
+                        top: 20px;
+                        right: 20px;
+        
+                        cursor: pointer;
+                        font-size: 20px;
+                    }
+                }
+        
+            }
+        }
+    
+        #pills-change-password a:hover {
+            color: #fa3734;
+        }
+    
+        .edit-field {
+            line-height: 30px;
+            border-radius: 50%;
+            width: 30px;
+            background: #fa3734;
+            margin-right: 40px;
+            text-align: center;
+            color: #fff;
+            height: 30px;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+section.restaurant-orders {
+  margin: auto;
+  max-width: 1500px; }
+  section.restaurant-orders .table-restaurant-orders .order-image {
+    width: 65px;
+    height: 45px;
+    margin: 8px 0; }
+    section.restaurant-orders .table-restaurant-orders .order-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.25rem; }
+  section.restaurant-orders .table-restaurant-orders .order-price {
+    border-left: 1px solid #dee2e6;
+    line-height: 40px;
+    font-size: 12px; }
+  section.restaurant-orders .table-restaurant-orders .more-order-details i:hover {
+    color: #fa3734;
+    cursor: pointer; }

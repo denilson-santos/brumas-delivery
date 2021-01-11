@@ -1,59 +1,57 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
-        <a href="{{ BASE_URL }}"><img title="Brumas Delivery" src="/assets/images/logo-brumas-delivery-red.png" width="52%" /></a>
+        <a href="{{ route('name.home') }}"><img title="Brumas Delivery" src="/assets/images/logo-brumas-delivery-red.png" width="52%" /></a>
       </div>
       <div class="sidebar-brand sidebar-brand-sm">
-        <a href="{{ BASE_URL }}"><img src="/assets/images/logo-brumas-delivery-red-short.png" width="52%"></a>
+        <a href="{{ route('name.home') }}"><img src="/assets/images/logo-brumas-delivery-red-short.png" width="52%"></a>
       </div>
       <ul class="sidebar-menu">
-          <li class="menu-header">Conta</li>
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link has-dropdown">
-              <i class="fas fa-address-card"></i>
-              <span>Minha Conta</span>
-            </a>
+        <li class="menu-header">Conta</li>
 
-            <ul class="dropdown-menu">
-              <li><a class="nav-link" href="{{ route('name.restaurant-details') }}">Perfil</a></li>
-              <li><a class="nav-link" href="{{ route('name.restaurant-details') }}">Sair</a></li>
-            </ul>
-          </li>
+        <li class="{{ accountProfile }}">
+          <a class="nav-link" href="{{ route('name.account-profile') }}">
+            <i class="fas fa-address-card"></i>
+            <span>Perfil</span>
+          </a>
+        </li>
 
-          <li class="menu-header">Restaurante</li>
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link has-dropdown">
-              <i class="fas fa-utensils"></i>
-              <span>Meu Restaurante</span>
-            </a>
-            
-            <ul class="dropdown-menu">
-              <li><a class="nav-link" href="{{ route('name.restaurant-details') }}">Detalhes</a></li>
-              <li><a class="nav-link" href="{{ route('name.restaurant-plates') }}">Pratos</a></li>
-              <li><a class="nav-link" href="{{ route('name.restaurant-orders') }}">Pedidos</a></li>
-            </ul>
-          </li>
+        <li class="{{ accountRates }}">
+          <a class="nav-link" href="{{ route('name.account-rates') }}">
+            <i class="fas fa-star"></i>
+            <span>Minhas Avaliações</span>
+          </a>
+        </li>
 
-          <li>
-            <a class="nav-link" href="credits.html">
-              <i class="fas fa-heart"></i> 
-              <span>Favoritos</span>
-            </a>
-          </li>
+        <li class="{{ accountFavorites }}">
+          <a class="nav-link" href="{{ route('name.account-favorites') }}">
+            <i class="fas fa-heart"></i> 
+            <span>Meus Favoritos</span>
+          </a>
+        </li>
 
-          <li class="menu-header">Pedidos</li>
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link has-dropdown">
-              <i class="fas fa-list-alt"></i>
-              <span>Meus Pedidos</span>
-            </a>
-            
-            <ul class="dropdown-menu">
-              <li><a class="nav-link" href="{{ route('name.restaurant-details') }}">Detalhes</a></li>
-              <li><a class="nav-link" href="{{ route('name.restaurant-plates') }}">Pratos</a></li>
-              <li><a class="nav-link" href="{{ route('name.restaurant-orders') }}">Pedidos</a></li>
-            </ul>
-          </li>
-        </ul>
+        <li class="{{ accountOrders }}">
+          <a class="nav-link" href="{{ route('name.account-orders') }}">
+            <i class="fas fa-list-alt"></i> 
+            <span>Meus Pedidos</span>
+          </a>
+        </li>
+
+        <li class="menu-header">Restaurante</li>
+        <li class="nav-item dropdown {{ myRestaurant }}">
+          <a href="#" class="nav-link has-dropdown">
+            <i class="fas fa-utensils"></i>
+            <span>Meu Restaurante</span>
+          </a>
+          
+          <ul class="dropdown-menu">
+            <li class="{{ restaurantDetails }}"><a class="nav-link" href="{{ route('name.restaurant-details') }}">Detalhes</a></li>
+            <li class="{{ restaurantPlates }}"><a class="nav-link" href="{{ route('name.restaurant-plates') }}">Pratos</a></li>
+            <li class="{{ restaurantOrders }}"><a class="nav-link" href="{{ route('name.restaurant-orders') }}">Pedidos</a></li>
+            <li class="{{ restaurantRates }}"><a class="nav-link" href="{{ route('name.restaurant-rates') }}">Avaliações</a></li>
+            <li class="{{ restaurantEdit }}"><a class="nav-link" href="{{ route('name.restaurant-edit') }}">Editar</a></li>
+          </ul>
+        </li>
+      </ul>
     </aside>
 </div>

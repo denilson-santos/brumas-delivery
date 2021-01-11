@@ -26,3 +26,14 @@
         border-color: #e9ecef;
     }
 }
+
+.sidebar-menu > li.active > a:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 25px;
+    width: 4px;
+    background-color: #fa3734;
+}
