@@ -51,38 +51,6 @@ section.restaurant-edit {
                 color: #aaa;
             }
         }
-    
-        #pills-restaurant-edit {
-            #pills-social-media {
-                table.restaurant-social-media {
-                    table-layout: fixed;
-                    
-                    & th, 
-                    & td {
-                        vertical-align: middle;
-                    }
-                    
-                    & th:nth-child(3) {
-                        width: 17%;
-                    }
-                    
-                    & .actions {
-                        display: flex;
-                    }
-                    
-                    & .action {
-                        /* width: -webkit-fill-available;
-                        border-radius: 50%; */
-                        margin: 0 2px;
-                    }
-                }
-                
-                #addSocialMedia {
-                    border-radius: 50%;
-                }                    
-            }
-
-        }
 
         .user-img-preview {
             width: 137px;

@@ -1,13 +1,13 @@
 $(function () {
     $('.table-restaurant-rates .more-order-details').on('click', function() {
         if ($(this).hasClass('collapsed')) {
-            $('.table-restaurant-rates .more-order-details i').removeClass('fa-chevron-right');
-            $('.table-restaurant-rates .more-order-details i').addClass('fa-chevron-down');
+            $('.table-restaurant-rates .more-order-details i').removeClass('fa-chevron-down');
+            $('.table-restaurant-rates .more-order-details i').addClass('fa-chevron-up');
             $('.table-restaurant-rates .more-order-details i').addClass('text-primary');
         } else {
-            $('.table-restaurant-rates .more-order-details i').removeClass('fa-chevron-down');
+            $('.table-restaurant-rates .more-order-details i').removeClass('fa-chevron-up');
             $('.table-restaurant-rates .more-order-details i').removeClass('text-primary');
-            $('.table-restaurant-rates .more-order-details i').addClass('fa-chevron-right');
+            $('.table-restaurant-rates .more-order-details i').addClass('fa-chevron-down');
         }
     });
 

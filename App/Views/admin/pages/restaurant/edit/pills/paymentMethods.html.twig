@@ -5,18 +5,72 @@
         </div>
 
         <div class="card-body pt-0">
-            <div class="form-row">
-                <div class="form-group col-6 mb-0">
-                    <label for="accountOldPassword">Senha Antiga</label>
-                    <input type="password" id="accountOldPassword" class="form-control" name="accountOldPassword" placeholder="Digite a senha antiga">
+            <div class="row payment-online no-gutters mb-2 px-3 py-2">
+                <div class="title col-6">Pagamento Online (Em Breve)</div>
+                
+                <div class="icon col-6 text-right">
+                    <a data-toggle="collapse" href="#paymentOnlineColapse" role="button" aria-expanded="false" aria-controls="paymentOnlineColapse">
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
                 </div>
+            </div>
 
-                <div class="form-group col-6 mb-0">
-                    <label for="accountNewPassword">Nova Senha</label>
-                    <input type="password" id="accountNewPassword" name="accountNewPassword" class="form-control" placeholder="Digite a nova senha">
+            <div class="collapse" id="paymentOnlineColapse">
+                <div class="card card-body">
+                    Forma de pagamento indisponivel.
                 </div>
+            </div>
 
-                <a href="#" class="mb-3 ml-1" href="">Esqueceu a senha ?</a>
+            <div class="row payment-on-delivery no-gutters mb-2 px-3 py-2">
+                <div class="title col-6">Pagamento na Entrega</div>
+                
+                <div class="icon col-6 text-right">
+                    <a data-toggle="collapse" href="#paymentOnDeliveryColapse" role="button" aria-expanded="false" aria-controls="paymentOnDeliveryColapse">
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="collapsed" id="paymentOnDeliveryColapse">
+                <div class="card card-body">
+                    <div class="payment-delivery">                        
+                        <div class="row justify-content-between">
+                            <div class="form-group row flex-column no-gutters col-6">
+                                <span class="payment-method-name mb-1"><strong>Dinheiro</strong></span>
+                                <span class="payment-method-1">
+                                    <input type="checkbox" class="align-middle mr-1">
+                                    <img src="/media/payment-methods/money-40x23.jpg" alt="">
+                                </span>
+                            </div>
+                            <div class="form-group row flex-column no-gutters col-6">
+                                <span class="payment-method-name mb-1"><strong>Cartão de Débito</strong></span>
+                                <span class="payment-method-2">
+                                    <input type="checkbox" class="align-middle mr-1">
+                                    <img src="/media/payment-methods/card-mastercard-40x23.jpg" alt="">
+
+                                    <input type="checkbox" class="align-middle ml-3 mr-1">
+                                    <img src="/media/payment-methods/card-visa-40x23.jpg" alt="" class="mr-3">
+
+                                    <input type="checkbox" class="align-middle mr-1">
+                                    <img src="/media/payment-methods/card-elo-40x23.jpg" alt="">
+                                </span>
+                            </div>
+                            <div class="form-group row flex-column no-gutters col-6">
+                                <span class="payment-method-name mb-1"><strong>Cartão de Crédito</strong></span>
+                                <span class="payment-method-3">
+                                    <input type="checkbox" class="align-middle mr-1">
+                                    <img src="/media/payment-methods/card-mastercard-40x23.jpg" alt="">
+                                    
+                                    <input type="checkbox" class="align-middle ml-3 mr-1">
+                                    <img src="/media/payment-methods/card-visa-40x23.jpg" alt="" class="mr-3">
+
+                                    <input type="checkbox" class="align-middle mr-1">
+                                    <img src="/media/payment-methods/card-elo-40x23.jpg" alt="">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <button type="button" id="submitProfile" class="btn btn-primary" disabled>

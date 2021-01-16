@@ -1,0 +1,31 @@
+#pills-restaurant-edit {
+    #pills-payment-methods {
+        .payment-online, 
+        .payment-on-delivery {
+            background-color: #fa3734;
+            color: #fff;
+            border-radius: 0.25rem;
+            align-items: center;
+
+            .title {
+                color: #fff;
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .icon a {
+                color: #fff;
+            }
+
+            img {
+                border-radius: 3px;
+                margin-right: 2px;
+            }
+        }
+
+        #paymentOnlineColapse .card, 
+        #paymentOnDeliveryColapse .card {
+            border: 1px solid rgba(0, 0, 0, 0.125);
+        }
+    }
+}

@@ -5,6 +5,9 @@
 
 {% block css %}
     <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/edit/edit.css">
+    <link rel="stylesheet" href="/assets/admin/css/auth/modals/operation.css">
+    <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/edit/pills/socialMedia.css">
+    <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/edit/pills/paymentMethods.css">
 {% endblock css %}
 
 {% block content %}
@@ -82,6 +85,11 @@
             </form>
         </div>
     </section>
+
+    {# Modals #}
+    {# {% block modals %} #}
+        {% include "admin/auth/modals/operation.html.twig" %}
+    {# {% endblock %} #}
   </div>
 {% endblock content %}
 
@@ -90,5 +98,7 @@
         var BASE_URL = '{{ BASE_URL }}';
     </script>
     <script src="/assets/admin/js/pages/restaurant/edit/pills/general.js"></script>
+    <script src="/assets/admin/js/auth/modals/operation.js"></script>
     <script src="/assets/admin/js/pages/restaurant/edit/pills/socialMedias.js"></script>
+    <script src="/assets/admin/js/pages/restaurant/edit/pills/paymentMethods.js"></script>
 {% endblock js %}
