@@ -30,21 +30,6 @@ section.restaurant-edit {
     cursor: pointer; }
     section.restaurant-edit form.restaurant-edit .user-photo-area span.add-brand {
       color: #aaa; }
-  section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media {
-    table-layout: fixed; }
-    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media th,
-    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media td {
-      vertical-align: middle; }
-    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media th:nth-child(3) {
-      width: 17%; }
-    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media .actions {
-      display: flex; }
-    section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media table.restaurant-social-media .action {
-      /* width: -webkit-fill-available;
-                        border-radius: 50%; */
-      margin: 0 2px; }
-  section.restaurant-edit form.restaurant-edit #pills-restaurant-edit #pills-social-media #addSocialMedia {
-    border-radius: 50%; }
   section.restaurant-edit form.restaurant-edit .user-img-preview {
     width: 137px;
     height: 137px;

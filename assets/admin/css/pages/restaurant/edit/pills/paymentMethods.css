@@ -1,0 +1,22 @@
+#pills-restaurant-edit #pills-payment-methods .payment-online,
+#pills-restaurant-edit #pills-payment-methods .payment-on-delivery {
+  background-color: #fa3734;
+  color: #fff;
+  border-radius: 0.25rem;
+  align-items: center; }
+  #pills-restaurant-edit #pills-payment-methods .payment-online .title,
+  #pills-restaurant-edit #pills-payment-methods .payment-on-delivery .title {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600; }
+  #pills-restaurant-edit #pills-payment-methods .payment-online .icon a,
+  #pills-restaurant-edit #pills-payment-methods .payment-on-delivery .icon a {
+    color: #fff; }
+  #pills-restaurant-edit #pills-payment-methods .payment-online img,
+  #pills-restaurant-edit #pills-payment-methods .payment-on-delivery img {
+    border-radius: 3px;
+    margin-right: 2px; }
+
+#pills-restaurant-edit #pills-payment-methods #paymentOnlineColapse .card,
+#pills-restaurant-edit #pills-payment-methods #paymentOnDeliveryColapse .card {
+  border: 1px solid rgba(0, 0, 0, 0.125); }
