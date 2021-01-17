@@ -1,19 +1,21 @@
 <?php 
-namespace Controllers;
+namespace App\Controllers;
 
-use Core\Controller;
-use Models\Category;
-use Models\Filter;
-use Models\Restaurant;
+use App\Models\Category;
+use App\Models\Restaurant;
+use App\Models\User;
 
 class RestaurantController extends Controller {
     public function index() {
         header('Location: '.BASE_URL);        
     }
 
-    public function open($id) {
+    public function getRestaurant($request) {
+        $id = $request['id'];
+
         $restaurant = new Restaurant();
         $category = new Category();
+        $user = new User();
         
         $data = [];
        
@@ -23,10 +25,13 @@ class RestaurantController extends Controller {
             $data = [
                 'restaurantInfo' => $restaurantInfo,
                 // 'restaurantImage' => $restaurant->getImagesByRestaurantId($id),
-                'categories' => $category->getListCategories()
+                'categories' => $category->getListCategories(),
+                'language' => $this->language->getLanguage(),
+                'iniDicionary' => $this->language->getIniDicionary(),
+                'userLogged' => $user->isLogged()
             ];
 
-            $this->loadTemplateHeaderFooter('pages/restaurant/restaurant', $data);
+            $this->loadView('pages/restaurant/restaurant', $data);
         } else {
             header('Location: '.BASE_URL);
         }

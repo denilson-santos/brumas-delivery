@@ -69,13 +69,16 @@
     /*
      * Site
     */ 
-    $router->namespace("App\Controllers");
+    $router->namespace("App\Controllers");  
 
     // Home
     $router->group(null);
     $router->get('/', 'HomeController:index', 'name.home');
     $router->get('/home', 'HomeController:index');
     $router->get('/category/{id}', 'CategoryController:open');
+
+    // Restaurant
+    $router->get('/restaurant/show/{id}', 'RestaurantController:getRestaurant');
 
     // Language
     $router->post('/lang', 'LangController:set');
