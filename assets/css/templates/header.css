@@ -20,6 +20,10 @@
       transition: color 0.5s; }
       .topnav #navbarNav .dropdown-menu a:hover {
         color: #fa3734; }
+  .topnav #navbarNav .dropdown-user img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover; }
 
 .topnav .navbar-nav li {
   margin-top: 2px; }

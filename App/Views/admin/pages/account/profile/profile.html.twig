@@ -19,22 +19,24 @@
                     <div class="sidebar-profile col-xl-4 col-lg-12">
                         <div class="card">
                             <div class="card-body text-center">
-                                <div class="user-photo-area m-auto">
-                                    <span class="add-photo">
-                                    <i class="fa fa-plus"></i> 
-                                    Adicionar
-                                    </span>
-                                </div>
-                                
-                                <div class="user-img-preview m-auto" id="user-img-preview">
-                                    <div class="img-overlay">
-                                    <span><i class="fa fa-times-circle"></i></span>
+                                <div class="photo-container">
+                                    <div class="user-photo-area m-auto">
+                                        <span class="add-photo">
+                                        <i class="fa fa-plus"></i> 
+                                        Adicionar
+                                        </span>
                                     </div>
-                    
-                                    <img src="{{ userLogged['image'] ?? '/media/default/users/user-img-default-150x150.jpg' }}">
+                                    
+                                    <div class="user-img-preview m-auto" id="user-img-preview">
+                                        <div class="img-overlay">
+                                        <span><i class="fa fa-times-circle"></i></span>
+                                        </div>
+                        
+                                        <img src="{{ userLogged['image'] ?? '/media/default/users/user-img-default-150x150.jpg' }}">
+                                    </div>
+                        
+                                    <input id="accountPhoto" class="invisible position-absolute" type="file" name="accountPhoto" accept=".jpg,.jpeg,.png" data-user-id="{{ userLogged['id_user'] }}">
                                 </div>
-                    
-                                <input id="accountPhoto" class="invisible position-absolute" type="file" name="accountPhoto" accept=".jpg,.jpeg,.png">
                     
                                 <h5 class="mt-3 mb-0">{{ userLogged['first_name']~' '~userLogged['last_name']}}</h5>
                                 <span class="text-gray-light">{{ userLogged['email'] }}</span>
@@ -43,7 +45,7 @@
                     
                         <div class="card sidebar-options">
                             <div class="nav flex-column nav-pills" id="pills-profile" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="pills-edit-profile-tab" data-toggle="pill" href="#pills-edit-profile" role="tab" aria-controls="pills-edit-profile" aria-selected="true">
+                                <a class="nav-link active" id="pills-general-tab" data-toggle="pill" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">
                                     <i class="fas fa-cog ml-0 mr-2"></i>
                                     Geral
                                 </a>
@@ -71,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form> 
         </div>
     </section>
   </div>
@@ -81,5 +83,6 @@
     <script>
         var BASE_URL = '{{ BASE_URL }}';
     </script>
-    <script src="/assets/admin/js/pages/account/profile.js"></script>
+    <script src="/assets/admin/js/pages/account/profile/profile.js"></script>
+    {# <script src="/assets/admin/js/pages/account/profile/pills/general.js"></script> #}
 {% endblock js %}

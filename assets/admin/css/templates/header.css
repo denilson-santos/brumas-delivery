@@ -16,6 +16,11 @@
   #adminNavbarNav .dropdown-menu .dropdown-divider {
     border-color: #e9ecef; }
 
+#adminNavbarNav .dropdown-user img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover; }
+
 .sidebar-menu > li.active > a:before {
   content: '';
   position: absolute;
