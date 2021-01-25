@@ -35,9 +35,9 @@
             </li>
 
             {% if userIsLogged() %}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown dropdown-user mt-0">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img alt="image" src="{{ userLogged['image'] ? userLogged['image'] : '/media/default/users/user-img-default-150x150.jpg' }}" class="rounded-circle mr-1" width="30">
+                        <img alt="image" src="{{ userLogged['image'] ? userLogged['image'] : '/media/default/users/user-img-default-150x150.jpg' }}" class="rounded-circle mr-1">
                         <div class="d-sm-none d-lg-inline-block">{{ userLogged['first_name'] ~ ' ' ~ userLogged['last_name'] }}</div>
                     </a>
 

@@ -46,6 +46,34 @@ class UserController extends Controller {
         $this->loadView('admin/pages/account/profile/profile', $data);
     }
 
+    public function editProfile($request) {        
+        $headers = getallheaders();
+
+        if (array_key_exists('accountPhoto', $_FILES)) {
+            $request['accountPhoto'] = $_FILES['accountPhoto'];
+        }
+        
+        $request = $this->sanitizeInputs($request);
+
+        if (array_key_exists('accountCellPhone', $request)) {
+            $maskedFields = ['accountCellPhone'];
+            
+            $request = $this->clearMasks($request, $maskedFields);
+        }
+
+        $user = new User($request);
+        
+        $validation = $user->validateEditProfileForm();
+
+        if ($validation['validate']) {
+            $user->saveEditProfileForm($headers['User-Id']);
+
+            echo json_encode($validation);
+        } else {
+            echo json_encode($validation);
+        }
+    }
+
     public function getRates($request) {
         $user = new User();
                 
@@ -147,5 +175,18 @@ class UserController extends Controller {
         ];
 
         $this->loadView('admin/pages/account/orders/orders', $data);
+    }
+
+    public function changeImage($request) {
+        $headers = getallheaders();
+
+        $request['accountPhoto'] = $_FILES['accountPhoto'];
+        
+        $request = $this->sanitizeInputs($request);
+        
+        $user = new User();                
+        $user->setImage($request['accountPhoto'], $headers['User-Id']);
+
+        return true;
     }
 }

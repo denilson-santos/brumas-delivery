@@ -3,9 +3,12 @@ $.validator.addMethod('filesize', function (value, element, param) {
     return element.files[0].size <= (param * 1000000);
 }, 'File size must be less');
 
-$('.profile button#submitProfile').on('click', function () {
-   // Registration Form Validation
-$('.profile').validate( {
+
+// Registration Form Validation
+$('form.profile').validate( {
+    onfocusout: false,
+    onkeyup: false,
+    onsubmit: false,
     rules: {
         accountPhoto: {
             required: true,
@@ -22,6 +25,15 @@ $('.profile').validate( {
             required: true,
             minlength: 4,
             maxlength: 30
+        },
+        accountUserName: {
+            required: true,
+            minlength: 2,
+            maxlength: 30,
+            remote: {
+                type: 'POST',
+                url: BASE_URL + '/register/check-user', 
+            }
         },
         accountEmail: {
             required: true,
@@ -44,9 +56,9 @@ $('.profile').validate( {
             minlength: 4,
             maxlength: 50,
         },
-        accountNeighborhood: {
-            required: true,
-            digits: true
+        accountComplement: {
+            required: false,
+            maxlength: 50
         },
         accountNumber: {
             required: true,
@@ -59,21 +71,17 @@ $('.profile').validate( {
         accountCity: {
             required: true,
             digits: true
-        },   
-        accountComplement: {
-            required: false,
-            maxlength: 50
         },
-        accountUserName: {
+        accountNeighborhood: {
             required: true,
-            minlength: 2,
-            maxlength: 30,
-            remote: {
-                type: 'POST',
-                url: BASE_URL + '/register/check-user', 
-            }
+            digits: true
+        },       
+        accountOldPassword: {
+            required: true,
+            minlength: 4,
+            maxlength: 255
         },
-        accountPassword: {
+        accountNewPassword: {
             required: true,
             minlength: 4,
             maxlength: 255
@@ -81,7 +89,7 @@ $('.profile').validate( {
     },
     messages: {
         accountPhoto: {
-            required: 'Adicione uma foto',
+            required: 'Adicione uma foto para seu perfil',
             accept: 'Formato inválido, use: (.jpg, .jpeg ou .png)',
             filesize: 'O limite para upload é de 30mb'
         },
@@ -94,6 +102,12 @@ $('.profile').validate( {
             required: 'Digite seu sobrenome',
             minlength: 'O seu sobrenome precisa ter no mínimo 4 caracteres',
             maxlength: 'O seu sobrenome precisa ter no máximo 30 caracteres'
+        },
+        accountUserName: {
+            required: 'Digite seu usuário',
+            minlength: 'O usuário precisa ter no mínimo 2 caracteres',
+            maxlength: 'O usuário precisa ter no máximo 30 caracteres',
+            remote: 'O usuário já existe'
         },
         accountEmail: {
             required: 'Digite seu email',
@@ -112,9 +126,8 @@ $('.profile').validate( {
             minlength: 'O endereço precisa ter no mínimo 4 caracteres',
             maxlength: 'O endereço precisa ter no máximo 50 caracteres'
         },
-        accountNeighborhood: {
-            required: 'Informe seu bairro',
-            digits: 'Informe um bairro válido'
+        accountComplement: {
+            maxlength: 'O complemento precisa ter no máximo 50 caracteres'
         },
         accountNumber: {
             required: 'Número ?',
@@ -128,17 +141,17 @@ $('.profile').validate( {
             required: 'Informe sua cidade',
             digits: 'Informe uma cidade válida'
         },
-        accountComplement: {
-            maxlength: 'O complemento precisa ter no máximo 50 caracteres'
+        accountNeighborhood: {
+            required: 'Informe seu bairro',
+            digits: 'Informe um bairro válido'
         },
-        accountUserName: {
-            required: 'Digite seu usuário',
-            minlength: 'O usuário precisa ter no mínimo 2 caracteres',
-            maxlength: 'O usuário precisa ter no máximo 30 caracteres',
-            remote: 'O usuário já existe'
+        accountOldPassword: {
+            required: 'Digite sua senha antiga',
+            minlength: 'A senha precisa ter no mínimo 4 caracteres',
+            maxlength: 'A senha precisa ter no máximo 255 caracteres'
         },
-        accountPassword: {
-            required: 'Digite sua senha',
+        accountNewPassword: {
+            required: 'Digite sua nova senha',
             minlength: 'A senha precisa ter no mínimo 4 caracteres',
             maxlength: 'A senha precisa ter no máximo 255 caracteres'
         }
@@ -230,24 +243,34 @@ $('.profile').validate( {
 
         return false;
     }
-} );    
-});
+});    
 
-// Validate selectric on change
-$('.profile select').on('change', function(e) {
-    if ($(this).valid()) {
-        $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
-    } else {
-        $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#fa2724');
-    }
-});
-
+// Change image preview
 $('.user-photo-area').on('click', function() {
     $('#accountPhoto').click();
 });
 
 $("#accountPhoto").on('change', function() {
     if ($(this).valid()) userPreview(this);
+    // console.log('Salvando...');
+
+    // var userId = $(this).data('user-id');
+    
+    // var file = new FormData();
+    
+    // file.append("accountPhoto",$('#accountPhoto')[0].files[0]);
+
+    // $.ajax({
+    //     type: 'POST',
+    //     url: '/account/change-image',
+    //     headers: { 'User-Id': userId },
+    //     data: file,
+    //     contentType : false,
+    //     processData : false,
+    //     success: function (response) {
+    //         console.log(response);
+    //     }
+    // });
 });
 
 $('.img-overlay span').on('click', function() {
@@ -256,9 +279,115 @@ $('.img-overlay span').on('click', function() {
     $('#accountPhoto').val('');
 });
 
-$('.profile button#submitProfile').on('click', function () {
-    a = isValid($(this).closest('form'));
-    console.log(a);
+// Validation inputs on change
+$('form.profile input').on('change', function () {
+    if ($(this).valid()) {
+        $(this).addClass('changed');
+    } else {
+        $(this).removeClass('changed')
+    }
+});
+
+// Validate selectric on change
+$('form.profile select').on('change', function(e) {
+    if ($(this).valid()) {
+        $(this).addClass('changed');
+        $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#28a745');
+    } else {
+        $(this).removeClass('changed')
+        $(this).closest('.selectric-wrapper').find('div.selectric').css('border-color', '#fa2724');
+    }
+});
+
+// Enable/Disabled submit button
+$('form.profile input, form.profile select').on('change', function () {
+    if ($('form.profile').find('.changed').length > 0 && !$(this).hasClass('is-invalid')) {
+        $('button.submit-profile').attr('disabled', false);
+    } else {
+        $('button.submit-profile').attr('disabled', true);
+    }
+});
+
+$('form.profile').on('submit', function (e) {
+    e.preventDefault();
+    var fieldsChanged = $(this).find('.changed');
+    
+    // console.log(fieldsChanged[0]);
+    
+    if (fieldsChanged.length > 0) {
+        var form = new FormData();
+        var field = '';
+        var userId = $('#accountPhoto').data('user-id');
+
+        fieldsChanged.each(function (index, element) {
+            field = $(element).attr('name');
+
+            if (field == 'accountPhoto') {
+                form.append(field, $(element)[0].files[0] ?? '');
+            } else {
+                form.append(field, $(element).val());
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            headers: { 'User-Id': userId },
+            url: "/account/profile-action",
+            contentType : false,
+            processData : false,
+            data: form,
+            beforeSend: function() {
+                $('form.profile .submit-profile').attr('disabled', true);
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+                
+                if (!response.validate) {
+                    tooltip = '<ul>';
+    
+                    var errors = response.errors;
+                    // Get messages of server valiadation
+                    for (var field in errors) {
+                        var error = errors[field];
+                        tooltip += `<li>${error[0]}</li>`;
+                    }
+    
+                    tooltip += '</ul>';
+                    
+                    $('form.profile .server-validation a').attr('data-original-title', tooltip);
+                    $('form.profile .server-validation').css('display', 'block');
+
+                    iziToast.error({
+                        title: 'Error!',
+                        message: 'Ocorreu um erro ao atualizar as informações, tente novamente!',
+                        position: 'topRight',
+                        timeout: 2500,
+                    });
+                } else {
+                    $('form.profile .server-validation a').attr('data-original-title', '');
+                    $('form.profile .server-validation').css('display', 'none');
+    
+                    iziToast.success({
+                        title: 'Sucesso!',
+                        message: 'Informações atualizadas com sucesso!',
+                        position: 'topRight',
+                        timeout: 2000,
+                    });
+
+                    // Refresh page
+                    setTimeout(function() {
+                        window.location.href = BASE_URL+'/account/profile';
+                    }, 2100);
+                }
+            },
+            complete: function() {
+                $('form.profile .submit-profile').attr('disabled', false);
+            }
+        });
+    }
+
+    return false;
 });
 
 function userPreview(input) {
@@ -284,11 +413,11 @@ function userPreview(input) {
 }
 
 function isValid(form) {
-    // var formElements = form.find('input,select');
+    var formElements = form.find('input,select');
     
-    // $(formElements).each(function (index, element) {
-    //     if (!formElements.eq(index).valid()) validation = false;
-    // });
+    $(formElements).each(function (index, element) {
+        if (!formElements.eq(index).valid()) validation = false;
+    });
 
-    // return validation;
+    return validation;
 }

@@ -1,22 +1,26 @@
-<div class="tab-pane fade show active pt-0" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab">
+<div class="tab-pane fade show active pt-0" id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
     <div class="card">
-        <div class="card-header">
-            <h5>Editar Perfil</h5>
+        <div class="card-header flex-column align-items-start">
+            <h5>Geral</h5>
+            
+            <div class="server-validation">
+                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Informações incorretas!</a>  
+            </div>
         </div>
 
         <div class="card-body pt-0">
             <div class="form-row">
-                <div class="form-group col-3">
+                <div class="form-group col-4">
                     <label for="accountFirstName">Nome</label>
                     <input type="text" class="form-control" name="accountFirstName" id="accountFirstName" placeholder="Digite seu primeiro nome" value="{{ userLogged['first_name'] }}">
                 </div>
 
-                <div class="form-group col-3">
+                <div class="form-group col-4">
                     <label for="accountLastName">Sobrenome</label>
                     <input type="text" class="form-control" name="accountLastName" id="accountLastName" placeholder="Digite seu sobrenome" value="{{ userLogged['last_name'] }}">
                 </div>
 
-                <div class="form-group col-6">
+                <div class="form-group col-4">
                     <label for="accountUserName">Usuário</label>
                     <input type="text" class="form-control" name="accountUserName" id="accountUserName" placeholder="Digite seu usuário" value="{{ userLogged['login'] }}">
                 </div>
@@ -25,7 +29,7 @@
             <div class="form-row">
                 <div class="form-group col-6">
                     <label for="accountEmail">Email</label>
-                    <input type="text" class="form-control" name="accountFirstName" id="accountFirstName" placeholder="Digite seu email" value="{{ userLogged['email'] }}">
+                    <input type="text" class="form-control" name="accountEmail" id="accountEmail" placeholder="Digite seu email" value="{{ userLogged['email'] }}">
                 </div>
 
                 <div class="form-group col-6">
@@ -34,10 +38,9 @@
                 </div> 
             </div>
 
-            <button type="button" id="submitProfile" class="btn btn-primary" disabled>
+            <button type="submit" class="btn btn-primary submit-profile float-right" disabled>
                 Salvar
             </button>
-        
         </div>
     </div>
 </div>

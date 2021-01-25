@@ -55,9 +55,11 @@
 
     // Acount
     $router->get('/account/profile', 'UserController:getProfile', 'name.account-profile');
+    $router->post('/account/profile-action', 'UserController:editProfile');
     $router->get('/account/rates', 'UserController:getRates', 'name.account-rates');
     $router->get('/account/favorites', 'UserController:getFavorites', 'name.account-favorites');
     $router->get('/account/orders', 'UserController:getOrders', 'name.account-orders');
+    $router->post('/account/change-image', 'UserController:changeImage');
 
     // Restaurant
     $router->get('/restaurant/details', 'RestaurantController:index', 'name.restaurant-details');

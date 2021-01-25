@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Intervention\Image\ImageManager;
 use Valitron\Validator;
 
 class User extends Model {
@@ -302,11 +303,11 @@ class User extends Model {
         }, 'is invalid operation');
         
         $validator->addRule('accept', function($field, $value, array $params, array $fields) {
-            return in_array($value['type'], $params[0]);
+            return !empty($values['type']) && in_array($value['type'], $params[0]);
         }, 'Formato inválido, use: (.jpg, .jpeg ou .png)');
         
         $validator->addRule('filesize', function($field, $value, array $params, array $fields) {
-            return $value['size'] <= ($params[0] * 1000000);
+            return !empty($value['size']) && ($value['size'] <= ($params[0] * 1000000));
         }, 'The upload limit is 30mb');
 
         // accountFirstName
@@ -356,7 +357,7 @@ class User extends Model {
         $validator->rule('lengthMax', 'accountComplement', 50)->message('O complemento precisa ter no máximo 50 caracteres');
 
         // restaurantBrand
-        $validator->rule('required', 'restaurantBrand')->message('');
+        $validator->rule('required', 'restaurantBrand')->message('Adicione uma logo para o restaurante');
         $validator->rule('filesize', 'restaurantBrand', 30)->message('O limite para upload é de 30mb');
         $validator->rule('accept', 'restaurantBrand', ['image/jpg', 'image/jpeg', 'image/png'])->message('Formato inválido, use: (.jpg, .jpeg ou .png)');
 
@@ -441,6 +442,137 @@ class User extends Model {
 
         // terms
         $validator->rule('required', 'accountTerms')->message('Aceite os termos');
+
+        if($validator->validate()) {
+            return ['validate' => true];
+        } else {
+            // Errors
+            return ['validate' => false, 'errors' => $validator->errors()];
+        }
+    }
+
+    public function validateEditProfileForm() { 
+        $validator = new Validator($this->data);
+
+        // Add new rules in plugin validation
+        $validator->addRule('arrayLengthMax', function($field, $value, array $params, array $fields) {
+            return count($value) <= $params[0];
+        }, 'is array length max items');
+
+        $validator->addRule('arrayLengthMin', function($field, $value, array $params, array $fields) {
+            return count($value) >= $params[0];
+        }, 'is array length min items');
+
+        $validator->addRule('uniqueEmail', function($field, $value, array $params, array $fields) {
+            return $this->validateUniqueEmail($value);
+        }, 'is exist email');
+
+        $validator->addRule('uniqueUser', function($field, $value, array $params, array $fields) {
+            return $this->validateUniqueUser($value);
+        }, 'is exist user');
+        
+        $validator->addRule('accept', function($field, $value, array $params, array $fields) {
+            return !empty($value['type']) && in_array($value['type'], $params[0]);
+        }, 'Formato inválido, use: (.jpg, .jpeg ou .png)');
+        
+        $validator->addRule('filesize', function($field, $value, array $params, array $fields) {
+            return !empty($value['size']) && ($value['size'] <= ($params[0] * 1000000));
+        }, 'The upload limit is 30mb');
+
+        if (array_key_exists('accountPhoto', $this->data)) {
+            // accountPhoto
+            $validator->rule('required', 'accountPhoto')->message('Adicione uma foto para o seu perfil');
+            $validator->rule('filesize', 'accountPhoto', 30)->message('O limite para upload é de 30mb');
+            $validator->rule('accept', 'accountPhoto', ['image/jpg', 'image/jpeg', 'image/png'])->message('Formato inválido, use: (.jpg, .jpeg ou .png)');
+        }
+
+        if (array_key_exists('accountFirstName', $this->data)) {
+            // accountFirstName
+            $validator->rule('required', 'accountFirstName')->message('Digite seu primeiro nome');
+            $validator->rule('lengthMin', 'accountFirstName', 2)->message('O seu primeiro nome precisa ter no mínimo 2 caracteres');
+            $validator->rule('lengthMax', 'accountFirstName', 30)->message('O seu primeiro nome precisa ter no máximo 30 caracteres');
+        }
+
+        if (array_key_exists('accountLastName', $this->data)) {
+            // accountLastName
+            $validator->rule('required', 'accountLastName')->message('Digite seu sobrenome');
+            $validator->rule('lengthMin', 'accountLastName', 4)->message('O seu sobrenome precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'accountLastName', 30)->message('O seu sobrenome precisa ter no máximo 30 caracteres');
+        }
+
+        if (array_key_exists('accountUserName', $this->data)) {
+            // accountaccountUserName
+            $validator->rule('required', 'accountUserName')->message('Digite seu usuário');
+            $validator->rule('lengthMin', 'accountUserName', 2)->message('O usuário precisa ter no mínimo 2 caracteres');
+            $validator->rule('lengthMax', 'accountUserName', 30)->message('O usuário precisa ter no máximo 30 caracteres');
+            $validator->rule('uniqueUser', 'accountUserName')->message('O usuário já existe');
+        }
+
+        if (array_key_exists('accountEmail', $this->data)) {
+            // accountEmail
+            $validator->rule('required', 'accountEmail')->message('Digite seu email');
+            $validator->rule('lengthMin', 'accountEmail', 7)->message('O email precisa ter no mínimo 7 caracteres');
+            $validator->rule('lengthMax', 'accountEmail', 100)->message('O accountEmail precisa ter no máximo 30 caracteres');
+            $validator->rule('email', 'accountEmail')->message('Digite um email válido');
+            $validator->rule('uniqueEmail', 'accountEmail')->message('Email já cadastrado');
+        }
+
+        if (array_key_exists('accountCellPhone', $this->data)) {
+            // accountCellPhone
+            $validator->rule('required', 'accountCellPhone')->message('Digite seu celular');
+            $validator->rule('lengthMin', 'accountCellPhone', 11)->message('O celular precisa ter no mínimo o DDD + 9 dígitos');
+            $validator->rule('lengthMax', 'accountCellPhone', 11)->message('O celular precisa ter no máximo o DDD + 9 dígitos');
+        }
+
+        if (array_key_exists('accountAddress', $this->data)) {
+            // accountAddress
+            $validator->rule('required', 'accountAddress')->message('Digite seu endereço');
+            $validator->rule('lengthMin', 'accountAddress', 4)->message('O endereço precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'accountAddress', 50)->message('O endereço precisa ter no máximo 50 caracteres');
+        }
+
+        if (array_key_exists('accountComplement', $this->data)) {
+            // accountComplement
+            $validator->rule('lengthMax', 'accountComplement', 50)->message('O complemento precisa ter no máximo 50 caracteres');
+        }
+
+        if (array_key_exists('accountNumber', $this->data)) {
+            // accountNumber
+            $validator->rule('required', 'accountNumber')->message('Digite seu número');
+            $validator->rule('lengthMax', 'accountNumber', 11)->message('O seu número precisa ter no máximo 11 caracteres');
+        }
+
+        if (array_key_exists('accountState', $this->data)) {
+            // accountState
+            $validator->rule('required', 'accountState')->message('Informe seu estado');
+            $validator->rule('integer', 'accountState')->message('Informe um estado válido');
+        }
+        
+        if (array_key_exists('accountCity', $this->data)) {
+            // accountCity
+            $validator->rule('required', 'accountCity')->message('Informe sua cidade');
+            $validator->rule('integer', 'accountCity')->message('Informe uma cidade válida');
+        }
+
+        if (array_key_exists('accountNeighborhood', $this->data)) {
+            // accountNeighborhood
+            $validator->rule('required', 'accountNeighborhood')->message('Informe seu bairro');
+            $validator->rule('integer', 'accountNeighborhood')->message('Informe um bairro válido');
+        }
+        
+        if (array_key_exists('accountOldPassword', $this->data)) {
+            // accountOldPassword
+            $validator->rule('required', 'accountOldPassword')->message('Digite sua antiga senha');
+            $validator->rule('lengthMin', 'accountOldPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'accountOldPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
+        }
+        
+        if (array_key_exists('accountNewPassword', $this->data)) {
+            // accountNewPassword
+            $validator->rule('required', 'accountNewPassword')->message('Digite sua nova senha');
+            $validator->rule('lengthMin', 'accountNewPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'accountNewPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
+        }
 
         if($validator->validate()) {
             return ['validate' => true];
@@ -674,7 +806,7 @@ class User extends Model {
             // Create user tree of directories
             $userPath = "/var/www/projects/brumas-delivery/media/users/$userId";
             
-            mkdir("$userPath/image", 0777, true);
+            mkdir("$userPath/account/image", 0777, true);
 
             $dataUserPhone = [
                 'user_id' => $userId,
@@ -721,7 +853,7 @@ class User extends Model {
             $userPath = "/var/www/projects/brumas-delivery/media/users/$userId";
             $restaurantPath = "$userPath/restaurant";
             
-            mkdir("$userPath/image", 0777, true);
+            mkdir("$userPath/account/image", 0777, true);
             mkdir("$restaurantPath/brand", 0777, true);
             mkdir("$restaurantPath/categories", 0777, true);
             mkdir("$restaurantPath/plates", 0777, true);
@@ -826,6 +958,104 @@ class User extends Model {
             // echo "Message: " . $error->getMessage() . "<br>";
             // echo "Name of file: ". $error->getFile() . "<br>";
             // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function saveEditProfileForm($id) {
+        $databaseColumns = [
+            'accountPhoto' => 'u.image',
+            'accountFirstName' => 'u.first_Name',
+            'accountLastName' => 'u.last_name',
+            'accountUserName' => 'u.login',
+            'accountEmail' => 'u.email',
+            'accountCellPhone' => 'up.number',
+            'accountAddress' => 'a.address',
+            'accountComplement' => 'a.complement',
+            'accountNumber' => 'a.number',
+            // 'accountState' => 'c.state',
+            // 'accountCity' => 'n.city_id',
+            'accountNeighborhood' => 'a.neighborhood_id',
+            'accountNewPassword' => 'u.password'
+        ];
+
+        $columnsChanged = array_keys($this->data);
+        $setColumns = '';
+
+        // Generate named params
+        foreach ($columnsChanged as $key => $column) {
+            if ($key == count($columnsChanged) -1) {
+                $setColumns .= $databaseColumns[$column] . ' = :' . str_replace('.', '', $databaseColumns[$column]);
+            } else {
+                $setColumns .= $databaseColumns[$column] . ' = :' . str_replace('.', '', $databaseColumns[$column]) . ', ';
+            }
+        }
+
+        try {
+            $stm = $this->db->prepare("UPDATE user u
+                JOIN address a ON u.id_user = a.user_id
+                JOIN user_phone up ON u.id_user = up.user_id
+                SET $setColumns 
+                WHERE id_user = :idUser
+            ");
+            // $stm = $this->db->prepare("UPDATE user u
+            //     SET $setColumns 
+            //     WHERE id_user = :idUser
+            // ");
+
+            // Replacing named params
+            foreach ($columnsChanged as $key => $column) {
+                if ($column == 'accountPhoto') {
+                    // Save user image
+                    $userPath = '/var/www/projects/brumas-delivery/media/users/'.$id;
+    
+                    // Delete old Image
+                    $this->deleteAllFilesInFolder("$userPath/account/image");
+        
+                    $relativeUserPath = '/media/users/'.$id;
+        
+                    $name = $this->data['accountPhoto']['name'];
+                    $tempPath = $this->data['accountPhoto']['tmp_name'];
+                    $newPath = "$userPath/account/image/$name";
+                    $newRelativePath = "$relativeUserPath/account/image/$name";
+        
+                    $image = new ImageManager(array('driver' => 'gd'));
+                    $image = $image->make($tempPath);
+        
+                    // Image width
+                    $x = $image->width();
+                    // // Image height
+                    $y = $image->height();
+        
+                    $resize = 250;
+        
+                    if ($x > $y) {
+                        $image->resize(null, $resize, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($newPath);
+                    } else if ($y > $x) {
+                        $image->resize($resize, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($newPath);
+                    } else {
+                        $image->resize($resize, $resize)->save($newPath);
+                    }  
+
+                    $stm->bindValue(':'.str_replace('.', '', $databaseColumns[$column]), $newRelativePath); 
+                } else {
+                    $stm->bindValue(':'.str_replace('.', '', $databaseColumns[$column]), $this->data[$column]); 
+                }
+            }
+
+            $stm->bindValue(':idUser', $id);
+            
+            $stm->execute();
+        } catch (\PDOException $error) {            
+            // For debug
+            echo "Message: " . $error->getMessage() . "<br>";
+            echo "Name of file: ". $error->getFile() . "<br>";
+            echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
         }
     }
 
