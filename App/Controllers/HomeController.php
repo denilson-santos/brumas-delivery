@@ -53,7 +53,6 @@ class HomeController extends Controller {
             'userLogged' => $user->isLogged()
         ];
 
-
         // print_r($data['userLogged']);
         // exit;
         $this->loadView('pages/home/home', $data);

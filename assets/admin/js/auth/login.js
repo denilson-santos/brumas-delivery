@@ -75,6 +75,8 @@ $(function () {
                         
                         $('.login .server-validation a').attr('data-original-title', tooltip);
                         $('.login .server-validation').css('display', 'block');
+                        $('.login #accountUserOrEmail, .login #accountPassword').removeClass('is-valid');
+                        $('.login #accountUserOrEmail, .login #accountPassword').addClass('is-invalid');
                     } else {
                         $('.login .server-validation a').attr('data-original-title', '');
                         $('.login .server-validation').css('display', 'none');

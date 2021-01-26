@@ -253,9 +253,9 @@ class User extends Model {
         $validator->rule('lengthMin', 'accountPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
         $validator->rule('lengthMax', 'accountPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
 
-        // confirmaccountPassword
+        // accountPassword
         $validator->rule('required', 'accountConfirmPassword')->message('Digite novamente sua senha');
-        $validator->rule('lengthMin', 'accountConfirmaccountPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
+        $validator->rule('lengthMin', 'accountConfirmPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
         $validator->rule('lengthMax', 'accountConfirmPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
         $validator->rule('equals', 'accountPassword', 'accountConfirmPassword')->message('As senhas não conferem, tente novamente');
 
@@ -451,6 +451,23 @@ class User extends Model {
         }
     }
 
+    public function validateLoginForm() {
+        $validator = new Validator($this->data);
+
+        // login
+        $validator->rule('required', 'accountUserOrEmail')->message('Digite seu usuário');
+
+        // accountPassword
+        $validator->rule('required', 'accountPassword')->message('Digite sua senha');        
+
+        if($validator->validate()) {
+            return ['validate' => true];
+        } else {
+            // Errors
+            return ['validate' => false, 'errors' => $validator->errors()];
+        }
+    }
+
     public function validateEditProfileForm() { 
         $validator = new Validator($this->data);
 
@@ -470,6 +487,10 @@ class User extends Model {
         $validator->addRule('uniqueUser', function($field, $value, array $params, array $fields) {
             return $this->validateUniqueUser($value);
         }, 'is exist user');
+
+        $validator->addRule('checkPassword', function($field, $value, array $params, array $fields) {
+            return $this->validatePassword($value);
+        }, 'is not correct');
         
         $validator->addRule('accept', function($field, $value, array $params, array $fields) {
             return !empty($value['type']) && in_array($value['type'], $params[0]);
@@ -565,6 +586,7 @@ class User extends Model {
             $validator->rule('required', 'accountOldPassword')->message('Digite sua antiga senha');
             $validator->rule('lengthMin', 'accountOldPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
             $validator->rule('lengthMax', 'accountOldPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
+            $validator->rule('checkPassword', 'accountOldPassword')->message('A senha antiga está incorreta');
         }
         
         if (array_key_exists('accountNewPassword', $this->data)) {
@@ -574,22 +596,13 @@ class User extends Model {
             $validator->rule('lengthMax', 'accountNewPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
         }
 
-        if($validator->validate()) {
-            return ['validate' => true];
-        } else {
-            // Errors
-            return ['validate' => false, 'errors' => $validator->errors()];
+        if (array_key_exists('accountConfirmNewPassword', $this->data)) {
+            // accountConfirmNewPassword
+            $validator->rule('required', 'accountConfirmNewPassword')->message('Digite sua nova senha novamente');
+            $validator->rule('lengthMin', 'accountConfirmaccountPassword', 4)->message('A senha precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'accountConfirmPassword', 50)->message('A senha precisa ter no máximo 50 caracteres');
+            $validator->rule('equals', 'accountNewPassword', 'accountConfirmNewPassword')->message('As senhas não conferem, tente novamente');
         }
-    }
-
-    public function validateLoginForm() {
-        $validator = new Validator($this->data);
-
-        // login
-        $validator->rule('required', 'accountUserOrEmail')->message('Digite seu usuário');
-
-        // accountPassword
-        $validator->rule('required', 'accountPassword')->message('Digite sua senha');        
 
         if($validator->validate()) {
             return ['validate' => true];
@@ -797,6 +810,31 @@ class User extends Model {
         }
     }
 
+    public function validatePassword($password) {
+        try {
+            $stm = $this->db->prepare('SELECT * FROM user
+                WHERE token = :token
+            ');
+            
+            $stm->bindValue(':token', $_SESSION['token']);
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $user = $stm->fetch(\PDO::FETCH_ASSOC);
+                return password_verify($password, $user['password']);
+            }
+
+            return false;
+        } catch(\PDOException $error) {
+            return false; 
+            
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     public function saveRegisterCustomerForm() {
         try {
             $this->db->beginTransaction();
@@ -979,6 +1017,13 @@ class User extends Model {
         ];
 
         $columnsChanged = array_keys($this->data);
+        
+        // Delete fields not useds in query
+        unset($columnsChanged[array_search('accountOldPassword', $columnsChanged)]);
+        unset($columnsChanged[array_search('accountConfirmNewPassword', $columnsChanged)]);
+        
+        $columnsChanged = array_values($columnsChanged);
+
         $setColumns = '';
 
         // Generate named params
@@ -997,11 +1042,7 @@ class User extends Model {
                 SET $setColumns 
                 WHERE id_user = :idUser
             ");
-            // $stm = $this->db->prepare("UPDATE user u
-            //     SET $setColumns 
-            //     WHERE id_user = :idUser
-            // ");
-
+          
             // Replacing named params
             foreach ($columnsChanged as $key => $column) {
                 if ($column == 'accountPhoto') {
@@ -1041,6 +1082,8 @@ class User extends Model {
                     }  
 
                     $stm->bindValue(':'.str_replace('.', '', $databaseColumns[$column]), $newRelativePath); 
+                } else if ($column == 'accountNewPassword') {
+                    $stm->bindValue(':'.str_replace('.', '', $databaseColumns[$column]), password_hash($this->data[$column], PASSWORD_DEFAULT)); 
                 } else {
                     $stm->bindValue(':'.str_replace('.', '', $databaseColumns[$column]), $this->data[$column]); 
                 }
@@ -1051,9 +1094,9 @@ class User extends Model {
             $stm->execute();
         } catch (\PDOException $error) {            
             // For debug
-            echo "Message: " . $error->getMessage() . "<br>";
-            echo "Name of file: ". $error->getFile() . "<br>";
-            echo "Row: ". $error->getLine() . "<br>";
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
 
             throw new \PDOException("Error in statement", 0);
         }
