@@ -5,7 +5,7 @@ $.validator.addMethod('filesize', function (value, element, param) {
 
 
 // Registration Form Validation
-$('form.profile').validate( {
+$('form.profil').validate( {
     onfocusout: false,
     onkeyup: false,
     onsubmit: false,
@@ -85,7 +85,13 @@ $('form.profile').validate( {
             required: true,
             minlength: 4,
             maxlength: 255
-        }
+        },
+        accountConfirmNewPassword: {
+            required: true,
+            minlength: 4,
+            maxlength: 255,
+            equalTo: '#accountNewPassword'
+        },
     },
     messages: {
         accountPhoto: {
@@ -154,6 +160,12 @@ $('form.profile').validate( {
             required: 'Digite sua nova senha',
             minlength: 'A senha precisa ter no mínimo 4 caracteres',
             maxlength: 'A senha precisa ter no máximo 255 caracteres'
+        },
+        accountConfirmNewPassword: {
+            required: 'Digite novamente sua nova senha',
+            minlength: 'A senha precisa ter no mínimo 4 caracteres',
+            maxlength: 'A senha precisa ter no máximo 255 caracteres',
+            equalTo: 'As senhas não conferem, tente novamente'
         }
     },
     errorElement: 'div',
@@ -302,7 +314,11 @@ $('form.profile select').on('change', function(e) {
 // Enable/Disabled submit button
 $('form.profile input, form.profile select').on('change', function () {
     if ($('form.profile').find('.changed').length > 0 && !$(this).hasClass('is-invalid')) {
-        $('button.submit-profile').attr('disabled', false);
+        if ($(this).hasClass('change-password') && (!$('.change-password').eq(0).val() || !$('.change-password').eq(1).val() || !$('.change-password').eq(2).val())) {
+            $('button.submit-profile').attr('disabled', true);
+        } else {
+            $('button.submit-profile').attr('disabled', false);
+        }
     } else {
         $('button.submit-profile').attr('disabled', true);
     }
@@ -357,6 +373,11 @@ $('form.profile').on('submit', function (e) {
                     
                     $('form.profile .server-validation a').attr('data-original-title', tooltip);
                     $('form.profile .server-validation').css('display', 'block');
+
+                    if (response.errors.hasOwnProperty('accountNewPassword')) {
+                        $('form.profile #accountOldPassword, form.profile #accountNewPassword, form.profile #accountConfirmNewPassword').removeClass('is-valid');
+                        $('form.profile #accountOldPassword, form.profile #accountNewPassword, form.profile #accountConfirmNewPassword').addClass('is-invalid');
+                    }
 
                     iziToast.error({
                         title: 'Error!',
