@@ -9,8 +9,16 @@
 {% block content %}
   <div class="main-content">
     <section class="section section-profile">
-        <div class="section-header">
+        <div class="section-header justify-content-between">
             <h1>Perfil</h1>
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="#">Perfil</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Geral</li>
+                </ol>
+            </nav>
         </div>
 
         <div class="section-body">
@@ -45,17 +53,17 @@
                     
                         <div class="card sidebar-options">
                             <div class="nav flex-column nav-pills" id="pills-profile" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="pills-general-tab" data-toggle="pill" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">
+                                <a class="nav-link active" id="pills-general-tab" data-toggle="pill" href="#pills-general" data-name='Geral' role="tab" aria-controls="pills-general" aria-selected="true">
                                     <i class="fas fa-cog ml-0 mr-2"></i>
                                     Geral
                                 </a>
                     
-                                <a class="nav-link" id="pills-address-tab" data-toggle="pill" href="#pills-address" role="tab" aria-controls="pills-address" aria-selected="false">
+                                <a class="nav-link" id="pills-address-tab" data-toggle="pill" href="#pills-address" data-name='Endereço' role="tab" aria-controls="pills-address" aria-selected="false">
                                     <i class="fas fa-map-marker-alt ml-0 mr-2"></i>
                                     Endereço
                                 </a>
                     
-                                <a class="nav-link" id="pills-change-password-tab" data-toggle="pill" href="#pills-change-password" role="tab" aria-controls="pills-change-password" aria-selected="false">
+                                <a class="nav-link" id="pills-change-password-tab" data-toggle="pill" href="#pills-change-password" data-name='Alterar Senha' role="tab" aria-controls="pills-change-password" aria-selected="false">
                                     <i class="fas fa-lock ml-0 mr-2"></i>
                                     Alterar Senha
                                 </a>

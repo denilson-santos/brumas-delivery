@@ -818,7 +818,7 @@ class User extends Model {
             
             $stm->bindValue(':token', $_SESSION['token']);
             $stm->execute();
-
+            
             if ($stm->rowCount() > 0) {
                 $user = $stm->fetch(\PDO::FETCH_ASSOC);
                 return password_verify($password, $user['password']);
@@ -1007,7 +1007,7 @@ class User extends Model {
             'accountUserName' => 'u.login',
             'accountEmail' => 'u.email',
             'accountCellPhone' => 'up.number',
-            'accountAddress' => 'a.address',
+            'accountAddress' => 'a.name',
             'accountComplement' => 'a.complement',
             'accountNumber' => 'a.number',
             // 'accountState' => 'c.state',
@@ -1019,9 +1019,14 @@ class User extends Model {
         $columnsChanged = array_keys($this->data);
         
         // Delete fields not useds in query
-        unset($columnsChanged[array_search('accountOldPassword', $columnsChanged)]);
-        unset($columnsChanged[array_search('accountConfirmNewPassword', $columnsChanged)]);
-        
+        if (in_array('accountOldPassword', $columnsChanged)) {
+            unset($columnsChanged[array_search('accountOldPassword', $columnsChanged)]);
+        }
+
+        if (in_array('accountConfirmNewPassword', $columnsChanged)) {
+            unset($columnsChanged[array_search('accountConfirmNewPassword', $columnsChanged)]);
+        }
+
         $columnsChanged = array_values($columnsChanged);
 
         $setColumns = '';
