@@ -42,6 +42,11 @@ class Address extends Model {
     public function updateAddress($idAddress) {
         try {
             $databaseColumns = [
+                'accountAddress' => 'name',
+                'accountComplement' => 'complement',
+                'accountNumber' => 'number',
+                'accountNeighborhood' => 'neighborhood_id', 
+
                 'restaurantAddress' => 'name',
                 'restaurantComplement' => 'complement',
                 'restaurantNumber' => 'number',

@@ -13,6 +13,128 @@ class User extends Model {
         $this->data = $data;
     }
 
+    public function saveUser() {
+        try {
+            $stm = $this->db->prepare('INSERT INTO user 
+                SET first_name = :first_name, 
+                    last_name = :last_name,
+                    email = :email,
+                    login = :login,
+                    password = :password,
+                    level = :level,
+                    created_at = :created_at
+            ');
+    
+            $stm->bindValue(':first_name', $this->data['accountFirstName']);
+            $stm->bindValue(':last_name', $this->data['accountLastName']);
+            $stm->bindValue(':email', $this->data['accountEmail']);
+            $stm->bindValue(':login', $this->data['accountUserName']);
+            $stm->bindValue(':password', password_hash($this->data['accountPassword'], PASSWORD_DEFAULT));
+            $stm->bindValue(':level', $this->data['userLevel']);
+            $stm->bindValue(':created_at', date('Y-m-d H:i:s'));
+            
+            $stm->execute();
+            
+            return $this->db->lastInsertId();
+        } catch (\PDOException $error) {            
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
+    public function updateUser($userId) {
+        try {
+            
+            $databaseColumns = [
+                'accountPhoto' => 'image',
+                'accountFirstName' => 'first_Name',
+                'accountLastName' => 'last_name',
+                'accountUserName' => 'login',
+                'accountEmail' => 'email',
+                'accountNewPassword' => 'password',
+            ];
+    
+            $columnsChanged = array_keys($this->data);
+    
+            $setColumns = '';
+    
+            // Generate named params
+            foreach ($columnsChanged as $key => $column) {
+                if ($key == count($columnsChanged) -1) {
+                    $setColumns .= $databaseColumns[$column] . ' = :' . $databaseColumns[$column];
+                } else {
+                    $setColumns .= $databaseColumns[$column] . ' = :' . $databaseColumns[$column] . ', ';
+                }
+            }
+        
+            $stm = $this->db->prepare("UPDATE user
+                SET $setColumns 
+                WHERE id_user = :idUser
+            ");
+            
+            // Replacing named params
+            foreach ($columnsChanged as $key => $column) {
+                if ($column == 'accountPhoto') {
+                    // Save user image
+                    $userPath = '/var/www/projects/brumas-delivery/media/users/'.$userId;
+    
+                    // Delete old Image
+                    $this->deleteAllFilesInFolder("$userPath/account/image");
+        
+                    $relativeUserPath = '/media/users/'.$userId;
+        
+                    $name = $this->data['accountPhoto']['name'];
+                    $tempPath = $this->data['accountPhoto']['tmp_name'];
+                    $newPath = "$userPath/account/image/$name";
+                    $newRelativePath = "$relativeUserPath/account/image/$name";
+        
+                    $image = new ImageManager(array('driver' => 'gd'));
+                    $image = $image->make($tempPath);
+        
+                    // Image width
+                    $x = $image->width();
+                    // // Image height
+                    $y = $image->height();
+        
+                    $resize = 250;
+        
+                    if ($x > $y) {
+                        $image->resize(null, $resize, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($newPath);
+                    } else if ($y > $x) {
+                        $image->resize($resize, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($newPath);
+                    } else {
+                        $image->resize($resize, $resize)->save($newPath);
+                    }  
+
+                    $stm->bindValue(':' . $databaseColumns[$column], $newRelativePath);
+                } else {
+                    $stm->bindValue(':' . $databaseColumns[$column], $this->data[$column]); 
+                }
+            }
+
+            $stm->bindValue(':idUser', $userId);
+
+            $stm->execute();
+            
+            return true;
+        } catch (\PDOException $error) {
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
     public function isAuthenticated() {
         try {        
             $stm = $this->db->prepare('SELECT * FROM user 
@@ -153,39 +275,6 @@ class User extends Model {
          // Close session
          session_unset();
          session_destroy();
-    }
-
-    public function saveUser() {
-        try {
-            $stm = $this->db->prepare('INSERT INTO user 
-                SET first_name = :first_name, 
-                    last_name = :last_name,
-                    email = :email,
-                    login = :login,
-                    password = :password,
-                    level = :level,
-                    created_at = :created_at
-            ');
-    
-            $stm->bindValue(':first_name', $this->data['accountFirstName']);
-            $stm->bindValue(':last_name', $this->data['accountLastName']);
-            $stm->bindValue(':email', $this->data['accountEmail']);
-            $stm->bindValue(':login', $this->data['accountUserName']);
-            $stm->bindValue(':password', password_hash($this->data['accountPassword'], PASSWORD_DEFAULT));
-            $stm->bindValue(':level', $this->data['userLevel']);
-            $stm->bindValue(':created_at', date('Y-m-d H:i:s'));
-            
-            $stm->execute();
-            
-            return $this->db->lastInsertId();
-        } catch (\PDOException $error) {            
-            // For debug
-            // echo "Message: " . $error->getMessage() . "<br>";
-            // echo "Name of file: ". $error->getFile() . "<br>";
-            // echo "Row: ". $error->getLine() . "<br>";
-
-            throw new \PDOException("Error in statement", 0);
-        }
     }
 
     public function validateRegisterCustomerForm() {        
@@ -1022,105 +1111,73 @@ class User extends Model {
         }
     }
 
-    public function saveEditProfileForm($id) {
-        $databaseColumns = [
-            'accountPhoto' => 'u.image',
-            'accountFirstName' => 'u.first_Name',
-            'accountLastName' => 'u.last_name',
-            'accountUserName' => 'u.login',
-            'accountEmail' => 'u.email',
-            'accountCellPhone' => 'up.number',
-            'accountAddress' => 'a.name',
-            'accountComplement' => 'a.complement',
-            'accountNumber' => 'a.number',
-            // 'accountState' => 'c.state',
-            // 'accountCity' => 'n.city_id',
-            'accountNeighborhood' => 'a.neighborhood_id',
-            'accountNewPassword' => 'u.password'
-        ];
-
-        $columnsChanged = array_keys($this->data);
-        
-        // Delete fields not useds in query
-        if (in_array('accountOldPassword', $columnsChanged)) {
-            unset($columnsChanged[array_search('accountOldPassword', $columnsChanged)]);
-        }
-
-        if (in_array('accountConfirmNewPassword', $columnsChanged)) {
-            unset($columnsChanged[array_search('accountConfirmNewPassword', $columnsChanged)]);
-        }
-
-        $columnsChanged = array_values($columnsChanged);
-
-        $setColumns = '';
-
-        // Generate named params
-        foreach ($columnsChanged as $key => $column) {
-            if ($key == count($columnsChanged) -1) {
-                $setColumns .= $databaseColumns[$column] . ' = :' . str_replace('.', '', $databaseColumns[$column]);
-            } else {
-                $setColumns .= $databaseColumns[$column] . ' = :' . str_replace('.', '', $databaseColumns[$column]) . ', ';
-            }
-        }
-
+    public function saveEditProfileForm($userId, $addressId) {
         try {
-            $stm = $this->db->prepare("UPDATE user u
-                JOIN address a ON u.id_user = a.user_id
-                JOIN user_phone up ON u.id_user = up.user_id
-                SET $setColumns 
-                WHERE id_user = :idUser
-            ");
-          
-            // Replacing named params
-            foreach ($columnsChanged as $key => $column) {
-                if ($column == 'accountPhoto') {
-                    // Save user image
-                    $userPath = '/var/www/projects/brumas-delivery/media/users/'.$id;
-    
-                    // Delete old Image
-                    $this->deleteAllFilesInFolder("$userPath/account/image");
-        
-                    $relativeUserPath = '/media/users/'.$id;
-        
-                    $name = $this->data['accountPhoto']['name'];
-                    $tempPath = $this->data['accountPhoto']['tmp_name'];
-                    $newPath = "$userPath/account/image/$name";
-                    $newRelativePath = "$relativeUserPath/account/image/$name";
-        
-                    $image = new ImageManager(array('driver' => 'gd'));
-                    $image = $image->make($tempPath);
-        
-                    // Image width
-                    $x = $image->width();
-                    // // Image height
-                    $y = $image->height();
-        
-                    $resize = 250;
-        
-                    if ($x > $y) {
-                        $image->resize(null, $resize, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })->save($newPath);
-                    } else if ($y > $x) {
-                        $image->resize($resize, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })->save($newPath);
-                    } else {
-                        $image->resize($resize, $resize)->save($newPath);
-                    }  
+            $this->db->beginTransaction();
 
-                    $stm->bindValue(':'.str_replace('.', '', $databaseColumns[$column]), $newRelativePath); 
-                } else if ($column == 'accountNewPassword') {
-                    $stm->bindValue(':'.str_replace('.', '', $databaseColumns[$column]), password_hash($this->data[$column], PASSWORD_DEFAULT)); 
-                } else {
-                    $stm->bindValue(':'.str_replace('.', '', $databaseColumns[$column]), $this->data[$column]); 
+            $userColumns = [
+                'accountPhoto',
+                'accountFirstName',
+                'accountLastName',
+                'accountUserName',
+                'accountEmail',
+                'accountNewPassword'
+            ];
+            
+            $dataUser = [];
+
+            foreach ($userColumns as $column) {
+                if (in_array($column, array_keys($this->data))) {
+                    $dataUser[$column] = $this->data[$column];
                 }
             }
 
-            $stm->bindValue(':idUser', $id);
+            if (count($dataUser) > 0) {
+                $user = new User($dataUser);
+                $user->updateUser($userId);
+            }
+
+            $userPhonesColumns = [
+                'accountCellPhone'
+            ];
             
-            $stm->execute();
-        } catch (\PDOException $error) {            
+            $dataUserPhones = [];
+
+            foreach ($userPhonesColumns as $column) {
+                if (in_array($column, array_keys($this->data))) {
+                    $dataUserPhones[$column] = $this->data[$column];
+                }
+            }
+
+            if (count($dataUserPhones) > 0) {
+                $userPhones = new UserPhone($dataUserPhones);
+                $userPhones->updateUserPhones($userId);
+            }
+
+            $userAddressColumns = [
+                'accountAddress',
+                'accountComplement',
+                'accountNumber',
+                'accountNeighborhood'
+            ];
+            
+            $dataUserAddress = [];
+
+            foreach ($userAddressColumns as $column) {
+                if (in_array($column, array_keys($this->data))) {
+                    $dataUserAddress[$column] = $this->data[$column];
+                }
+            }
+
+            if (count($dataUserAddress) > 0) {
+                $address = new Address($dataUserAddress);
+                $address->updateAddress($addressId);
+            }
+            
+            $this->db->commit();
+        } catch (\PDOException $error) {        
+            $this->db->rollback();
+
             // For debug
             // echo "Message: " . $error->getMessage() . "<br>";
             // echo "Name of file: ". $error->getFile() . "<br>";

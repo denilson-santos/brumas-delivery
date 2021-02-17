@@ -23,6 +23,12 @@
 
         <div class="section-body">
             <form class="profile">
+                <input 
+                type="hidden" 
+                id="info" 
+                data-user-id="{{ userLogged['id_user'] }}" 
+                data-address-id="{{ userLogged['adresses'][0]['id_address'] }}">
+
                 <div class="row">
                     <div class="sidebar-profile col-xl-4 col-lg-12">
                         <div class="card">
@@ -43,7 +49,7 @@
                                         <img src="{{ userLogged['image'] ?? '/media/default/users/user-img-default-150x150.jpg' }}">
                                     </div>
                         
-                                    <input id="accountPhoto" class="invisible position-absolute" type="file" name="accountPhoto" accept=".jpg,.jpeg,.png" data-user-id="{{ userLogged['id_user'] }}">
+                                    <input id="accountPhoto" class="invisible position-absolute" type="file" name="accountPhoto" accept=".jpg,.jpeg,.png">
                                 </div>
                     
                                 <h5 class="mt-3 mb-0">{{ userLogged['first_name']~' '~userLogged['last_name']}}</h5>
