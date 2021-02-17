@@ -121,7 +121,11 @@ class User extends Model {
                         
                         $restaurantInfo['phones'] = $restaurant->getRestaurantPhones($restaurantId);
                         
-                        $restaurantInfo['operation'] = $restaurant->getRestaurantOperation($restaurantId);
+                        $restaurantInfo['operations'] = $restaurant->getRestaurantOperation($restaurantId);
+                        
+                        $restaurantInfo['social_medias'] = $restaurant->getRestaurantSocialMedias($restaurantId);
+
+                        $restaurantInfo['payments'] = $restaurant->getRestaurantPayments($restaurantId);
 
                         $userLogged['restaurant'] = $restaurantInfo;
                     }
@@ -276,11 +280,11 @@ class User extends Model {
 
         // Add new rules in plugin validation
         $validator->addRule('arrayLengthMax', function($field, $value, array $params, array $fields) {
-            return count($value) <= $params[0];
+            return $value && (count($value) <= $params[0]);
         }, 'is array length max items');
 
         $validator->addRule('arrayLengthMin', function($field, $value, array $params, array $fields) {
-            return count($value) >= $params[0];
+            return $value && (count($value) >= $params[0]);
         }, 'is array length min items');
 
         $validator->addRule('cnpj', function($field, $value, array $params, array $fields) {
@@ -303,7 +307,7 @@ class User extends Model {
         }, 'is invalid operation');
         
         $validator->addRule('accept', function($field, $value, array $params, array $fields) {
-            return !empty($values['type']) && in_array($value['type'], $params[0]);
+            return !empty($value['type']) && in_array($value['type'], $params[0]);
         }, 'Formato inválido, use: (.jpg, .jpeg ou .png)');
         
         $validator->addRule('filesize', function($field, $value, array $params, array $fields) {
@@ -473,11 +477,11 @@ class User extends Model {
 
         // Add new rules in plugin validation
         $validator->addRule('arrayLengthMax', function($field, $value, array $params, array $fields) {
-            return count($value) <= $params[0];
+            return $value && (count($value) <= $params[0]);
         }, 'is array length max items');
 
         $validator->addRule('arrayLengthMin', function($field, $value, array $params, array $fields) {
-            return count($value) >= $params[0];
+            return $value && (count($value) >= $params[0]);
         }, 'is array length min items');
 
         $validator->addRule('uniqueEmail', function($field, $value, array $params, array $fields) {
@@ -613,6 +617,8 @@ class User extends Model {
     }
 
     public function validateCnpj($cnpj)	{
+        if (!$cnpj) return false;
+
         //Etapa 1: Cria um array com apenas os digitos numéricos, isso permite receber o cnpj em diferentes formatos como "00.000.000/0000-00", "00000000000000", "00 000 000 0000 00" etc...
         $j=0;
         for($i=0; $i<(strlen($cnpj)); $i++)
@@ -708,11 +714,11 @@ class User extends Model {
         $operationRows = count($rows['row']);
 
         for ($i=0; $i < $operationRows; $i++) { 
-            $weekDay = $rows['dayIndex'][$i];
-            $dayOpen1 = $rows['open1'][$i];
-            $dayClose1 = $rows['close1'][$i];
-            $dayOpen2 = $rows['open2'][$i];
-            $dayClose2 = $rows['close2'][$i];     
+            $weekDay = !empty($rows['dayIndex']) ? $rows['dayIndex'][$i] : null;
+            $dayOpen1 = !empty($rows['open1']) ? $rows['open1'][$i] : null;
+            $dayClose1 = !empty($rows['close1']) ? $rows['close1'][$i] : null;
+            $dayOpen2 = !empty($rows['open2']) ? $rows['open2'][$i] : null;
+            $dayClose2 = !empty($rows['close2']) ? $rows['close2'][$i] : null;      
             
             $validateWeekDay = $weekDay ?? false;
             $validateSchedule1 = $dayOpen1 && $dayClose1;
@@ -974,15 +980,32 @@ class User extends Model {
             for ($i=0; $i < $countOperationRows; $i++) { 
                 $dataRestaurantOperation = [
                     'restaurant_id' => $restaurantId, 
-                    'week_day_id' => $this->data['operation']['dayIndex'][$i],
-                    'open_1' => $this->data['operation']['open1'][$i],
-                    'close_1' => $this->data['operation']['close1'][$i],
-                    'open_2' => $this->data['operation']['open2'][$i],
-                    'close_2' => $this->data['operation']['close2'][$i]
+                    'week_day_id' => !empty($this->data['operation']['dayIndex']) ? $this->data['operation']['dayIndex'][$i] : '',
+                    'open_1' => !empty($this->data['operation']['open1']) ? $this->data['operation']['open1'][$i] : '',
+                    'close_1' => !empty($this->data['operation']['close1']) ? $this->data['operation']['close1'][$i] : '',
+                    'open_2' => !empty($this->data['operation']['open2']) ? $this->data['operation']['open2'][$i] : '',
+                    'close_2' => !empty($this->data['operation']['close2']) ? $this->data['operation']['close2'][$i] : ''
                 ];    
 
                 $restaurantOperation->setData($dataRestaurantOperation);
                 $restaurantOperation->saveRestaurantOperation();
+            }
+
+            $restaurantPayment = new RestaurantPayment();
+
+            // Save payment method default to all restaurants
+            $paymentMethods = [7]; 
+
+            $countPaymentRows = count($paymentMethods);
+
+            for ($i=0; $i < $countPaymentRows; $i++) { 
+                $dataRestaurantPayment = [
+                    'restaurant_id' => $restaurantId, 
+                    'payment_id' => $paymentMethods[$i]
+                ];    
+
+                $restaurantPayment->setData($dataRestaurantPayment);
+                $restaurantPayment->saveRestaurantPayment();
             }
 
             $this->db->commit();

@@ -30,7 +30,7 @@ class Filter extends Model {
             'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected),
             'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected),
             'paymentTypes' => $paymentType->getListPaymentTypes(),
-            'restaurantsByPaymentTypes' => $restaurant->getTotalRestaurantsByPaymentTypes($filtersSelected),
+            // 'restaurantsByPaymentTypes' => $restaurant->getTotalRestaurantsByPaymentTypes($filtersSelected),
             // 'maxFilterPrice' => $plate->getMaxPrice(),
             // 'rangePrice0' => (isset($filtersSelected['rangePrice0'])? $filtersSelected['rangePrice0'] : 0),
             // 'rangePrice1' => (isset($filtersSelected['rangePrice1'])? $filtersSelected['rangePrice1'] : 0),
@@ -86,20 +86,20 @@ class Filter extends Model {
             $data['totalRatingsByStars'] += $data['ratingsByStars'][$i];
         }
 
-        foreach ($data['paymentTypes'] as $key => $paymentType) {
-            $data['paymentTypes'][$key]['count'] = 0; // para evitar erros quando um bairro não tiver restantes cadastrados
+        // foreach ($data['paymentTypes'] as $key => $paymentType) {
+        //     $data['paymentTypes'][$key]['count'] = 0; // para evitar erros quando um pagamento não tiver restantes cadastrados
 
-            foreach ($data['restaurantsByPaymentTypes'] as $restaurantsByPaymentType) {
-                if($restaurantsByPaymentType['payment_types_id'] == $paymentType['id_payment_types']) {
-                    $data['paymentTypes'][$key]['count'] = $restaurantsByPaymentType['total_restaurants_by_payment_types'];
-                }
-            }
+        //     foreach ($data['restaurantsByPaymentTypes'] as $restaurantsByPaymentType) {
+        //         if($restaurantsByPaymentType['payment_types_id'] == $paymentType['id_payment_types']) {
+        //             $data['paymentTypes'][$key]['count'] = $restaurantsByPaymentType['total_restaurants_by_payment_types'];
+        //         }
+        //     }
 
-            // // Remove os tipos de pagamento em que nenhum restaurante é vinculado
-            // if ($data['paymentTypes'][$key]['count'] == 0) {
-            //     unset($data['PaymentTypes'][$key]);
-            // }
-        }
+        //     // // Remove os tipos de pagamento em que nenhum restaurante é vinculado
+        //     // if ($data['paymentTypes'][$key]['count'] == 0) {
+        //     //     unset($data['PaymentTypes'][$key]);
+        //     // }
+        // }
 
         foreach ($data['weekDays'] as $key => $weekDay) {
             $data['weekDays'][$key]['count'] = 0; // para evitar erros quando um dia da semana não tiver restantes cadastrados

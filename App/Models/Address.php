@@ -39,6 +39,53 @@ class Address extends Model {
         }
     }
 
+    public function updateAddress($idAddress) {
+        try {
+            $databaseColumns = [
+                'restaurantAddress' => 'name',
+                'restaurantComplement' => 'complement',
+                'restaurantNumber' => 'number',
+                'restaurantNeighborhood' => 'neighborhood_id'
+            ];
+    
+            $columnsChanged = array_keys($this->data);
+    
+            $setColumns = '';
+    
+            // Generate named params
+            foreach ($columnsChanged as $key => $column) {
+                if ($key == count($columnsChanged) -1) {
+                    $setColumns .= $databaseColumns[$column] . ' = :' . $databaseColumns[$column];
+                } else {
+                    $setColumns .= $databaseColumns[$column] . ' = :' . $databaseColumns[$column] . ', ';
+                }
+            }
+        
+            $stm = $this->db->prepare("UPDATE address
+                SET $setColumns 
+                WHERE id_address = :idAddress
+            ");
+            
+            // Replacing named params
+            foreach ($columnsChanged as $key => $column) {
+                $stm->bindValue(':' . $databaseColumns[$column], $this->data[$column]); 
+            }
+
+            $stm->bindValue(':idAddress', $idAddress);
+
+            $stm->execute();
+            
+            return true;
+        } catch (\PDOException $error) {
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
     public function setData($data) {
         $this->data = $data;
     }

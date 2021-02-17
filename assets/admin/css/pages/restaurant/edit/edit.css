@@ -70,3 +70,18 @@ section.restaurant-edit {
     text-align: center;
     color: #fff;
     height: 30px; }
+  section.restaurant-edit form.restaurant-edit .server-validation {
+    display: none; }
+    section.restaurant-edit form.restaurant-edit .server-validation i {
+      font-size: 16px; }
+    section.restaurant-edit form.restaurant-edit .server-validation a {
+      text-decoration: none;
+      font-size: 16px; }
+    section.restaurant-edit form.restaurant-edit .server-validation a:hover {
+      color: #fa3734; }
+
+.tooltip-inner {
+  max-width: 340px;
+  width: auto;
+  padding: 20px 50px 4px 50px;
+  text-align: left; }

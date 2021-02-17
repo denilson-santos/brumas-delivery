@@ -59,7 +59,6 @@
     $router->get('/account/rates', 'UserController:getRates', 'name.account-rates');
     $router->get('/account/favorites', 'UserController:getFavorites', 'name.account-favorites');
     $router->get('/account/orders', 'UserController:getOrders', 'name.account-orders');
-    $router->post('/account/change-image', 'UserController:changeImage');
 
     // Restaurant
     $router->get('/restaurant/details', 'RestaurantController:index', 'name.restaurant-details');
@@ -67,6 +66,7 @@
     $router->get('/restaurant/orders', 'RestaurantController:getRestaurantOrders', 'name.restaurant-orders');
     $router->get('/restaurant/rates', 'RestaurantController:getRestaurantRates', 'name.restaurant-rates');
     $router->get('/restaurant/edit', 'RestaurantController:restaurantEdit', 'name.restaurant-edit');
+    $router->post('/restaurant/edit-action', 'RestaurantController:restaurantEditAction');
 
     /*
      * Site

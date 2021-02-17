@@ -1,15 +1,21 @@
 <div class="tab-pane fade pt-0" id="pills-payment-methods" role="tabpanel" aria-labelledby="pills-payment-methods-tab">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header flex-column align-items-start">
             <h5>Formas de Pagamento</h5>
+
+            <div class="server-validation">
+                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Informações incorretas!</a>  
+            </div>
         </div>
+
+        {# {{ print_r(userLogged) }} #}
 
         <div class="card-body pt-0">
             <div class="row payment-online no-gutters mb-2 px-3 py-2">
                 <div class="title col-6">Pagamento Online (Em Breve)</div>
                 
                 <div class="icon col-6 text-right">
-                    <a data-toggle="collapse" href="#paymentOnlineColapse" role="button" aria-expanded="false" aria-controls="paymentOnlineColapse">
+                    <a data-toggle="collapse" class="collapsable-online collapsed" href="#paymentOnlineColapse" role="button" aria-expanded="false" aria-controls="paymentOnlineColapse">
                         <i class="fas fa-chevron-down"></i>
                     </a>
                 </div>
@@ -25,47 +31,113 @@
                 <div class="title col-6">Pagamento na Entrega</div>
                 
                 <div class="icon col-6 text-right">
-                    <a data-toggle="collapse" href="#paymentOnDeliveryColapse" role="button" aria-expanded="false" aria-controls="paymentOnDeliveryColapse">
-                        <i class="fas fa-chevron-down"></i>
+                    <a data-toggle="collapse" class="collapsable-on-delivery" href="#paymentOnDeliveryColapse" role="button" aria-expanded="false" aria-controls="paymentOnDeliveryColapse">
+                        <i class="fas fa-chevron-right"></i>
                     </a>
                 </div>
             </div>
 
-            <div class="collapsed" id="paymentOnDeliveryColapse">
+            <div class="collapsed collapse show" id="paymentOnDeliveryColapse">
                 <div class="card card-body">
-                    <div class="payment-delivery">                        
+                    <div class="payment-delivery">   
+                        {% set paymentMethod1 = '' %}
+                        {% set paymentMethod2 = '' %}
+                        {% set paymentMethod3 = '' %}
+                        {% set paymentMethod4 = '' %}
+                        {% set paymentMethod5 = '' %}
+                        {% set paymentMethod6 = '' %}
+                        {% set paymentMethod7 = '' %}
+
+                        {% for payment in userLogged['restaurant']['payments'] %}
+                            {% if (payment['payment_id'] == 1) %}
+                                {% set paymentMethod1 = 'checked' %}
+                            {% endif %}
+                            
+                            {% if (payment['payment_id'] == 2) %}
+                                {% set paymentMethod2 = 'checked' %}
+                            {% endif %}
+
+                            {% if (payment['payment_id'] == 3) %}
+                                {% set paymentMethod3 = 'checked' %}
+                            {% endif %}
+
+                            {% if (payment['payment_id'] == 4) %}
+                                {% set paymentMethod4 = 'checked' %}
+                            {% endif %}
+
+                            {% if (payment['payment_id'] == 5) %}
+                                {% set paymentMethod5 = 'checked' %}
+                            {% endif %}
+
+                            {% if (payment['payment_id'] == 6) %}
+                                {% set paymentMethod6 = 'checked' %}
+                            {% endif %}
+
+                            {% if (payment['payment_id'] == 7) %}
+                                {% set paymentMethod7 = 'checked' %}
+                            {% endif %}
+                        {% endfor %}
+                        
                         <div class="row justify-content-between">
                             <div class="form-group row flex-column no-gutters col-6">
                                 <span class="payment-method-name mb-1"><strong>Dinheiro</strong></span>
-                                <span class="payment-method-1">
-                                    <input type="checkbox" class="align-middle mr-1">
-                                    <img src="/media/payment-methods/money-40x23.jpg" alt="">
+                                <span class="payment-method-7">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id ="restaurantPaymentMethods7" name="restaurantPaymentMethods" class="custom-control-input" value="7" {{ paymentMethod7 }}
+                                        data-payment-saved="{{ paymentMethod7 ? 1 : 0 }}"
+                                        >
+                                        <label class="custom-control-label" for="restaurantPaymentMethods7"><img src="/media/payment-methods/money-40x23.jpg" alt=""></label>
+                                    </div>
                                 </span>
                             </div>
                             <div class="form-group row flex-column no-gutters col-6">
                                 <span class="payment-method-name mb-1"><strong>Cartão de Débito</strong></span>
-                                <span class="payment-method-2">
-                                    <input type="checkbox" class="align-middle mr-1">
-                                    <img src="/media/payment-methods/card-mastercard-40x23.jpg" alt="">
+                                <span class="payment-method-1 d-flex">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id ="restaurantPaymentMethods4" name="restaurantPaymentMethods" class="custom-control-input" value="4" {{ paymentMethod4 }}
+                                        data-payment-saved="{{ paymentMethod4 ? 1 : 0 }}"
+                                        >
+                                        <label class="custom-control-label" for="restaurantPaymentMethods4"><img src="/media/payment-methods/card-mastercard-40x23.jpg" alt=""></label>
+                                    </div>
 
-                                    <input type="checkbox" class="align-middle ml-3 mr-1">
-                                    <img src="/media/payment-methods/card-visa-40x23.jpg" alt="" class="mr-3">
+                                    <div class="custom-control custom-checkbox mx-3">
+                                        <input type="checkbox" id ="restaurantPaymentMethods5" name="restaurantPaymentMethods" class="custom-control-input" value="5" {{ paymentMethod5 }}
+                                        data-payment-saved="{{ paymentMethod5 ? 1 : 0 }}"
+                                        >
+                                        <label class="custom-control-label" for="restaurantPaymentMethods5"><img src="/media/payment-methods/card-visa-40x23.jpg" alt=""></label>
+                                    </div>
 
-                                    <input type="checkbox" class="align-middle mr-1">
-                                    <img src="/media/payment-methods/card-elo-40x23.jpg" alt="">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id ="restaurantPaymentMethods6" name="restaurantPaymentMethods" class="custom-control-input" value="6" {{ paymentMethod6 }}
+                                        data-payment-saved="{{ paymentMethod6 ? 1 : 0 }}"
+                                        >
+                                        <label class="custom-control-label" for="restaurantPaymentMethods6"><img src="/media/payment-methods/card-elo-40x23.jpg" alt=""></label>
+                                    </div>
                                 </span>
                             </div>
                             <div class="form-group row flex-column no-gutters col-6">
                                 <span class="payment-method-name mb-1"><strong>Cartão de Crédito</strong></span>
-                                <span class="payment-method-3">
-                                    <input type="checkbox" class="align-middle mr-1">
-                                    <img src="/media/payment-methods/card-mastercard-40x23.jpg" alt="">
-                                    
-                                    <input type="checkbox" class="align-middle ml-3 mr-1">
-                                    <img src="/media/payment-methods/card-visa-40x23.jpg" alt="" class="mr-3">
+                                <span class="payment-method-3 d-flex">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id ="restaurantPaymentMethods1" name="restaurantPaymentMethods" class="custom-control-input" value="1" {{ paymentMethod1 }}
+                                        data-payment-saved="{{ paymentMethod1 ? 1 : 0 }}"
+                                        >
+                                        <label class="custom-control-label" for="restaurantPaymentMethods1"><img src="/media/payment-methods/card-mastercard-40x23.jpg" alt=""></label>
+                                    </div>
 
-                                    <input type="checkbox" class="align-middle mr-1">
-                                    <img src="/media/payment-methods/card-elo-40x23.jpg" alt="">
+                                    <div class="custom-control custom-checkbox mx-3">
+                                        <input type="checkbox" id ="restaurantPaymentMethods2" name="restaurantPaymentMethods" class="custom-control-input" value="2" {{ paymentMethod2 }}
+                                        data-payment-saved="{{ paymentMethod2 ? 1 : 0 }}"
+                                        >
+                                        <label class="custom-control-label" for="restaurantPaymentMethods2"><img src="/media/payment-methods/card-visa-40x23.jpg" alt=""></label>
+                                    </div>
+
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id ="restaurantPaymentMethods3" name="restaurantPaymentMethods" class="custom-control-input" value="3" {{ paymentMethod3 }}
+                                        data-payment-saved="{{ paymentMethod3 ? 1 : 0 }}"
+                                        >
+                                        <label class="custom-control-label" for="restaurantPaymentMethods3"><img src="/media/payment-methods/card-elo-40x23.jpg" alt=""></label>
+                                    </div>
                                 </span>
                             </div>
                         </div>
@@ -73,7 +145,7 @@
                 </div>
             </div>
 
-            <button type="button" id="submitProfile" class="btn btn-primary" disabled>
+            <button type="submit" class="btn btn-primary submit-restaurant-edit" disabled>
                 Salvar
             </button>
         </div>

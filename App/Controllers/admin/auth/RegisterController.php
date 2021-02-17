@@ -34,7 +34,7 @@ class RegisterController extends Controller {
         $validation = $user->validateRegisterCustomerForm();            
 
         if ($validation['validate']) {
-            $user->saveRegisterCustomerForm();
+            // $user->saveRegisterCustomerForm();
 
             echo json_encode($validation);
         } else {

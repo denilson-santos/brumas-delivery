@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="/node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
         <link rel="stylesheet" href="/node_modules/izitoast/dist/css/iziToast.min.css" />
         <link rel="stylesheet" href="/node_modules/rateyo/min/jquery.rateyo.min.css" type="text/css" />
+        <link rel="stylesheet" href="/node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css" type="text/css" />
 
         <!-- Template CSS -->
         <link rel="stylesheet" href="/assets/admin/css/bootstrap/style.css" />
@@ -38,15 +39,12 @@
                 {% include 'admin/templates/footer.html.twig' %}
             </div>
         </div>
-
-        {% block modals %}{% endblock %}
         
         <!-- General JS Scripts -->
         <script src="/node_modules/jquery/dist/jquery.min.js"></script>
         <script type="module" src="/node_modules/popper.js/dist/popper.js"></script>
         <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="/node_modules/nicescroll/dist/jquery.nicescroll.min.js"></script>
-        <script type="module" src="/node_modules/moment/dist/moment.js"></script>
         <script src="/assets/admin/js/stisla.js"></script>
 
         <!-- JS Libraies -->
@@ -74,5 +72,7 @@
         <!-- Page Specific JS File -->
         {% block js %}{% endblock js %}
         <script src="/assets/admin/js/templates/header.js"></script>
+
+        {% block modals %}{% endblock modals %}
     </body>
 </html>

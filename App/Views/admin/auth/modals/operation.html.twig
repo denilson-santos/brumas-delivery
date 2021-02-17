@@ -1,25 +1,93 @@
-<div id="modalAddOperation">
-    <table class="table table-striped table-bordered table-operation">
-        <thead>
-            <tr>
-                <th rowspan="2">Dia</th>
-                <th colspan="2">1º Horário</th>
-                <th colspan="2">2º Horário</th>
-                <th rowspan="2">Ações</th>
-            </tr>
-            <tr>
-                <th>Abertura*</th>
-                <th>Fechamento*</th>
-                <th>Abertura</th>
-                <th>Fechamento</th>
-            </tr>
-        </thead>
-        <tbody>
-        
-        </tbody>
-    </table>
+<div class="modal hide fade" id="modalAddOperation" tabindex="-1" role="dialog" aria-labelledby="modalAddOperationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">  
+                <h5 class="modal-title" id="modalAddOperationLabel">Horários de Funcionamento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-    <div class="selected-week-days d-none"></div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-operation">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Dia</th>
+                            <th colspan="2">1º Horário</th>
+                            <th colspan="2">2º Horário</th>
+                            <th rowspan="2">Ações</th>
+                        </tr>
+                        <tr>
+                            <th>Abertura*</th>
+                            <th>Fechamento*</th>
+                            <th>Abertura</th>
+                            <th>Fechamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set count = 0 %}
 
-    <button id="addWeekDay" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+                        {% if userLogged['restaurant']['operations'] %}
+                            {% for operation in userLogged['restaurant']['operations'] %}
+                                {% set count = count + 1 %}
+
+                                <tr data-row="{{ count }}">
+                                    {% set timeOpen1 = date_format(date_create(operation['open_1']), 'H:i') %}
+                                    {% set timeOpen2 = date_format(date_create(operation['open_2']), 'H:i') %}
+                                    {% set timeClose1 = date_format(date_create(operation['close_1']), 'H:i') %}
+                                    {% set timeClose2 = date_format(date_create(operation['close_2']), 'H:i') %}
+
+                                    <td>{{ weekDays[operation['week_day_id']-1]['name'] ?? '-' }}</td>
+                                    <td class="text-center">{{ operation['open_1'] ? timeOpen1 : '-' }}</td>
+                                    <td class="text-center">{{ operation['close_1'] ? timeClose1 : '-' }}</td>
+                                    <td class="text-center">{{ operation['open_2'] ? timeOpen2 : '-' }}</td>
+                                    <td class="text-center">{{ operation['close_2'] ? timeClose2 : '-' }}</td>
+                                    <td><div class="actions"><button type="button" class="btn btn-primary btn-sm edit action"><i class="fas fa-pencil-alt"></i></button><button type="button" class="btn btn-primary btn-sm delete action"><i class="fas fa-trash-alt"></i></button></div></td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr row="{{ row }}" class="text-center no-operation">
+                                <td colspan="6">Nenhum Horário Adicionado!</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            
+                <div class="selected-week-days d-none">
+                    {% set count = 0 %}
+                    
+                    {% for operation in userLogged['restaurant']['operations'] %}
+                        {% set count = count + 1 %}
+
+                        {% set timeOpen1 = date_format(date_create(operation['open_1']), 'H:i') %}
+                        {% set timeOpen2 = date_format(date_create(operation['open_2']), 'H:i') %}
+                        {% set timeClose1 = date_format(date_create(operation['close_1']), 'H:i') %}
+                        {% set timeClose2 = date_format(date_create(operation['close_2']), 'H:i') %}
+                        
+                        <input 
+                            type="hidden" 
+                            class="saved" 
+                            data-id-operation="{{ operation['id_restaurant_operation'] }}" 
+                            data-day-index="{{ operation['week_day_id'] }}" 
+                            data-row="{{ count }}" 
+                            data-week-day="{{ weekDays[operation['week_day_id']-1]['name'] ?? '' }}" 
+                            data-open1="{{ operation['open_1'] ? timeOpen1 : '' }}" 
+                            data-close1="{{ operation['close_1'] ? timeClose1 : '' }}" 
+                            data-open2="{{ operation['open_2'] ? timeOpen2 : '' }}" 
+                            data-close2="{{ operation['close_2'] ? timeClose2 : '' }}"
+                        >
+                    {% endfor %}
+                </div>
+
+                <div class="deleted-week-days d-none"></div>
+            
+                <button id="addWeekDay" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" id="backAddOperation" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <button type="button" id="saveAddOperation" class="btn btn-primary" data-dismiss="modal">Concluído</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -5,6 +5,7 @@ use App\Models\User;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use App\Utils\Language;
+use DateTime;
 use Twig\TwigFunction;
 use voku\helper\AntiXSS;
 
@@ -89,6 +90,12 @@ class Controller {
         // number_format
         $this->twig->addFunction(new TwigFunction('number_format', 'number_format'));
         
+        // date_create
+        $this->twig->addFunction(new TwigFunction('date_create', 'date_create'));
+
+        // date_format
+        $this->twig->addFunction(new TwigFunction('date_format', 'date_format'));
+        
         // http_build_query
         $this->twig->addFunction(new TwigFunction('http_build_query', 'http_build_query'));
 
@@ -136,5 +143,9 @@ class Controller {
         }
 
         return $request;
+    }
+
+    public function dateFormatFromFormat($format, $date) {
+
     }
 }

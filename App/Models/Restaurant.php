@@ -1,8 +1,8 @@
 <?php
 namespace App\Models;
 
-use App\Models\Model;
 use Intervention\Image\ImageManager;
+use Valitron\Validator;
 
 class Restaurant extends Model {
     private $data;
@@ -68,6 +68,95 @@ class Restaurant extends Model {
             $stm->execute();
             
             return $this->db->lastInsertId();
+        } catch (\PDOException $error) {
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
+    public function updateRestaurant($restaurantId, $userId) {
+        try {
+            $databaseColumns = [
+                'restaurantBrand' => 'image',
+                'restaurantName' => 'name',
+                'restaurantCnpj' => 'cnpj',
+                'restaurantEmail' => 'email',
+                'restaurantMainCategories' => 'main_categories'
+            ];
+    
+            $columnsChanged = array_keys($this->data);
+    
+            $setColumns = '';
+    
+            // Generate named params
+            foreach ($columnsChanged as $key => $column) {
+                if ($key == count($columnsChanged) -1) {
+                    $setColumns .= $databaseColumns[$column] . ' = :' . $databaseColumns[$column];
+                } else {
+                    $setColumns .= $databaseColumns[$column] . ' = :' . $databaseColumns[$column] . ', ';
+                }
+            }
+        
+            $stm = $this->db->prepare("UPDATE restaurant
+                SET $setColumns 
+                WHERE id_restaurant = :idRestaurant
+            ");
+            
+            // Replacing named params
+            foreach ($columnsChanged as $key => $column) {
+                if ($column == 'restaurantBrand') {
+                    // Save user image
+                    $userPath = '/var/www/projects/brumas-delivery/media/users/'.$userId;
+    
+                    // Delete old Image
+                    $this->deleteAllFilesInFolder("$userPath/restaurant/brand");
+        
+                    $relativeUserPath = '/media/users/'.$userId;
+        
+                    $name = $this->data['restaurantBrand']['name'];
+                    $tempPath = $this->data['restaurantBrand']['tmp_name'];
+                    $newPath = "$userPath/restaurant/brand/$name";
+                    $newRelativePath = "$relativeUserPath/restaurant/brand/$name";
+        
+                    $image = new ImageManager(array('driver' => 'gd'));
+                    $image = $image->make($tempPath);
+        
+                    // Image width
+                    $x = $image->width();
+                    // // Image height
+                    $y = $image->height();
+        
+                    $resize = 250;
+        
+                    if ($x > $y) {
+                        $image->resize(null, $resize, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($newPath);
+                    } else if ($y > $x) {
+                        $image->resize($resize, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($newPath);
+                    } else {
+                        $image->resize($resize, $resize)->save($newPath);
+                    }  
+
+                    $stm->bindValue(':' . $databaseColumns[$column], $newRelativePath);
+                } else if ($column == 'restaurantMainCategories') {
+                    $stm->bindValue(':' . $databaseColumns[$column], $this->data[$column][0]); 
+                } else {
+                    $stm->bindValue(':' . $databaseColumns[$column], $this->data[$column]); 
+                }
+            }
+
+            $stm->bindValue(':idRestaurant', $restaurantId);
+
+            $stm->execute();
+            
+            return true;
         } catch (\PDOException $error) {
             // For debug
             // echo "Message: " . $error->getMessage() . "<br>";
@@ -319,6 +408,9 @@ class Restaurant extends Model {
 
     // Monta a clausula 'where' a partir dos filtros
     private function buildWhere($filters, $filtersRemoved) {
+        // unset($filters['paymentType'][1]);
+        // print_r($filters); exit;
+
         $where = ['1=1'];
         $inParamsRestaurant = '';
 
@@ -356,10 +448,16 @@ class Restaurant extends Model {
             }
         }
 
+        // if (!empty($filters['paymentType']) && !empty(array_values(array_filter($filters['paymentType']))) && $filtersRemoved != 'paymentType') {
+        //     $inParamsRestaurant = $this->buildIN(array_values(array_filter($filters['paymentType'])), 'paymentType');
+        //     $where[] = 'id_restaurant 
+        //     IN(SELECT restaurant_id FROM restaurant_payment_types WHERE payment_types_id IN('.$inParamsRestaurant.') GROUP BY restaurant_id)';
+        // }
+
         if (!empty($filters['paymentType']) && !empty(array_values(array_filter($filters['paymentType']))) && $filtersRemoved != 'paymentType') {
             $inParamsRestaurant = $this->buildIN(array_values(array_filter($filters['paymentType'])), 'paymentType');
             $where[] = 'id_restaurant 
-            IN(SELECT restaurant_id FROM restaurant_payment_types WHERE payment_types_id IN('.$inParamsRestaurant.') GROUP BY restaurant_id)';
+            IN(SELECT restaurant_id FROM restaurant_payment WHERE payment_id IN(SELECT id_payment FROM payment WHERE payment_types_id IN('.$inParamsRestaurant.')))';
         }
 
         if (!empty($filters['featured'])) {
@@ -473,6 +571,547 @@ class Restaurant extends Model {
         }
     }
 
+    public function validateRestaurantEditForm() {  
+        // print_r($this->data); exit; 
+        $validator = new Validator($this->data);
+
+        // Add new rules in plugin validation
+        $validator->addRule('arrayLengthMax', function($field, $value, array $params, array $fields) {
+            return $value && (count($value) <= $params[0]);
+        }, 'is array length max items');
+
+        $validator->addRule('arrayLengthMin', function($field, $value, array $params, array $fields) {
+            return $value && (count($value) >= $params[0]);
+        }, 'is array length min items');
+
+        $validator->addRule('cnpj', function($field, $value, array $params, array $fields) {
+            return $this->validateCnpj($value);
+        }, 'is invalid cnpj');
+
+        $validator->addRule('uniqueEmail', function($field, $value, array $params, array $fields) {
+            return $this->validateUniqueEmail($value);
+        }, 'is exist email');
+
+        $validator->addRule('operation', function($field, $value, array $params, array $fields) {            
+            if ($this->validateOperation($value)) {
+                return true;
+            }
+            return false;
+        }, 'is invalid operation');
+        
+        $validator->addRule('socialMedias', function($field, $value, array $params, array $fields) {            
+            if ($this->validateSocialMedias($value)) {
+                return true;
+            }
+            return false;
+        }, 'is invalid social medias');
+        
+        $validator->addRule('accept', function($field, $value, array $params, array $fields) {
+            return !empty($value['type']) && in_array($value['type'], $params[0]);
+        }, 'Formato inválido, use: (.jpg, .jpeg ou .png)');
+        
+        $validator->addRule('filesize', function($field, $value, array $params, array $fields) {
+            return !empty($value['size']) && ($value['size'] <= ($params[0] * 1000000));
+        }, 'The upload limit is 30mb');
+
+        if (array_key_exists('restaurantBrand', $this->data)) {
+            // restaurantBrand
+            $validator->rule('required', 'restaurantBrand')->message('Adicione uma logo para o restaurante');
+            $validator->rule('filesize', 'restaurantBrand', 30)->message('O limite para upload é de 30mb');
+            $validator->rule('accept', 'restaurantBrand', ['image/jpg', 'image/jpeg', 'image/png'])->message('Formato inválido, use: (.jpg, .jpeg ou .png)');
+        }
+
+        if (array_key_exists('restaurantName', $this->data)) {
+            // restaurantName
+            $validator->rule('required', 'restaurantName')->message('Digite o nome do restaurante');
+            $validator->rule('lengthMin', 'restaurantName', 2)->message('O nome do restaurante precisa ter no mínimo 2 caracteres');
+            $validator->rule('lengthMax', 'restaurantName', 50)->message('O nome do restaurante precisa ter no máximo 50 caracteres');
+        }
+
+        if (array_key_exists('restaurantCnpj', $this->data)) {
+            // restaurantCnpj
+            $validator->rule('required', 'restaurantCnpj')->message('Digite o cnpj do restaurante');
+            $validator->rule('lengthMin', 'restaurantCnpj', 14)->message('O cnpj precisa ter no mínimo 14 dígitos');
+            $validator->rule('lengthMax', 'restaurantCnpj', 14)->message('O cnpj precisa ter no máximo 14 dígitos');
+            $validator->rule('cnpj', 'restaurantCnpj')->message('Digite um cnpj válido');
+        }
+
+        if (array_key_exists('restaurantEmail', $this->data)) {
+            // restaurantEmail
+            $validator->rule('required', 'restaurantEmail')->message('Digite o email do restaurante');
+            $validator->rule('lengthMin', 'restaurantEmail', 7)->message('O email precisa ter no mínimo 7 caracteres');
+            $validator->rule('lengthMax', 'restaurantEmail', 100)->message('O email precisa ter no máximo 100 caracteres');
+            $validator->rule('email', 'restaurantEmail')->message('Digite um email válido');
+            $validator->rule('uniqueEmail', 'restaurantEmail')->message('Email já cadastrado');
+        }
+
+        if (array_key_exists('restaurantPhone', $this->data)) {
+            // restaurantPhone
+            $validator->rule('required', 'restaurantPhone')->message('Digite o telefone do restaurante');
+            $validator->rule('lengthMin', 'restaurantPhone', 10)->message('O telefone precisa ter no mínimo o DDD + 8 dígitos');
+            $validator->rule('lengthMax', 'restaurantPhone', 10)->message('O telefone precisa ter no máximo o DDD + 8 dígitos');
+        }
+
+        if (array_key_exists('restaurantCellPhone', $this->data)) {
+            // restaurantCellPhone
+            $validator->rule('required', 'restaurantCellPhone')->message('Digite o celular do restaurante');
+            $validator->rule('lengthMin', 'restaurantCellPhone', 11)->message('O celular precisa ter no mínimo o DDD + 9 dígitos');
+            $validator->rule('lengthMax', 'restaurantCellPhone', 11)->message('O celular precisa ter no máximo o DDD + 9 dígitos');
+        }
+
+        if (array_key_exists('restaurantMainCategories', $this->data)) {
+            // restaurantMainCategories 
+            $validator->rule('required', 'restaurantMainCategories')->message('Selecione 1 ou no máx 2 categorias principais para o restaurante');
+            $validator->rule('arrayLengthMax', 'restaurantMainCategories', 2)->message('Selecione no máximo 2 categorias');
+        }
+
+        if (array_key_exists('operation', $this->data)) {
+            // operation
+            $validator->rule('required', 'operation')->message('Informe os hórarios de funcionamento do restaurante');
+            $validator->rule('operation', 'operation')->message('Informe hórarios válidos');
+            $validator->rule('arrayLengthMax', 'operation', 8)->message('Informe hórarios válidos');
+            $validator->rule('arrayLengthMin', 'operation', 8)->message('Informe hórarios válidos');
+        }
+
+        if (array_key_exists('restaurantAddress', $this->data)) {
+            // restaurantAddress
+            $validator->rule('required', 'restaurantAddress')->message('Digite o endereço do restaurante');
+            $validator->rule('lengthMin', 'restaurantAddress', 4)->message('O endereço precisa ter no mínimo 4 caracteres');
+            $validator->rule('lengthMax', 'restaurantAddress', 50)->message('O endereço precisa ter no máximo 50 caracteres');
+        }
+
+        if (array_key_exists('restaurantNeighborhood', $this->data)) {
+            // restaurantNeighborhood
+            $validator->rule('required', 'restaurantNeighborhood')->message('Informe o bairro do restaurante');
+            $validator->rule('integer', 'restaurantNeighborhood')->message('Informe um bairro válido');
+        }
+
+        if (array_key_exists('restaurantNumber', $this->data)) {
+            // restaurantNumber
+            $validator->rule('required', 'restaurantNumber')->message('Digite o número do restaurante');
+            $validator->rule('lengthMax', 'restaurantNumber', 11)->message('O número precisa ter no máximo 11 caracteres');
+        }
+
+        if (array_key_exists('restaurantState', $this->data)) {
+            // restaurantState
+            $validator->rule('required', 'restaurantState')->message('Informe o estado do restaurante');
+            $validator->rule('integer', 'restaurantState')->message('Informe um estado válido');
+        }
+
+        if (array_key_exists('restaurantCity', $this->data)) {
+            // restaurantCity
+            $validator->rule('required', 'restaurantCity')->message('Informe a cidade do restaurante');
+            $validator->rule('integer', 'restaurantCity')->message('Informe uma cidade válida');
+        }
+
+        if (array_key_exists('restaurantComplement', $this->data)) {
+            // restaurantComplement
+            $validator->rule('lengthMax', 'restaurantComplement', 50)->message('O complemento precisa ter no máximo 50 caracteres');
+        }
+
+        if (array_key_exists('socialMedias', $this->data)) {
+            // socialMedias
+            $validator->rule('socialMedias', 'socialMedias')->message('Informe mídias sociais válidas');
+            $validator->rule('arrayLengthMax', 'socialMedias', 5)->message('Informe mídias sociais válidas');
+            $validator->rule('arrayLengthMin', 'socialMedias', 5)->message('Informe mídias sociais válidas');
+        }
+
+        if (array_key_exists('paymentMethods', $this->data)) {
+            // paymentMethods
+            $validator->rule('arrayLengthMax', 'paymentMethods', 1)->message('Informe métodos de pagamento válidos');
+            $validator->rule('arrayLengthMin', 'paymentMethods', 1)->message('Informe métodos de pagamento válidos');
+        }
+
+        if($validator->validate()) {
+            return ['validate' => true];
+        } else {
+            // Errors
+            return ['validate' => false, 'errors' => $validator->errors()];
+        }
+    }
+
+    public function validateCnpj($cnpj)	{
+        if (!$cnpj) return false;
+
+        //Etapa 1: Cria um array com apenas os digitos numéricos, isso permite receber o cnpj em diferentes formatos como "00.000.000/0000-00", "00000000000000", "00 000 000 0000 00" etc...
+        $j=0;
+        for($i=0; $i<(strlen($cnpj)); $i++)
+            {
+                if(is_numeric($cnpj[$i]))
+                    {
+                        $num[$j]=$cnpj[$i];
+                        $j++;
+                    }
+            }
+        //Etapa 2: Conta os dígitos, um Cnpj válido possui 14 dígitos numéricos.
+        if(count($num)!=14)
+            {
+                $isCnpjValid=false;
+            }
+        //Etapa 3: O número 00000000000 embora não seja um cnpj real resultaria um cnpj válido após o calculo dos dígitos verificares e por isso precisa ser filtradas nesta etapa.
+        if ($num[0]==0 && $num[1]==0 && $num[2]==0 && $num[3]==0 && $num[4]==0 && $num[5]==0 && $num[6]==0 && $num[7]==0 && $num[8]==0 && $num[9]==0 && $num[10]==0 && $num[11]==0)
+            {
+                $isCnpjValid=false;
+            }
+        //Etapa 4: Calcula e compara o primeiro dígito verificador.
+        else
+            {
+                $j=5;
+                for($i=0; $i<4; $i++)
+                    {
+                        $multiplica[$i]=$num[$i]*$j;
+                        $j--;
+                    }
+                $soma = array_sum($multiplica);
+                $j=9;
+                for($i=4; $i<12; $i++)
+                    {
+                        $multiplica[$i]=$num[$i]*$j;
+                        $j--;
+                    }
+                $soma = array_sum($multiplica);	
+                $resto = $soma%11;			
+                if($resto<2)
+                    {
+                        $dg=0;
+                    }
+                else
+                    {
+                        $dg=11-$resto;
+                    }
+                if($dg!=$num[12])
+                    {
+                        $isCnpjValid=false;
+                    } 
+            }
+        //Etapa 5: Calcula e compara o segundo dígito verificador.
+        if(!isset($isCnpjValid))
+            {
+                $j=6;
+                for($i=0; $i<5; $i++)
+                    {
+                        $multiplica[$i]=$num[$i]*$j;
+                        $j--;
+                    }
+                $soma = array_sum($multiplica);
+                $j=9;
+                for($i=5; $i<13; $i++)
+                    {
+                        $multiplica[$i]=$num[$i]*$j;
+                        $j--;
+                    }
+                $soma = array_sum($multiplica);	
+                $resto = $soma%11;			
+                if($resto<2)
+                    {
+                        $dg=0;
+                    }
+                else
+                    {
+                        $dg=11-$resto;
+                    }
+                if($dg!=$num[13])
+                    {
+                        $isCnpjValid=false;
+                    }
+                else
+                    {
+                        $isCnpjValid=true;
+                    }
+            }
+        
+        //Etapa 6: Retorna o Resultado em um valor booleano.
+        return $isCnpjValid;			
+	}
+
+    public function validateOperation($rows) {
+        $operationRows = count($rows['row']);
+
+        for ($i=0; $i < $operationRows; $i++) { 
+            $weekDay = $rows['dayIndex'][$i];
+            $dayOpen1 = $rows['open1'][$i];
+            $dayClose1 = $rows['close1'][$i];
+            $dayOpen2 = $rows['open2'][$i];
+            $dayClose2 = $rows['close2'][$i];     
+            
+            $validateWeekDay = $weekDay ?? false;
+            $validateSchedule1 = $dayOpen1 && $dayClose1;
+            $validateSchedule2 = $validateSchedule1 && ($dayOpen2 && $dayClose2 || !$dayOpen2 && !$dayClose2 );
+
+            if (strlen($dayOpen1) === 4) {
+                $dayOpen1 = "0$dayOpen1";
+            }
+            
+            if (strlen($dayClose1) === 4) {
+                $dayClose1 = "0$dayClose1";
+            }
+            
+            if (strlen($dayOpen2) === 4) {
+                $dayOpen2 = "0$dayOpen2";
+            }
+            
+            if (strlen($dayClose2) === 4) {
+                $dayClose2 = "0$dayClose2";
+            }
+
+            // Parse schedules to mins and validate range of schedules
+            if ($validateSchedule1) {
+                if ($dayOpen1 >= $dayClose1) {
+                    $validateSchedule1 = false;
+                    $validateSchedule2 = false;
+                }
+
+                if ($dayOpen1 && $dayClose2) {
+                    if ($dayOpen2 >= $dayClose2) {
+                        $validateSchedule2 = false;
+                    } else if ($dayOpen2 <= $dayOpen1 || $dayOpen2 <= $dayClose1 ) {
+                        $validateSchedule2 = false;
+                    }
+
+                }
+            }
+
+            $validateRow = $validateWeekDay && $validateSchedule1 && $validateSchedule2;
+            
+            $validation = [
+                'validateWeekDay' => $validateWeekDay,
+                'validateSchedule1' => $validateSchedule1,
+                'validateSchedule2' => $validateSchedule2,
+                'validateRow' => $validateRow
+            ];
+            
+            // print_r($validation);
+
+            if (!$validation['validateRow']) return false;
+            
+            return true;
+        }
+    }   
+    
+    public function validateSocialMedias($rows) {
+        $socialMediasRows = count($rows['socialMediaRow']);
+        
+        for ($i=0; $i < $socialMediasRows; $i++) { 
+            $socialMedia = $rows['socialMediaIndex'][$i];
+            $linkOrPhone = $rows['linkOrPhone'][$i];
+            
+            $validateSocialMedia = $socialMedia ?? false;
+            $validateLinkOrPhone = $linkOrPhone ?? false;
+            
+            $validateRow = $validateSocialMedia && $validateLinkOrPhone;
+            
+            $validation = [
+                'validateSocialMedia' => $validateSocialMedia,
+                'validateLinkOrPhone' => $validateLinkOrPhone,
+                'validateRow' => $validateRow
+            ];
+            
+            if (!$validation['validateRow']) return false;
+            
+            return true;
+        }
+    }   
+
+    public function validateUniqueEmail($email) {
+        try {
+            $stm = $this->db->prepare('SELECT * FROM user
+                WHERE email = :email
+            ');
+            
+            $stm->bindValue(':email', $email);
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) return false;
+            return true;
+        } catch(\PDOException $error) {
+            return false; 
+            
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function saveRestaurantEditForm($restaurantId, $userId, $addressId) {
+        try {
+            $this->db->beginTransaction();
+
+            $restaurantColumns = [
+                'restaurantBrand',
+                'restaurantName',
+                'restaurantCnpj',
+                'restaurantEmail',
+                'restaurantMainCategories'
+            ];
+            
+            $dataRestaurant = [];
+
+            foreach ($restaurantColumns as $column) {
+                if (in_array($column, array_keys($this->data))) {
+                    $dataRestaurant[$column] = $this->data[$column];
+                }
+            }
+
+            if (count($dataRestaurant) > 0) {
+                $restaurant = new Restaurant($dataRestaurant);
+                $restaurant->updateRestaurant($restaurantId, $userId);
+            }
+
+            $restaurantAddressColumns = [
+                'restaurantAddress',
+                'restaurantComplement',
+                'restaurantNumber',
+                'restaurantNeighborhood'
+            ];
+            
+            $dataRestaurantAddress = [];
+
+            foreach ($restaurantAddressColumns as $column) {
+                if (in_array($column, array_keys($this->data))) {
+                    $dataRestaurantAddress[$column] = $this->data[$column];
+                }
+            }
+
+            if (count($dataRestaurantAddress) > 0) {
+                $address = new Address($dataRestaurantAddress);
+                $address->updateAddress($addressId);
+            }
+
+            $restaurantPhonesColumns = [
+                'restaurantPhone',
+                'restaurantCellPhone'
+            ];
+            
+            $dataRestaurantPhones = [];
+
+            foreach ($restaurantPhonesColumns as $column) {
+                if (in_array($column, array_keys($this->data))) {
+                    $dataRestaurantPhones[$column] = $this->data[$column];
+                }
+            }
+
+            if (count($dataRestaurantPhones) > 0) {
+                $restaurantPhones = new RestaurantPhone($dataRestaurantPhones);
+                $restaurantPhones->updateRestaurantPhones($restaurantId);
+            }
+            
+            if (!empty($this->data['operation'])) {
+                $countOperationRows = count($this->data['operation']['row']);
+                $restaurantOperation = new RestaurantOperation();
+    
+                for ($i=0; $i < $countOperationRows; $i++) { 
+                    $dataRestaurantOperation = [
+                        'restaurant_id' => $restaurantId,
+                        'week_day_id' => $this->data['operation']['dayIndex'][$i],
+                        'open_1' => $this->data['operation']['open1'][$i],
+                        'close_1' => $this->data['operation']['close1'][$i],
+                        'open_2' => $this->data['operation']['open2'][$i],
+                        'close_2' => $this->data['operation']['close2'][$i]
+                    ];    
+    
+                    $restaurantOperation->setData($dataRestaurantOperation);
+
+                    $idOperation = $this->data['operation']['idOperation'][$i];
+
+                    if ($idOperation) {
+                        $restaurantOperation->updateRestaurantOperation($restaurantId, $idOperation);
+                    } else {
+                        $restaurantOperation->saveRestaurantOperation();
+                    }
+                }
+            }
+
+            if (!empty($this->data['operationDeleteds'])) {
+                $countOperationRowsDeleteds = count($this->data['operationDeleteds']['row']);
+                $restaurantOperation = new RestaurantOperation();
+    
+                for ($i=0; $i < $countOperationRowsDeleteds; $i++) {    
+                    $idOperation = $this->data['operationDeleteds']['idOperation'][$i];
+
+                    $restaurantOperation->deleteRestaurantOperation($restaurantId, $idOperation);
+                }
+            }
+
+            if (!empty($this->data['socialMedias'])) {
+                $countSocialMediasRows = count($this->data['socialMedias']['socialMediaRow']);
+                $restaurantSocialMedia = new RestaurantSocialMedia();
+    
+                for ($i=0; $i < $countSocialMediasRows; $i++) { 
+                    $dataRestaurantSocialMedia = [
+                        'restaurant_id' => $restaurantId,
+                        'social_media_id' => $this->data['socialMedias']['socialMediaIndex'][$i],
+                        'value' => $this->data['socialMedias']['linkOrPhone'][$i]
+                    ];    
+    
+                    $restaurantSocialMedia->setData($dataRestaurantSocialMedia);
+
+                    $idSocialMedia = $this->data['socialMedias']['idSocialMedia'][$i];
+
+                    if ($idSocialMedia) {
+                        $restaurantSocialMedia->updateRestaurantSocialMedia($restaurantId, $idSocialMedia);
+                    } else {
+                        $restaurantSocialMedia->saveRestaurantSocialMedia();
+                    }
+                }
+            }
+
+            if (!empty($this->data['socialMediasDeleteds'])) {
+                $countSocialMediasRowsDeleteds = count($this->data['socialMediasDeleteds']['row']);
+                $restaurantSocialMedia = new RestaurantSocialMedia();
+    
+                for ($i=0; $i < $countSocialMediasRowsDeleteds; $i++) {    
+                    $idSocialMedia = $this->data['socialMediasDeleteds']['idSocialMedia'][$i];
+
+                    $restaurantSocialMedia->deleteRestaurantSocialMedia($restaurantId, $idSocialMedia);
+                }
+            }
+
+            if (!empty($this->data['payments'])) {
+                $countPaymentRows = count($this->data['payments']['idPayment']);
+                $restaurantPayment = new RestaurantPayment();
+    
+                for ($i=0; $i < $countPaymentRows; $i++) { 
+                    $dataRestaurantPayment = [
+                        'restaurant_id' => $restaurantId,
+                        'payment_id' => $this->data['payments']['idPayment'][$i]
+                    ];    
+    
+                    $restaurantPayment->setData($dataRestaurantPayment);
+
+                    $paymentSaved = $this->data['payments']['paymentSaved'][$i];
+                    $idPayment = $dataRestaurantPayment['payment_id'];
+
+                    if (!$paymentSaved) {
+                        $restaurantPayment->saveRestaurantPayment();
+                    }
+                }
+            }
+
+            if (!empty($this->data['paymentsDeleteds'])) {
+                $countPaymentRowsDeleteds = count($this->data['paymentsDeleteds']['idPayment']);
+                $restaurantPayment = new RestaurantPayment();
+    
+                for ($i=0; $i < $countPaymentRowsDeleteds; $i++) {    
+                    $idPayment = $this->data['paymentsDeleteds']['idPayment'][$i];
+
+                    $restaurantPayment->deleteRestaurantPayment($restaurantId, $idPayment);
+                }
+            }
+
+            $this->db->commit();
+        } catch (\PDOException $error) {            
+            $this->db->rollback();
+
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
     // Relationships
     public function getRestaurantPhones($id) {
         try {        
@@ -513,6 +1152,56 @@ class Restaurant extends Model {
                 $operation = $stm->fetchAll(\PDO::FETCH_ASSOC);
 
                 return $operation;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function getRestaurantSocialMedias($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM restaurant_social_media 
+                WHERE restaurant_id = :restaurantId
+            ');
+            
+            $stm->bindValue(':restaurantId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $socialMedias = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $socialMedias;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function getRestaurantPayments($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM restaurant_payment 
+                WHERE restaurant_id = :restaurantId
+            ');
+            
+            $stm->bindValue(':restaurantId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $payments = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $payments;              
             }
 
         } catch (\PDOException $error) {
