@@ -1,47 +1,51 @@
 <div class="tab-pane fade pt-0" id="pills-address" role="tabpanel" aria-labelledby="pills-address-tab">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header flex-column align-items-start">
             <h5>Endereço</h5>
+
+            <div class="server-validation">
+                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Informações incorretas!</a>  
+            </div>
         </div>
 
         <div class="card-body pt-0">
             <div class="form-row">
                 <div class="form-group col-6">
-                    <label for="accountAddress">Endereço</label>
-                    <input type="text" id="accountAddress" class="form-control" name="accountAddress" placeholder="Endereço" value="{{ userLogged['adresses'][0]['name'] }}">
+                    <label for="restaurantAddress">Endereço</label>
+                    <input type="text" id="restaurantAddress" class="form-control" name="restaurantAddress" placeholder="Endereço" value="{{ userLogged['adresses'][0]['name'] }}">
                 </div>
 
                 <div class="form-group col-4">
-                    <label for="accountComplement">Complemento</label>
-                    <input type="text" id="accountComplement" name="accountComplement" class="form-control" placeholder="Complemento" value="{{ userLogged['adresses'][0]['complement'] }}">
+                    <label for="restaurantComplement">Complemento</label>
+                    <input type="text" id="restaurantComplement" name="restaurantComplement" class="form-control" placeholder="Complemento" value="{{ userLogged['adresses'][0]['complement'] }}">
                 </div>
                 
                 <div class="form-group col-2">
-                    <label for="accountNumber">Número</label>
-                    <input type="text" id="accountNumber" class="form-control" name="accountNumber" placeholder="N.º" value="{{ userLogged['adresses'][0]['number'] }}">
+                    <label for="restaurantNumber">Número</label>
+                    <input type="text" id="restaurantNumber" class="form-control" name="restaurantNumber" placeholder="N.º" value="{{ userLogged['adresses'][0]['number'] }}">
                 </div>
             </div>  
 
             <div class="form-row">
                 <div class="form-group col-4">
-                    <label for="accountState">Estado</label>
-                    <select id="accountState" class="form-control selectric" name="accountState">
+                    <label for="restaurantState">Estado</label>
+                    <select id="restaurantState" class="form-control selectric" name="restaurantState">
                         <option value="" disabled>Selecione</option>
                         <option value="5" selected>Bahia - BA</option>
                     </select>
                 </div>
 
                 <div class="form-group col-4">
-                    <label for="accountCity">Cidade</label>
-                    <select id="accountCity" class="form-control selectric" name="accountCity">
+                    <label for="restaurantCity">Cidade</label>
+                    <select id="restaurantCity" class="form-control selectric" name="restaurantCity">
                         <option value="" disabled>Selecione</option>
                         <option value="336" selected>Brumado</option>
                     </select>
                 </div>
-
+            
                 <div class="form-group col-4">
-                    <label for="accountNeighborhood">Bairro</label>
-                    <select id="accountNeighborhood" class="form-control selectric" name="accountNeighborhood">
+                    <label for="restaurantNeighborhood">Bairro</label>
+                    <select id="restaurantNeighborhood" class="form-control selectric" name="restaurantNeighborhood">
                         <option value="" selected disabled>Selecione</option>
                         {% for neighborhood in neighborhoods %}
                             {% if neighborhood['id_neighborhood'] == userLogged['adresses'][0]['neighborhood_id'] %}
@@ -54,7 +58,7 @@
                 </div>
             </div>  
 
-            <button type="button" id="submitProfile" class="btn btn-primary" disabled>
+            <button type="submit" class="btn btn-primary submit-restaurant-edit" disabled>
                 Salvar
             </button>
         

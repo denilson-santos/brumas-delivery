@@ -1,7 +1,11 @@
 <div class="tab-pane fade show active pt-0" id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header flex-column align-items-start">
             <h5>Geral</h5>
+
+            <div class="server-validation">
+                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Informações incorretas!</a>  
+            </div>
         </div>
 
         <div class="card-body pt-0">
@@ -51,11 +55,11 @@
 
                 <div class="form-group col-6">
                   <label>Funcionamento</label>
-                  <button id="restaurantAddOperation" class="form-control btn btn-primary"><i class="fas fa-history mr-1"></i> Horários Cadastrados</button>
+                  <button type="button" id="restaurantAddOperation" class="form-control btn btn-primary" data-toggle="modal" data-target="#modalAddOperation"><i class="fas fa-history mr-1"></i> Horários Cadastrados</button>
                 </div>
             </div>
 
-            <button type="button" id="submitProfile" class="btn btn-primary" disabled>
+            <button type="submit" class="btn btn-primary submit-restaurant-edit" disabled>
                 Salvar
             </button>
         

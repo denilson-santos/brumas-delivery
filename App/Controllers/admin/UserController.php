@@ -176,17 +176,4 @@ class UserController extends Controller {
 
         $this->loadView('admin/pages/account/orders/orders', $data);
     }
-
-    public function changeImage($request) {
-        $headers = getallheaders();
-
-        $request['accountPhoto'] = $_FILES['accountPhoto'];
-        
-        $request = $this->sanitizeInputs($request);
-        
-        $user = new User();                
-        $user->setImage($request['accountPhoto'], $headers['User-Id']);
-
-        return true;
-    }
 }

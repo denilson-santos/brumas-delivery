@@ -19,6 +19,13 @@
 
         <div class="section-body">
             <form class="restaurant-edit">
+                <input 
+                    type="hidden" 
+                    id="info" 
+                    data-user-id="{{ userLogged['id_user'] }}" 
+                    data-restaurant-id="{{ userLogged['restaurant']['id_restaurant'] }}"
+                    data-address-id="{{ userLogged['restaurant']['address_id'] }}">
+
                 <div class="row">
                     <div class="sidebar-restaurant-edit col-xl-4 col-lg-12">
                         <div class="card">
@@ -35,13 +42,13 @@
                                     <span><i class="fa fa-times-circle"></i></span>
                                     </div>
     
-                                    <img src="{{ userLogged['image'] ?? '/media/default/users/user-img-default-150x150.jpg' }}">
+                                    <img src="{{ userLogged['restaurant']['image'] }}">
                                 </div>
     
-                                <input id="accountPhoto" class="invisible position-absolute" type="file" name="accountPhoto" accept=".jpg,.jpeg,.png">
+                                <input id="restaurantBrand" class="invisible position-absolute" type="file" name="restaurantBrand" accept=".jpg,.jpeg,.png">
     
-                                <h5 class="mt-3 mb-0">{{ userLogged['first_name']~' '~userLogged['last_name']}}</h5>
-                                <span class="text-gray-light">{{ userLogged['email'] }}</span>
+                                <h5 class="mt-3 mb-0">{{ userLogged['restaurant']['name']}}</h5>
+                                <span class="text-gray-light">{{ userLogged['restaurant']['email'] }}</span>
                             </div>
                         </div>
     
@@ -85,18 +92,19 @@
             </form>
         </div>
     </section>
-
-    {# Modals #}
-    {# {% block modals %} #}
-        {% include "admin/auth/modals/operation.html.twig" %}
-    {# {% endblock %} #}
   </div>
 {% endblock content %}
+
+{# Modals #}
+{% block modals %}
+    {% include "admin/auth/modals/operation.html.twig" %}
+{% endblock modals %}
 
 {% block js %}
     <script>
         var BASE_URL = '{{ BASE_URL }}';
     </script>
+    <script src="/assets/admin/js/pages/restaurant/edit/edit.js"></script>
     <script src="/assets/admin/js/pages/restaurant/edit/pills/general.js"></script>
     <script src="/assets/admin/js/auth/modals/operation.js"></script>
     <script src="/assets/admin/js/pages/restaurant/edit/pills/socialMedias.js"></script>

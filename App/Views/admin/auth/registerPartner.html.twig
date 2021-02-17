@@ -232,7 +232,7 @@
 
                       <div class="form-group col-6">
                         <label>Funcionamento</label>
-                        <button id="restaurantAddOperation" class="form-control btn btn-primary"><i class="fas fa-history mr-1"></i> Adicionar Horários</button>
+                        <button type="button" id="restaurantAddOperation" class="form-control btn btn-primary" data-toggle="modal" data-target="#modalAddOperation"><i class="fas fa-history mr-1"></i> Adicionar Horários</button>
                       </div>
                     </div>
 
@@ -367,9 +367,6 @@
         </div>
       </div>
     </section>
-
-    {# Modals #}
-    {% include "admin/auth/modals/operation.html.twig" %}
   </div>
 
   <!-- General JS Scripts -->
@@ -407,5 +404,8 @@
   <script>
     var BASE_URL = '{{ BASE_URL }}';
   </script>
+
+  {# Modals #}
+  {% include "admin/auth/modals/operation.html.twig" %}
 </body>
 </html>

@@ -1,7 +1,11 @@
 <div class="tab-pane fade pt-0" id="pills-social-media" role="tabpanel" aria-labelledby="pills-social-media-tab">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header flex-column align-items-start">
             <h5>Mídias Sociais</h5>
+
+            <div class="server-validation">
+                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Informações incorretas!</a>  
+            </div>
         </div>
 
         <div class="card-body pt-0">
@@ -14,19 +18,70 @@
                     </tr>
                 </thead>
                 <tbody>
-                
+                    {% set count = 0 %}
+
+                    {% if userLogged['restaurant']['social_medias'] %}
+                        {% for socialMedia in userLogged['restaurant']['social_medias'] %}
+                            {% set count = count + 1 %}
+                            {% set socialMediaIcon = '' %}
+
+                            {% if (socialMedia['social_media_id'] == 1) %}
+                                {% set socialMediaIcon = 'fab fa-facebook-f' %}
+                            {% elseif (socialMedia['social_media_id'] == 2) %}
+                                {% set socialMediaIcon = 'fab fa-instagram' %}
+                            {% elseif (socialMedia['social_media_id'] == 3) %}
+                                {% set socialMediaIcon = 'fab fa-twitter' %}
+                            {% elseif (socialMedia['social_media_id'] == 4) %}
+                                {% set socialMediaIcon = 'fab fa-whatsapp' %}
+                            {% endif %}
+
+                            <tr data-row="{{ count }}">
+                                <td>
+                                    <i class="{{ socialMediaIcon }} mr-2"></i>
+                                    {{ socialMedias[socialMedia['social_media_id']-1]['name'] ?? '-' }}
+                                </td>
+                                <td class="link-or-phone">
+                                    <i class="fas fa-link mr-2"></i>    
+                                    <a href="http://{{ socialMedia['value'] }}" target="_blank">{{ socialMedia['value'] ?? '-' }}</a>
+                                </td>
+                                
+                                <td><div class="actions"><button type="button" class="btn btn-primary btn-sm edit action"><i class="fas fa-pencil-alt"></i></button><button type="button" class="btn btn-primary btn-sm delete action"><i class="fas fa-trash-alt"></i></button></div></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr row="{{ row }}" class="text-center no-social-media">
+                            <td colspan="3">Nenhuma Mídia Social Adicionada!</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         
             <div class="selected-social-medias
-            d-none"></div>
+            d-none">
+                {% set count = 0 %}
+                        
+                {% for socialMedia in userLogged['restaurant']['social_medias'] %}
+                    {% set count = count + 1 %}
+                    
+                    <input 
+                        type="hidden" 
+                        class="saved" 
+                        data-id-social-media="{{ socialMedia['id_restaurant_social_media'] }}" 
+                        data-social-media-index="{{ socialMedia['social_media_id'] }}" 
+                        data-social-media="{{ socialMedias[socialMedia['social_media_id']-1]['name'] }}" 
+                        data-link-or-phone="{{ socialMedia['value'] }}" 
+                        data-social-media-row="{{ count }}">
+                {% endfor %}
+            </div>
+
+            <div class="deleted-social-medias d-none"></div>
         
             <div class="float-left">
                 <button id="addSocialMedia" class="btn btn-primary"><i class="fas fa-plus"></i></button>
             </div>
 
             <div class="float-right">
-                <button id="saveSocialMedia" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary submit-restaurant-edit" disabled>
                     Salvar
                 </button>
             </div>

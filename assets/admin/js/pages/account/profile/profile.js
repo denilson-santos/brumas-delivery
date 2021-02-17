@@ -341,36 +341,36 @@ $(function () {
         var pillActive = $(this).data('name');
         $('.breadcrumb-item.active').text(pillActive);
     });
+    
+    function userPreview(input) {
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            $('.user-img-preview img').attr('src', e.target.result);
+            $('.user-photo-area').css('display', 'none');
+            $('.user-img-preview').css('display', 'block');
+        }
+    
+        reader.onloadend = function() {
+            $('.user-img-preview').css('pointerEvents', 'none');
+    
+            setTimeout(function() {
+                $('.user-img-preview').css('pointerEvents', 'auto');
+            }, 100)
+        }
+    
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+    
+    function isValid(form) {
+        var formElements = form.find('input,select');
+        
+        $(formElements).each(function (index, element) {
+            if (!formElements.eq(index).valid()) validation = false;
+        });
+    
+        return validation;
+    }
 });
-
-function userPreview(input) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    
-    reader.onload = function(e) {
-        $('.user-img-preview img').attr('src', e.target.result);
-        $('.user-photo-area').css('display', 'none');
-        $('.user-img-preview').css('display', 'block');
-    }
-
-    reader.onloadend = function() {
-        $('.user-img-preview').css('pointerEvents', 'none');
-
-        setTimeout(function() {
-            $('.user-img-preview').css('pointerEvents', 'auto');
-        }, 100)
-    }
-
-    reader.readAsDataURL(input.files[0]); // convert to base64 string
-    }
-}
-
-function isValid(form) {
-    var formElements = form.find('input,select');
-    
-    $(formElements).each(function (index, element) {
-        if (!formElements.eq(index).valid()) validation = false;
-    });
-
-    return validation;
-}

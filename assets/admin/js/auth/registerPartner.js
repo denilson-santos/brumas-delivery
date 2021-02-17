@@ -432,7 +432,16 @@ $(function () {
 
             //  Add restaurant operation in FormData
             $('.selected-week-days input').each(function (index, element) {
-                data = $(element).data();
+                data = {
+                    'idOperation': $(element).attr('data-id-operation'),
+                    'row': $(element).attr('data-row'),
+                    'dayIndex': $(element).attr('data-day-index'),
+                    'weekDay': $(element).attr('data-week-day'),
+                    'open1': $(element).attr('data-open1'),
+                    'close1': $(element).attr('data-close1'),
+                    'open2': $(element).attr('data-open2'),
+                    'close2': $(element).attr('data-close2'),
+                }
             
                 for (const key in data) {
                     if (!Array.isArray(row[key])) row[key] = [];
@@ -551,18 +560,7 @@ $(function () {
                 validation = false;
             } else {
                 $('#restaurantOperation-error.error').remove();
-            }
-
-            $('#fire-modal-1').on('hidden.bs.modal', function (e) {
-                if (!$('.selected-week-days input').length || $('.selected-week-days input').length != $('.table-operation tbody tr').length) {
-                    $('#restaurantOperation-error.error').remove();
-                    $('button#restaurantAddOperation').after('<div id="restaurantOperation-error" class="error invalid-feedback" style="display: block;                margin-top: 0.40rem;">Horários inválidos</div>');
-                    validation = false;
-                } else {
-                    $('#restaurantOperation-error.error').remove();
-                }   
-            });
-            
+            }            
         }
         
         return validation;
