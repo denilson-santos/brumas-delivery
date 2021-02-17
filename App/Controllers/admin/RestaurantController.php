@@ -178,7 +178,7 @@ class RestaurantController extends Controller {
             unset($request['idPaymentDeleted']);
         }
 
-        // print_r($request); exit;      
+        // print_r($request); exit;
 
         $restaurant = new Restaurant($request);
         

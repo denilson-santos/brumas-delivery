@@ -257,7 +257,8 @@ $(function () {
         if (fieldsChanged.length > 0) {
             var form = new FormData();
             var field = '';
-            var userId = $('#accountPhoto').data('user-id');
+            var userId = $('#info').data('user-id');
+            var addressId = $('#info').data('address-id');
 
             fieldsChanged.each(function (index, element) {
                 field = $(element).attr('name');
@@ -271,7 +272,10 @@ $(function () {
 
             $.ajax({
                 type: "POST",
-                headers: { 'User-Id': userId },
+                headers: { 
+                    'User-Id': userId,
+                    'Address-Id': addressId
+                },
                 url: "/account/profile-action",
                 contentType : false,
                 processData : false,

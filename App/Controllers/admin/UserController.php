@@ -66,7 +66,7 @@ class UserController extends Controller {
         $validation = $user->validateEditProfileForm();
 
         if ($validation['validate']) {
-            $user->saveEditProfileForm($headers['User-Id']);
+            $user->saveEditProfileForm($headers['User-Id'], $headers['Address-Id']);
 
             echo json_encode($validation);
         } else {
