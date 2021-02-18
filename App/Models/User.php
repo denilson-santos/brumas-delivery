@@ -231,9 +231,13 @@ class User extends Model {
                     $userLogged = [];
                     $userLogged = $user;
                     $userLogged['phones'] = $this->getUserPhones($userId);
-                    $userLogged['adresses'] = $this->getAddresses($userId, $level);
+                    
                     $userLogged['rates'] = $this->getRates($userId);
-                        
+
+                    $userLogged['adresses'] = '';
+                    
+                    $idAddress = '';
+                    
                     if ($level == 2) {                
                         $restaurant = new Restaurant();
                         
@@ -241,6 +245,8 @@ class User extends Model {
                         
                         $restaurantId = $restaurantInfo['id_restaurant'];
                         
+                        $restaurantInfo['address'] = $restaurant->getRestaurantAddress($restaurantId);
+
                         $restaurantInfo['phones'] = $restaurant->getRestaurantPhones($restaurantId);
                         
                         $restaurantInfo['operations'] = $restaurant->getRestaurantOperation($restaurantId);
@@ -249,10 +255,13 @@ class User extends Model {
 
                         $restaurantInfo['payments'] = $restaurant->getRestaurantPayments($restaurantId);
 
+                        $idAddress = $restaurantInfo['address_id'];
+
                         $userLogged['restaurant'] = $restaurantInfo;
                     }
 
-                    // print_r($userLogged); exit;
+                    $userLogged['adresses'] = $this->getAdresses($userId, $level, $idAddress);
+
                     $this->data = $userLogged;
 
                     return $userLogged;
@@ -1002,11 +1011,11 @@ class User extends Model {
             $userPhone->saveUserPhone();
             
             $dataAddress = [
-                'neighborhood_id' => $this->data['accountNeighborhood'], 
+                'neighborhood_id' => $this->data['restaurantNeighborhood'], 
                 'user_id' => $userId, 
-                'name' => $this->data['accountAddress'], 
-                'number' => $this->data['accountNumber'], 
-                'complement' => $this->data['accountComplement']
+                'name' => $this->data['restaurantAddress'], 
+                'number' => $this->data['restaurantNumber'], 
+                'complement' => $this->data['restaurantComplement']
             ];
 
             $address = new Address($dataAddress);
@@ -1213,17 +1222,20 @@ class User extends Model {
         }
     }
 
-    public function getAddresses($id, $level) {
+    public function getAdresses($id, $level, $restaurantAddressId) {
         try {        
             if ($level == 1) {
 
             } else if ($level == 2) {
-                $stm = $this->db->prepare('SELECT a.* FROM address a 
-                    JOIN restaurant r ON a.id_address = r.address_id 
-                    WHERE a.user_id = :userId
-                ');
+                $where = $restaurantAddressId ? ' AND id_address <> :restaurantAddressId' : '';
+
+                $stm = $this->db->prepare('SELECT * FROM address 
+                    WHERE user_id = :userId' . $where
+                );
                 
                 $stm->bindValue(':userId', $id);
+                
+                if ($restaurantAddressId) $stm->bindValue(':restaurantAddressId', $restaurantAddressId);
                 
                 $stm->execute();
 

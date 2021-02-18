@@ -12,17 +12,17 @@
             <div class="form-row">
                 <div class="form-group col-6">
                     <label for="restaurantAddress">Endereço</label>
-                    <input type="text" id="restaurantAddress" class="form-control" name="restaurantAddress" placeholder="Endereço" value="{{ userLogged['adresses'][0]['name'] }}">
+                    <input type="text" id="restaurantAddress" class="form-control" name="restaurantAddress" placeholder="Endereço" value="{{ userLogged['restaurant']['address']['name'] }}">
                 </div>
 
                 <div class="form-group col-4">
                     <label for="restaurantComplement">Complemento</label>
-                    <input type="text" id="restaurantComplement" name="restaurantComplement" class="form-control" placeholder="Complemento" value="{{ userLogged['adresses'][0]['complement'] }}">
+                    <input type="text" id="restaurantComplement" name="restaurantComplement" class="form-control" placeholder="Complemento" value="{{ userLogged['restaurant']['address']['complement'] }}">
                 </div>
                 
                 <div class="form-group col-2">
                     <label for="restaurantNumber">Número</label>
-                    <input type="text" id="restaurantNumber" class="form-control" name="restaurantNumber" placeholder="N.º" value="{{ userLogged['adresses'][0]['number'] }}">
+                    <input type="text" id="restaurantNumber" class="form-control" name="restaurantNumber" placeholder="N.º" value="{{ userLogged['restaurant']['address']['number'] }}">
                 </div>
             </div>  
 
@@ -48,7 +48,7 @@
                     <select id="restaurantNeighborhood" class="form-control selectric" name="restaurantNeighborhood">
                         <option value="" selected disabled>Selecione</option>
                         {% for neighborhood in neighborhoods %}
-                            {% if neighborhood['id_neighborhood'] == userLogged['adresses'][0]['neighborhood_id'] %}
+                            {% if neighborhood['id_neighborhood'] == userLogged['restaurant']['address']['neighborhood_id'] %}
                                 <option value="{{ neighborhood['id_neighborhood'] }}" selected>{{ neighborhood['name'] }}</option>        
                             {% else %}
                                 <option value="{{ neighborhood['id_neighborhood'] }}">{{ neighborhood['name'] }}</option>
