@@ -1113,6 +1113,32 @@ class Restaurant extends Model {
     }
 
     // Relationships
+    public function getRestaurantAddress($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT a.* FROM address a 
+                JOIN restaurant r ON a.id_address = r.address_id 
+                WHERE r.id_restaurant = :restaurantId
+            ');
+            
+            $stm->bindValue(':restaurantId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $phones = $stm->fetch(\PDO::FETCH_ASSOC);
+
+                return $phones;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     public function getRestaurantPhones($id) {
         try {        
             $stm = $this->db->prepare('SELECT * FROM restaurant_phone 
