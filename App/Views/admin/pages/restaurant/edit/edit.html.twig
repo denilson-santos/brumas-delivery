@@ -13,8 +13,16 @@
 {% block content %}
   <div class="main-content">
     <section class="section restaurant-edit">
-        <div class="section-header">
+        <div class="section-header justify-content-between">
             <h1>Editar Restaurante</h1>
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{{ BASE_URL }}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{ BASE_URL }}/restaurant/details">Meu Restaurante</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Geral</li>
+                </ol>
+            </nav>
         </div>
 
         <div class="section-body">
@@ -54,22 +62,22 @@
     
                         <div class="card sidebar-options">
                             <div class="nav flex-column nav-pills" id="pills-restaurant-edit" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="pills-general-tab" data-toggle="pill" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">
+                                <a class="nav-link active" id="pills-general-tab" data-toggle="pill" data-name="Geral" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">
                                     <i class="fas fa-cog ml-0 mr-2"></i>
                                     Geral
                                 </a>
     
-                                <a class="nav-link" id="pills-address-tab" data-toggle="pill" href="#pills-address" role="tab" aria-controls="pills-address" aria-selected="false">
+                                <a class="nav-link" id="pills-address-tab" data-toggle="pill" data-name="Endereço" href="#pills-address" role="tab" aria-controls="pills-address" aria-selected="false">
                                     <i class="fas fa-map-marker-alt ml-0 mr-2"></i>
                                     Endereço
                                 </a>
                                 
-                                <a class="nav-link" id="pills-social-media-tab" data-toggle="pill" href="#pills-social-media" role="tab" aria-controls="pills-social-media" aria-selected="false">
+                                <a class="nav-link" id="pills-social-media-tab" data-toggle="pill" data-name="Mídias Socias" href="#pills-social-media" role="tab" aria-controls="pills-social-media" aria-selected="false">
                                     <i class="fas fa-share-alt ml-0 mr-2"></i>
                                     Mídias Sociais
                                 </a>
 
-                                <a class="nav-link" id="pills-payment-methods-tab" data-toggle="pill" href="#pills-payment-methods" role="tab" aria-controls="pills-payment-methods" aria-selected="false">
+                                <a class="nav-link" id="pills-payment-methods-tab" data-toggle="pill" data-name="Formas de Pagamento" href="#pills-payment-methods" role="tab" aria-controls="pills-payment-methods" aria-selected="false">
                                     <i class="fas fa-credit-card ml-0 mr-2"></i>
                                     Formas de Pagamento
                                 </a>

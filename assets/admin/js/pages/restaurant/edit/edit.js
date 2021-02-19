@@ -485,7 +485,7 @@ $(function () {
         return false;
     });
 
-    $('#pills-profile .nav-link').on('click', function () {
+    $('#pills-restaurant-edit .nav-link').on('click', function () {
         var pillActive = $(this).data('name');
         $('.breadcrumb-item.active').text(pillActive);
     });
