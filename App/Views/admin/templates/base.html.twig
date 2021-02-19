@@ -30,6 +30,8 @@
     <body>
         <div id="app">
             <div class="main-wrapper">
+                {% set BASE_URL = getCurrentBaseUrl() %}
+
                 {% include 'admin/templates/header.html.twig' %}
                 
                 {% include 'admin/templates/sidebar.html.twig' %}
