@@ -1,0 +1,30 @@
+<div class="modal hide fade" id="modalAddCategory" tabindex="-1" role="dialog" aria-labelledby="modalAddCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">  
+                <h5 class="modal-title" id="modalAddCategoryLabel">Adicionar Categoria</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body pb-0">
+                <div class="form-group">
+                     <label for="category">Categoria:</label>
+                     <select class="form-control selectric" id="addCategory">
+                         <option value="" selected disabled>Selecione</option>
+                         
+                         {% for category in categories %}
+                            <option value="{{ category['id_category'] }}">{{ category['name'] }}</option>
+                         {% endfor %}
+                     </select>
+                 </div>
+             </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <button type="button" id="saveAddCategory" class="btn btn-primary" data-dismiss="modal" disabled>Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>

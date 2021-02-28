@@ -20,9 +20,9 @@ class Db {
                 self::$instance = new Db();    
             }catch(PDOException $error) {
                 // For debug
-                echo "Message: " . $error->getMessage() . "<br>";
-                echo "Name of file: ". $error->getFile() . "<br>";
-                echo "Row: ". $error->getLine() . "<br>";
+                // echo "Message: " . $error->getMessage() . "<br>";
+                // echo "Name of file: ". $error->getFile() . "<br>";
+                // echo "Row: ". $error->getLine() . "<br>";
             }
         }
 
