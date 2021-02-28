@@ -1,0 +1,125 @@
+{% set myRestaurant = "active" %}
+{% set restaurantMenu = "active" %}
+
+{% extends "admin/templates/base.html.twig" %}
+
+{% block css %}
+  <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/menu/menu.css">
+  <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/menu/modals/addPlate.css">
+{% endblock css %}
+
+{% block content %}
+  <div class="main-content">
+    <section class="section restaurant-menu">
+      <div class="section-header justify-content-between">
+        <h1>Cardápio</h1>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{{ BASE_URL }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ BASE_URL }}/restaurant/details">Meu Restaurante</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cardápio</li>
+            </ol>
+        </nav>
+      </div>
+
+      <div class="section-body">
+        <div class="card">
+          <!-- <div class="card-header"></div> -->
+          
+            <div class="card-body menu-container">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddCategory">Adicionar Categoria</button>
+
+                <div class="no-category mt-4">
+                    Nenhuma categoria adicionada.
+                </div>
+
+                <!-- <div class="category mb-4">
+                    <div class="header">
+                        <div class="name">
+                            <h5 class="mb-0">Pizzas</h5>
+                        </div>
+
+                        <div class="actions">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#modalEditCategory" class="edit-category"><i class="fas fa-pencil-alt mr-1"></i></a>
+                            <a href="javascript:void(0)" class="delete-category"><i class="fas fa-trash-alt mr-1"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="item">
+                            <div class="plate-name">
+                                Pizza Media
+                            </div>
+        
+                            <div class="price">R$ 25,00</div>
+        
+                            <div class="actions">
+                                <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate"><i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <hr class="my-0">
+
+                        <div class="item">
+                            <div class="plate-name">
+                                Pizza Media
+                            </div>
+        
+                            <div class="price">R$ 25,00</div>
+        
+                            <div class="actions">
+                                <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate"><i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <hr class="my-0">
+
+                        <div class="item">
+                            <div class="plate-name">
+                                Pizza Media
+                            </div>
+        
+                            <div class="price">R$ 25,00</div>
+        
+                            <div class="actions">
+                                <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate"><i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <hr class="my-0">
+                    </div>
+
+                    <div class="footer">
+                        <a href="#" data-toggle="modal" data-target="#modalAddPlate"><i class="fas fa-plus mr-1"></i>Adicionar Prato</a>
+                    </div>
+                </div>  -->
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}
+
+{% block modals %}
+    {% include "admin/pages/restaurant/menu/modals/addCategory.html.twig" %}
+    {% include "admin/pages/restaurant/menu/modals/editCategory.html.twig" %}
+    {% include "admin/pages/restaurant/menu/modals/deleteCategory.html.twig" %}
+    {% include "admin/pages/restaurant/menu/modals/addPlate.html.twig" %}
+    {% include "admin/pages/restaurant/menu/modals/editPlate.html.twig" %}
+    {% include "admin/pages/restaurant/menu/modals/deletePlate.html.twig" %}
+{% endblock modals %}
+
+{% block js %}
+    <script src="/assets/admin/js/pages/restaurant/menu/menu.js"></script>
+    <script src="/assets/admin/js/pages/restaurant/menu/modals/addCategory.js"></script>
+    <script src="/assets/admin/js/pages/restaurant/menu/modals/editCategory.js"></script>
+    <script src="/assets/admin/js/pages/restaurant/menu/modals/deleteCategory.js"></script>
+    <script src="/assets/admin/js/pages/restaurant/menu/modals/addPlate.js"></script>
+{% endblock js %}

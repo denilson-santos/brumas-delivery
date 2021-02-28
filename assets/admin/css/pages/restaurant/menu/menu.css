@@ -1,0 +1,45 @@
+section.restaurant-menu .category {
+  background-color: #f4f6f9;
+  border: 1px solid #fa3734;
+  border-radius: 4px; }
+  section.restaurant-menu .category .header {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    background-color: #fa3734;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 10px; }
+    section.restaurant-menu .category .header a {
+      color: #fff;
+      font-size: 15px; }
+      section.restaurant-menu .category .header a i {
+        font-size: 15px; }
+      section.restaurant-menu .category .header a:hover {
+        color: #fff; }
+  section.restaurant-menu .category .content .item {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    line-height: 28px;
+    padding: 10px; }
+    section.restaurant-menu .category .content .item .action {
+      margin: 0 1px; }
+  section.restaurant-menu .category .footer {
+    padding: 10px; }
+    section.restaurant-menu .category .footer a {
+      font-weight: 600; }
+  section.restaurant-menu .category a {
+    text-decoration: none; }
+    section.restaurant-menu .category a:first-child {
+      margin-right: 5px; }
+    section.restaurant-menu .category a:hover {
+      color: #fa3734; }
+
+section.restaurant-menu .no-category {
+  background-color: #f4f6f8;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-weight: 600; }

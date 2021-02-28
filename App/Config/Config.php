@@ -17,14 +17,13 @@ class Config {
         if($this->environment == 'development') {
             $this->server = $_ENV['SERVER_LOCAL'];
             $this->dbName = $_ENV['DB_NAME_LOCAL'];
-            $this->user = $_ENV['USER_LOCAL'];
+            $this->user = $_ENV['USER_NAME_LOCAL'];
             $this->password = $_ENV['PASSWORD_LOCAL'];
             $this->baseUrl = $_ENV['BASE_URL_LOCAL'];
         } else {
-            $this->base_url = $_ENV['BASE_URL'];
             $this->server = $_ENV['SERVER'];
             $this->dbName = $_ENV['DB_NAME'];
-            $this->user = $_ENV['USER'];
+            $this->user = $_ENV['USER_NAME'];
             $this->password = $_ENV['PASSWORD'];
             $this->baseUrl = $_ENV['BASE_URL'];
         }

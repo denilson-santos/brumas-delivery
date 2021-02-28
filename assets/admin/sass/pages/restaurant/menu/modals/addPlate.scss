@@ -1,0 +1,200 @@
+#modalAddPlate {
+    form.add-plate {
+        ul {
+            border-bottom: 2px solid #eee;
+            padding: 5px 0;
+        }
+
+        .nav-item {
+            a {
+                color: #6c757d;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 10px 15px;
+
+                transition: color 0.3s;
+                -webkit-transition: color 0.3s;
+                
+                &.active {
+                    color: #fa3734;
+                    border-bottom: 2px solid #fa3734 !important;
+                }
+
+                &:hover {
+                    color: #fa3734;
+                }
+            }
+        }
+        
+        
+        .plate-img-area {
+            width: 175px;
+            height: 185px;
+    
+            text-align: center;
+            line-height: 185px;
+            border: 2px dashed #ced4da;
+            border-radius: 0.25rem;
+            cursor: pointer;
+    
+            span.add-plate-img {
+                color: #aaa;
+            }
+        }
+    
+        .plate-img-preview {
+            display: none;
+    
+            width: 175px;
+            height: 185px;
+    
+            position: absolute;
+    
+            img {
+                width: 100%;
+                height: 100%;
+    
+                object-fit: cover;
+                border-radius: 0.25rem;
+    
+                border: 1px solid #ced4da;
+            }
+    
+            .img-overlay {
+                visibility: hidden;
+                position: absolute;
+    
+                background: transparent;
+                color: transparent;
+            }
+    
+            &:hover {
+                .img-overlay {
+                    visibility: visible;
+    
+                    width: 100%;
+                    height: 100%;
+        
+                    background: rgba(0,0,0, 0.2);
+                    color: #fff;
+                    transition: background 0.3s, color 0.3s;
+                    border-radius: 0.25rem;
+                    
+                    span {
+                        position: absolute;
+                        
+                        top: 8px;
+                        right: 8px;
+        
+                        cursor: pointer;
+                        font-size: 20px;
+                    }
+                }
+        
+            }
+        }
+
+        textarea[name="plateDescription"] {
+            height: 80px;
+        }
+
+        .complement-container {
+            .complement {
+                background-color: #f4f6f9;
+                border: 1px solid #fa3734;
+                border-radius: 4px;
+                
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+        
+                    color: #fff;
+                    background-color: #fa3734;
+        
+                    border-top-left-radius: 3px;
+                    border-top-right-radius: 3px;
+                    padding: 10px;
+
+                    .name {
+                        width: 90%;
+                    }
+        
+                    .custom-checkbox {
+                        margin: auto;
+
+                        &:first-child {
+                            margin-right: 16px;
+                        }
+
+                        input:checked ~ .custom-control-label::before {
+                            border-color: #fff;
+                        }
+                    }
+
+                    a {
+                        color: #fff;
+                        font-size: 15px;
+        
+                        i {
+                            font-size: 15px;
+                        }
+        
+                        &:hover {
+                            color: #fff;
+                        }
+                    }
+                }
+            
+                .content .item {
+                    display: flex;
+                    justify-content: space-between;
+        
+                    border-bottom: 1px solid #ddd;
+                    font-weight: 700;
+                    line-height: 28px;
+                    color: rgba(0,0,0,0.5);
+                    padding: 10px;
+        
+                    .action {
+                        margin: 0 1px;
+                    }
+                }
+        
+                .footer {
+                    padding: 10px;
+        
+                    a {
+                        font-weight: 600;
+                    }
+                }
+        
+                a {
+                    text-decoration: none;
+        
+                    &:first-child {
+                        margin-right: 5px;
+                    }
+        
+                    &:hover {
+                        color: #fa3734;
+                    }
+                }
+
+                .form-control {
+                    height: 29px;
+                }
+            }
+        
+            .no-complement {
+                background-color: #f4f6f8;
+                padding: 15px;
+                
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                
+                text-align: center;
+                font-weight: 600;
+            }
+        }
+    }
+}

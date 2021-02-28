@@ -193,6 +193,36 @@ class RestaurantController extends Controller {
         }
     }
 
+    public function getRestaurantMenu($request) {
+        $user = new User();
+        $restaurant = new Restaurant();
+        $category = new Category();
+                
+        $data = [];
+
+        $data = [
+            // 'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
+            // 'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected, 'list'),
+            // 'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected, 'list'),
+            // 'restaurantsInPromotion' => $restaurant->getListRestaurants($offset, $limit, ['promotion' => 1]),
+            // 'totalItens' => $restaurant->getTotalRestaurants($filtersSelected),
+            // 'numberPages' => ceil($restaurant->getTotalRestaurants($filtersSelected) / $limit),
+            // 'currentPage' => $currentPage,
+            'categories' => $category->getListCategories(),
+            // 'filtersSelected' => $filtersSelected,
+            // 'filters' => $filter->getFilters($filtersSelected),
+            // 'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
+            // 'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
+            // 'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
+            // 'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true),
+            'language' => $this->language->getLanguage(),
+            'iniDicionary' => $this->language->getIniDicionary(),
+            'userLogged' => $user->isLogged()
+        ];
+
+        $this->loadView('admin/pages/restaurant/menu/menu', $data);
+    }
+
     public function getRestaurantPlates($request) {
         $user = new User();
         $restaurant = new Restaurant();
