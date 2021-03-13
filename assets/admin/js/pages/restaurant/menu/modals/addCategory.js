@@ -2,6 +2,8 @@ $(function () {
     $('#modalAddCategory').on('show.bs.modal', function() {
         var categoriesSelected = $('.category');
         
+        $('select#addCategory option:not(:first-child)').removeAttr('disabled');
+
         categoriesSelected.each(function (index, element) {
             var category = $(element).data('category-id');
 
@@ -61,5 +63,16 @@ $(function () {
             $(this).addClass('deleting');
             $('#modalDeleteCategory').modal('show');
         });
+    });
+
+    $('.menu-container').on('click', 'a.add-plate', function() {
+        $(this).addClass('adding');
+        $('#modalAddPlate').modal('show');
+    }).on('click', 'a.edit-category', function() {
+        $(this).addClass('editing');
+        $('#modalEditCategory').modal('show');
+    }).on('click', 'a.delete-category', function() {
+        $(this).addClass('deleting');
+        $('#modalDeleteCategory').modal('show');
     });
 });

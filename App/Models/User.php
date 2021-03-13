@@ -254,6 +254,8 @@ class User extends Model {
                         $restaurantInfo['social_medias'] = $restaurant->getRestaurantSocialMedias($restaurantId);
 
                         $restaurantInfo['payments'] = $restaurant->getRestaurantPayments($restaurantId);
+                        
+                        $restaurantInfo['plates'] = $restaurant->getRestaurantPlates($restaurantId);
 
                         $idAddress = $restaurantInfo['address_id'];
 

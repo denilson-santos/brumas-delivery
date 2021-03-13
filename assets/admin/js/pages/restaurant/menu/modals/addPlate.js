@@ -183,7 +183,6 @@ $(function() {
                         $('form.add-plate .server-validation a').attr('data-original-title', '');
                         $('form.add-plate .server-validation').css('display', 'none');
 
-                        // Redirect to login page
                         iziToast.success({
                             title: 'Sucesso!',
                             message: 'Prato adicionado com sucesso!',
