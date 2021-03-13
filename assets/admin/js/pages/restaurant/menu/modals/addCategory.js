@@ -48,10 +48,13 @@ $(function () {
                 <div class="content"></div>
 
                 <div class="footer">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modalAddPlate"><i class="fas fa-plus ml-0 mr-1"></i>Adicionar Prato</a>
+                    <a href="javascript:void(0)" class="add-plate"><i class="fas fa-plus ml-0 mr-1"></i>Adicionar Prato</a>
                 </div>
             </div> 
-        `).on('click', 'a.edit-category', function() {
+        `).on('click', 'a.add-plate', function() {
+            $(this).addClass('adding');
+            $('#modalAddPlate').modal('show');
+        }).on('click', 'a.edit-category', function() {
             $(this).addClass('editing');
             $('#modalEditCategory').modal('show');
         }).on('click', 'a.delete-category', function() {

@@ -730,6 +730,81 @@ class Restaurant extends Model {
         }
     }
 
+    public function validateRestaurantNewPlateForm() {
+        // print_r($this->data); exit; 
+        $validator = new Validator($this->data);
+
+        // Add new rules in plugin validation
+        $validator->addRule('arrayLengthMax', function($field, $value, array $params, array $fields) {
+            return $value && (count($value) <= $params[0]);
+        }, 'is array length max items');
+
+        $validator->addRule('arrayLengthMin', function($field, $value, array $params, array $fields) {
+            return $value && (count($value) >= $params[0]);
+        }, 'is array length min items');
+
+        $validator->addRule('complements', function($field, $value, array $params, array $fields) {            
+            if ($this->validateComplements($value)) {
+                return true;
+            }
+            return false;
+        }, 'is invalid complements');
+
+        $validator->addRule('itens', function($field, $value, array $params, array $fields) {            
+            if ($this->validateItens($value)) {
+                return true;
+            }
+            return false;
+        }, 'is invalid itens');
+        
+        $validator->addRule('accept', function($field, $value, array $params, array $fields) {
+            return !empty($value['type']) && in_array($value['type'], $params[0]);
+        }, 'Formato inválido, use: (.jpg, .jpeg ou .png)');
+        
+        $validator->addRule('filesize', function($field, $value, array $params, array $fields) {
+            return !empty($value['size']) && ($value['size'] <= ($params[0] * 1000000));
+        }, 'The upload limit is 30mb');
+
+        // plateImage
+        $validator->rule('filesize', 'plateImage', 30)->message('O limite para upload é de 30mb');
+        $validator->rule('accept', 'plateImage', ['image/jpg', 'image/jpeg', 'image/png'])->message('Formato inválido, use: (.jpg, .jpeg ou .png)');
+    
+        // plateName
+        $validator->rule('required', 'plateName')->message('Digite o nome do prato');
+        $validator->rule('lengthMin', 'plateName', 2)->message('O nome do prato precisa ter no mínimo 2 caracteres');
+        $validator->rule('lengthMax', 'plateName', 50)->message('O nome do prato pode ter no máximo 50 caracteres');
+
+        // plateCategory
+        $validator->rule('required', 'plateCategory')->message('Informe a categoria do prato');
+        $validator->rule('integer', 'plateCategory')->message('Informe uma categoria válida');
+
+        // plateDescription
+        $validator->rule('lengthMax', 'plateDescription', 100)->message('A descrição do prato pode ter no máximo 100 caracteres');
+
+        // platePrice
+        $validator->rule('required', 'platePrice')->message('Digite o preço do prato');
+
+        // platePromoPrice
+        $validator->rule('requiredWith', 'platePromoPrice', 'promo')->message('Digite o preço promocional do prato');
+
+        // plateComplements
+        $validator->rule('complements', 'complements')->message('Informe complementos válidos');
+        $validator->rule('arrayLengthMin', 'complements', 4)->message('Informe complementos válidos');
+        $validator->rule('arrayLengthMax', 'complements', 4)->message('Informe complementos válidos');
+
+        // plateItens
+        $validator->rule('itens', 'itens')->message('Informe itens válidos');
+        $validator->rule('arrayLengthMin', 'operation', 4)->message('Informe itens válidos');
+        $validator->rule('arrayLengthMax', 'operation', 4)->message('Informe itens válidos');
+
+        if($validator->validate()) {
+            return ['validate' => true];
+        } else {
+            // Errors
+            return ['validate' => false, 'errors' => $validator->errors()];
+        }
+    }
+
     public function validateCnpj($cnpj)	{
         if (!$cnpj) return false;
 
@@ -903,6 +978,56 @@ class Restaurant extends Model {
             $validation = [
                 'validateSocialMedia' => $validateSocialMedia,
                 'validateLinkOrPhone' => $validateLinkOrPhone,
+                'validateRow' => $validateRow
+            ];
+            
+            if (!$validation['validateRow']) return false;
+            
+            return true;
+        }
+    }   
+
+    public function validateComplements($rows) {
+        $complementRows = count($rows['complementRow']);
+        
+        for ($i=0; $i < $complementRows; $i++) { 
+            $complementName = $rows['complementName'][$i];
+            $complementRequired = $rows['complementRequired'][$i];
+            $complementMultiple = $rows['complementMultiple'][$i];
+            
+            $validateComplementName = $complementName ?? false;
+            
+            $validateRow = $validateComplementName && true;
+            
+            $validation = [
+                'validateComplementName' => $validateComplementName,
+                'validateRow' => $validateRow
+            ];
+            
+            if (!$validation['validateRow']) return false;
+            
+            return true;
+        }
+    }   
+
+    public function validateItens($rows) {
+        $itemRows = count($rows['itemRow']);
+        
+        for ($i=0; $i < $itemRows; $i++) { 
+            $itemComplementRow = $rows['itemComplementRow'][$i];
+            $itemName = $rows['itemName'][$i];
+            $itemPrice = $rows['itemPrice'][$i];
+            
+            $validateItemComplementRow = $itemComplementRow ?? false;
+            $validateItemName = $itemName ?? false;
+            $validateItemPrice = $itemPrice ?? false;
+            
+            $validateRow = $validateItemComplementRow && $validateItemName && $validateItemPrice;
+            
+            $validation = [
+                'validateItemComplementRow' => $validateItemComplementRow,
+                'validateItemName' => $validateItemName,
+                'validateItemPrice' => $validateItemPrice,
                 'validateRow' => $validateRow
             ];
             
@@ -1109,6 +1234,74 @@ class Restaurant extends Model {
             // echo "Row: ". $error->getLine() . "<br>";
 
             throw new \PDOException("Error in statement", 0);
+        }
+    }
+
+    public function saveRestaurantPlateForm() {
+        // print_r($this->data); exit;
+
+        try {
+            $this->db->beginTransaction();
+
+            $dataPlate = [
+                'user_id' => $this->data['userId'], 
+                'category_id' => $this->data['plateCategory'], 
+                'restaurant_id' => $this->data['restaurantId'], 
+                'name' => $this->data['plateName'], 
+                'description' => $this->data['plateDescription'], 
+                'image' => $this->data['plateImage'], 
+                'price' => str_replace(',', '.', $this->data['platePrice']),
+                'promo' => !empty($this->data['platePromo']),
+                'promo_price' => !empty($this->data['platePromoPrice']) ? str_replace(',', '.', $this->data['platePromoPrice']) : null
+            ];
+
+            $plate = new Plate($dataPlate);
+            
+            $plateId = $plate->savePlate();
+
+            if (!empty($this->data['complements']) && !empty($this->data['itens'])) {
+                $complement = new Complement();
+                $item = new Item();
+
+                $countComplementRows = count($this->data['complements']['complementRow']);
+    
+                for ($i=0; $i < $countComplementRows; $i++) { 
+                    $complement->setData([
+                        'plate_id' => $plateId,
+                        'name' => $this->data['complements']['complementName'][$i], 
+                        'required' => $this->data['complements']['complementRequired'][$i],
+                        'multiple' => $this->data['complements']['complementMultiple'][$i]
+                    ]);
+                    
+                    $complementId = $complement->saveComplement();
+
+                    if (!empty($this->data['itens'])) {
+                        $countItemRows = count($this->data['itens']['itemRow']);
+            
+                        for ($j=0; $j < $countItemRows; $j++) { 
+                            if ($this->data['itens']['itemComplementRow'][$j] == $this->data['complements']['complementRow'][$i]) {
+                                $item->setData([
+                                    'complement_id' => $complementId, 
+                                    'name' => $this->data['itens']['itemName'][$j], 
+                                    'price' => str_replace(',', '.', $this->data['itens']['itemPrice'][$j])
+                                ]);
+                         
+                                $item->saveItem();
+                            }
+                            
+                        }
+                    }
+                }
+            }
+
+            $this->db->commit();
+        } catch (\PDOException $error) {
+            $this->db->rollback();
+
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
         }
     }
 

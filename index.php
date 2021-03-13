@@ -63,6 +63,7 @@
     // Restaurant
     $router->get('/restaurant/details', 'RestaurantController:index', 'name.restaurant-details');
     $router->get('/restaurant/menu', 'RestaurantController:getRestaurantMenu', 'name.restaurant-menu');
+    $router->post('/restaurant/menu', 'RestaurantController:saveRestaurantMenu', 'name.save-restaurant-menu');
     $router->get('/restaurant/plates', 'RestaurantController:getRestaurantPlates', 'name.restaurant-plates');
     $router->get('/restaurant/orders', 'RestaurantController:getRestaurantOrders', 'name.restaurant-orders');
     $router->get('/restaurant/rates', 'RestaurantController:getRestaurantRates', 'name.restaurant-rates');
