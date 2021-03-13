@@ -40,7 +40,7 @@ class Plate extends Model {
             }
 
             // Save plate image
-            if ($this->data['image']) {
+            if ($this->data['image']['name']) {
                 $restaurantPath = '/var/www/projects/brumas-delivery/media/users/'.$this->data['user_id'].'/restaurant';
 
                 $relativeRestaurantPath = '/media/users/'.$this->data['user_id'].'/restaurant';
@@ -82,9 +82,9 @@ class Plate extends Model {
             return $this->db->lastInsertId();
         } catch (\PDOException $error) {
             // For debug
-            echo "Message: " . $error->getMessage() . "<br>";
-            echo "Name of file: ". $error->getFile() . "<br>";
-            echo "Row: ". $error->getLine() . "<br>";
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
 
             throw new \PDOException("Error in statement", 0);
         }
@@ -123,6 +123,22 @@ class Plate extends Model {
 
         return $data;
         
+    }
+
+    public function getCategoriesOfRestaurant($id) {
+        $data = [];
+
+        $stm = $this->db->prepare(
+            'SELECT category_id FROM plate WHERE restaurant_id = :restaurant_id GROUP BY category_id');
+
+        $stm->bindValue(':restaurant_id', $id);
+        $stm->execute();
+
+        if ($stm->rowCount() > 0) {
+            $data = $stm->fetchAll(\PDO::FETCH_ASSOC);
+        }  
+
+        return $data;      
     }
 
     public function getTotalPlatesByRestaurants() {

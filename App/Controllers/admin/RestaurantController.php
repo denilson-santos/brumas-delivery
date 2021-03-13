@@ -4,6 +4,7 @@ namespace App\Controllers\admin;
 use App\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Neighborhood;
+use App\Models\Plate;
 use App\Models\Restaurant;
 use App\Models\SocialMedia;
 use App\Models\User;
@@ -243,8 +244,8 @@ class RestaurantController extends Controller {
 
     public function getRestaurantMenu($request) {
         $user = new User();
-        $restaurant = new Restaurant();
         $category = new Category();
+        $plate = new Plate();
                 
         $data = [];
 
@@ -256,10 +257,11 @@ class RestaurantController extends Controller {
             // 'totalItens' => $restaurant->getTotalRestaurants($filtersSelected),
             // 'numberPages' => ceil($restaurant->getTotalRestaurants($filtersSelected) / $limit),
             // 'currentPage' => $currentPage,
-            'categories' => $category->getListCategories(),
             // 'filtersSelected' => $filtersSelected,
             // 'filters' => $filter->getFilters($filtersSelected),
             // 'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
+            'categories' => $category->getListCategories(),
+            'categoriesOfRestaurant' => $plate->getCategoriesOfRestaurant($user->isLogged()['restaurant']['id_restaurant']),
             // 'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
             // 'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
             // 'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true),

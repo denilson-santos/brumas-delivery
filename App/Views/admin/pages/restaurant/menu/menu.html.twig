@@ -29,77 +29,51 @@
           
             <div class="card-body menu-container">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddCategory">Adicionar Categoria</button>
+                
+                {% for category in categoriesOfRestaurant %}            
 
-                <div class="no-category mt-4">
+                    <div class="category mt-4" data-category-id="{{ category['category_id'] }}" data-category-name="{{ categories[category['category_id']-1]['name'] }}">
+                        <div class="header">
+                            <div class="name">
+                                <h5 class="mb-0">{{ categories[category['category_id']-1]['name'] }}</h5>
+                            </div>
+
+                            <div class="actions">
+                                <a href="javascript:void(0)" class="edit-category"><i class="fas fa-pencil-alt mr-1"></i></a>
+                                <a href="javascript:void(0)" class="delete-category"><i class="fas fa-trash-alt mr-1"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            {% for plate in userLogged['restaurant']['plates'] %}
+                                {% if plate['category_id'] == category['category_id'] %}
+                                    <div class="item">
+                                        <div class="plate-name col pl-0">{{ plate['name'] }}</div>
+                    
+                                        <div class="price col">R$ {{ plate['price'] }}</div>
+                    
+                                        <div class="actions">
+                                            <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
+                                            <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate"><i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+        
+                                    <hr class="my-0">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <div class="footer">
+                            <a href="javascript:void(0)" class="add-plate"><i class="fas fa-plus ml-0 mr-1"></i>Adicionar Prato</a>
+                        </div>
+                    </div> 
+                  
+                {% endfor %}
+
+                <div class="no-category mt-4 {{ count(userLogged['restaurant']['plates']) ? 'd-none' : '' }}">
                     Nenhuma categoria adicionada.
                 </div>
-
-                <!-- <div class="category mb-4">
-                    <div class="header">
-                        <div class="name">
-                            <h5 class="mb-0">Pizzas</h5>
-                        </div>
-
-                        <div class="actions">
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#modalEditCategory" class="edit-category"><i class="fas fa-pencil-alt mr-1"></i></a>
-                            <a href="javascript:void(0)" class="delete-category"><i class="fas fa-trash-alt mr-1"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="content">
-                        <div class="item">
-                            <div class="plate-name">
-                                Pizza Media
-                            </div>
-        
-                            <div class="price">R$ 25,00</div>
-        
-                            <div class="actions">
-                                <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate"><i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <hr class="my-0">
-
-                        <div class="item">
-                            <div class="plate-name">
-                                Pizza Media
-                            </div>
-        
-                            <div class="price">R$ 25,00</div>
-        
-                            <div class="actions">
-                                <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate"><i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <hr class="my-0">
-
-                        <div class="item">
-                            <div class="plate-name">
-                                Pizza Media
-                            </div>
-        
-                            <div class="price">R$ 25,00</div>
-        
-                            <div class="actions">
-                                <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate"><i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <hr class="my-0">
-                    </div>
-
-                    <div class="footer">
-                        <a href="#" data-toggle="modal" data-target="#modalAddPlate"><i class="fas fa-plus mr-1"></i>Adicionar Prato</a>
-                    </div>
-                </div>  -->
             </div>
         </div>
       </div>

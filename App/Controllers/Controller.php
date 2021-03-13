@@ -46,6 +46,10 @@ class Controller {
         // Route
         $this->twig->addFunction(new TwigFunction('route', [$router, 'route']));
 
+        // count
+        $this->twig->addFunction(new TwigFunction('count', 'count'));
+        $this->twig->addFunction(new TwigFunction('notCount', '!count'));
+
         // empty
         $this->twig->addFunction(new TwigFunction('empty', 'empty'));
         $this->twig->addFunction(new TwigFunction('notEmpty', '!empty'));

@@ -758,16 +758,16 @@ class Restaurant extends Model {
         }, 'is invalid itens');
         
         $validator->addRule('accept', function($field, $value, array $params, array $fields) {
-            return !empty($value['type']) && in_array($value['type'], $params[0]);
+            return (!empty($value['type']) && in_array($value['type'], $params[0])) || (!empty($params[1]) && $params[1] == 'nullable');
         }, 'Formato inválido, use: (.jpg, .jpeg ou .png)');
         
         $validator->addRule('filesize', function($field, $value, array $params, array $fields) {
-            return !empty($value['size']) && ($value['size'] <= ($params[0] * 1000000));
+            return !empty($value['size']) && ($value['size'] <= ($params[0] * 1000000)) || (!empty($params[1]) && $params[1] == 'nullable');
         }, 'The upload limit is 30mb');
 
         // plateImage
-        $validator->rule('filesize', 'plateImage', 30)->message('O limite para upload é de 30mb');
-        $validator->rule('accept', 'plateImage', ['image/jpg', 'image/jpeg', 'image/png'])->message('Formato inválido, use: (.jpg, .jpeg ou .png)');
+        $validator->rule('filesize', 'plateImage', 30, 'nullable')->message('O limite para upload é de 30mb');
+        $validator->rule('accept', 'plateImage', ['image/jpg', 'image/jpeg', 'image/png'], 'nullable')->message('Formato inválido, use: (.jpg, .jpeg ou .png)');
     
         // plateName
         $validator->rule('required', 'plateName')->message('Digite o nome do prato');
@@ -1238,8 +1238,6 @@ class Restaurant extends Model {
     }
 
     public function saveRestaurantPlateForm() {
-        // print_r($this->data); exit;
-
         try {
             $this->db->beginTransaction();
 
@@ -1410,6 +1408,31 @@ class Restaurant extends Model {
     public function getRestaurantPayments($id) {
         try {        
             $stm = $this->db->prepare('SELECT * FROM restaurant_payment 
+                WHERE restaurant_id = :restaurantId
+            ');
+            
+            $stm->bindValue(':restaurantId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $payments = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $payments;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function getRestaurantPlates($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM plate 
                 WHERE restaurant_id = :restaurantId
             ');
             
