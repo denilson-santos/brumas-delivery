@@ -10,6 +10,9 @@
 
             <div class="modal-body pb-0 pt-1">
                 <form class="add-plate">
+                    <input type="hidden" name="userId" value="{{ userLogged['id_user'] }}">
+                    <input type="hidden" name="restaurantId" value="{{ userLogged['restaurant']['id_restaurant'] }}">
+
                     <ul class="nav nav-pills mb-3" role="tablist">
                         <li class="nav-item">
                             <a class="active" id="pills-info-tab" data-toggle="pill" href="#pills-info" role="tab" aria-controls="pills-info" aria-selected="true">Informações</a>
@@ -23,6 +26,11 @@
                             <a id="pills-promo-tab" data-toggle="pill" href="#pills-promo" role="tab" aria-controls="pills-promo" aria-selected="false">Promoção</a>
                         </li>
                     </ul>
+
+                    <div class="server-validation text-center">
+                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Informações incorretas!</a>  
+                    </div>
+
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="pills-info" role="tabpanel" aria-labelledby="pills-info-tab">
                             <div class="form-row">
@@ -45,10 +53,7 @@
                                     </div>
 
                                     <input id="plateImage" class="invisible position-absolute" type="file" name="plateImage" accept=".jpg,.jpeg,.png">
-                                </div>
-
-                                {# category_id, restaurant_id, name, description, image, price, promo_price, promo #}
-                                
+                                </div>                                
 
                                 <div class="form-group col-9 mb-0">
                                     <div class="form-row">
@@ -59,8 +64,8 @@
                             
                                         <div class="form-group col-6">
                                             <label for="plateCategory">Categoria</label>
-                                            <select id="plateCategory" class="form-control selectric" name="plateCategory" disabled>
-                                                <option value="">Pizzas</option>
+                                            <select id="plateCategory" class="form-control selectric" name="plateCategory">
+                                                <option value="" selected>Selecione</option>
                                             </select>
                                         </div>
                                     </div>
@@ -73,7 +78,7 @@
                                         
                                         <div class="form-group col-6 mb-0">
                                             <label for="platePrice">Preço</label>
-                                            <input type="text" name="platePrice" id="platePrice" class="form-control" placeholder="Digite o preço do prato">
+                                            <input type="text" name="platePrice" id="platePrice" class="form-control money" placeholder="Digite o preço do prato" data-thousands="." data-decimal=",">
                                         </div>
                                     </div>
                                 </div>
@@ -82,12 +87,16 @@
 
                         <div class="tab-pane fade" id="pills-complement" role="tabpanel" aria-labelledby="pills-complement-tab">
                             <div class="complement-container">
-                                <input type="hidden" name="countComplement" value="0">
                                 <button type="button" id="addComplement" class="btn btn-primary">Adicionar Complemento</button>
 
                                 <div class="no-complement mt-4">
                                     Nenhum complemento adicionado.
                                 </div>
+
+                                <div class="complements"></div>
+                                <div class="complements-deleted"></div>
+                                <div class="itens"></div>
+                                <div class="itens-deleted"></div>
                             </div>
 
                             {# <div class="complement-container">
@@ -131,26 +140,26 @@
                             <div class="form-row">
                                 <div class="form-group col-12 mb-0">
                                     <div class="form-group custom-control custom-checkbox">
-                                        <input type="checkbox" id="promo" name="promo"  class="custom-control-input">
-                                        <label class="custom-control-label" for="promo">
+                                        <input type="checkbox" id="platePromo" name="platePromo"  class="custom-control-input" value="0">
+                                        <label class="custom-control-label" for="platePromo">
                                             Promoção
                                         </label>
                                     </div>
                                 </div>
                     
                                 <div class="form-group col-4">
-                                    <label for="promoPrice">Preço Promocional</label>
-                                    <input type="text" id="promoPrice" class="form-control" name="promoPrice" placeholder="Digite o preço promocial" disabled>
+                                    <label for="platePromoPrice">Preço Promocional</label>
+                                    <input type="text" id="platePromoPrice" class="form-control money" name="platePromoPrice" placeholder="Digite o preço promocial" data-thousands="." data-decimal="," disabled>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
 
             <div class="modal-footer justify-content-between">
                 <button type="button" id="backAddPlate" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-                <button type="button" id="saveAddPlate" class="btn btn-primary" data-dismiss="modal">Salvar</button>
+                <button type="button" id="saveAddPlate" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </div>

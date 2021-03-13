@@ -23,6 +23,7 @@
     "izitoast": "^1.4.0",
     "jquery": "^3.5.0",
     "jquery-mask-plugin": "^1.14.16",
+    "jquery-maskmoney": "^3.0.2",
     "jquery-pwstrength": "https://github.com/matoilic/jquery.pwstrength",
     "jquery-sparkline": "^2.4.0",
     "jquery-ui-dist": "^1.12.1",

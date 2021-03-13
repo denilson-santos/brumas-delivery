@@ -26,7 +26,6 @@
             }
         }
         
-        
         .plate-img-area {
             width: 175px;
             height: 185px;
@@ -196,5 +195,34 @@
                 font-weight: 600;
             }
         }
+
+        .disabled-item {
+            pointer-events: none;
+            color: #ccc;
+        }
+
+        .server-validation {
+            display: none;
+        
+            i {
+                font-size: 16px;
+            }
+        
+            a {
+                text-decoration: none;
+                font-size: 16px;
+            }
+        
+            a:hover {
+                color: #fa3734;
+            }
+        }
     }
+}
+
+.tooltip-inner {
+    max-width: 340px;
+    width: auto;
+    padding: 20px 50px 4px 50px;
+    text-align: left; 
 }

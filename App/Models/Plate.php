@@ -2,8 +2,93 @@
 namespace App\Models;
 
 use App\Models\Model;
+use Intervention\Image\ImageManager;
 
 class Plate extends Model {
+    private $data;
+
+    public function __construct($data = []) {
+        parent::__construct();
+        $this->data = $data;
+    }
+
+    public function savePlate() {
+        try {
+            $stm = $this->db->prepare('INSERT INTO plate
+                SET category_id = :category_id, 
+                    restaurant_id = :restaurant_id, 
+                    name = :name, 
+                    description = :description, 
+                    image = :image, 
+                    price = :price, 
+                    promo_price = :promo_price, 
+                    promo = :promo
+            ');
+
+            $stm->bindValue(':category_id', $this->data['category_id']);
+            $stm->bindValue(':restaurant_id', $this->data['restaurant_id']);
+            $stm->bindValue(':name', $this->data['name']);
+            $stm->bindValue(':description', $this->data['description']);
+            $stm->bindValue(':price', $this->data['price']);
+
+            if ($this->data['promo']) {
+                $stm->bindValue(':promo', $this->data['promo']);
+                $stm->bindValue(':promo_price', $this->data['promo_price']);
+            } else {
+                $stm->bindValue(':promo', '', \PDO::PARAM_INT);
+                $stm->bindValue(':promo_price', null, \PDO::PARAM_INT);
+            }
+
+            // Save plate image
+            if ($this->data['image']) {
+                $restaurantPath = '/var/www/projects/brumas-delivery/media/users/'.$this->data['user_id'].'/restaurant';
+
+                $relativeRestaurantPath = '/media/users/'.$this->data['user_id'].'/restaurant';
+    
+                $name = time().'_'.$this->data['image']['name'];
+                $tempPath = $this->data['image']['tmp_name'];
+                $newPath = "$restaurantPath/plates/$name";
+                $newRelativePath = "$relativeRestaurantPath/plates/$name";
+                
+                $image = new ImageManager(array('driver' => 'gd'));
+                $image = $image->make($tempPath);
+    
+                // Image width
+                $x = $image->width();
+                // // Image height
+                $y = $image->height();
+    
+                $resize = 250;
+    
+                if ($x > $y) {
+                    $image->resize(null, $resize, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })->save($newPath);
+                } else if ($y > $x) {
+                    $image->resize($resize, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })->save($newPath);
+                } else {
+                    $image->resize($resize, $resize)->save($newPath);
+                }  
+    
+                $stm->bindValue(':image', $newRelativePath);
+            } else {
+                $stm->bindValue(':image', null);
+            }
+
+            $stm->execute();
+            
+            return $this->db->lastInsertId();
+        } catch (\PDOException $error) {
+            // For debug
+            echo "Message: " . $error->getMessage() . "<br>";
+            echo "Name of file: ". $error->getFile() . "<br>";
+            echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
     
     public function getListPlates() {
         $data = [];
@@ -82,5 +167,9 @@ class Plate extends Model {
         $data = $stm->fetch(\PDO::FETCH_ASSOC);
         
         return max($data);
+    }
+
+    public function setData($data) {
+        $this->data = $data;
     }
 }

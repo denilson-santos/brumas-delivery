@@ -193,6 +193,54 @@ class RestaurantController extends Controller {
         }
     }
 
+    public function saveRestaurantMenu($request) {        
+        if (!empty($_FILES['plateImage']))  {
+            $request['plateImage'] = $_FILES['plateImage'];
+        };
+
+        $request = $this->sanitizeInputs($request);
+        
+        if (!empty($request['complementRow'])) {
+            $request['complements'] = [
+                'complementRow' => $request['complementRow'],
+                'complementName' => $request['complementName'],
+                'complementRequired' => $request['complementRequired'],
+                'complementMultiple' => $request['complementMultiple']
+            ];
+            
+            unset($request['complementRow']);
+            unset($request['complementName']);
+            unset($request['complementRequired']);
+            unset($request['complementMultiple']);
+        }
+
+        if (!empty($request['itemRow'])) {
+            $request['itens'] = [
+                'itemRow' => $request['itemRow'],
+                'itemComplementRow' => $request['itemComplementRow'],
+                'itemName' => $request['itemName'],
+                'itemPrice' => $request['itemPrice'],
+            ];
+            
+            unset($request['itemRow']);
+            unset($request['itemComplementRow']);
+            unset($request['itemName']);
+            unset($request['itemPrice']);
+        }
+
+        $restaurant = new Restaurant($request);
+    
+        $validation = $restaurant->validateRestaurantNewPlateForm();
+
+        if ($validation['validate']) {
+            $restaurant->saveRestaurantPlateForm();
+
+            echo json_encode($validation);
+        } else {
+            echo json_encode($validation);
+        }
+    }
+
     public function getRestaurantMenu($request) {
         $user = new User();
         $restaurant = new Restaurant();

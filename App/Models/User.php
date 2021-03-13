@@ -1011,11 +1011,11 @@ class User extends Model {
             $userPhone->saveUserPhone();
             
             $dataAddress = [
-                'neighborhood_id' => $this->data['restaurantNeighborhood'], 
+                'neighborhood_id' => $this->data['accountNeighborhood'], 
                 'user_id' => $userId, 
-                'name' => $this->data['restaurantAddress'], 
-                'number' => $this->data['restaurantNumber'], 
-                'complement' => $this->data['restaurantComplement']
+                'name' => $this->data['accountAddress'], 
+                'number' => $this->data['accountNumber'], 
+                'complement' => $this->data['accountComplement']
             ];
 
             $address = new Address($dataAddress);
