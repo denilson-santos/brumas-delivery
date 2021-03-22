@@ -1,0 +1,83 @@
+#showPlate {
+    .modal-dialog {
+        max-width: 1000px;
+        
+        .spinner-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 4px;
+            z-index: 2;
+            left: 0;
+            margin: auto;
+        }
+    }
+
+    .modal-body {
+        .plate-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .plate-content {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+
+            .info {
+                display: flex;
+                justify-content: space-between;
+                font-size: 16px;
+                padding: 15px;
+
+                .plate-price {
+                    color: #6c757d;
+                }
+
+                .restaurant-name {
+                    color: #fa3734;
+                }
+            }
+
+            .complements {
+                height: 350px;
+                overflow-y: auto;
+
+                .complement {
+                    display: flex;
+                    justify-content: space-between;
+    
+                    background-color: #f2f2f2;
+                    padding: 10px 15px;
+    
+                    .name {
+                        font-size: 16px;
+                        font-weight: 700;
+                    }
+                }
+
+                .item {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 10px 15px;
+
+                    .name {
+                        font-size: 16px;
+                    }
+
+                    .price {
+                        color: #fa3734;
+                        font-weight: 700;
+                    }
+                } 
+            }
+        }
+    }
+}

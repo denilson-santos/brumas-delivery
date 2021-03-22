@@ -1,4 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap");
 body {
   font-family: 'Nunito', sans-serif;
-  font-size: 14px; }
+  font-size: 14px;
+  color: #6c757d; }
+  body .modal-header {
+    border: none; }
+    body .modal-header .content h5 {
+      font-size: 18px;
+      font-weight: 700; }
+    body .modal-header .content p {
+      color: #888;
+      margin-bottom: 0; }
+  body .modal-footer {
+    border: none; }
+    body .modal-footer button {
+      font-size: 14px; }

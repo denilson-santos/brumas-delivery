@@ -50,7 +50,13 @@
                                     <div class="item">
                                         <div class="plate-name col pl-0">{{ plate['name'] }}</div>
                     
-                                        <div class="price col">R$ {{ plate['price'] }}</div>
+                                        <div class="prices col">
+                                            <span class="{{ plate['promo'] ? 'old-price' : '' }} mr-2">R$ {{ number_format(plate['price']/100, 2, ',', '.') }}</span>
+
+                                            {% if (plate['promo']) %}
+                                                <span>R$ {{ number_format(plate['price']/100, 2, ',', '.') }}</span>
+                                            {% endif %}
+                                        </div>
                     
                                         <div class="actions">
                                             <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
