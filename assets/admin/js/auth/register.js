@@ -299,12 +299,6 @@ $(function () {
                         $('.register .server-validation a').attr('data-original-title', '');
                         $('.register .server-validation').css('display', 'none');
 
-                        iziToast.success({
-                            title: 'Cadastro realizado com sucesso!',
-                            message: 'Você será redirecionado para a tela de login!',
-                            position: 'topRight'
-                        });
-
                         // Redirect to login page
                         window.location.href = BASE_URL+'/login';
                     }

@@ -91,8 +91,14 @@ class Controller {
         // substr
         $this->twig->addFunction(new TwigFunction('substr', 'substr'));
         
+        // str_replace
+        $this->twig->addFunction(new TwigFunction('str_replace', 'str_replace'));
+        
         // number_format
         $this->twig->addFunction(new TwigFunction('number_format', 'number_format'));
+        
+        // money_format
+        $this->twig->addFunction(new TwigFunction('money_format', 'money_format'));
         
         // date_create
         $this->twig->addFunction(new TwigFunction('date_create', 'date_create'));

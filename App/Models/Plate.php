@@ -185,6 +185,34 @@ class Plate extends Model {
         return max($data);
     }
 
+    // Relationships
+    public function getComplements($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM complement 
+                WHERE plate_id = :plate_id
+            ');
+            
+            $stm->bindValue(':plate_id', $id);
+            
+            $stm->execute();
+
+            $complements = []; 
+            
+            if ($stm->rowCount() > 0) {
+                $complements = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            }
+
+            return $complements;              
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     public function setData($data) {
         $this->data = $data;
     }

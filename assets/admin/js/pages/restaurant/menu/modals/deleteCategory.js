@@ -1,11 +1,11 @@
 $(function() {
-    $('#modalDeleteCategory button#yes').on('click', function() {
+    $('#modalDeleteCategory button#delete').on('click', function() {
         $('.category .deleting').closest('.category').remove();
 
         if (!$('.category').length) $('.no-category').css('display', 'block');
     });
 
-    $('#modalDeleteCategory button#no').on('click', function() {
+    $('#modalDeleteCategory button#back').on('click', function() {
         $('.category .deleting').removeClass('deleting');
     });
 

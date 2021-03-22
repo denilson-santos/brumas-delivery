@@ -146,6 +146,10 @@ $(function() {
                 }
             });
 
+            form.set('platePrice', form.get('platePrice').replace('.', '').replace(',', ''));
+
+            if (form.get('platePromoPrice')) form.set('platePromoPrice', form.get('platePromoPrice').replace('.', '').replace(',', ''));
+               
             $.ajax({
                 type: 'POST',
                 url: '/restaurant/menu',

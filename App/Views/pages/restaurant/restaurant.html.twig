@@ -2,25 +2,38 @@
 
 {% block css %}
     <link rel="stylesheet" href="/assets/css/pages/restaurant/restaurant.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/pages/restaurant/modals/showPlate.css" type="text/css" />
 {% endblock css %}
 
 {% block content %}
-    <div class="restaurant-container col-md-12">
+    <div class="restaurant-container col-md-12 px-0">
         <div class="restaurant-header">
             <div class="container">
                 <div class="col-md-12 p-0">
                     <div class="row">
                         <div class="col-md-2">
                             <div class="restaurant-image">
-                                <img src="https://image.shutterstock.com/image-vector/pizza-hand-written-lettering-logo-260nw-542294653.jpg" alt="">
+                                <img src="{{ restaurantInfo['image'] ?? '/media/categories/others/others-plates-img-default-150x150.jpg' }}" alt="{{ restaurantInfo['name'] }}">
                             </div>
                         </div>
                         <div class="col-md-10">
                             <div class="restaurant-content">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h1 class="restaurant-name">Pizzaria Hut</h1>
-                                        <span class="restaurant-categories">Pizzas</span>
+                                        <h1 class="restaurant-name">{{ restaurantInfo['name'] }}</h1>
+
+                                        {% set mainCategories = explode(',', restaurantInfo['main_categories']) %}
+                                        {% set mainCategoriesNamesArr = [] %}
+            
+                                        {% for mainCategory in mainCategories %}
+                                            {% if mainCategory == categories[mainCategory - 1]['id_category'] %}
+                                                {% set mainCategoriesNamesArr = mainCategoriesNamesArr|merge([categories[mainCategory - 1]['name']]) %}
+                                                
+                                                {% set restaurantInfo = restaurantInfo|merge({'main_categories_name': mainCategoriesNamesArr}) %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <span class="restaurant-categories">{{ implode(" & ", restaurantInfo['main_categories_name']) }}</span>
                                         <div class="rating-page-restaurant">
                                             <div class="rating-read-only"></div>
                                             <span class="average-rating">3.1</span>
@@ -66,544 +79,42 @@
         <!-- Tab panes -->
         <div class="tab-content restaurant-body">
             <div class="tab-pane container active" id="restaurant-menu">
-                <div class="restaurant-category"><span>Pizzas</span></div>
-                <div class="row c-px-1 my-2">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/pizzas/pizza-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Pequena</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 34,00</span>
-                                        <span class="price-promo">R$ 30,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                {% if restaurantInfo['plates'] %}
+                    {% for category in categoriesOfRestaurant %}    
+                        <div class="restaurant-category"><span>{{ categories[category['category_id']-1]['name'] }}</span></div>
 
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/pizzas/pizza-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Média</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 38,00</span>
-                                        <span class="price-promo">R$ 34,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <div class="row c-px-1 mt-2">
+                            {% for plate in restaurantInfo['plates'] %}
+                                {% if plate['category_id'] == category['category_id'] %}
+                                    <div class="col-md-6 px-1 pb-2 plates">
+                                        <div class="col-md-12 plate-content" plate-id="{{ plate['id_plate'] }}">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-3 plate-image">
+                                                    <img src="{{ plate['image'] ?? '/media/categories/others/others-plates-img-default-150x150.jpg' }}" alt="{{ plate['name'] }}">
+                                                </div>
+                                                <div class="col-md-9 plate-info">
+                                                    <div class="plate-title">{{ plate['name'] }}</div>    
+                                                    <div class="plate-description"></div>
+                                                    <div class="plate-prices">
+                                                        <span class="price-old {{ plate['promo'] ? 'old-price' : '' }}">R$ {{ number_format(plate['price']/100, 2, ',', '.') }}</span>
 
-                <div class="row c-px-1">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/pizzas/pizza-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 45,00</span>
-                                        <span class="price-promo">R$ 40,50</span>
+                                                        {% if plate['promo'] %}
+                                                            <span class="price-promo ml-3">R$ {{ number_format(plate['promo_price']/100, 2, ',', '.') }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                {% endif %}
+                            {% endfor %}
                         </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-plates">
+                        Este restaurante ainda não possui nenhum prato cadastrado.
                     </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/pizzas/pizza-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Extra Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 64,00</span>
-                                        <span class="price-promo">R$ 60,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
-
-                <div class="restaurant-category"><span>Bebidas</span></div>
-                <div class="row c-px-1 my-2">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/drinks/drink-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Pequena</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 34,00</span>
-                                        <span class="price-promo">R$ 30,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/drinks/drink-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Média</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 38,00</span>
-                                        <span class="price-promo">R$ 34,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row c-px-1">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/drinks/drink-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 45,00</span>
-                                        <span class="price-promo">R$ 40,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/drinks/drink-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Extra Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 64,00</span>
-                                        <span class="price-promo">R$ 60,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>   
-
-                <div class="restaurant-category"><span>Sorvetes</span></div>
-                <div class="row c-px-1 my-2">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/ice-creams/ice-cream-img-default.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Pequena</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 34,00</span>
-                                        <span class="price-promo">R$ 30,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/ice-creams/ice-cream-img-default.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Média</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 38,00</span>
-                                        <span class="price-promo">R$ 34,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row c-px-1">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/ice-creams/ice-cream-img-default.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 45,00</span>
-                                        <span class="price-promo">R$ 40,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/ice-creams/ice-cream-img-default.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Extra Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 64,00</span>
-                                        <span class="price-promo">R$ 60,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>   
-
-                <div class="restaurant-category"><span>Lanches</span></div>
-                <div class="row c-px-1 my-2">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/snacks/snack-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Pequena</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 34,00</span>
-                                        <span class="price-promo">R$ 30,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/snacks/snack-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Média</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 38,00</span>
-                                        <span class="price-promo">R$ 34,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row c-px-1">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/snacks/snack-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 45,00</span>
-                                        <span class="price-promo">R$ 40,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/snacks/snack-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Extra Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 64,00</span>
-                                        <span class="price-promo">R$ 60,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-
-                <div class="restaurant-category"><span>Bolos</span></div>
-                <div class="row c-px-1 my-2">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/cakes/cake-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Pequena</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 34,00</span>
-                                        <span class="price-promo">R$ 30,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/cakes/cake-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Média</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 38,00</span>
-                                        <span class="price-promo">R$ 34,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row c-px-1">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/cakes/cake-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 45,00</span>
-                                        <span class="price-promo">R$ 40,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/cakes/cake-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Extra Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 64,00</span>
-                                        <span class="price-promo">R$ 60,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="restaurant-category"><span>Sobremesas</span></div>
-                <div class="row c-px-1 my-2">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/desserts/dessert-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Pequena</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 34,00</span>
-                                        <span class="price-promo">R$ 30,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/desserts/dessert-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Média</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 38,00</span>
-                                        <span class="price-promo">R$ 34,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row c-px-1">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/desserts/dessert-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 45,00</span>
-                                        <span class="price-promo">R$ 40,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/desserts/dessert-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Extra Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 64,00</span>
-                                        <span class="price-promo">R$ 60,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="restaurant-category"><span>Outros Pratos</span></div>
-                <div class="row c-px-1 my-2">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/others/others-plates-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Pequena</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 34,00</span>
-                                        <span class="price-promo">R$ 30,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/others/others-plates-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Média</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 38,00</span>
-                                        <span class="price-promo">R$ 34,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row c-px-1">
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/others/others-plates-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 45,00</span>
-                                        <span class="price-promo">R$ 40,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 px-1 plates">
-                        <div class="col-md-12 plate-border">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 plate-image">
-                                    <img src="/media/categories/others/others-plates-img-default-150x150.jpg" alt="">
-                                </div>
-                                <div class="col-md-9 plate-info">
-                                    <div class="plate-title">Extra Grande</div>    
-                                    <div class="plate-description"></div>
-                                    <div class="plate-prices">
-                                        <span class="price-old mr-3">R$ 64,00</span>
-                                        <span class="price-promo">R$ 60,50</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>  
+                {% endif %}
             </div>
 
             <div class="tab-pane fade" id="restaurant-rating">
@@ -919,6 +430,11 @@
     </div>
 {% endblock content %}
 
+{% block modals %}
+    {% include "pages/restaurant/modals/showPlate.html.twig" %}
+{% endblock modals %}
+
 {% block js %}
     <script type="text/javascript" src="/assets/js/pages/restaurant/restaurant.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/restaurant/modals/showPlate.js"></script>
 {% endblock js %}

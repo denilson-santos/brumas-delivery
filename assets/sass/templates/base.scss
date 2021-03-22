@@ -3,4 +3,29 @@
 body {
     font-family: 'Nunito', sans-serif;
     font-size: 14px;
+    color: #6c757d;
+
+    .modal-header {
+        border: none;
+
+        .content {
+            h5 {
+                font-size: 18px;
+                font-weight: 700;
+            }
+            
+            p {
+                color: #888;
+                margin-bottom: 0;
+            }   
+        }
+    }
+
+    .modal-footer {
+        border: none;
+        
+        button {
+            font-size: 14px;
+        }
+    }
 }

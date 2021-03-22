@@ -83,7 +83,10 @@
 
     // Restaurant
     $router->get('/restaurant/show/{id}', 'RestaurantController:getRestaurant');
-
+    
+    // Plate
+    $router->post('/plate/show', 'PlateController:getPlate');
+    
     // Language
     $router->post('/lang', 'LangController:set');
 

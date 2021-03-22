@@ -16,7 +16,7 @@
 }
 
 .plate-prices span {
-	font-size: 25px;
+	font-size: 20px;
 	font-weight: 500;
 }
 
@@ -105,6 +105,8 @@
 
 .restaurant-header .restaurant-image img {
 	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .restaurant-header .restaurant-name {
@@ -133,7 +135,6 @@
 	position: relative;
     top: 30px;
 }
-
 
 .restaurant-header .restaurant-menu a {
 	color: rgba(0,0,0,0.6);
@@ -164,6 +165,18 @@
 	font-weight: 600;
 	border-bottom: 2px solid #fa3734;
 	padding-bottom: 2px;
+}
+
+.restaurant-body .no-plates {
+	background-color: rgba(0, 0, 0, 0.04);
+	padding: 15px;
+	margin: 15px 0;
+	
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	
+	text-align: center;
+	font-weight: 600;
 }
 
 .c-px-1 {
@@ -202,9 +215,19 @@
 	color: rgba(0,0,0,0.6);
 }
 
-.restaurant-body .plates .plate-border {
+.restaurant-body .plates .plate-content {
 	border: 1px solid #ddd;
 	padding: 0 10px 0 0;
+}
+
+.restaurant-body .plates .plate-content:hover {
+	border: 1px solid #ccc;
+	background-color: rgba(0, 0, 0, 0.02);
+	cursor: pointer;
+}
+
+.restaurant-body .plates .plate-content:hover img {
+	border-right-color: #ccc;
 }
 
 .restaurant-body .reviews-rating {
