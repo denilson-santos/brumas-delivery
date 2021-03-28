@@ -1,0 +1,26 @@
+{% extends "templates/base.html.twig" %}
+
+{% block css %}
+    <link rel="stylesheet" href="pages/cart/cart.css">
+{% endblock css %}
+
+{% block content %}
+    <section class="section cart">
+        <div class="container">
+            <div class="cart-item">
+                <div class="item-image">
+                    <img src="/media/restaurants/zizi-lanches.jpg" alt="">
+                </div>
+                <div class="item-content">
+                    <h4>Pizza Média</h4>
+                    <div class="item-detais">
+                        <strong>Sabor</strong>
+                        <ul>
+                            <li>Frango com catupiry</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

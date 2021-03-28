@@ -1,0 +1,38 @@
+<div class="tab-pane container active" id="restaurant-menu">
+    {% if restaurantInfo['plates'] %}
+        {% for category in categoriesOfRestaurant %}    
+            <div class="restaurant-category"><span>{{ categories[category['category_id']-1]['name'] }}</span></div>
+
+            <div class="row c-px-1 mt-2">
+                {% for plate in restaurantInfo['plates'] %}
+                    {% if plate['category_id'] == category['category_id'] %}
+                        <div class="col-md-6 px-1 pb-2 plates">
+                            <div class="col-md-12 plate-content" plate-id="{{ plate['id_plate'] }}">
+                                <div class="row align-items-center">
+                                    <div class="col-md-3 plate-image">
+                                        <img src="{{ plate['image'] ?? '/media/categories/others/others-plates-img-default-150x150.jpg' }}" alt="{{ plate['name'] }}">
+                                    </div>
+                                    <div class="col-md-9 plate-info">
+                                        <div class="plate-title">{{ plate['name'] }}</div>    
+                                        <div class="plate-description"></div>
+                                        <div class="plate-prices">
+                                            <span class="price-old {{ plate['promo'] ? 'old-price' : '' }}">R$ {{ number_format(plate['price']/100, 2, ',', '.') }}</span>
+
+                                            {% if plate['promo'] %}
+                                                <span class="price-promo ml-3">R$ {{ number_format(plate['promo_price']/100, 2, ',', '.') }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-plates">
+            Este restaurante ainda não possui nenhum prato cadastrado.
+        </div>
+    {% endif %}
+</div>

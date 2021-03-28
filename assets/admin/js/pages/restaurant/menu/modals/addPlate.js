@@ -200,8 +200,6 @@ $(function() {
                         }, 2100);
                     }
 
-                },
-                complete: function() {
                     $('form.add-plate #saveAddPlate').attr('disabled', false);
                 }
             });
@@ -423,7 +421,7 @@ $(function() {
 
                 if (currentItem.length) {
                     currentItem.attr('item-name', $(element).find('input[name="itemName"]').val());
-                    currentItem.attr('item-price', $(element).find('input[name="itemPrice"]').val());
+                    currentItem.attr('item-price', $(element).find('input[name="itemPrice"]').val().replace('.', '').replace(',', ''));
 
                 } else {
                     $('.itens').append(`
@@ -432,7 +430,7 @@ $(function() {
                         item-row="${currentItemRow}" 
                         complement-row="${currentComplementRow}" 
                         item-name="${$(element).find('input[name="itemName"]').val()}" 
-                        item-price="${$(element).find('input[name="itemPrice"]').val()}" 
+                        item-price="${$(element).find('input[name="itemPrice"]').val().replace('.', '').replace(',', '')}" 
                     /> 
                     `);
                 }

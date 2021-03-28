@@ -41,27 +41,31 @@
                                 <input type="hidden" name="filters[search]" value="{{ (notEmpty(filtersSelected['search']) ? filtersSelected['search'] : '') }}">
                                 <input type="hidden" name="filters[category]" value="{{ (notEmpty(filtersSelected['category']) ? filtersSelected['category'] : '') }}">
 
-                                <div class="filter-box">
+                                <div class="filter-box neighborhood">
                                     <div class="filter-title">{{ iniDicionary['NEIGHBORHOODS'] }}</div>
                                     <div class="filter-content">
-                                        {% for neighborhood in filters['neighborhoods'] %}
-                                            {% set checked = (notEmpty(filtersSelected['neighborhood']) and in_array(neighborhood['id_neighborhood'], filtersSelected['neighborhood']))? 'checked="checked"' : '' %}
+                                        {% for restaurantByNeighborhood in filters['restaurantsByNeighborhoods'] %}
+                                            {% set checked = (notEmpty(filtersSelected['neighborhood']) and in_array(restaurantByNeighborhood['neighborhood_id'], filtersSelected['neighborhood']))? 'checked="checked"' : '' %}
 
-                                            {% set noneItem = (empty(neighborhood['count']) ? 'none-item' : '') %}
+                                            {% set noneItem = (empty(restaurantByNeighborhood['total_restaurants_by_neighborhoods']) ? 'none-item' : '') %}
                                             
-                                            <div class='filter-item form-check'>
-                                                    
-                                                <div class='float-left'>
-                                                    <label class='form-check-label'>
-                                                        <input type='checkbox' class='form-check-input' name='filters[neighborhood][]' id="box-neighborhood-{{ neighborhood['id_neighborhood'] }}" value="{{ neighborhood['id_neighborhood'] }}" {{ checked }}>{{ neighborhood['name'] }}
+                                            <div class='filter-item'>
+                                                <div class="custom-control custom-checkbox float-left my-auto">
+                                                    <input type="checkbox" class="custom-control-input" name='filters[neighborhood][]' id="box-neighborhood-{{ restaurantByNeighborhood['neighborhood_id'] }}" value="{{ restaurantByNeighborhood['neighborhood_id'] }}" {{ checked }}>
+
+                                                    <label class="custom-control-label" for="box-neighborhood-{{ restaurantByNeighborhood['neighborhood_id'] }}">
+                                                        {{ filters['neighborhoods'][restaurantByNeighborhood['neighborhood_id']-1]['name'] }}
                                                     </label>
                                                 </div>
-                                                <div class='float-right $noneItem'>({{ neighborhood['count'] }})
+                                                
+                                                <div class='float-right {{ noneItem }}'>({{ restaurantByNeighborhood['total_restaurants_by_neighborhoods'] }})
                                                 </div>
                                             </div>
                                         {% endfor %}
                                         
                                     </div>
+                                    <a href="javascript:void(0)" class="show-all"><i class="fas fa-plus"></i> Mostrar Todos</a>
+                                    <a href="javascript:void(0)" class="show-less d-none"><i class="fas fa-minus"></i> Mostrar Menos</a>
                                 </div>
                         
                                 <div class="filter-box">
@@ -86,17 +90,19 @@
                                 <div class="filter-box">
                                     <div class="filter-title">{{ iniDicionary['PROMOTIONS'] }}</div>
                                     <div class="filter-content">
-                                        <div class="filter-item form-check">
-                                            <div class="float-left">
-                                                <label class="form-check-label">
-                                                    {% set checked = (notEmpty(filtersSelected['promotion']) and in_array(0, filtersSelected['promotion']))? 'checked="checked"' : '' %}
+                                        <div class="filter-item">
+                                            <div class="custom-control custom-checkbox float-left my-auto">
+                                                {% set checked = (notEmpty(filtersSelected['promotion']) and in_array(0, filtersSelected['promotion']))? 'checked="checked"' : '' %}
 
-                                                    {% set noneItem = (empty(filters['restaurantsInPromotion']) ? 'none-item' : '') %}
+                                                {% set noneItem = (empty(filters['restaurantsInPromotion']) ? 'none-item' : '') %}
 
-                                                    <input type="checkbox" class="form-check-input" name="filters[promotion][]" value="0" id="box-promotion" {{ checked }}>
+                                                <input type="checkbox" class="custom-control-input" name="filters[promotion][]" value="0" id="box-promotion" {{ checked }}>
+
+                                                <label class="custom-control-label" for="box-promotion">
                                                     {{ iniDicionary['INPROMOTION'] }}
                                                 </label>
                                             </div>
+
                                             <div class="float-right {{ noneItem }}">({{ filters['restaurantsInPromotion'] }})</div>
                                         </div>
                                     </div>
@@ -109,44 +115,56 @@
                                             {% set checked = (notEmpty(filtersSelected['weekDay']) and in_array(weekDay['id_week_day'], filtersSelected['weekDay']))? 'checked="checked"' : '' %}
 
                                             {% set noneItem = (empty(weekDay['count']) ? 'none-item' : '') %}
+                                            
+                                            <div class='filter-item'>
+                                                <div class="custom-control custom-checkbox float-left my-auto">
+                                                    <input type="checkbox" class="custom-control-input" name='filters[weekDay][]' id="box-week-day-{{ weekDay['id_week_day'] }}" value="{{ weekDay['id_week_day'] }}" {{ checked }}>
 
-                                            <div class='filter-item form-check'>
-                                                <div class='float-left'>
-                                                    <label class='form-check-label'>
-                                                        <input type='checkbox' class='form-check-input' name='filters[weekDay][]' id="box-week-day-{{ weekDay['id_week_day'] }}" value="{{ weekDay['id_week_day'] }}" {{ checked }}>{{ weekDay['name'] }}
+                                                    <label class="custom-control-label" for="box-week-day-{{ weekDay['id_week_day'] }}">
+                                                        {{ weekDay['name'] }}
                                                     </label>
                                                 </div>
-                                                <div class='float-right $noneItem'>({{ weekDay['count'] }})
+
+                                                <div class='float-right {{ noneItem }}'>({{ weekDay['count'] }})
                                                 </div>
                                             </div>
                                         {% endfor %}
                                         
                                         <div class="border-filter"></div>
 
-                                        <div class="filter-item form-check">
+                                        <div class="filter-item">
                                             <div class="row no-gutters">
                                                 <div class="col-md-6 text-left">
-                                                    <label class="form-check-label">
-                                                        {% set checked = (notEmpty(filtersSelected['status']) and in_array(1, filtersSelected['status']))? 'checked="checked"' : '' %}
+                                                    {% set checked = (notEmpty(filtersSelected['status']) and in_array(1, filtersSelected['status']))? 'checked="checked"' : '' %}
 
-                                                        {% set noneItem = (empty(filters['restaurantsOpen']) ? 'none-item' : '') %}														
-                                                        <input type="checkbox" class="form-check-input" name="filters[status][]" value="1" id="box-status-open" {{ checked }}>Aberto
-                                                    </label>
+                                                    {% set noneItem = (empty(filters['restaurantsOpen']) ? 'none-item' : '') %}														
+                                                    <div class="custom-control custom-checkbox float-left my-auto">
+                                                        <input type="checkbox" class="custom-control-input" name="filters[status][]" id="box-status-open" value="1" {{ checked }}>
+    
+                                                        <label class="custom-control-label" for="box-status-open">
+                                                            Aberto
+                                                        </label>
+                                                    </div>
                                                 </div>
+
                                                 <div class="col-md-6 text-right {{ noneItem }}">({{ filters['restaurantsOpen'] }})</div>
                                             </div>
                                         </div>
 
-                                        <div class="filter-item form-check">
+                                        <div class="filter-item">
                                             <div class="row no-gutters">
                                                 <div class="col-md-6 text-left">
-                                                    <label class="form-check-label">
-                                                        {% set checked = (notEmpty(filtersSelected['status']) and in_array(0, filtersSelected['status']))? 'checked="checked"' : '' %}
+                                                    {% set checked = (notEmpty(filtersSelected['status']) and in_array(0, filtersSelected['status']))? 'checked="checked"' : '' %}
 
-                                                        {% set noneItem = (empty(filters['restaurantsClosed']) ? 'none-item' : '') %}
-                                                            
-                                                        <input type="checkbox" class="form-check-input" name="filters[status][]" value="0" id="box-status-closed" {{ checked }}>Fechado
-                                                    </label>
+                                                    {% set noneItem = (empty(filters['restaurantsClosed']) ? 'none-item' : '') %}
+                                                    
+                                                    <div class="custom-control custom-checkbox float-left my-auto">
+                                                        <input type="checkbox" class="custom-control-input" name="filters[status][]" id="box-status-closed" value="0" {{ checked }}>
+    
+                                                        <label class="custom-control-label" for="box-status-closed">
+                                                            Fechado
+                                                        </label>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6 text-right {{ noneItem }}">({{ filters['restaurantsClosed'] }})</div>
                                             </div>
@@ -231,9 +249,9 @@
                     <div class="float-right">
                         <nav aria-label="pagination">
                             <ul class="pagination ml-1"> 
-                                <li class="page-item disabled">
+                                {# <li class="page-item disabled">
                                     <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
-                                </li>                      
+                                </li>                       #}
                                 {% for p in 1 .. numberPages %}
                                     {% if currentPage == loop.index %}
                                         {% set active = "active" %}
@@ -251,9 +269,9 @@
     
                                     <li class="page-item {{ active }}"><a class="page-link {{ colorPagination }}" href="/?{{ url }}">{{ p }}</a></li>
                                 {% endfor %}
-                                <li class="page-item">
+                                {# <li class="page-item">
                                     <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                </li>
+                                </li> #}
                             </ul>
                         </nav>
                     </div>

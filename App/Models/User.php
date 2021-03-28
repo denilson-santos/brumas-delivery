@@ -500,8 +500,8 @@ class User extends Model {
         // operation
         $validator->rule('required', 'operation')->message('Informe os hórarios de funcionamento do restaurante');
         $validator->rule('operation', 'operation')->message('Informe hórarios válidos');
-        $validator->rule('arrayLengthMax', 'operation', 7)->message('Informe hórarios válidos');
-        $validator->rule('arrayLengthMin', 'operation', 7)->message('Informe hórarios válidos');
+        $validator->rule('arrayLengthMax', 'operation', 8)->message('Informe hórarios válidos');
+        $validator->rule('arrayLengthMin', 'operation', 8)->message('Informe hórarios válidos');
 
         // restaurantAddress
         $validator->rule('required', 'restaurantAddress')->message('Digite o endereço do restaurante');

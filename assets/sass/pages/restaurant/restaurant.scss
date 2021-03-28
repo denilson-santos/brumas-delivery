@@ -347,7 +347,7 @@
 }
 
 #restaurant-info .delivery-times .form-group {
-	width: 200px;
+	width: 230px;
 }
 
 #restaurant-info .contact .form-group {
@@ -381,11 +381,26 @@
 
 #restaurant-info .delivery-times span,
 #restaurant-info .contact span,
-#restaurant-info .social-networks span,
 #restaurant-info .payment-online span,
 #restaurant-info .payment-delivery span {
 	font-size: 15px;
 	font-weight: 300;
+}
+
+#restaurant-info .social-networks {
+	a {
+		text-decoration: none;
+		color: #6C757D;
+
+		&:hover {
+			color: #fa3734;
+		}
+	}	
+
+	span {
+		font-size: 16px;
+		font-weight: 500;
+	}
 }
 
 #restaurant-info .payment-online img,

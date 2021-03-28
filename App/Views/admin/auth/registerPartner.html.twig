@@ -218,16 +218,16 @@
                     <div class="form-row">
                       <div class="form-group col-6">
                         <label for="restaurantMainCategories">Categorias Principais</label>
-                        <select id="restaurantMainCategories" class="form-control restaurant-main-categories" name="restaurantMainCategories[]"
+                          <select id="restaurantMainCategories" class="form-control restaurant-main-categories" name="restaurantMainCategories[]"
                         multiple="multiple">
-                          <option value="" disabled>Selecione</option>
-                          <option value="1">Pizzas</option>
-                          <option value="2">Bebidas</option>
-                          <option value="3">Sorvetes</option>
-                          <option value="4">Lanches</option>
-                          <option value="5">Bolos</option>
-                          <option value="6">Sobremesas</option>
-                        </select>
+                            <option value="" disabled>Selecione</option>
+                            
+                            {% set mainCategories = explode(',', userLogged['restaurant']['main_categories']) %}
+
+                            {% for category in categories %}
+                                <option value="{{ category['id_category'] }}" {{ in_array(category['id_category'], mainCategories) ? 'selected' : '' }}>{{ category['name'] }}</option>
+                            {% endfor %}
+                          </select>
                       </div>
 
                       <div class="form-group col-6">

@@ -64,6 +64,9 @@ class Controller {
         // in_array
         $this->twig->addFunction(new TwigFunction('in_array', 'in_array'));
         
+        // not_in_array
+        $this->twig->addFunction(new TwigFunction('not_in_array', '!in_array'));
+        
         // array_filter
         $this->twig->addFunction(new TwigFunction('array_filter', 'array_filter'));
         
@@ -87,6 +90,9 @@ class Controller {
         
         // strlen
         $this->twig->addFunction(new TwigFunction('strlen', 'strlen'));
+        
+        // strtolower
+        $this->twig->addFunction(new TwigFunction('strtolower', 'strtolower'));
         
         // substr
         $this->twig->addFunction(new TwigFunction('substr', 'substr'));

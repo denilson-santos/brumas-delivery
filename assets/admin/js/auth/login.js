@@ -48,7 +48,7 @@ $(function () {
         submitHandler: function (form) {
             form = $(form).serialize();
             
-            console.log(form);
+            // console.log(form);
 
             $.ajax({
                 type: "POST",

@@ -3,6 +3,7 @@
 namespace App\Controllers\admin\auth;
 
 use App\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Neighborhood;
 use App\Models\User;
 
@@ -43,10 +44,12 @@ class RegisterController extends Controller {
     }
     
     public function registerPartnerIndex($request) {
+        $category = new Category();
         $neighborhood = new Neighborhood();
         $data = [];
         
         $data = [
+            'categories' => $category->getListCategories(),
             'neighborhoods' => $neighborhood->getListNeighborhoods(['city' => 336])
         ];   
 
@@ -73,10 +76,11 @@ class RegisterController extends Controller {
         // $request = $this->formatDates($request, $dateFields);
         
         // Group operation data
-        $operation = array_slice($request, 26, 7, true);
-        array_splice($request, 26, 7);
+        $operation = array_slice($request, 26, 8, true);
+        array_splice($request, 26, 8);
 
         $request['operation'] = $operation;
+
 
         $user = new User($request);
     

@@ -86,6 +86,9 @@
     
     // Plate
     $router->post('/plate/show', 'PlateController:getPlate');
+
+    // Cart
+    $router->get('/cart', 'CartController:index', 'name.cart');
     
     // Language
     $router->post('/lang', 'LangController:set');

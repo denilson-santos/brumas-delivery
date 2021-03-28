@@ -50,12 +50,6 @@ class Config {
     }
 
     public function getDefaultLang() {
-        if ($this->defaultLang == 'pt-br') {
-            setlocale(LC_MONETARY, 'pt_BR');
-        } else if ($this->defaultLang == 'en') {
-            setlocale(LC_MONETARY, 'en_US');
-        }
-
         return $this->defaultLang;
     }
 
