@@ -1,0 +1,181 @@
+<div class="tab-pane fade" id="restaurant-info">
+    <div class="container">
+        <div class="restaurant-information-title">
+            <span>Informações</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="delivery-times">
+                    <div class="restaurant-information-subtitle form-group w-75">Horários de Funcionamento</div>
+                    
+                    {% if restaurantInfo['operations'] %}
+                        {% for info in restaurantInfo['operations'] %}
+                            {% set timeOpen1 = date_format(date_create(info['open_1']), 'H:i') %}
+                            {% set timeOpen2 = date_format(date_create(info['open_2']), 'H:i') %}
+                            {% set timeClose1 = date_format(date_create(info['close_1']), 'H:i') %}
+                            {% set timeClose2 = date_format(date_create(info['close_2']), 'H:i') %}
+
+                            <div class="form-group row no-gutters justify-content-between {{ info['open_1'] and info['close_2'] ? 'mb-0' : '' }}">
+                                <span class="day">{{ weekDays[info['week_day_id']-1]['name'] }}</span>
+                                <span class="hour">{{ info['open_1'] ? timeOpen1 : '' }} às {{ info['open_1'] ? timeClose1 : '' }}</span>
+                            </div>
+
+                            {% if info['open_1'] and info['close_2'] %}
+                                <div class="form-group row no-gutters justify-content-between">
+                                    <span class="day"></span>
+                                    <span class="hour">{{ timeOpen2 }} às {{ timeClose2 }}</span>
+                                </div>
+                            {% endif %}
+                        {% endfor %}        
+                    {% else %}
+                        Nenhum horário de funcionamento cadastrado.
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="contact">
+                    <div class="restaurant-information-subtitle form-group">Formas de Contato</div>
+                    <div class="form-group row flex-column no-gutters">
+                        <span class="contact-label">
+                            <i class="fas fa-phone-alt text-cc-red"></i>Telefones:
+                        </span>
+                        <div class="d-flex">
+                            <span class="phone">{{ restaurantInfo['phones'][0]['number'] }}</span>
+                            <span class="ml-3">{{ restaurantInfo['phones'][1]['number'] }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group row flex-column no-gutters">
+                        <span class="contact-label">
+                            <i class="fas fa-map-marker-alt"></i>Endereço:
+                        </span>
+                        <span class="address">
+                            {{ restaurantInfo['address']['name'] }}, {{ neighborhoods[restaurantInfo['address']['neighborhood_id']-1]['name'] }}, N° {{ restaurantInfo['address']['number'] }}
+                        </span>
+                    </div>
+                    <div class="form-group row flex-column no-gutters">
+                        <span class="contact-label">
+                            <i class="fas fa-envelope"></i>Email:
+                        </span>
+                        <span class="email">{{ restaurantInfo['email'] }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="social">
+                    <div class="restaurant-information-subtitle form-group">Redes Sociais</div>
+                    <div class="social-networks col-md-9">
+                        <div class="d-flex justify-content-between">
+                            {% if restaurantInfo['social_medias'] %}
+                                {% for socialMedia in restaurantInfo['social_medias'] %}
+                                    {% set socialMediaName = socialMedias[socialMedia['social_media_id']-1]['name'] %}
+
+                                    <a href="http://{{ socialMedia['value'] }}" target="_blank">
+                                        <div class="social-network row flex-column">
+                                            <span class="social-icon">
+                                                {% if socialMediaName == 'Instagram' %}
+                                                    <i class="fab fa-{{ strtolower(socialMediaName) }}-square"></i>
+                                                {% else %}
+                                                    <i class="fab fa-{{ strtolower(socialMediaName) }} "></i>    
+                                                {% endif %}
+                                            </span>
+                                            <span class="social-name">{{ socialMediaName }}</span>
+                                        </div>    
+                                    </a>
+                                {% endfor %}
+
+                            {% else %}
+                                Nenhuma rede social cadastrada.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="payment-online">
+            <div class="restaurant-information-subtitle form-group">Pagamento Online</div>
+            <div class="form-group row no-gutters">
+                <span class="payment-online-methods">
+                    Disponível em breve.
+                    {# <img src="/media/payment-methods/card-amex-40x23.jpg" class="method-1" alt="">
+                    <img src="/media/payment-methods/card-mastercard-40x23.jpg" alt="" class="method-2">
+                    <img src="/media/payment-methods/paypal-40x23.jpg" alt="" class="method-3">
+                    <img src="/media/payment-methods/card-visa-40x23.jpg" alt="" class="method-4">
+                    <img src="/media/payment-methods/card-elo-40x23.jpg" alt="" class="method-5"> #}
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="payment-delivery">
+            <div class="restaurant-information-subtitle form-group">Pagamento na Entrega</div>
+
+            <div class="col-md-5">
+                <div class="row justify-content-between">
+                    {% if restaurantInfo['payments'] %}
+                        <div class="form-group row flex-column no-gutters">
+                            <span class="payment-method-name mb-1">Dinheiro</span>
+                            <span class="payment-method-1">
+                            {% set payments = [] %}
+
+                            {% for payment in restaurantInfo['payments'] %}
+                                {% set payments = payments|merge([payment['payment_id']]) %}
+                            
+                                {% if payment['payment_id'] == 7 %}
+                                        <img src="/media/payment-methods/money-40x23.jpg" alt="">
+                                {% endif %}
+                            {% endfor %}
+                                        
+                            {% if not_in_array(7, payments) %} Não {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="form-group row flex-column no-gutters">
+                            <span class="payment-method-name mb-1">Cartão de Débito</span>
+                            <span class="payment-method-2">
+
+                            {% for payment in restaurantInfo['payments'] %}
+                                {% if payment['payment_id'] == 4 %}
+                                    <img src="/media/payment-methods/card-mastercard-40x23.jpg" alt="">
+                                {% elseif payment['payment_id'] == 5 %}
+                                    <img src="/media/payment-methods/card-visa-40x23.jpg" alt="">
+                                {% elseif payment['payment_id'] == 6 %}
+                                    <img src="/media/payment-methods/card-elo-40x23.jpg" alt="">
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if not_in_array(4, payments) and not_in_array(5, payments) and not_in_array(6, payments) %} Não {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="form-group row flex-column no-gutters">
+                            <span class="payment-method-name mb-1">Cartão de Crédito</span>
+                            <span class="payment-method-3">
+                                {% for payment in restaurantInfo['payments'] %}
+                                    {% if payment['payment_id'] == 1 %}
+                                    <img src="/media/payment-methods/card-mastercard-40x23.jpg" alt="">
+                                    {% elseif payment['payment_id'] == 2 %}
+                                    <img src="/media/payment-methods/card-visa-40x23.jpg" alt="">
+                                    {% elseif payment['payment_id'] == 3 %}
+                                    <img src="/media/payment-methods/card-elo-40x23.jpg" alt="">
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if not_in_array(1, payments) and not_in_array(2, payments) and not_in_array(3, payments) %} Não {% endif %}
+                            </span>
+                        </div>
+                    {% else %}
+                        <div class="mb-3">Nenhum pagamento na entrega cadastrado.</div>
+                    {% endif %}    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

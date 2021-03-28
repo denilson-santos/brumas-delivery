@@ -103,6 +103,14 @@ $(function () {
                 `);
             },
             complete: function () {
+                $('#showPlate .complements').append(`
+                    <div class="comments">
+                        <label for="comments">Observações</label>
+                        <div class="mb-2">Digite abaixo as suas observações pra esse prato</div>
+                        <textarea name="comments" id="comments" class="form-control" rows="4" placeholder="Digite suas observações aqui"></textarea>
+                    </div>
+                `);
+
                 $('#showPlate .spinner-container').addClass('d-none');
             }
         });
@@ -145,7 +153,11 @@ $(function () {
     });
 
     $('#showPlate button#addCart').on('click', function() {
-        addCart(plate.id_plate, !plate.complements.length ? itemsChecked : [], !plate.complements.length ? plate.price : totalPrice);
+        var comments = '';
+
+        comments = $('#showPlate textarea[name="comments"]').val();
+
+        addCart(plate.id_plate, comments, !plate.complements.length ? itemsChecked : [], !plate.complements.length ? plate.price : totalPrice);
         
         iziToast.success({
             title: 'Sucesso!',

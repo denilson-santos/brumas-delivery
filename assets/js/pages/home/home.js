@@ -3,6 +3,24 @@ $(function () {
         $('.filter-area form').submit();
     }); 
 
+    $('.filter-area .neighborhood .filter-item:gt(5)').hide();
+    
+    $('.filter-area .neighborhood .show-all').on('click', function() {
+        $(this).addClass('d-none');
+        
+        $('.filter-area .neighborhood .filter-item:gt(5)').show();
+        
+        $('.filter-area .neighborhood .show-less').removeClass('d-none');
+    });
+    
+    $('.filter-area .neighborhood .show-less').on('click', function() {
+        $(this).addClass('d-none');
+        
+        $('.filter-area .neighborhood .filter-item:gt(5)').hide();
+        
+        $('.filter-area .neighborhood .show-all').removeClass('d-none');
+    });
+
     $('.payment-type').select2({
         theme: 'bootstrap4'
     });

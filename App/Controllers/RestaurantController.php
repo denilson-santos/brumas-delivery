@@ -2,9 +2,12 @@
 namespace App\Controllers;
 
 use App\Models\Category;
+use App\Models\Neighborhood;
 use App\Models\Plate;
 use App\Models\Restaurant;
+use App\Models\SocialMedia;
 use App\Models\User;
+use App\Models\WeekDay;
 
 class RestaurantController extends Controller {
     public function index() {
@@ -17,8 +20,10 @@ class RestaurantController extends Controller {
         $restaurant = new Restaurant();
         $category = new Category();
         $user = new User();
+        $neighborhood = new Neighborhood();
         $plate = new Plate();
-        
+        $socialMedia = new SocialMedia();
+        $weekDay = new WeekDay();
         $data = [];
        
         $restaurantInfo = $restaurant->getRestaurant($id);
@@ -41,8 +46,11 @@ class RestaurantController extends Controller {
             $data = [
                 'restaurantInfo' => $restaurantInfo,
                 // 'restaurantImage' => $restaurant->getImagesByRestaurantId($id),
+                'neighborhoods' => $neighborhood->getListNeighborhoods(),
                 'categories' => $category->getListCategories(),
                 'categoriesOfRestaurant' => $plate->getCategoriesOfRestaurant($restaurantInfo['id_restaurant']),
+                'weekDays' => $weekDay->getListWeekDays(),
+                'socialMedias' => $socialMedia->getListSocialMedias(),
                 'language' => $this->language->getLanguage(),
                 'iniDicionary' => $this->language->getIniDicionary(),
                 'userLogged' => $user->isLogged(),

@@ -1,11 +1,12 @@
 var cart = loadCart();
 
-function addCart(plateId, itemsChecked, plateTotalPrice) {
+function addCart(plateId, comments, itemsChecked, plateTotalPrice) {
   const { items, quantity } = cart;
 
   items.push({
     id: items.length ? items[items.length - 1].id + 1 : 1,
     plate_id: plateId,
+    comments: comments,
     plate_total_price: plateTotalPrice,
     ...(itemsChecked.length && { plate_items: itemsChecked })
   });

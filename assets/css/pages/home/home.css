@@ -84,6 +84,12 @@ h1 {
   margin-bottom: 10px;
   padding-bottom: 10px; }
 
+.filter-box.neighborhood a {
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #fa3734; }
+
 .filter-box .border-filter {
   border-bottom: 1px solid #ccc;
   margin: 10px 0; }
@@ -99,12 +105,12 @@ h1 {
 .filter-item {
   height: 25px;
   font-weight: 400; }
+  .filter-item .custom-control-label::before,
+  .filter-item .custom-control-label::after {
+    top: 0.16rem; }
 
 .filter-item label {
   display: flex; }
-
-.filter-item input {
-  margin-top: 0.23rem; }
 
 .rating-filter-page-home.jq-ry-container {
   padding: 0; }

@@ -38,20 +38,23 @@ class Filter extends Model {
         ];
 
         // basicamente ele faz um loop em cada bairro e adiciona uma propriedade ao array data no item 'bairros', chamada de 'count', que recebe como valor o 'total_restaurants_by_neighborhoods', calculando a quantidade de restaurantes por bairro)
-        foreach ($data['neighborhoods'] as $key => $neighborhood) {
-            $data['neighborhoods'][$key]['count'] = 0; // para evitar erros quando um bairro não tiver restantes cadastrados
+        // foreach ($data['restaurantsByNeighborhoods'] as $key => $neighborhood) {
+        //     $data['restaurantsByNeighborhoods'][$key]['count'] = 0; // para evitar erros quando um bairro não tiver restantes cadastrados
 
-            foreach ($data['restaurantsByNeighborhoods'] as $restaurantsByNeighborhood) {
-                if($restaurantsByNeighborhood['neighborhood_id'] == $neighborhood['id_neighborhood']) {
-                    $data['neighborhoods'][$key]['count'] = $restaurantsByNeighborhood['total_restaurants_by_neighborhoods'];
-                }
-            }
+        //     foreach () {
+        //         if($restaurantsByNeighborhood['neighborhood_id'] == $neighborhood['id_neighborhood']) {
+        //             $data['neighborhoods'][$key]['count'] = $restaurantsByNeighborhood['total_restaurants_by_neighborhoods'];
+        //         }
+        //     }
 
-            // Remove os bairros sem restaurantes
-            // if ($data['restaurants'][$key]['count'] == 0) {
-            //     unset($data['restaurants'][$key]);
-            // }
-        }
+        //     // Remove os bairros sem restaurantes
+        //     if ($data['neighborhoods'][$key]['count'] == 0) {
+        //         unset($data['neighborhoods'][$key]);
+        //     }
+        // }
+
+        // print_r($data['restaurantsByNeighborhoods']); exit;
+
 
         // Criando um filtro para as avaliações
         foreach ($data['ratingsByStars'] as $key => $item) {
@@ -115,6 +118,11 @@ class Filter extends Model {
             //     unset($data['weekDays'][$key]);
             // }
         }
+        
+        // Remove filter by all weekdays
+        unset($data['weekDays'][7]);
+
+        // print_r($data['weekDays']); exit;
 
         // if (empty($data['rangePrice1'])) {
         //     $data['rangePrice1'] = $data['maxFilterPrice'];

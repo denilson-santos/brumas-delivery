@@ -241,7 +241,7 @@ class Restaurant extends Model {
 
         $stm = $this->db->prepare(
             'SELECT neighborhood_id, COUNT(*) AS total_restaurants_by_neighborhoods FROM address WHERE id_address 
-        in(SELECT address_id from restaurant WHERE '.implode(" AND ", $where).') GROUP BY neighborhood_id');
+        in(SELECT address_id from restaurant WHERE '.implode(" AND ", $where).') GROUP BY neighborhood_id ORDER BY total_restaurants_by_neighborhoods DESC');
         // print_r($stm); exit;
 
         $this->bindWhere($filters, $stm, 'neighborhood');

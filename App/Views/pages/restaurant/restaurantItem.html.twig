@@ -44,7 +44,7 @@
         </div> -->
         
         <div class="card">
-            <img class="card-img-top" src="/media/restaurants/{{ image }}" alt="Restaurant image">
+            <img class="card-img-top" src="{{ image ? image : '/media/categories/others/others-plates-img-default.jpg' }}" alt="Restaurant image">
             
             <div class="separator">
                 <img class="restaurant-separator" src="/assets/images/restaurant-separator-white.png" alt="">
