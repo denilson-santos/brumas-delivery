@@ -1,6 +1,6 @@
 var cart = loadCart();
 
-function addCart(plateId, comments, itemsChecked, plateTotalPrice) {
+function addCart(plateId, comments, complementsChecked, itemsChecked, plateTotalPrice) {
   const { items, quantity } = cart;
 
   items.push({
@@ -8,6 +8,7 @@ function addCart(plateId, comments, itemsChecked, plateTotalPrice) {
     plate_id: plateId,
     comments: comments,
     plate_total_price: plateTotalPrice,
+    ...(complementsChecked.length && { plate_complements: complementsChecked }),
     ...(itemsChecked.length && { plate_items: itemsChecked })
   });
 
@@ -23,6 +24,22 @@ function addCart(plateId, comments, itemsChecked, plateTotalPrice) {
 
 function removeCart(id) {
   cart.items = cart.items.filter((item) => item.id !== id);
+  updateCart(cart.items);
+}
+
+function clearCart() {
+  localStorage.removeItem('cart');
+}
+
+function updateCart(cartItems) {  
+  cart.items = cartItems;
+
+  const total = cart.items.reduce((totalItems, item) => {
+    return totalItems + item.plate_total_price;
+  }, 0);
+
+  cart.quantity = cart.items.length;
+  cart.total = total;
 
   localStorage.setItem('cart', JSON.stringify(cart));
 }

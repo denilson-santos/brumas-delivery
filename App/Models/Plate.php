@@ -122,7 +122,6 @@ class Plate extends Model {
         }
 
         return $data;
-        
     }
 
     public function getCategoriesOfRestaurant($id) {

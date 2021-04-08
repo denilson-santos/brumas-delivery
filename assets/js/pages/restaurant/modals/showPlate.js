@@ -24,10 +24,20 @@ $(function () {
                 $('#showPlate .modal-title').text(response.plate.name);
                 $('#showPlate .modal-subtitle').text(response.plate.description);
                 $('#showPlate .plate-image img').attr('src', response.plate.image ?? '/media/categories/others/others-plates-img-default.jpg').removeClass('d-none');
-                $('#showPlate .plate-price span').text(formatter.format(response.plate.price/100));
+                
+                if (response.plate.promo) {
+                    $('#showPlate .plate-price span').text(formatter.format(response.plate.promo_price/100));
+                } else {
+                    $('#showPlate .plate-price span').text(formatter.format(response.plate.price/100));
+                }
 
                 if (!response.plate.complements.length) {
-                    $('#showPlate button#addCart span').text(formatter.format(response.plate.price/100));
+                    if (response.plate.promo) {
+                        $('#showPlate button#addCart span').text(formatter.format(response.plate.promo_price/100));
+                    } else {
+                        $('#showPlate button#addCart span').text(formatter.format(response.plate.price/100));
+                    }
+                    
                     $('#showPlate button#addCart').attr('disabled', false);
                     return;
                 }
@@ -50,7 +60,7 @@ $(function () {
 
                     complement.itens.forEach((item, itemIndex) => {
                         items += `
-                            <div class="item ${complement.required ? 'required' : ''}" item-id="${item.id_item}">
+                            <div class="item ${complement.required ? 'required' : ''}" complement-id="${complement.id_complement}" item-id="${item.id_item}">
                                 <div class="content">
                                     <div class="name">${item.name}</div>
                                     <div class="price">+ R$ <span>${formatter.format(item.price/100)}</span></div>
@@ -129,12 +139,17 @@ $(function () {
             $(this).closest('.item').removeClass('checked');
         }
 
+        complementsChecked = [];
         itemsChecked = [];
         
         $('.checked').each(function (index, element) {
             itemsChecked.push(parseInt($(element).attr('item-id')));
+
+            if (!complementsChecked.includes(parseInt($(element).attr('complement-id')))) complementsChecked.push(parseInt($(element).attr('complement-id')));
         });
         
+        console.log(complementsChecked);
+
         totalPrice = 0;
         
         plate.complements.forEach(complement => {
@@ -157,7 +172,7 @@ $(function () {
 
         comments = $('#showPlate textarea[name="comments"]').val();
 
-        addCart(plate.id_plate, comments, !plate.complements.length ? itemsChecked : [], !plate.complements.length ? plate.price : totalPrice);
+        addCart(plate.id_plate, comments, plate.complements.length ? complementsChecked : [], plate.complements.length ? itemsChecked : [], plate.complements.length ? totalPrice : plate.price);
         
         iziToast.success({
             title: 'Sucesso!',

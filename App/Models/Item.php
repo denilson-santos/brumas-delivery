@@ -28,12 +28,30 @@ class Item extends Model {
             return $this->db->lastInsertId();
         } catch (\PDOException $error) {
             // For debug
-            echo "Message: " . $error->getMessage() . "<br>";
-            echo "Name of file: ". $error->getFile() . "<br>";
-            echo "Row: ". $error->getLine() . "<br>";
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
 
             throw new \PDOException("Error in statement", 0);
         }
+    }
+
+    public function getItem($id) {
+        $data = [];
+
+        if (!empty($id)) {
+            $stm = $this->db->prepare(
+            'SELECT * FROM item WHERE id_item = :id_item');
+            
+            $stm->bindValue(':id_item', $id);
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $data = $stm->fetch(\PDO::FETCH_ASSOC);
+            }
+        }
+
+        return $data;
     }
 
     public function setData($data) {

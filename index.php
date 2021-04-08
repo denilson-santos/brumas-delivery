@@ -53,7 +53,7 @@
     */
     $router->namespace("App\Controllers\admin");
 
-    // Acount
+    // Account
     $router->get('/account/profile', 'UserController:getProfile', 'name.account-profile');
     $router->post('/account/profile-action', 'UserController:editProfile');
     $router->get('/account/rates', 'UserController:getRates', 'name.account-rates');
@@ -89,6 +89,11 @@
 
     // Cart
     $router->get('/cart', 'CartController:index', 'name.cart');
+    $router->post('/cart', 'CartController:getCart');
+    $router->post('/cart/choose-payment', 'CartController:choosePayment');
+    
+    // Purchase
+    $router->post('/cart/checkout', 'PurchaseController:checkout');
     
     // Language
     $router->post('/lang', 'LangController:set');

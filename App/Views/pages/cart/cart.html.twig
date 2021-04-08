@@ -1,26 +1,54 @@
 {% extends "templates/base.html.twig" %}
 
 {% block css %}
-    <link rel="stylesheet" href="pages/cart/cart.css">
+    <link rel="stylesheet" href="assets/css/pages/cart/cart.css">
+    <link rel="stylesheet" href="assets/css/pages/cart/modals/choosePayment.css">
 {% endblock css %}
 
 {% block content %}
     <section class="section cart">
         <div class="container">
-            <div class="cart-item">
-                <div class="item-image">
-                    <img src="/media/restaurants/zizi-lanches.jpg" alt="">
-                </div>
-                <div class="item-content">
-                    <h4>Pizza Média</h4>
-                    <div class="item-detais">
-                        <strong>Sabor</strong>
-                        <ul>
-                            <li>Frango com catupiry</li>
-                        </ul>
+            <div class="row position-relative">
+                <div class="spinner-container d-none">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
                     </div>
+                </div>
+                
+                <div class="col-8 cart-items"></div>
+    
+                <div class="col-4 cart-checkout">
+                    <h5><strong>Resumo do Pedido</strong></h5>
+                    
+                    <div class="cart-subtotal">
+                        <span>Subtotal:</span>
+                        <span>R$ <span class="price">0,00</span></span>
+                    </div>
+
+                    <div class="cart-delivery">
+                        <span>Entrega:</span>
+                        <span>R$ <span class="price">0,00</span></span>
+                    </div>
+
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span>R$ <span class="price">0,00</span></span>
+                    </div>
+                    
+                    <button class="btn btn-primary form-control choose-payment" data-toggle="modal" data-target="#choosePayment">Escolher Pagamento</button>
                 </div>
             </div>
         </div>
     </section>
 {% endblock content %}
+
+{% block modals %}
+    {% include "pages/cart/modals/removeCart.html.twig" %}
+    {% include "pages/cart/modals/choosePayment.html.twig" %}
+{% endblock modals %}
+
+{% block js %}
+    <script src="assets/js/pages/cart/cart.js"></script>
+    <script src="assets/js/pages/cart/modals/removeCart.js"></script>
+    <script src="assets/js/pages/cart/modals/choosePayment.js"></script>
+{% endblock js %}
