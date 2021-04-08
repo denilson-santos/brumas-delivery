@@ -3,9 +3,13 @@ namespace App\Controllers;
 
 use App\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Complement;
+use App\Models\Item;
 use App\Models\Neighborhood;
+use App\Models\Payment;
 use App\Models\Plate;
 use App\Models\Restaurant;
+use App\Models\RestaurantPayment;
 use App\Models\SocialMedia;
 use App\Models\User;
 use App\Models\WeekDay;
@@ -17,35 +21,71 @@ class CartController extends Controller {
         $user = new User();
         
         if (!$user->isLogged()) $router->redirect('name.login');
-        if (!$user->isAuthorized(['admin', 'partner'])) $router->redirect('name.home');
+        if (!$user->isAuthorized(['admin', 'partner', 'customer'])) $router->redirect('name.home');
     }
 
     public function index($request) {
         $user = new User();
-        $restaurant = new Restaurant();
                 
         $data = [];
 
         $data = [
-            // 'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
-            // 'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected, 'list'),
-            // 'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected, 'list'),
-            // 'restaurantsInPromotion' => $restaurant->getListRestaurants($offset, $limit, ['promotion' => 1]),
-            // 'totalItens' => $restaurant->getTotalRestaurants($filtersSelected),
-            // 'numberPages' => ceil($restaurant->getTotalRestaurants($filtersSelected) / $limit),
-            // 'currentPage' => $currentPage,
-            // 'categories' => $category->getListCategories(),
-            // 'filtersSelected' => $filtersSelected,
-            // 'filters' => $filter->getFilters($filtersSelected),
-            // 'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
-            // 'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
-            // 'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
-            // 'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true),
             'language' => $this->language->getLanguage(),
             'iniDicionary' => $this->language->getIniDicionary(),
             'userLogged' => $user->isLogged()
         ];
 
         $this->loadView('pages/cart/cart', $data);
+    }
+
+    public function getCart($request) {
+        $plate = new Plate();
+        $complement = new Complement();
+        $item = new Item();
+                
+        $data = [];
+
+        foreach ($request['cart_items'] as $key => $cartItem) {
+            $data['plates'][$key] = $plate->getPlate($cartItem['plate_id']);
+            
+            $request['cart_items'][$key]['plate_total_price'] = 0;
+            
+            if (!empty($request['cart_items'][$key]['plate_complements'])) {
+                foreach($request['cart_items'][$key]['plate_complements'] as $ckey => $plateComplement) {
+                    $data['plates'][$key]['complements'][$ckey] = $complement->getComplement($plateComplement);
+                }
+            }
+
+            if (!empty($request['cart_items'][$key]['plate_items'])) {
+                foreach ($request['cart_items'][$key]['plate_items'] as $ikey => $plateItem) {
+                    $data['plates'][$key]['items'][$ikey] = $item->getItem($plateItem);
+
+                    $request['cart_items'][$key]['plate_total_price'] += $data['plates'][$key]['items'][$ikey]['price'];
+                }
+
+            } else if (!empty($request['cart_items'][$key]['promo'])) {
+                $request['cart_items'][$key]['plate_total_price'] = $data['plates'][$key]['promo_price'];
+            } else {
+                $request['cart_items'][$key]['plate_total_price'] = $data['plates'][$key]['price'];
+            }
+        }
+
+        $data['cart_items'] = $request['cart_items'];
+
+        echo json_encode($data, JSON_NUMERIC_CHECK);
+    }
+
+    public function choosePayment($request) {
+        $restaurant = new Restaurant();
+        $payment = new Payment();
+
+        $data = [];
+
+        $data = [
+            'payments' => $restaurant->getRestaurantPayments($request['restaurant_id']),
+            'paymentNames' => $payment->getListPayments()
+        ];
+
+        echo json_encode($data, JSON_NUMERIC_CHECK);
     }
 } 

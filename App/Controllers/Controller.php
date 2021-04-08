@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controllers;
 
+use App\Database\Db;
 use App\Models\User;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
@@ -19,6 +20,8 @@ class Controller {
     protected $userLevels; 
     
     public function __construct($router) {;
+        $this->db = Db::getConnection();
+
         $this->loader = new FilesystemLoader('App/Views');
         $this->antiXss = new AntiXSS();
         $this->language = new Language();

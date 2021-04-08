@@ -38,6 +38,24 @@ class Complement extends Model {
         }
     }
 
+    public function getComplement($id) {
+        $data = [];
+
+        if (!empty($id)) {
+            $stm = $this->db->prepare(
+            'SELECT * FROM complement WHERE id_complement = :id_complement');
+            
+            $stm->bindValue(':id_complement', $id);
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $data = $stm->fetch(\PDO::FETCH_ASSOC);
+            }
+        }
+
+        return $data;
+    }
+
     // Relationships
     public function getItems($id) {
         try {        
