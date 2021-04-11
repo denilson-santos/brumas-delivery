@@ -11,6 +11,18 @@ section.cart .spinner-container {
   left: 0;
   margin: auto; }
 
+section.cart .cart-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 350px; }
+  section.cart .cart-empty i {
+    font-size: 50px;
+    margin: 5px; }
+  section.cart .cart-empty span {
+    font-size: 25px; }
+
 section.cart .cart-items .cart-item {
   display: flex;
   background-color: #f9f9f9;

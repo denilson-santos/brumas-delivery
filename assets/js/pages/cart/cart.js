@@ -11,6 +11,16 @@ $(function () {
             var items = '';
             var listItems = '';
 
+            if (!cart_items.length) {
+                $('.cart-checkout').addClass('d-none');
+                $('.cart-empty').removeClass('d-none');
+                return;
+            }
+            
+            $('.cart-empty').addClass('d-none');
+            $('.cart-items').removeClass('d-none');
+            $('.cart-checkout').removeClass('d-none');
+
             cart_items.forEach((cartItem, index) => {
                 items = '';
 

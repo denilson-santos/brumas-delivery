@@ -30,6 +30,12 @@
               </thead>
     
               <tbody>
+                {% if not purchases %}
+                  <tr class="text-center">
+                    <td colspan="5">Nenhum pedido encontrado.</td>
+                  </tr>
+                {% endif %}
+
                 {% for purchase in purchases %}
                   {% set count = 0 %}
                   <tr>
