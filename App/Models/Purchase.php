@@ -55,6 +55,32 @@ class Purchase extends Model {
         return $data;
     }
 
+    // Relationships
+    public function getPurchasePlates($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM purchase_plate 
+                WHERE purchase_id = :purchase_id
+            ');
+            
+            $stm->bindValue(':purchase_id', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $purchasePlates = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $purchasePlates;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     public function setData($data) {
         $this->data = $data;
     }

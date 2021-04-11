@@ -2,8 +2,8 @@ section.account-orders {
   margin: auto;
   max-width: 1500px; }
   section.account-orders .table-account-orders .order-image {
-    width: 65px;
-    height: 45px;
+    width: 90px;
+    height: 60px;
     margin: 8px 0; }
     section.account-orders .table-account-orders .order-image img {
       width: 100%;
@@ -17,3 +17,7 @@ section.account-orders {
   section.account-orders .table-account-orders .more-order-details i:hover {
     color: #fa3734;
     cursor: pointer; }
+  section.account-orders .table-account-orders .item-details ul {
+    list-style: none; }
+  section.account-orders .table-account-orders .item-comments i {
+    color: #aaa; }

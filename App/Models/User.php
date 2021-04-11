@@ -1322,6 +1322,32 @@ class User extends Model {
         }
     }
 
+    public function getPurchases($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM purchase 
+                WHERE user_id = :userId
+            ');
+            
+            $stm->bindValue(':userId', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $purchases = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $purchases;              
+            }
+       
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+
     public function setData($data) {
         $this->data = $data;
     }
