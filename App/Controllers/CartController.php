@@ -45,32 +45,40 @@ class CartController extends Controller {
                 
         $data = [];
 
-        foreach ($request['cart_items'] as $key => $cartItem) {
-            $data['plates'][$key] = $plate->getPlate($cartItem['plate_id']);
-            
-            $request['cart_items'][$key]['plate_total_price'] = 0;
-            
-            if (!empty($request['cart_items'][$key]['plate_complements'])) {
-                foreach($request['cart_items'][$key]['plate_complements'] as $ckey => $plateComplement) {
-                    $data['plates'][$key]['complements'][$ckey] = $complement->getComplement($plateComplement);
+        if (!empty($request['cart_items'])) {
+            foreach ($request['cart_items'] as $key => $cartItem) {
+                $data['plates'][$key] = $plate->getPlate($cartItem['plate_id']);
+                
+                $request['cart_items'][$key]['plate_total_price'] = 0;
+                
+                if (!empty($request['cart_items'][$key]['plate_complements'])) {
+                    foreach($request['cart_items'][$key]['plate_complements'] as $ckey => $plateComplement) {
+                        $data['plates'][$key]['complements'][$ckey] = $complement->getComplement($plateComplement);
+                    }
+                }
+
+                if (!empty($request['cart_items'][$key]['plate_items'])) {
+                    foreach ($request['cart_items'][$key]['plate_items'] as $ikey => $plateItem) {
+                        $data['plates'][$key]['items'][$ikey] = $item->getItem($plateItem);
+
+                        $request['cart_items'][$key]['plate_total_price'] += $data['plates'][$key]['items'][$ikey]['price'];
+                    }
+
+                } else if (!empty($request['cart_items'][$key]['promo'])) {
+                    $request['cart_items'][$key]['plate_total_price'] = $data['plates'][$key]['promo_price'];
+                } else {
+                    $request['cart_items'][$key]['plate_total_price'] = $data['plates'][$key]['price'];
                 }
             }
 
-            if (!empty($request['cart_items'][$key]['plate_items'])) {
-                foreach ($request['cart_items'][$key]['plate_items'] as $ikey => $plateItem) {
-                    $data['plates'][$key]['items'][$ikey] = $item->getItem($plateItem);
-
-                    $request['cart_items'][$key]['plate_total_price'] += $data['plates'][$key]['items'][$ikey]['price'];
-                }
-
-            } else if (!empty($request['cart_items'][$key]['promo'])) {
-                $request['cart_items'][$key]['plate_total_price'] = $data['plates'][$key]['promo_price'];
-            } else {
-                $request['cart_items'][$key]['plate_total_price'] = $data['plates'][$key]['price'];
-            }
+            $data['cart_items'] = $request['cart_items'];
+        } else {
+            $data = [
+                'cart_items' => [],
+                'plates' => []
+            ];
         }
 
-        $data['cart_items'] = $request['cart_items'];
 
         echo json_encode($data, JSON_NUMERIC_CHECK);
     }

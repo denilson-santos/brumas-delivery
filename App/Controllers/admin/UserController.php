@@ -182,18 +182,20 @@ class UserController extends Controller {
             'userLogged' => $user->isLogged()
         ];
 
-        foreach ($data['purchases'] as $pkey => $purchaseData) {
-            $data['purchases'][$pkey]['purchasePlates'] = $purchase->getPurchasePlates($purchaseData['id_purchase']);
-            
-            foreach ($data['purchases'][$pkey]['purchasePlates'] as $pukey => $purchasePlateData) {
-                $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate'] = $plate->getPlate($purchasePlateData['plate_id']);
+        if (!empty($data['purchases'])) {
+            foreach ($data['purchases'] as $pkey => $purchaseData) {
+                $data['purchases'][$pkey]['purchasePlates'] = $purchase->getPurchasePlates($purchaseData['id_purchase']);
                 
-                $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'] = $purchasePlate->getPurchasePlateComplements($purchasePlateData['id_purchase_plate']);
+                foreach ($data['purchases'][$pkey]['purchasePlates'] as $pukey => $purchasePlateData) {
+                    $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate'] = $plate->getPlate($purchasePlateData['plate_id']);
                     
-                if (empty($data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'])) continue;                
-                
-                foreach ($data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'] as $ckey => $complementData) {
-                    $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'][$ckey]['items'] = $purchasePlate->getPurchasePlateItems($purchasePlateData['id_purchase_plate'], $complementData['id_purchase_plate_complement']);
+                    $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'] = $purchasePlate->getPurchasePlateComplements($purchasePlateData['id_purchase_plate']);
+                        
+                    if (empty($data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'])) continue;                
+                    
+                    foreach ($data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'] as $ckey => $complementData) {
+                        $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'][$ckey]['items'] = $purchasePlate->getPurchasePlateItems($purchasePlateData['id_purchase_plate'], $complementData['id_purchase_plate_complement']);
+                    }
                 }
             }
         }

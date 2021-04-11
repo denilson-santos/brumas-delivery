@@ -59,6 +59,7 @@
     $router->get('/account/rates', 'UserController:getRates', 'name.account-rates');
     $router->get('/account/favorites', 'UserController:getFavorites', 'name.account-favorites');
     $router->get('/account/orders', 'UserController:getOrders', 'name.account-orders');
+    // $router->get('/account/orders', 'PurchaseController:index', 'name.account-orders');
 
     // Restaurant
     $router->get('/restaurant/details', 'RestaurantController:index', 'name.restaurant-details');
