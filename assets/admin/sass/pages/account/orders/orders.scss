@@ -4,8 +4,8 @@ section.account-orders {
 
     .table-account-orders {
         .order-image {
-            width: 65px;
-            height: 45px;
+            width: 90px;
+            height: 60px;
 
             margin: 8px 0;
 
@@ -26,6 +26,14 @@ section.account-orders {
         .more-order-details i:hover {
             color: #fa3734;
             cursor: pointer;
+        }
+
+        .item-details ul {
+            list-style: none;
+        }
+
+        .item-comments i {
+            color: #aaa;
         }
     }
 }

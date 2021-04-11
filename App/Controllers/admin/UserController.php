@@ -4,8 +4,12 @@ namespace App\Controllers\admin;
 use App\Models\User;
 use App\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Complement;
 use App\Models\Filter;
 use App\Models\Neighborhood;
+use App\Models\Plate;
+use App\Models\Purchase;
+use App\Models\PurchasePlate;
 use App\Models\Restaurant;
 
 class UserController extends Controller {
@@ -15,7 +19,7 @@ class UserController extends Controller {
         $user = new User();
         
         if (!$user->isLogged()) $router->redirect('name.login');
-        if (!$user->isAuthorized(['admin', 'partner'])) $router->redirect('name.home');
+        if (!$user->isAuthorized(['admin', 'partner', 'customer'])) $router->redirect('name.home');
     }
 
     public function getProfile($request) {
@@ -153,6 +157,9 @@ class UserController extends Controller {
 
     public function getOrders($request) {
         $user = new User();
+        $plate = new Plate();
+        $purchase = new Purchase();
+        $purchasePlate = new PurchasePlate();
                 
         $data = [
             // 'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
@@ -169,10 +176,27 @@ class UserController extends Controller {
             // 'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
             // 'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
             // 'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true),
+            'purchases' => $user->getPurchases($user->isLogged()['id_user']),
             'language' => $this->language->getLanguage(),
             'iniDicionary' => $this->language->getIniDicionary(),
             'userLogged' => $user->isLogged()
         ];
+
+        foreach ($data['purchases'] as $pkey => $purchaseData) {
+            $data['purchases'][$pkey]['purchasePlates'] = $purchase->getPurchasePlates($purchaseData['id_purchase']);
+            
+            foreach ($data['purchases'][$pkey]['purchasePlates'] as $pukey => $purchasePlateData) {
+                $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate'] = $plate->getPlate($purchasePlateData['plate_id']);
+                
+                $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'] = $purchasePlate->getPurchasePlateComplements($purchasePlateData['id_purchase_plate']);
+                    
+                if (empty($data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'])) continue;                
+                
+                foreach ($data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'] as $ckey => $complementData) {
+                    $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'][$ckey]['items'] = $purchasePlate->getPurchasePlateItems($purchasePlateData['id_purchase_plate'], $complementData['id_purchase_plate_complement']);
+                }
+            }
+        }
 
         $this->loadView('admin/pages/account/orders/orders', $data);
     }

@@ -131,19 +131,21 @@ $(function () {
                 $('#choosePayment button#checkout').attr('disabled', true);
             },
             success: function (response) {
-                response.message == 'success' && iziToast.success({
-                    title: 'Sucesso!',
-                    message: 'Pedido Finalizado!',
-                    position: 'topRight',
-                    timeout: 2000,
-                });
-
-                // Redirect page
-                setTimeout(function() {
-                    window.location.href = BASE_URL+'/account/orders';
-                }, 2100);
-
-                clearCart();
+                if (response.message == 'success') {
+                    iziToast.success({
+                        title: 'Sucesso!',
+                        message: 'Pedido Finalizado!',
+                        position: 'topRight',
+                        timeout: 2000,
+                    });  
+    
+                    // Redirect page
+                    setTimeout(function() {
+                        window.location.href = BASE_URL+'/account/orders';
+                    }, 2100);
+    
+                    clearCart();
+                } 
             }
         });
     });

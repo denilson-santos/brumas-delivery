@@ -36,23 +36,25 @@
             <span>Meus Pedidos</span>
           </a>
         </li>
-
-        <li class="menu-header">Restaurante</li>
-        <li class="nav-item dropdown {{ myRestaurant }}">
-          <a href="#" class="nav-link has-dropdown">
-            <i class="fas fa-utensils"></i>
-            <span>Meu Restaurante</span>
-          </a>
-          
-          <ul class="dropdown-menu">
-            <li class="{{ restaurantDetails }}"><a class="nav-link" href="{{ route('name.restaurant-details') }}">Detalhes</a></li>
-            <li class="{{ restaurantMenu }}"><a class="nav-link" href="{{ route('name.restaurant-menu') }}">Cardápio</a></li>
-            <li class="{{ restaurantPlates }}"><a class="nav-link" href="{{ route('name.restaurant-plates') }}">Pratos</a></li>
-            <li class="{{ restaurantOrders }}"><a class="nav-link" href="{{ route('name.restaurant-orders') }}">Pedidos</a></li>
-            <li class="{{ restaurantRates }}"><a class="nav-link" href="{{ route('name.restaurant-rates') }}">Avaliações</a></li>
-            <li class="{{ restaurantEdit }}"><a class="nav-link" href="{{ route('name.restaurant-edit') }}">Editar</a></li>
-          </ul>
-        </li>
+        
+        {% if userIsAuthorized(['admin', 'partner']) %}
+          <li class="menu-header">Restaurante</li>
+          <li class="nav-item dropdown {{ myRestaurant }}">
+            <a href="#" class="nav-link has-dropdown">
+              <i class="fas fa-utensils"></i>
+              <span>Meu Restaurante</span>
+            </a>
+            
+            <ul class="dropdown-menu">
+              <li class="{{ restaurantDetails }}"><a class="nav-link" href="{{ route('name.restaurant-details') }}">Detalhes</a></li>
+              <li class="{{ restaurantMenu }}"><a class="nav-link" href="{{ route('name.restaurant-menu') }}">Cardápio</a></li>
+              <li class="{{ restaurantPlates }}"><a class="nav-link" href="{{ route('name.restaurant-plates') }}">Pratos</a></li>
+              <li class="{{ restaurantOrders }}"><a class="nav-link" href="{{ route('name.restaurant-orders') }}">Pedidos</a></li>
+              <li class="{{ restaurantRates }}"><a class="nav-link" href="{{ route('name.restaurant-rates') }}">Avaliações</a></li>
+              <li class="{{ restaurantEdit }}"><a class="nav-link" href="{{ route('name.restaurant-edit') }}">Editar</a></li>
+            </ul>
+          </li>
+          {% endif %}
       </ul>
     </aside>
 </div>
