@@ -144,7 +144,7 @@ $(function () {
                         window.location.href = BASE_URL+'/account/orders';
                     }, 2100);
     
-                    clearCart();
+                    cleanCart();
                 } 
             }
         });

@@ -1,11 +1,12 @@
 var cart = loadCart();
 
-function addCart(plateId, comments, complementsChecked, itemsChecked, plateTotalPrice) {
+function addCart(plateId, restaurantId, comments, complementsChecked, itemsChecked, plateTotalPrice) {
   const { items, quantity } = cart;
 
   items.push({
     id: items.length ? items[items.length - 1].id + 1 : 1,
     plate_id: plateId,
+    restaurant_id: restaurantId,
     comments: comments,
     plate_total_price: plateTotalPrice,
     ...(complementsChecked.length && { plate_complements: complementsChecked }),
@@ -27,7 +28,7 @@ function removeCart(id) {
   updateCart(cart.items);
 }
 
-function clearCart() {
+function cleanCart() {
   localStorage.removeItem('cart');
 }
 

@@ -172,19 +172,28 @@ $(function () {
 
         comments = $('#showPlate textarea[name="comments"]').val();
 
-        addCart(plate.id_plate, comments, plate.complements.length ? complementsChecked : [], plate.complements.length ? itemsChecked : [], plate.complements.length ? totalPrice : plate.price);
-        
-        iziToast.success({
-            title: 'Sucesso!',
-            message: 'Prato adicionado ao carrinho!',
-            position: 'topRight',
-            timeout: 2000,
-        });
+        if (!cart.items.length || plate.restaurant_id == cart.items[0].restaurant_id) {
+            addCart(plate.id_plate, plate.restaurant_id, comments, plate.complements.length ? complementsChecked : [], plate.complements.length ? itemsChecked : [], plate.complements.length ? totalPrice : plate.price);
+            
+            iziToast.success({
+                title: 'Sucesso!',
+                message: 'Prato adicionado ao carrinho!',
+                position: 'topRight',
+                timeout: 2000,
+            });
+        } else {
+            iziToast.error({
+                title: 'Erro!',
+                message: 'Prato não adicionado ao carrinho!',
+                position: 'topRight',
+                timeout: 2000,
+            });
+
+            $('#plateNotAdded').modal('show');
+        }
     });
 
     $('#showPlate').on('hidden.bs.modal', function() {
-        cart = getCart();
-
         console.log(cart);
 
         $('.cart-quantity').text(cart.quantity);
