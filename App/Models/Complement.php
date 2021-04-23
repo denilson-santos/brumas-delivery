@@ -38,6 +38,77 @@ class Complement extends Model {
         }
     }
 
+    public function updateComplement($complementId) {
+        try {    
+            $setColumns = '';
+    
+            $complementColumns = array_keys($this->data);
+
+            // Generate named params
+            foreach ($complementColumns as $key => $column) {
+                if ($key == count($complementColumns) -1) {
+                    $setColumns .= $column . ' = :' . $column;
+                } else {
+                    $setColumns .= $column . ' = :' . $column . ', ';
+                }
+            }
+        
+            $stm = $this->db->prepare("UPDATE complement
+                SET $setColumns 
+                WHERE id_complement = :id_complement
+            ");
+            
+            // Replacing named params
+            foreach ($complementColumns as $key => $column) {
+                $stm->bindValue(':' . $column, $this->data[$column]); 
+            }
+
+            $stm->bindValue(':id_complement', $complementId);
+
+            $stm->execute();
+            
+            return true;
+        } catch (\PDOException $error) {
+
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
+    public function deleteComplement($idComplement) {
+        try {    
+            $stm = $this->db->prepare("DELETE FROM item
+                WHERE complement_id = :complement_id
+            ");
+
+            $stm->bindValue(':complement_id', $idComplement);
+
+            $stm->execute();
+
+            $stm = $this->db->prepare("DELETE FROM complement
+                WHERE id_complement = :id_complement
+            ");
+
+            $stm->bindValue(':id_complement', $idComplement);
+
+            $stm->execute();
+            
+            return true;
+        } catch (\PDOException $error) {
+
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
     public function getComplement($id) {
         $data = [];
 
@@ -72,6 +143,27 @@ class Complement extends Model {
 
                 return $items;              
             }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+    
+    public function deleteItems($id) {
+        try {        
+            $stm = $this->db->prepare('DELETE FROM item 
+                WHERE complement_id = :complement_id
+            ');
+            
+            $stm->bindValue(':complement_id', $id);
+            
+            $stm->execute();
+            
+            return true;
 
         } catch (\PDOException $error) {
             return false; 

@@ -4,7 +4,9 @@ namespace App\Controllers;
 use App\Controllers\Controller;
 use App\Models\Restaurant;
 use App\Models\Category;
+use App\Models\Complement;
 use App\Models\Filter;
+use App\Models\Plate;
 
 class CategoryController extends Controller {  
     public function open($request) {
@@ -55,4 +57,22 @@ class CategoryController extends Controller {
         $this->loadView('pages/home/home', $data);
     }
 
+    public function deletePlates($request) {
+        $category = new Category();
+        $plate = new Plate();
+        $complement = new Complement();
+
+        $plates = $category->getPlates($request['category_id'], $request['restaurant_id']);
+
+        foreach ($plates as $plateData) {
+            $complements = $plate->getComplements($plateData['id_plate']);
+
+            foreach ($complements as $complementData) {
+                $complement->deleteItems($complementData['id_complement']);
+                $complement->deleteComplement($complementData['id_complement']);
+            }
+
+            $plate->deletePlate($plateData['id_plate']);    
+        }
+    }
 } 

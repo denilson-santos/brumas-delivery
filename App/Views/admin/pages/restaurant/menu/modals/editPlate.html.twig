@@ -1,6 +1,12 @@
 <div class="modal hide fade" id="modalEditPlate" tabindex="-1" role="dialog" aria-labelledby="modalEditPlateLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <div class="spinner-container">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
             <div class="modal-header">  
                 <h5 class="modal-title" id="modalEditPlateLabel">Editar Prato</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -8,20 +14,157 @@
                 </button>
             </div>
 
-            <div class="modal-body pb-0">
-               <div class="form-group">
-                    <label for="">Categoria:</label>
-                    <select class="form-control selectric">
-                        <option value="">Pizzas</option>
-                        <option value="">Acais</option>
-                        <option value="">Sorvetes</option>
-                    </select>
-                </div>
+            <div class="modal-body pb-0 pt-1">
+                <form class="edit-plate">
+                    <input type="hidden" name="userId" value="{{ userLogged['id_user'] }}">
+
+                    <ul class="nav nav-pills mb-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="active" id="pills-edit-info-tab" data-toggle="pill" href="#pills-edit-info" role="tab" aria-controls="pills-edit-info" aria-selected="true">Informações</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a id="pills-edit-complement-tab" data-toggle="pill" href="#pills-edit-complement" role="tab" aria-controls="pills-edit-complement" aria-selected="false">Complementos</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a id="pills-edit-promo-tab" data-toggle="pill" href="#pills-edit-promo" role="tab" aria-controls="pills-edit-promo" aria-selected="false">Promoção</a>
+                        </li>
+                    </ul>
+
+                    <div class="server-validation text-center">
+                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title=""><i class="fas fa-exclamation-circle"></i> Informações incorretas!</a>  
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="pills-edit-info" role="tabpanel" aria-labelledby="pills-info-tab">
+                            <div class="form-row">
+                                <div class="form-group col-3 mb-0">
+                                    <label for="plateImage">Imagem</label>
+
+                                    <div class="edit-plate-img-area">
+                                        <span class="edit-plate-img">
+                                            <i class="fa fa-plus"></i> 
+                                            Adicionar
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="edit-plate-img-preview" id="edit-plate-img-preview">
+                                        <div class="edit-img-overlay">
+                                            <span><i class="fa fa-times-circle"></i></span>
+                                        </div>
+
+                                        <img src="">
+                                    </div>
+
+                                    <input id="editPlateImage" class="invisible position-absolute" type="file" name="plateImage" accept=".jpg,.jpeg,.png">
+                                </div>                                
+
+                                <div class="form-group col-9 mb-0">
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <label for="plateName">Nome</label>
+                                            <input id="editPlateName" type="text" class="form-control" name="plateName" placeholder="Digite o nome do prato" autofocus>
+                                        </div>
+                            
+                                        <div class="form-group col-6">
+                                            <label for="plateCategory">Categoria</label>
+                                            <select id="editPlateCategory" class="form-control selectric" name="plateCategory">
+                                                <option value="" selected>Selecione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-6 mb-0">
+                                            <label for="plateDescription">Descrição</label>
+                                            <textarea name="plateDescription" id="editPlateDescription" class="form-control" rows="4" placeholder="Digite a descrição do prato"></textarea>
+                                        </div>
+                                        
+                                        <div class="form-group col-6 mb-0">
+                                            <label for="platePrice">Preço</label>
+                                            <input type="text" name="platePrice" id="editPlatePrice" class="form-control money" placeholder="Digite o preço do prato" data-thousands="." data-decimal=",">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-edit-complement" role="tabpanel" aria-labelledby="pills-complement-tab">
+                            <div class="complement-container">
+                                <button type="button" id="editAddComplement" class="btn btn-primary">Adicionar Complemento</button>
+
+                                <div class="no-complement mt-4">
+                                    Nenhum complemento adicionado.
+                                </div>
+
+                                <div class="complements"></div>
+                                <div class="complements-deleted"></div>
+                                <div class="itens"></div>
+                                <div class="itens-deleted"></div>
+                            </div>
+
+                            {# <div class="complement-container">
+                                <div class="complement mb-4" data-category-id="${categoryId}" data-category-name="${categoryName}">
+                                    <div class="header">
+                                        <div class="name">
+                                            <h5 class="mb-0">Pizzas</h5>
+                                        </div>
+
+                                        <div class="actions">
+                                            <a href="javascript:void(0)" class="edit-complement"><i class="fas fa-pencil-alt mr-1" class="edit-complement"></i></a>
+                                            <a href="javascript:void(0)" class="delete-complement"><i class="fas fa-trash-alt mr-1"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="header">
+                                        <div class="name col px-0">
+                                            <input type="text" class="form-control" value="Pizzas" placeholder="Adicione um complemento">
+                                        </div>
+
+                                        <div class="px-3 m-auto">
+                                            <span><input type="checkbox"> Obrigatório</span>
+                                        </div>
+
+                                        <div class="actions m-auto text-right"> 
+                                            <a href="javascript:void(0)" class="edit-complement"><i class="fas fa-pencil-alt mr-1"></i></a>
+                                            <a href="javascript:void(0)" class="delete-complement"><i class="fas fa-trash-alt mr-1"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="content"></div>
+
+                                    <div class="footer">
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#modalAddPlate"><i class="fas fa-plus mr-1"></i>Adicionar Item</a>
+                                    </div>
+                                </div>
+                            </div> #}
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-edit-promo" role="tabpanel" aria-labelledby="pills-promo-tab">
+                            <div class="form-row">
+                                <div class="form-group col-12 mb-0">
+                                    <div class="form-group custom-control custom-checkbox">
+                                        <input type="checkbox" id="editPlatePromo" name="platePromo"  class="custom-control-input" value="0">
+                                        <label class="custom-control-label" for="editPlatePromo">
+                                            Promoção
+                                        </label>
+                                    </div>
+                                </div>
+                    
+                                <div class="form-group col-4">
+                                    <label for="platePromoPrice">Preço Promocional</label>
+                                    <input type="text" id="editPlatePromoPrice" class="form-control money" name="platePromoPrice" placeholder="Digite o preço promocial" data-thousands="." data-decimal="," disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <div class="modal-footer justify-content-between">
                 <button type="button" id="backEditPlate" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-                <button type="button" id="saveEditPlate" class="btn btn-primary" data-dismiss="modal">Salvar</button>
+                <button type="button" id="saveEditPlate" class="btn btn-primary" disabled>Salvar</button>
             </div>
         </div>
     </div>

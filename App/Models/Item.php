@@ -36,6 +36,69 @@ class Item extends Model {
         }
     }
 
+    public function updateItem($itemId) {
+        try {    
+            $setColumns = '';
+    
+            $complementColumns = array_keys($this->data);
+
+            // Generate named params
+            foreach ($complementColumns as $key => $column) {
+                if ($key == count($complementColumns) -1) {
+                    $setColumns .= $column . ' = :' . $column;
+                } else {
+                    $setColumns .= $column . ' = :' . $column . ', ';
+                }
+            }
+        
+            $stm = $this->db->prepare("UPDATE item
+                SET $setColumns 
+                WHERE id_item = :id_item
+            ");
+            
+            // Replacing named params
+            foreach ($complementColumns as $key => $column) {
+                $stm->bindValue(':' . $column, $this->data[$column]); 
+            }
+
+            $stm->bindValue(':id_item', $itemId);
+
+            $stm->execute();
+            
+            return true;
+        } catch (\PDOException $error) {
+
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
+    public function deleteItem($idItem) {
+        try {    
+            $stm = $this->db->prepare("DELETE FROM item
+                WHERE id_item = :id_item
+            ");
+
+            $stm->bindValue(':id_item', $idItem);
+
+            $stm->execute();
+            
+            return true;
+        } catch (\PDOException $error) {
+
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+
     public function getItem($id) {
         $data = [];
 

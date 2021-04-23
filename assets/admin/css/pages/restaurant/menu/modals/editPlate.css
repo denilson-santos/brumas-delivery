@@ -1,0 +1,151 @@
+#modalEditPlate .spinner-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 4px;
+  z-index: 2;
+  left: 0;
+  margin: auto; }
+
+#modalEditPlate form.edit-plate ul {
+  border-bottom: 2px solid #eee;
+  padding: 5px 0; }
+
+#modalEditPlate form.edit-plate .nav-item a {
+  color: #6c757d;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 15px;
+  transition: color 0.3s;
+  -webkit-transition: color 0.3s; }
+  #modalEditPlate form.edit-plate .nav-item a.active {
+    color: #fa3734;
+    border-bottom: 2px solid #fa3734 !important; }
+  #modalEditPlate form.edit-plate .nav-item a:hover {
+    color: #fa3734; }
+
+#modalEditPlate form.edit-plate .edit-plate-img-area {
+  width: 175px;
+  height: 185px;
+  text-align: center;
+  line-height: 185px;
+  border: 2px dashed #ced4da;
+  border-radius: 0.25rem;
+  cursor: pointer; }
+  #modalEditPlate form.edit-plate .edit-plate-img-area span.add-plate-img {
+    color: #aaa; }
+
+#modalEditPlate form.edit-plate .edit-plate-img-preview {
+  display: none;
+  width: 175px;
+  height: 185px;
+  position: absolute; }
+  #modalEditPlate form.edit-plate .edit-plate-img-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da; }
+  #modalEditPlate form.edit-plate .edit-plate-img-preview .edit-img-overlay {
+    visibility: hidden;
+    position: absolute;
+    background: transparent;
+    color: transparent; }
+  #modalEditPlate form.edit-plate .edit-plate-img-preview:hover .edit-img-overlay {
+    visibility: visible;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    transition: background 0.3s, color 0.3s;
+    border-radius: 0.25rem; }
+    #modalEditPlate form.edit-plate .edit-plate-img-preview:hover .edit-img-overlay span {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      cursor: pointer;
+      font-size: 20px; }
+
+#modalEditPlate form.edit-plate textarea[name="plateDescription"] {
+  height: 80px; }
+
+#modalEditPlate form.edit-plate .complement-container .complement {
+  background-color: #f4f6f9;
+  border: 1px solid #fa3734;
+  border-radius: 4px; }
+  #modalEditPlate form.edit-plate .complement-container .complement .header {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    background-color: #fa3734;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 10px; }
+    #modalEditPlate form.edit-plate .complement-container .complement .header .name {
+      width: 90%; }
+    #modalEditPlate form.edit-plate .complement-container .complement .header .custom-checkbox {
+      margin: auto; }
+      #modalEditPlate form.edit-plate .complement-container .complement .header .custom-checkbox:first-child {
+        margin-right: 16px; }
+      #modalEditPlate form.edit-plate .complement-container .complement .header .custom-checkbox input:checked ~ .custom-control-label::before {
+        border-color: #fff; }
+    #modalEditPlate form.edit-plate .complement-container .complement .header a {
+      color: #fff;
+      font-size: 15px; }
+      #modalEditPlate form.edit-plate .complement-container .complement .header a i {
+        font-size: 15px; }
+      #modalEditPlate form.edit-plate .complement-container .complement .header a:hover {
+        color: #fff; }
+  #modalEditPlate form.edit-plate .complement-container .complement .content .item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    font-weight: 600;
+    line-height: 28px;
+    padding: 10px; }
+    #modalEditPlate form.edit-plate .complement-container .complement .content .item .action {
+      margin: 0 1px; }
+  #modalEditPlate form.edit-plate .complement-container .complement .footer {
+    padding: 10px; }
+    #modalEditPlate form.edit-plate .complement-container .complement .footer a {
+      font-weight: 600; }
+  #modalEditPlate form.edit-plate .complement-container .complement a {
+    text-decoration: none; }
+    #modalEditPlate form.edit-plate .complement-container .complement a:first-child {
+      margin-right: 5px; }
+    #modalEditPlate form.edit-plate .complement-container .complement a:hover {
+      color: #fa3734; }
+  #modalEditPlate form.edit-plate .complement-container .complement .form-control {
+    height: 29px; }
+
+#modalEditPlate form.edit-plate .complement-container .no-complement {
+  background-color: #f4f6f8;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-weight: 600; }
+
+#modalEditPlate form.edit-plate .disabled-item {
+  pointer-events: none;
+  color: #ccc; }
+
+#modalEditPlate form.edit-plate .server-validation {
+  display: none; }
+  #modalEditPlate form.edit-plate .server-validation i {
+    font-size: 16px; }
+  #modalEditPlate form.edit-plate .server-validation a {
+    text-decoration: none;
+    font-size: 16px; }
+  #modalEditPlate form.edit-plate .server-validation a:hover {
+    color: #fa3734; }
+
+.tooltip-inner {
+  max-width: 340px;
+  width: auto;
+  padding: 20px 50px 4px 50px;
+  text-align: left; }

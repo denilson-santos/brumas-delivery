@@ -47,7 +47,7 @@ $(function() {
             // Promotion
             platePromoPrice: {
                 required: function(element) {
-                    return $('input[name="platePromo"]').is(':checked');
+                    return $('form.add-plate input[name="platePromo"]').is(':checked');
                 }
             }
         },
@@ -117,7 +117,7 @@ $(function() {
             var form = new FormData(form);
 
             //  Add complements in FormData
-            $('.complements input').each(function (index, element) {
+            $('#modalAddPlate .complements input').each(function (index, element) {
                 data = {
                     'complementRow': $(element).attr('complement-row'),
                     'complementName': $(element).attr('complement-name'),
@@ -132,7 +132,7 @@ $(function() {
             });
 
             //  Add itens in FormData
-            $('.itens input').each(function (index, element) {
+            $('#modalAddPlate .itens input').each(function (index, element) {
                 data = {
                     'itemRow': $(element).attr('item-row'),
                     'itemComplementRow': $(element).attr('complement-row'),
@@ -222,18 +222,18 @@ $(function() {
     });
 
     // Show plate preview
-    $('.plate-img-area').on('click', function() {
-        $('#plateImage').click();
+    $('form.add-plate .plate-img-area').on('click', function() {
+        $('form.add-plate #plateImage').click();
     });
 
-    $("#plateImage").on('change', function() {
+    $("form.add-plate #plateImage").on('change', function() {
         if ($(this).valid()) platePreview(this);
     });
 
-    $('.img-overlay span').on('click', function() {
-        $('.plate-img-area').css('display', 'block');
-        $('.plate-img-preview').css('display', 'none');
-        $('#plateImage').val('');
+    $('form.add-plate .img-overlay span').on('click', function() {
+        $('form.add-plate .plate-img-area').css('display', 'block');
+        $('form.add-plate .plate-img-preview').css('display', 'none');
+        $('form.add-plate #plateImage').val('');
     });
 
     var count = 0;
@@ -242,7 +242,7 @@ $(function() {
     $('form.add-plate button#addComplement').on('click', function() {
         count++;
         
-        $('.no-complement').css('display', 'none');
+        $('#modalAddPlate .no-complement').css('display', 'none');
 
         $('#modalAddPlate button#addComplement').attr('disabled', true);
         $('#modalAddPlate button#saveAddPlate').attr('disabled', true);
@@ -286,7 +286,7 @@ $(function() {
                     <a href="javascript:void(0)" class="new-item"><i class="fas fa-plus ml-0 mr-1"></i>Adicionar Item</a>
                 </div>
 
-        `).appendTo('.complement-container').on('click', 'a.edit-complement', function() {
+        `).appendTo('#modalAddPlate .complement-container').on('click', 'a.edit-complement', function() {
             $('#modalAddPlate button#addComplement').attr   ('disabled', true);
             $('#modalAddPlate button#saveAddPlate').attr('disabled', true);
 
@@ -337,7 +337,7 @@ $(function() {
             $(this).closest('.complement').find('.new-item').addClass('disabled-item');
             
             if ($('.editing').length) {
-                $('#modalAddPlate button#addComplement').attr   ('disabled', true);
+                $('#modalAddPlate button#addComplement').attr('disabled', true);
             } else {
                 if ($(this).closest('.complement').find('.item').length) {
                     $('#modalAddPlate button#addComplement').attr('disabled', false);
@@ -393,7 +393,7 @@ $(function() {
             });
 
             var currentComplementRow = $(this).closest('.complement').attr('complement-row');
-            var currentComplement = $(`.complements input[complement-row="${currentComplementRow}"]`);
+            var currentComplement = $(`#modalAddPlate .complements input[complement-row="${currentComplementRow}"]`);
 
             if (currentComplement.length) {
                 currentComplement.attr('complement-name', complementName);
@@ -401,7 +401,7 @@ $(function() {
                 currentComplement.attr('complement-multiple', complementMultiple);
 
             } else {
-                $('.complements').append(`
+                $('#modalAddPlate .complements').append(`
                     <input 
                         type="hidden" 
                         complement-row="${count}" 
@@ -417,14 +417,14 @@ $(function() {
 
             $(this).closest('.complement').find('.item').each(function (index, element) {
                 currentItemRow = $(element).attr('item-row');
-                currentItem = $(`.itens input[item-row="${currentItemRow}"]`);
+                currentItem = $(`#modalAddPlate .itens input[item-row="${currentItemRow}"]`);
 
                 if (currentItem.length) {
                     currentItem.attr('item-name', $(element).find('input[name="itemName"]').val());
                     currentItem.attr('item-price', $(element).find('input[name="itemPrice"]').val().replace('.', '').replace(',', ''));
 
                 } else {
-                    $('.itens').append(`
+                    $('#modalAddPlate .itens').append(`
                     <input 
                         type="hidden" 
                         item-row="${currentItemRow}" 
@@ -443,17 +443,17 @@ $(function() {
         }).on('click', 'a.delete-complement', function() {
             $(this).closest('.complement').remove();
             
-            if (!$('.complement').length) $('.no-complement').css('display', 'block');
+            if (!$('#modalAddPlate .complement').length) $('#modalAddPlate .no-complement').css('display', 'block');
 
             var currentComplementRow = $(this).closest('.complement').attr('complement-row');
 
-            var currentComplement = $(`.complements input[complement-row="${currentComplementRow}"]`);
+            var currentComplement = $(`#modalAddPlate .complements input[complement-row="${currentComplementRow}"]`);
             
-            $('.complements-deleted').append(currentComplement);
+            $('#modalAddPlate .complements-deleted').append(currentComplement);
             
-            $(`.complements input[complement-row="${currentComplementRow}"]`).remove();            
+            $(`#modalAddPlate .complements input[complement-row="${currentComplementRow}"]`).remove();            
             
-            $(`.itens input[complement-row="${currentComplementRow}"]`).remove();            
+            $(`#modalAddPlate .itens input[complement-row="${currentComplementRow}"]`).remove();            
 
             if ($('.editing').length) {
                 $('#modalAddPlate button#addComplement').attr   ('disabled', true);
@@ -488,11 +488,11 @@ $(function() {
 
                 var currentItemRow = $(this).closest('.item').attr('item-row');
 
-                var currentItem = $(`.itens input[item-row="${currentItemRow}"]`);
+                var currentItem = $(`#modalAddPlate .itens input[item-row="${currentItemRow}"]`);
 
-                $('.itens-deleted').append(currentItem);
+                $('#modalAddPlate .itens-deleted').append(currentItem);
                 
-                $(`.itens input[item-row="${currentItemRow}"]`).remove();            
+                $(`#modalAddPlate .itens input[item-row="${currentItemRow}"]`).remove();            
             });
         });
     });
@@ -533,16 +533,16 @@ $(function() {
           var reader = new FileReader();
           
           reader.onload = function(e) {
-            $('.plate-img-preview img').attr('src', e.target.result);
-            $('.plate-img-area').css('display', 'none');
-            $('.plate-img-preview').css('display', 'block');
+            $('form.add-plate .plate-img-preview img').attr('src', e.target.result);
+            $('form.add-plate .plate-img-area').css('display', 'none');
+            $('form.add-plate .plate-img-preview').css('display', 'block');
           }
 
           reader.onloadend = function() {
-            $('.plate-img-preview').css('pointerEvents', 'none');
+            $('form.add-plate .plate-img-preview').css('pointerEvents', 'none');
 
             setTimeout(function() {
-                $('.plate-img-preview').css('pointerEvents', 'auto');
+                $('form.add-plate .plate-img-preview').css('pointerEvents', 'auto');
             }, 100)
           }
 
