@@ -193,13 +193,13 @@ class Plate extends Model {
         }
     }
     
-    public function deletePlate($plateId) {
+    public function deletePlate($id) {
         try {
             $stm = $this->db->prepare('DELETE FROM plate
                 WHERE id_plate = :id_plate
             ');
 
-            $stm->bindValue(':id_plate', $plateId);
+            $stm->bindValue(':id_plate', $id);
 
             $stm->execute();
 
