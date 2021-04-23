@@ -89,7 +89,152 @@ class Plate extends Model {
             throw new \PDOException("Error in statement", 0);
         }
     }
+
+    public function updatePlate($plateId, $userId) {
+        try {
+            $databaseColumns = [ 
+                'restaurantId' => 'restaurant_id', 
+                'plateCategory' => 'category_id', 
+                'plateName' => 'name', 
+                'plateDescription' => 'description', 
+                'plateImage' => 'image', 
+                'platePrice' => 'price',
+                'platePromo' => 'promo',
+                'platePromoPrice' => 'promo_price'
+            ];
     
+            $columnsChanged = array_keys($this->data);
+    
+            $setColumns = '';
+    
+            // Generate named params
+            foreach ($columnsChanged as $key => $column) {
+                if ($key == count($columnsChanged) -1) {
+                    $setColumns .= $databaseColumns[$column] . ' = :' . $databaseColumns[$column];
+                } else {
+                    $setColumns .= $databaseColumns[$column] . ' = :' . $databaseColumns[$column] . ', ';
+                }
+            }
+        
+            $stm = $this->db->prepare("SELECT image FROM plate
+                WHERE id_plate = :id_plate
+            ");
+
+            $stm->bindValue(':id_plate', $plateId);
+            
+            $stm->execute();
+
+            $oldImagePath = '';
+
+            if ($stm->rowCount() > 0) {
+                $oldImagePath = $stm->fetch(\PDO::FETCH_ASSOC)['image'];
+            }
+
+            $stm = $this->db->prepare("UPDATE plate
+                SET $setColumns 
+                WHERE id_plate = :id_plate
+            ");
+            
+            // Replacing named params
+            foreach ($columnsChanged as $key => $column) {
+                if ($column == 'plateImage') {
+                    // Delete old Image
+                    if ($oldImagePath && file_exists("/var/www/projects/brumas-delivery$oldImagePath")) unlink("/var/www/projects/brumas-delivery$oldImagePath");
+
+                    $restaurantPath = '/var/www/projects/brumas-delivery/media/users/'.$userId.'/restaurant';
+
+                    $relativeRestaurantPath = '/media/users/'.$userId.'/restaurant';
+        
+                    $name = time().'_'.$this->data['plateImage']['name'];
+                    $tempPath = $this->data['plateImage']['tmp_name'];
+                    $newPath = "$restaurantPath/plates/$name";
+                    $newRelativePath = "$relativeRestaurantPath/plates/$name";
+                    
+                    $image = new ImageManager(array('driver' => 'gd'));
+                    $image = $image->make($tempPath);
+        
+                    // Image width
+                    $x = $image->width();
+                    // // Image height
+                    $y = $image->height();
+        
+                    $resize = 250;
+        
+                    if ($x > $y) {
+                        $image->resize(null, $resize, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($newPath);
+                    } else if ($y > $x) {
+                        $image->resize($resize, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($newPath);
+                    } else {
+                        $image->resize($resize, $resize)->save($newPath);
+                    }  
+        
+                    $stm->bindValue(':image', $newRelativePath); 
+                } else {
+                    $stm->bindValue(':' . $databaseColumns[$column], $this->data[$column]); 
+                }
+            }
+
+            $stm->bindValue(':id_plate', $plateId);
+
+            $stm->execute();
+            
+            return true;
+        } catch (\PDOException $error) {
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+
+            throw new \PDOException("Error in statement", 0);
+        }
+    }
+    
+    public function deletePlate($plateId) {
+        try {
+            $stm = $this->db->prepare('DELETE FROM plate
+                WHERE id_plate = :id_plate
+            ');
+
+            $stm->bindValue(':id_plate', $plateId);
+
+            $stm->execute();
+
+            return true;
+        } catch (\PDOException $error) {
+            return false;
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function deletePlatesByCategory($categoryId, $restaurantId) {
+        try {
+            $stm = $this->db->prepare('DELETE FROM plate
+                WHERE category_id = :category_id,
+                      restaurant_id = :restaurant_id
+            ');
+
+            $stm->bindValue(':category_id', $categoryId);
+            $stm->bindValue(':restaurant_id', $restaurantId);
+
+            $stm->execute();
+
+            return true;
+        } catch (\PDOException $error) {
+            return false;
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     public function getListPlates() {
         $data = [];
 
@@ -202,6 +347,27 @@ class Plate extends Model {
             }
 
             return $complements;              
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function deleteComplements($id) {
+        try {        
+            $stm = $this->db->prepare('DELETE FROM complement 
+                WHERE plate_id = :plate_id
+            ');
+            
+            $stm->bindValue(':plate_id', $id);
+            
+            $stm->execute();
+
+            return true;              
 
         } catch (\PDOException $error) {
             return false; 

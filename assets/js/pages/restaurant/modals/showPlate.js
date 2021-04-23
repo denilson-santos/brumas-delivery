@@ -3,11 +3,10 @@ $(function () {
     var itemsChecked = [];
     var totalPrice = 0;
 
-    $('#showPlate').on('show.bs.modal', function() {
+    $('#showPlate').on('shown.bs.modal', function() {
         $.ajax({
-            type: 'POST',
-            url: '/plate/show',
-            data: { plate_id: $('.showing').attr('plate-id') },
+            type: 'GET',
+            url: `/plate/${$('.showing').attr('plate-id')}`,
             dataType: 'json',
             beforeSend: function (data) {
                 $('#showPlate .spinner-container').removeClass('d-none');
@@ -206,6 +205,8 @@ $(function () {
         $('#showPlate button#addCart span').text('0,00');
 
         $('#showPlate .complements').html('');
+
+        $('#showPlate .spinner-container').removeClass('d-none');
 
         $('#showPlate button#addCart').attr('disabled', true);
     });

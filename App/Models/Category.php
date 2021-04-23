@@ -34,4 +34,34 @@ class Category extends Model {
         
         return $data;
     }
+
+    // Relationships
+    public function getPlates($id, $restaurantId) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM plate 
+                WHERE category_id = :category_id
+                AND   restaurant_id = :restaurant_id
+            ');
+            
+            $stm->bindValue(':category_id', $id);
+            $stm->bindValue(':restaurant_id', $restaurantId);
+            
+            $stm->execute();
+
+            $plates = []; 
+            
+            if ($stm->rowCount() > 0) {
+                $plates = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            }
+
+            return $plates;              
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
 }

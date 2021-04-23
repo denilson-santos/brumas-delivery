@@ -6,6 +6,8 @@
 {% block css %}
   <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/menu/menu.css">
   <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/menu/modals/addPlate.css">
+  <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/menu/modals/editPlate.css">
+  <link rel="stylesheet" href="/assets/admin/css/pages/restaurant/menu/modals/deleteCategory.css">
 {% endblock css %}
 
 {% block content %}
@@ -28,10 +30,10 @@
           <!-- <div class="card-header"></div> -->
           
             <div class="card-body menu-container">
+                <input type="hidden" name="restaurantId" value="{{ userLogged['restaurant']['id_restaurant'] }}">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddCategory">Adicionar Categoria</button>
                 
                 {% for category in categoriesOfRestaurant %}            
-
                     <div class="category mt-4" data-category-id="{{ category['category_id'] }}" data-category-name="{{ categories[category['category_id']-1]['name'] }}">
                         <div class="header">
                             <div class="name">
@@ -54,13 +56,13 @@
                                             <span class="{{ plate['promo'] ? 'old-price' : '' }} mr-2">R$ {{ number_format(plate['price']/100, 2, ',', '.') }}</span>
 
                                             {% if (plate['promo']) %}
-                                                <span>R$ {{ number_format(plate['price']/100, 2, ',', '.') }}</span>
+                                                <span>R$ {{ number_format(plate['promo_price']/100, 2, ',', '.') }}</span>
                                             {% endif %}
                                         </div>
                     
                                         <div class="actions">
-                                            <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate"><i class="fas fa-pencil-alt"></i></button>
-                                            <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate"><i class="fas fa-trash-alt"></i>
+                                            <button type="button" class="btn btn-primary btn-sm edit action" data-toggle="modal" data-target="#modalEditPlate" plate-id="{{ plate['id_plate'] }}"><i class="fas fa-pencil-alt"></i></button>
+                                            <button type="button" class="btn btn-primary btn-sm delete action" data-toggle="modal" data-target="#modalDeletePlate" plate-id="{{ plate['id_plate'] }}"><i class="fas fa-trash-alt"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -102,4 +104,6 @@
     <script src="/assets/admin/js/pages/restaurant/menu/modals/editCategory.js"></script>
     <script src="/assets/admin/js/pages/restaurant/menu/modals/deleteCategory.js"></script>
     <script src="/assets/admin/js/pages/restaurant/menu/modals/addPlate.js"></script>
+    <script src="/assets/admin/js/pages/restaurant/menu/modals/editPlate.js"></script>
+    <script src="/assets/admin/js/pages/restaurant/menu/modals/deletePlate.js"></script>
 {% endblock js %}

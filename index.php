@@ -85,8 +85,13 @@
     // Restaurant
     $router->get('/restaurant/show/{id}', 'RestaurantController:getRestaurant');
     
+    // Category
+    $router->post('/category/delete', 'CategoryController:deletePlates');
+
     // Plate
-    $router->post('/plate/show', 'PlateController:getPlate');
+    $router->get('/plate/{id}', 'PlateController:getPlate');
+    $router->post('/plate/edit', 'PlateController:editPlate');
+    $router->post('/plate/delete', 'PlateController:deletePlate');
 
     // Cart
     $router->get('/cart', 'CartController:index', 'name.cart');
