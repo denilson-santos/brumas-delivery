@@ -9,6 +9,7 @@ $(function() {
             dataType: 'json',
             beforeSend: function() {
                 $('#modalEditPlate .spinner-container').removeClass('d-none');
+                $('#modalEditPlate #saveEditPlate').attr('disabled', true);
             },
             success: function ({ plate }) {
                 console.log(plate);
@@ -923,6 +924,8 @@ $(function() {
                 console.log(response);
                 
                 if (!response.validate) {
+                    $('#modalEditPlate #saveEditPlate').attr('disabled', false);
+
                     tooltip = '<ul>';
     
                     var errors = response.errors;
@@ -959,9 +962,6 @@ $(function() {
                         location.reload();
                     }, 2100);
                 }
-            },
-            complete: function() {
-                $('#modalEditPlate button#saveEditPlate').attr('disabled', false);
             }
         });
 

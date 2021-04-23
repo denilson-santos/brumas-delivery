@@ -157,12 +157,14 @@ $(function() {
                 processData : false,
                 data: form,
                 beforeSend: function() {
-                    $('form.add-plate #saveAddPlate').attr('disabled', true);
+                    $('#modalAddPlate #saveAddPlate').attr('disabled', true);
                 },
                 success: function (response) {
                     response = JSON.parse(response);
                     console.log(response);
                     if (!response.validate) {
+                        $('#modalAddPlate #saveAddPlate').attr('disabled', false);
+
                         tooltip = '<ul>';
 
                         var errors = response.errors;
@@ -199,8 +201,6 @@ $(function() {
                             location.reload();
                         }, 2100);
                     }
-
-                    $('form.add-plate #saveAddPlate').attr('disabled', false);
                 }
             });
 

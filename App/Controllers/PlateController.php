@@ -100,7 +100,15 @@ class PlateController extends Controller {
 
     public function deletePlate($request) {
         $plate = new Plate();
+        $complement = new Complement();
 
-        $plate->deletePlate($request['plate_id']);
+        $complements = $plate->getComplements($request['plate_id']);
+
+        foreach ($complements as $complementData) {
+            $complement->deleteItems($complementData['id_complement']);
+            $complement->deleteComplement($complementData['id_complement']);
+        }
+
+        $plate->deletePlate($request['plate_id']);    
     }
 }
