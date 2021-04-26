@@ -10,4 +10,8 @@ $(function () {
             $(this).find('i').removeClass('text-primary');
         }
     });
+
+    $('.table-account-orders button.delete').on('click', function() {
+        $(this).addClass('deleting');
+    });
 });

@@ -1325,10 +1325,12 @@ class User extends Model {
     public function getPurchases($id) {
         try {        
             $stm = $this->db->prepare('SELECT * FROM purchase 
-                WHERE user_id = :userId
+                WHERE user_id = :user_id
+                AND customer_view = :customer_view
             ');
             
-            $stm->bindValue(':userId', $id);
+            $stm->bindValue(':user_id', $id);
+            $stm->bindValue(':customer_view', 1);
             
             $stm->execute();
 
@@ -1346,7 +1348,6 @@ class User extends Model {
             // echo "Row: ". $error->getLine() . "<br>";
         }
     }
-
 
     public function setData($data) {
         $this->data = $data;

@@ -55,6 +55,72 @@ class Purchase extends Model {
         return $data;
     }
 
+    public function changeStatus($id, $status) {
+        try {
+            $stm = $this->db->prepare('UPDATE purchase
+                SET status = :status
+                WHERE id_purchase = :id_purchase
+            ');
+
+            $stm->bindValue(':status', $status);
+            $stm->bindValue(':id_purchase', $id);
+
+            $stm->execute();
+
+            return true;
+        } catch (\PDOException $error) {
+            // return false;
+            // For debug
+            echo "Message: " . $error->getMessage() . "<br>";
+            echo "Name of file: ". $error->getFile() . "<br>";
+            echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function deleteAccountPurchase($id) {
+        try {
+            $stm = $this->db->prepare('UPDATE purchase
+                SET customer_view = :customer_view
+                WHERE id_purchase = :id_purchase
+            ');
+
+            $stm->bindValue(':customer_view', 0);
+            $stm->bindValue(':id_purchase', $id);
+
+            $stm->execute();
+
+            return true;
+        } catch (\PDOException $error) {
+            return false;
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function deleteRestaurantPurchase($id) {
+        try {
+            $stm = $this->db->prepare('UPDATE purchase
+                SET partner_view = :partner_view
+                WHERE id_purchase = :id_purchase
+            ');
+
+            $stm->bindValue(':partner_view', 0);
+            $stm->bindValue(':id_purchase', $id);
+
+            $stm->execute();
+
+            return true;
+        } catch (\PDOException $error) {
+            return false;
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     // Relationships
     public function getPurchasePlates($id) {
         try {        
