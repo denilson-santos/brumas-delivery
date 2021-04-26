@@ -1530,6 +1530,34 @@ class Restaurant extends Model {
     }
 
     // Relationships
+    public function getRestaurantPurchases($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM purchase 
+                WHERE restaurant_id = :restaurant_id
+                AND partner_view = :partner_view
+                ORDER BY id_purchase DESC
+            ');
+            
+            $stm->bindValue(':restaurant_id', $id);
+            $stm->bindValue(':partner_view', 1);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $purchases = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $purchases;              
+            }
+       
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     public function getRestaurantAddress($id) {
         try {        
             $stm = $this->db->prepare('SELECT a.* FROM address a 

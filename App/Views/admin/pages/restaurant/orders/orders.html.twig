@@ -31,293 +31,219 @@
               </thead>
     
               <tbody>
-                <tr>
-                  <td>
-                    <strong>#1</strong>
-                  </td>
+                {% if not purchases %}
+                  <tr class="text-center">
+                    <td colspan="5">Nenhum pedido encontrado.</td>
+                  </tr>
+                {% endif %}
 
-                  <td>
-                    <div class="row">
-                      <div class="col-7">
-                        <div class="row no-gutters">
-                          <div class="order-image">
-                            <img src="/assets/images/pizza.jpg">
+                {% for purchase in purchases %}
+                  {% set count = 0 %}
+                  <tr>
+                    <td>
+                      <strong>#{{ purchase['id_purchase'] }}</strong>
+                    </td>
+
+                    <td>
+                      <div class="row">
+                        <div class="col-11 mt-2">
+                          <div class="row no-gutters">
+                            <div class="order-image">
+                              <img src="{{ purchase['purchasePlates'][0]['plate']['image'] ?? '/media/categories/others/others-plates-img-default-150x150.jpg' }}" alt="{{ purchase['purchasePlates'][0]['plate']['name'] }}">
+                            </div>
+        
+                            <div class="order-content pl-3 my-auto">
+                              <h6 class="mb-0">{{ purchase['purchasePlates'][0]['plate']['name'] }}</h6>
+                              <span class="d-block">{{ purchase['purchasePlates'][0]['plate']['description'] ? purchase['purchasePlates'][0]['plate']['description'] : '' }}</span>
+                              <span>{{ purchase['purchasePlates'][0]['quantity'] }} x R$ {{ purchase['purchasePlates'][0]['plate']['promo'] ? number_format(purchase['purchasePlates'][0]['plate']['promo_price']/100, 2, ',', '.') : number_format(purchase['purchasePlates'][0]['plate']['price']/100, 2, ',', '.') }}</span>
+                            </div>
                           </div>
-      
-                          <div class="order-content pl-3 my-auto">
-                            <h6 class="mb-0">Pizza</h6>
-                            <span>Pizza três sabores</span>
+                        </div>
+
+                        {% if count(purchase['purchasePlates']) > 1 %}
+                          <div class="m-auto pr-3">
+                            <span class="collapsed more-order-details" data-toggle="collapse" data-target="#collapse{{ purchase['id_purchase'] }}" aria-expanded="false" aria-controls="collapse{{ purchase['id_purchase'] }}">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
                           </div>
+                        {% endif %}
+                      </div>
+                      
+                      <div class="row item-details">
+                        {% for complement in purchase['purchasePlates'][0]['plate']['complements'] %}
+                          <div class="list col">
+                              <strong>{{ complement['name'] }}</strong>
+                              <ul class="mb-0">
+                                                                        
+                                {% set typeIcon = complement['multiple'] ? 'square' : 'circle' %}
+
+                                {% for item in complement['items'] %}
+                                  <li><i class="far fa-check-{{ typeIcon }} mr-1"></i>{{ item['name'] }}</li>
+                                {% endfor %}
+                              </ul>
+                          </div>                          
+                        {% endfor %}
+                      </div>
+
+                      <div class="row item-comments">
+                        <div class="col mb-2">
+                          {% if purchase['purchasePlates'][0]['comments'] %}
+                            <i>"{{ purchase['purchasePlates'][0]['comments'] }}"</i>
+                          {% endif %}
                         </div>
                       </div>
 
-                      <div class="col my-auto order-price">
-                        1 x R$ 18,00
-                      </div>
+                      {# Collapses #}
+                      <div class="collapse" id="collapse{{ purchase['id_purchase'] }}">
+                        {% for purchasePlate in purchase['purchasePlates'] %}
+                          {% if count > 0 %}
+                            <hr>
 
-                      <div class="col-2 my-auto text-right pr-3">
-                        <span class="collapsed more-order-details" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                          <i class="fas fa-chevron-down"></i>
+                            <div class="row">
+                              <div class="col-11 my-2">
+                                <div class="row no-gutters">
+                                  <div class="order-image">
+                                    <img src="{{ purchasePlate['plate']['image'] ?? '/media/categories/others/others-plates-img-default-150x150.jpg' }}" alt="{{ purchasePlate['plate']['name'] }}">
+                                  </div>
+              
+                                  <div class="order-content pl-3 my-auto">
+                                    <h6 class="mb-0">{{ purchasePlate['plate']['name'] }}</h6>
+                                    <span class="d-block">{{ purchasePlate['plate']['description'] ? purchasePlate['plate']['description'] : '' }}</span>
+                                    <span>{{ purchasePlate['quantity'] }} x R$ {{ purchasePlate['plate']['promo'] ? number_format(purchasePlate['plate']['promo_price']/100, 2, ',', '.') : number_format(purchasePlate['plate']['price']/100, 2, ',', '.') }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row item-details">
+                              {% for complement in purchasePlate['plate']['complements'] %}
+                              <div class="list col">
+                                  <strong>{{ complement['name'] }}</strong>
+                                  <ul class="mb-0">
+                                                                            
+                                    {% set typeIcon = complement['multiple'] ? 'square' : 'circle' %}
+    
+                                    {% for item in complement['items'] %}
+                                      <li><i class="far fa-check-{{ typeIcon }} mr-1"></i>{{ item['name'] }}</li>
+                                    {% endfor %}
+                                  </ul>
+                                </div>                          
+                              {% endfor %}                       
+                            </div>
+
+                            <div class="row item-comments">
+                              <div class="col mb-2">
+                                {% if purchasePlate['comments'] %}
+                                  <i>"{{ purchasePlate['comments'] }}"</i>
+                                {% endif %}
+                              </div>
+                            </div>
+                          {% endif %}
+
+                          {% set count = count + 1 %}
+
+                        {% endfor %}
+                      </div>
+                    </td>
+                    
+                    <td>
+                      {# Pending #}
+                      {% if purchase['status'] == 0 %}
+                        <span class="badge badge-secondary text-white">Pendente</span>
+                    
+                      {# Accepted #}
+                      {% elseif purchase['status'] == 1 %}
+                        <span class="badge badge-success">Aceito</span>
+
+                      {# Declined #}
+                      {% elseif purchase['status'] == 2 %}
+                        <span class="badge badge-danger">Recusado</span>
+
+                      {# In production #}
+                      {% elseif purchase['status'] == 3 %}
+                        <span class="badge badge-warning">Em produção</span>
+
+                      {# Sent #}
+                      {% elseif purchase['status'] == 4 %}
+                      <span class="badge badge-info">Enviado</span>
+                    
+                      {# Delivered #}
+                      {% elseif purchase['status'] == 5 %}
+                      <span class="badge badge-success">Entregue</span>
+
+                      {% endif %}
+                    </td>
+
+                    <td>R$ {{ number_format(purchase['total_amount']/100, 2, ',', '.') }}</td>
+
+                    <td>
+                      <div class="actions">                        
+                        {% if purchase['status'] == 0 %}
+                          <button type="button" class="btn btn-primary btn-sm accept" data-toggle="tooltip" data-placement="top" title="Aceitar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-check"></i>
+                          </button>
+                          
+                          <button type="button" class="btn btn-primary btn-sm refuse" data-toggle="tooltip" data-placement="top" title="Recusar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-times"></i>
+                          </button>
+
+                          <button type="button" class="btn btn-primary btn-sm put-into-production d-none" data-toggle="tooltip" data-placement="top" title="Colocar em produção" purchase-id="{{ purchase['id_purchase'] }}">
+                              <i class="fas fa-industry"></i>
+                          </button>
+
+                          <button type="button" class="btn btn-primary btn-sm sent d-none" data-toggle="tooltip" data-placement="top" title="Enviar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-truck"></i>
+                          </button>
+
+                          <button type="button" class="btn btn-primary btn-sm deliver d-none" data-toggle="tooltip" data-placement="top" title="Entregar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-check-square"></i>
+                          </button>
+
+                        {% elseif purchase['status'] == 1 %}
+                          <button type="button" class="btn btn-primary btn-sm put-into-production" data-toggle="tooltip" data-placement="top" title="Colocar em produção" purchase-id="{{ purchase['id_purchase'] }}">
+                              <i class="fas fa-industry"></i>
+                          </button>
+
+                          <button type="button" class="btn btn-primary btn-sm sent d-none" data-toggle="tooltip" data-placement="top" title="Enviar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-truck"></i>
+                          </button>
+
+                          <button type="button" class="btn btn-primary btn-sm deliver d-none" data-toggle="tooltip" data-placement="top" title="Entregar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-check-square"></i>
+                          </button>
+
+                        {% elseif purchase['status'] == 2 %}
+                          {# None #}
+
+                        {% elseif purchase['status'] == 3 %}
+                          <button type="button" class="btn btn-primary btn-sm sent" data-toggle="tooltip" data-placement="top" title="Enviar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-truck"></i>
+                          </button>
+
+                          <button type="button" class="btn btn-primary btn-sm deliver d-none" data-toggle="tooltip" data-placement="top" title="Entregar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-check-square"></i>
+                          </button>
+
+                        {% elseif purchase['status'] == 4 %}
+                          <button type="button" class="btn btn-primary btn-sm deliver" data-toggle="tooltip" data-placement="top" title="Entregar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-check-square"></i>
+                          </button>
+
+                        {% elseif purchase['status'] == 5 %}
+                          {# None #}
+                        {% endif %}
+                        
+                        <span data-toggle="modal" data-target="#modalDeletePurchase">
+                          <button type="button" class="btn btn-primary btn-sm delete" data-toggle="tooltip" data-placement="top" title="Deletar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
                         </span>
                       </div>
-                    </div>
-
-                    {# Collapses #}
-                    <div class="collapse" id="collapseExample">
-                      <div class="row">
-                        <div class="col-7">
-                          <div class="row no-gutters">
-                            <div class="order-image">
-                              <img src="/assets/images/pizza.jpg">
-                            </div>
-        
-                            <div class="order-content pl-3 my-auto">
-                              <h6 class="mb-0">Pizza</h6>
-                              <span>Pizza três sabores</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col my-auto order-price">
-                          1 x R$ 18,00
-                        </div>
-                      </div>
-  
-                      <div class="row">
-                        <div class="col-7">
-                          <div class="row no-gutters">
-                            <div class="order-image">
-                              <img src="/assets/images/pizza.jpg">
-                            </div>
-        
-                            <div class="order-content pl-3 my-auto">
-                              <h6 class="mb-0">Pizza</h6>
-                              <span>Pizza três sabores</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col my-auto order-price">
-                          1 x R$ 18,00
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  
-                  <td><span class="badge badge-secondary text-white">Pendente</span></td>
-
-                  <td>R$ 20,00</td>
-
-                  <td>
-                    <div class="actions">
-                      <button type="button" class="btn btn-primary btn-sm edit">
-                        <i class="fas fa-pencil-alt"></i>
-                      </button>
-                      
-                      <button type="button" class="btn btn-primary btn-sm delete">
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-    
-                <tr>
-                  <td>
-                    <strong>#2</strong>
-                  </td>
-
-                  <td>
-                    <div class="row">
-                      <div class="col-7">
-                        <div class="row no-gutters">
-                          <div class="order-image">
-                            <img src="/assets/images/pizza.jpg">
-                          </div>
-      
-                          <div class="order-content pl-3 my-auto">
-                            <h6 class="mb-0">Pizza</h6>
-                            <span>Pizza três sabores</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col my-auto order-price">
-                        1 x R$ 18,00
-                      </div>
-                    </div>
-                  </td>
-                  
-                  <td><span class="badge badge-success">Aceito</span></td>
-
-                  <td>R$ 20,00</td>
-
-                  <td>
-                    <div class="actions">
-                      <button type="button" class="btn btn-primary btn-sm edit">
-                        <i class="fas fa-pencil-alt"></i>
-                      </button>
-                      
-                      <button type="button" class="btn btn-primary btn-sm delete">
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <strong>#3</strong>
-                  </td>
-
-                  <td>
-                    <div class="row">
-                      <div class="col-7">
-                        <div class="row no-gutters">
-                          <div class="order-image">
-                            <img src="/assets/images/pizza.jpg">
-                          </div>
-      
-                          <div class="order-content pl-3 my-auto">
-                            <h6 class="mb-0">Pizza</h6>
-                            <span>Pizza três sabores</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col my-auto order-price">
-                        1 x R$ 18,00
-                      </div>
-                    </div>
-                  </td>
-                  
-                  <td><span class="badge badge-danger">Recusado</span></td>
-
-                  <td>R$ 20,00</td>
-
-                  <td>
-                    <div class="actions">
-                      <button type="button" class="btn btn-primary btn-sm edit">
-                        <i class="fas fa-pencil-alt"></i>
-                      </button>
-                      
-                      <button type="button" class="btn btn-primary btn-sm delete">
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <strong>#4</strong>
-                  </td>
-
-                  <td>
-                    <div class="row">
-                      <div class="col-7">
-                        <div class="row no-gutters">
-                          <div class="order-image">
-                            <img src="/assets/images/pizza.jpg">
-                          </div>
-      
-                          <div class="order-content pl-3 my-auto">
-                            <h6 class="mb-0">Pizza</h6>
-                            <span>Pizza três sabores</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col my-auto order-price">
-                        1 x R$ 18,00
-                      </div>
-                    </div>
-                  </td>
-                  
-                  <td><span class="badge badge-warning">Em produção</span></td>
-
-                  <td>R$ 20,00</td>
-
-                  <td>
-                    <div class="actions">
-                      <button type="button" class="btn btn-primary btn-sm edit">
-                        <i class="fas fa-pencil-alt"></i>
-                      </button>
-                      
-                      <button type="button" class="btn btn-primary btn-sm delete">
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <strong>#5</strong>
-                  </td>
-
-                  <td>
-                    <div class="row">
-                      <div class="col-7">
-                        <div class="row no-gutters">
-                          <div class="order-image">
-                            <img src="/assets/images/pizza.jpg">
-                          </div>
-      
-                          <div class="order-content pl-3 my-auto">
-                            <h6 class="mb-0">Pizza</h6>
-                            <span>Pizza três sabores</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col my-auto order-price">
-                        1 x R$ 18,00
-                      </div>
-                    </div>
-                  </td>
-                  
-                  <td><span class="badge badge-info">Enviado</span></td>
-
-                  <td>R$ 20,00</td>
-
-                  <td>
-                    <div class="actions">
-                      <button type="button" class="btn btn-primary btn-sm edit">
-                        <i class="fas fa-pencil-alt"></i>
-                      </button>
-                      
-                      <button type="button" class="btn btn-primary btn-sm delete">
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
-          </div>
-
-          <div class="card-footer pt-0">
-            <div class="float-left">
-              {# <button id="addPlate" class="btn btn-primary"><i class="fas fa-plus"></i></button> #}
-            </div>
-
-            <div class="float-right">
-              <nav class="d-inline-block">
-                <ul class="pagination mb-0">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                  </li>
-                  <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
           </div>
         </div>
       </div>
@@ -325,6 +251,11 @@
   </div>
 {% endblock content %}
 
+{% block modals %}
+  {% include "admin/pages/restaurant/orders/modals/deletePurchase.html.twig" %}
+{% endblock modals %}
+
 {% block js %}
   <script src="/assets/admin/js/pages/restaurant/orders/orders.js"></script>
+  <script src="/assets/admin/js/pages/restaurant/orders/modals/modalDeletePurchase.js"></script>
 {% endblock js %}

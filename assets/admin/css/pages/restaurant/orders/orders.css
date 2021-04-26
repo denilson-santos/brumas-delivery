@@ -17,3 +17,9 @@ section.restaurant-orders {
   section.restaurant-orders .table-restaurant-orders .more-order-details i:hover {
     color: #fa3734;
     cursor: pointer; }
+  section.restaurant-orders .table-restaurant-orders .item-details ul {
+    list-style: none; }
+  section.restaurant-orders .table-restaurant-orders .item-comments i {
+    color: #aaa; }
+  section.restaurant-orders .table-restaurant-orders .actions button {
+    width: 30px; }

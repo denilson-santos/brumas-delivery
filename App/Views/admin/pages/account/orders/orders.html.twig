@@ -173,9 +173,11 @@
 
                     <td>
                       <div class="actions">                        
-                        <button type="button" class="btn btn-primary btn-sm delete" {{ purchase['status'] == 0 ? 'disabled' : '' }}>
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
+                        <span data-toggle="modal" data-target="#modalDeletePurchase">
+                          <button type="button" class="btn btn-primary btn-sm delete" data-toggle="tooltip" data-placement="top" title="Deletar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </span>
                       </div>
                     </td>
                   </tr>
@@ -189,6 +191,11 @@
   </div>
 {% endblock content %}
 
+{% block modals %}
+  {% include "admin/pages/account/orders/modals/deletePurchase.html.twig" %}
+{% endblock modals %}
+
 {% block js %}
   <script src="/assets/admin/js/pages/account/orders/orders.js"></script>
+  <script src="/assets/admin/js/pages/account/orders/modals/modalDeletePurchase.js"></script>
 {% endblock js %}

@@ -5,6 +5,8 @@ use App\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Neighborhood;
 use App\Models\Plate;
+use App\Models\Purchase;
+use App\Models\PurchasePlate;
 use App\Models\Restaurant;
 use App\Models\SocialMedia;
 use App\Models\User;
@@ -305,28 +307,34 @@ class RestaurantController extends Controller {
     public function getRestaurantOrders($request) {
         $user = new User();
         $restaurant = new Restaurant();
+        $plate = new Plate();
+        $purchase = new Purchase();
+        $purchasePlate = new PurchasePlate();
                 
-        $data = [];
-
         $data = [
-            // 'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
-            // 'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected, 'list'),
-            // 'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected, 'list'),
-            // 'restaurantsInPromotion' => $restaurant->getListRestaurants($offset, $limit, ['promotion' => 1]),
-            // 'totalItens' => $restaurant->getTotalRestaurants($filtersSelected),
-            // 'numberPages' => ceil($restaurant->getTotalRestaurants($filtersSelected) / $limit),
-            // 'currentPage' => $currentPage,
-            // 'categories' => $category->getListCategories(),
-            // 'filtersSelected' => $filtersSelected,
-            // 'filters' => $filter->getFilters($filtersSelected),
-            // 'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
-            // 'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
-            // 'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
-            // 'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true),
+            'purchases' => $restaurant->getRestaurantPurchases($user->isLogged()['restaurant']['id_restaurant']),
             'language' => $this->language->getLanguage(),
             'iniDicionary' => $this->language->getIniDicionary(),
             'userLogged' => $user->isLogged()
         ];
+
+        if (!empty($data['purchases'])) {
+            foreach ($data['purchases'] as $pkey => $purchaseData) {
+                $data['purchases'][$pkey]['purchasePlates'] = $purchase->getPurchasePlates($purchaseData['id_purchase']);
+                
+                foreach ($data['purchases'][$pkey]['purchasePlates'] as $pukey => $purchasePlateData) {
+                    $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate'] = $plate->getPlate($purchasePlateData['plate_id']);
+                    
+                    $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'] = $purchasePlate->getPurchasePlateComplements($purchasePlateData['id_purchase_plate']);
+                        
+                    if (empty($data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'])) continue;                
+                    
+                    foreach ($data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'] as $ckey => $complementData) {
+                        $data['purchases'][$pkey]['purchasePlates'][$pukey]['plate']['complements'][$ckey]['items'] = $purchasePlate->getPurchasePlateItems($purchasePlateData['id_purchase_plate'], $complementData['id_purchase_plate_complement']);
+                    }
+                }
+            }
+        }
 
         $this->loadView('admin/pages/restaurant/orders/orders', $data);
     }
@@ -355,5 +363,17 @@ class RestaurantController extends Controller {
         ];
 
         $this->loadView('admin/pages/restaurant/rates/rates', $data);
+    }
+
+    public function changeStatusOrder($request) {
+        $purchase = new Purchase();
+        
+        $purchase->changeStatus($request['purchase_id'], $request['status']);
+    }
+    
+    public function deleteOrder($request) {
+        $purchase = new Purchase();
+        
+        $purchase->deleteRestaurantPurchase($request['purchase_id']);
     }
 } 

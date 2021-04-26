@@ -27,5 +27,17 @@ section.restaurant-orders {
             color: #fa3734;
             cursor: pointer;
         }
+
+        .item-details ul {
+            list-style: none;
+        }
+
+        .item-comments i {
+            color: #aaa;
+        }
+
+        .actions button {
+            width: 30px;
+        }
     }
 }

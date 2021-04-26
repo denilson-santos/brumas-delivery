@@ -202,4 +202,16 @@ class UserController extends Controller {
 
         $this->loadView('admin/pages/account/orders/orders', $data);
     }
+
+    public function changeStatusOrder($request) {
+        $purchase = new Purchase();
+        
+        $purchase->changeStatus($request['purchase_id'], $request['status']);
+    }
+    
+    public function deleteOrder($request) {
+        $purchase = new Purchase();
+        
+        $purchase->deleteAccountPurchase($request['purchase_id']);
+    }
 }

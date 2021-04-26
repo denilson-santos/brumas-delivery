@@ -59,7 +59,8 @@
     $router->get('/account/rates', 'UserController:getRates', 'name.account-rates');
     $router->get('/account/favorites', 'UserController:getFavorites', 'name.account-favorites');
     $router->get('/account/orders', 'UserController:getOrders', 'name.account-orders');
-    // $router->get('/account/orders', 'PurchaseController:index', 'name.account-orders');
+    $router->post('/account/orders/change-status', 'UserController:changeStatusOrder', 'name.account-change-status-order');
+    $router->post('/account/orders/delete', 'UserController:deleteOrder', 'name.account-delete-order');
 
     // Restaurant
     $router->get('/restaurant/details', 'RestaurantController:index', 'name.restaurant-details');
@@ -67,6 +68,8 @@
     $router->post('/restaurant/menu', 'RestaurantController:saveRestaurantMenu', 'name.save-restaurant-menu');
     $router->get('/restaurant/plates', 'RestaurantController:getRestaurantPlates', 'name.restaurant-plates');
     $router->get('/restaurant/orders', 'RestaurantController:getRestaurantOrders', 'name.restaurant-orders');
+    $router->post('/restaurant/orders/change-status', 'RestaurantController:changeStatusOrder', 'name.restaurant-change-status-order');
+    $router->post('/restaurant/orders/delete', 'RestaurantController:deleteOrder', 'name.restaurant-delete-order');
     $router->get('/restaurant/rates', 'RestaurantController:getRestaurantRates', 'name.restaurant-rates');
     $router->get('/restaurant/edit', 'RestaurantController:restaurantEdit', 'name.restaurant-edit');
     $router->post('/restaurant/edit-action', 'RestaurantController:restaurantEditAction');
