@@ -174,7 +174,7 @@
                     <td>
                       <div class="actions">                        
                         <span data-toggle="modal" data-target="#modalDeletePurchase">
-                          <button type="button" class="btn btn-primary btn-sm delete" data-toggle="tooltip" data-placement="top" title="Deletar pedido" purchase-id="{{ purchase['id_purchase'] }}">
+                          <button type="button" class="btn btn-primary btn-sm delete" data-toggle="tooltip" data-placement="top" title="Deletar pedido" purchase-id="{{ purchase['id_purchase'] }}" {{ purchase['status'] == 0 ? 'disabled' : '' }}>
                             <i class="fas fa-trash-alt"></i>
                           </button>
                         </span>
