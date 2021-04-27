@@ -1530,13 +1530,13 @@ class Restaurant extends Model {
     }
 
     // Relationships
-    public function getRestaurantPurchases($id) {
+    public function getRestaurantPurchases($id, $limit = '') {
         try {        
             $stm = $this->db->prepare('SELECT * FROM purchase 
                 WHERE restaurant_id = :restaurant_id
                 AND partner_view = :partner_view
-                ORDER BY id_purchase DESC
-            ');
+                ORDER BY id_purchase DESC ' . ($limit ? "LIMIT $limit" : "")
+            );
             
             $stm->bindValue(':restaurant_id', $id);
             $stm->bindValue(':partner_view', 1);
@@ -1700,6 +1700,78 @@ class Restaurant extends Model {
                 return $payments;              
             }
 
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function countRestaurantPurchases($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT COUNT(*) as count FROM purchase 
+                WHERE restaurant_id = :restaurant_id
+            ');
+            
+            $stm->bindValue(':restaurant_id', $id);
+            
+            $stm->execute();
+
+            return $stm->fetch(\PDO::FETCH_ASSOC)['count'];
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function countRestaurantPlates($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT COUNT(*) as count FROM plate 
+                WHERE restaurant_id = :restaurant_id
+            ');
+            
+            $stm->bindValue(':restaurant_id', $id);
+            
+            $stm->execute();
+
+            return $stm->fetch(\PDO::FETCH_ASSOC)['count'];
+
+        } catch (\PDOException $error) {
+            // return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
+    public function countRestaurantRatings($id) {
+        try {        
+
+            $count = 0;
+            $purchases = $this->getRestaurantPurchases($id);
+
+            if ($purchases) {
+                foreach ($purchases as $purchase) {
+                    $stm = $this->db->prepare('SELECT COUNT(*) as count FROM purchase_rate 
+                        WHERE purchase_id = :purchase_id
+                    ');
+                    
+                    $stm->bindValue(':purchase_id', $purchase['id_purchase']);
+                    
+                    $stm->execute();
+    
+                    $count += $stm->fetch(\PDO::FETCH_ASSOC)['count'];
+                }
+            }
+
+            return $count;
         } catch (\PDOException $error) {
             return false; 
             // For debug

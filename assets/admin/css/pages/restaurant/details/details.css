@@ -1,3 +1,5 @@
 section.section-restaurant-details {
   max-width: 1500px;
   margin: auto; }
+  section.section-restaurant-details .media img {
+    object-fit: cover; }

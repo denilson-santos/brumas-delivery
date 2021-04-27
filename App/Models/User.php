@@ -135,6 +135,27 @@ class User extends Model {
         }
     }
 
+    public function getUser($id) {
+        $data = [];
+
+        if (!empty($id)) {
+            $stm = $this->db->prepare('
+            SELECT * FROM user WHERE id_user = :id_user');
+            
+            $stm->bindValue(':id_user', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $data = $stm->fetch(\PDO::FETCH_ASSOC);
+                return $data;
+            }
+        }
+
+        return $data;
+        
+    }
+
     public function isAuthenticated() {
         try {        
             $stm = $this->db->prepare('SELECT * FROM user 

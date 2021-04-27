@@ -29,24 +29,23 @@ class RestaurantController extends Controller {
         $data = [];
 
         $data = [
-            // 'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
-            // 'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected, 'list'),
-            // 'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected, 'list'),
-            // 'restaurantsInPromotion' => $restaurant->getListRestaurants($offset, $limit, ['promotion' => 1]),
-            // 'totalItens' => $restaurant->getTotalRestaurants($filtersSelected),
-            // 'numberPages' => ceil($restaurant->getTotalRestaurants($filtersSelected) / $limit),
-            // 'currentPage' => $currentPage,
-            // 'categories' => $category->getListCategories(),
-            // 'filtersSelected' => $filtersSelected,
-            // 'filters' => $filter->getFilters($filtersSelected),
-            // 'sidebarWidgetsFeatureds' => $restaurant->getListRestaurants(0, 5, ['featured' => 1], true),
-            // 'footerWidgetsOnSale' => $restaurant->getListRestaurants(0, 3, ['promotion' => 1], true),
-            // 'footerWidgetsTopRateds' => $restaurant->getListRestaurants(0, 3, ['top_rated' => 1], true),
-            // 'footerWidgetsNew' => $restaurant->getListRestaurants(0, 3, ['new' => 1], true),
+            'purchases' => $restaurant->getRestaurantPurchases($user->isLogged()['restaurant']['id_restaurant'], 6),
+            'countRestaurantPurchases' =>  $restaurant->countRestaurantPurchases($user->isLogged()['restaurant']['id_restaurant']),
+            'countRestaurantPlates' =>  $restaurant->countRestaurantPlates($user->isLogged()['restaurant']['id_restaurant']),
+            'countRestaurantRatings' =>  $restaurant->countRestaurantRatings($user->isLogged()['restaurant']['id_restaurant']),
             'language' => $this->language->getLanguage(),
             'iniDicionary' => $this->language->getIniDicionary(),
             'userLogged' => $user->isLogged()
         ];
+
+        if ($data['purchases']) {
+            foreach ($data['purchases'] as $key => $purchase) {
+                $userData = $user->getUser($purchase['user_id']);
+    
+                $data['purchases'][$key]['full_name'] = $userData['first_name'] . ' ' . $userData['last_name'];
+                $data['purchases'][$key]['user_image'] = $userData['image'];
+            }
+        }
 
         $this->loadView('admin/pages/restaurant/details/details', $data);
     }
