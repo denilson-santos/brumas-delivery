@@ -65,10 +65,17 @@
         <div class="col-lg-8 col-md-12 col-12 col-sm-12">
           <div class="card">
             <div class="card-header">
-              <h4>Estatísticas</h4>
+              <h4>Estatísticas Gerais dos Pedidos</h4>
             </div>
             <div class="card-body">
-              <canvas id="dashboardChart" height="182"></canvas>
+              <input type="hidden" name="countRestaurantPendingPurchases" value="{{ countRestaurantPendingPurchases }}">
+              <input type="hidden" name="countRestaurantAcceptedPurchases" value="{{ countRestaurantAcceptedPurchases }}">
+              <input type="hidden" name="countRestaurantInProductionPurchases" value="{{ countRestaurantInProductionPurchases }}">
+              <input type="hidden" name="countRestaurantSentPurchases" value="{{ countRestaurantSentPurchases }}">
+              <input type="hidden" name="countRestaurantDeliveredPurchases" value="{{ countRestaurantDeliveredPurchases }}">
+              <input type="hidden" name="countRestaurantRecusedPurchases" value="{{ countRestaurantRecusedPurchases }}">
+              
+              <canvas id="dashboardChart" height="150"></canvas>
             </div>
           </div>
         </div>

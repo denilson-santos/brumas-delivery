@@ -33,6 +33,12 @@ class RestaurantController extends Controller {
             'countRestaurantPurchases' =>  $restaurant->countRestaurantPurchases($user->isLogged()['restaurant']['id_restaurant']),
             'countRestaurantPlates' =>  $restaurant->countRestaurantPlates($user->isLogged()['restaurant']['id_restaurant']),
             'countRestaurantRatings' =>  $restaurant->countRestaurantRatings($user->isLogged()['restaurant']['id_restaurant']),
+            'countRestaurantPendingPurchases' =>  $restaurant->countRestaurantPendingPurchases($user->isLogged()['restaurant']['id_restaurant']),
+            'countRestaurantAcceptedPurchases' =>  $restaurant->countRestaurantAcceptedPurchases($user->isLogged()['restaurant']['id_restaurant']),
+            'countRestaurantInProductionPurchases' =>  $restaurant->countRestaurantInProductionPurchases($user->isLogged()['restaurant']['id_restaurant']),
+            'countRestaurantSentPurchases' =>  $restaurant->countRestaurantSentPurchases($user->isLogged()['restaurant']['id_restaurant']),
+            'countRestaurantDeliveredPurchases' =>  $restaurant->countRestaurantDeliveredPurchases($user->isLogged()['restaurant']['id_restaurant']),
+            'countRestaurantRecusedPurchases' =>  $restaurant->countRestaurantRecusedPurchases($user->isLogged()['restaurant']['id_restaurant']),
             'language' => $this->language->getLanguage(),
             'iniDicionary' => $this->language->getIniDicionary(),
             'userLogged' => $user->isLogged()
