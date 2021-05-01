@@ -35,6 +35,7 @@ class HomeController extends Controller {
 
         $data = [
             'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
+            'restaurantFavorites' => $user->getFavorites($user->isLogged()['id_user']),
             'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected, 'list'),
             'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected, 'list'),
             'restaurantsInPromotion' => $restaurant->getListRestaurants($offset, $limit, ['promotion' => 1]),

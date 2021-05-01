@@ -16,70 +16,47 @@
 
       <div class="section-body">
         <div class="card p-3">
-          <div class="row restaurants">
-                      
-            {% for restaurant in restaurants %}
-                {% set mainCategories = explode(',', restaurant['main_categories']) %}
-                {% set mainCategoriesNamesArr = [] %}
-  
-                {% for mainCategory in mainCategories %}
-                    {% if mainCategory == categories[mainCategory - 1]['id_category'] %}
-                        {% set mainCategoriesNamesArr = mainCategoriesNamesArr|merge([categories[mainCategory - 1]['name']]) %}
-                        
-                        {% set restaurant = restaurant|merge({'main_categories_name': mainCategoriesNamesArr}) %}
-                    {% endif %}
-                {% endfor %}
-            
-                {% for restaurantOpen in restaurantsOpen %}
-                    {% if restaurantOpen['restaurant_id'] == restaurant['id_restaurant'] %}
-                        {% set restaurant = restaurant|merge({'status': 1}) %}
-                    {% endif %}
-                {% endfor %}
-  
-                {% for restaurantClosed in restaurantsClosed %}
-                    {% if restaurantClosed['restaurant_id'] == restaurant['id_restaurant'] %}
-                        {% set restaurant = restaurant|merge({'status': 0}) %}
-                    {% endif %}
-                {% endfor %}
-  
-                {% set restaurant = restaurant|merge({'onsale': 0}) %}
-                {% for restaurantInPromotion in restaurantsInPromotion %}
-                    {% if restaurantInPromotion['id_restaurant'] == restaurant['id_restaurant'] %}
-                        {% set restaurant = restaurant|merge({'onsale': 1}) %}
-                    {% endif %}
-                {% endfor %}
-  
-                {% include "pages/restaurant/restaurantItem.html.twig" with restaurant %}
-            {% endfor %}
-          </div>
-
-          <nav aria-label="pagination">
-              <ul class="pagination ml-1 float-right">      
-                <li class="page-item disabled">
-                  <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
-                </li>                 
-                {% for p in 1 .. numberPages %}
-                    {% if currentPage == loop.index %}
-                        {% set active = "active" %}
-                    {% else %}
-                        {% set active = "" %}
-                    {% endif %}
-
-                    {% set url = GET_URL %}
-                    
-                    {% set url = url|merge({'p': loop.index}) %}
-                    
-                    {% set url = http_build_query(url) %}
-
-                    {% set colorPagination = empty(active) ? "text-dark" : "" %}
-
-                    <li class="page-item {{ active }}"><a class="page-link {{ colorPagination }}" href="/?{{ url }}">{{ p }}</a></li>
-                {% endfor %}
-                <li class="page-item">
-                  <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                </li>
-              </ul>
-          </nav>
+          {% if restaurants %}
+            <div class="row restaurants">  
+              {% for restaurant in restaurants %}
+                  {% set mainCategories = explode(',', restaurant['main_categories']) %}
+                  {% set mainCategoriesNamesArr = [] %}
+    
+                  {% for mainCategory in mainCategories %}
+                      {% if mainCategory == categories[mainCategory - 1]['id_category'] %}
+                          {% set mainCategoriesNamesArr = mainCategoriesNamesArr|merge([categories[mainCategory - 1]['name']]) %}
+                          
+                          {% set restaurant = restaurant|merge({'main_categories_name': mainCategoriesNamesArr}) %}
+                      {% endif %}
+                  {% endfor %}
+              
+                  {% for restaurantOpen in restaurantsOpen %}
+                      {% if restaurantOpen['restaurant_id'] == restaurant['id_restaurant'] %}
+                          {% set restaurant = restaurant|merge({'status': 1}) %}
+                      {% endif %}
+                  {% endfor %}
+    
+                  {% for restaurantClosed in restaurantsClosed %}
+                      {% if restaurantClosed['restaurant_id'] == restaurant['id_restaurant'] %}
+                          {% set restaurant = restaurant|merge({'status': 0}) %}
+                      {% endif %}
+                  {% endfor %}
+    
+                  {% set restaurant = restaurant|merge({'onsale': 0}) %}
+                  {% for restaurantInPromotion in restaurantsInPromotion %}
+                      {% if restaurantInPromotion['id_restaurant'] == restaurant['id_restaurant'] %}
+                          {% set restaurant = restaurant|merge({'onsale': 1}) %}
+                      {% endif %}
+                  {% endfor %}
+    
+                  <div class="col-sm-3 px-2 pb-3 restaurant-item">
+                    {% include "pages/restaurant/restaurantItem.html.twig" with restaurant %}
+                  </div>
+              {% endfor %}
+            </div> 
+          {% else %}
+            <div class="text-center">Você não tem favoritos!</div>    
+          {% endif %}        
         </div>
       </div>
     </section>

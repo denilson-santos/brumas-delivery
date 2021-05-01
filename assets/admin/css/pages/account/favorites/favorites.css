@@ -5,6 +5,8 @@ section.account-favorites {
     border: 1px solid rgba(0, 0, 0, 0.125); }
     section.account-favorites .restaurant-item .card:hover {
       border-color: rgba(0, 0, 0, 0.3); }
+    section.account-favorites .restaurant-item .card span.favorite i.favorited {
+      color: #fa3734; }
   section.account-favorites .page-item.active .page-link {
     z-index: 3;
     color: #fff !important; }
