@@ -170,6 +170,25 @@
 	border-color: rgba(0,0,0,0.3);
 }
 
+.restaurant-item .card span.favorite {
+	position: absolute;
+    right: 30px;
+}
+
+.restaurant-item .card span.favorite i {
+	color: #e3e3e3;
+	font-size: 24px;
+	transition: color ease .3s;
+}
+
+.restaurant-item .card span.favorite i.favorited {
+	color: #fa3734;
+}
+
+.restaurant-item .card span.favorite i:hover {
+	color: #fa3734;
+}
+
 .product-price {
 	color: #CCC;
 }

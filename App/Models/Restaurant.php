@@ -466,7 +466,7 @@ class Restaurant extends Model {
 
         if (!empty($filters['new'])) {
             $where[] = 'new = :new';  
-        } 
+        }
 
         if (!empty($filters['option']) && $filtersRemoved != 'option') {
             $inParams = $this->buildIN($filters['option'], 'option');

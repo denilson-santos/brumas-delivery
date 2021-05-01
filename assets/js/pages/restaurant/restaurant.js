@@ -1,38 +1,9 @@
-$(function () {
-    $('.form-purchase #buy').on('click', function (e) {
-        e.preventDefault();
-        $(this).attr("disabled", true);
-    });
-    
+$(function () {    
     $('.form-purchase #addToCart').on('click', function (e) {
         e.preventDefault();
         $(this).attr("disabled", true);
     });
-    
-    $('.form-purchase input[type="button"]').on('click', function (e) {
-        var quantity = parseInt($('.form-purchase #quantity').val());
-    
-        if($(this).val() == '-') {
-            if (quantity > 1) {
-                quantity--;
-            }
-        } else {
-            if (quantity >= 1) {
-                quantity++;
-            }
-        }
-    
-        $('.form-purchase #quantity').val(quantity);
-    });  
-    
-    $('.form-purchase #quantity').on('keyup', function (e) {
-        var quantity = parseInt($(this).val());
-    
-        if (quantity == 0 || $(this).val() == '') {
-            $('.form-purchase #quantity').val(1);
-        }
-    });    
-    
+
     $(".rating-page-restaurant .rating-read-only").rateYo({
         rating: 3.1,
         starWidth: '18px',

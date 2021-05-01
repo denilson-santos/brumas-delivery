@@ -2,7 +2,7 @@ $(function () {
     var ctx = document.getElementById("dashboardChart").getContext('2d');
 
     new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             datasets: [{
                 data: [

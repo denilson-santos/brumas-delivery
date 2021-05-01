@@ -61,6 +61,7 @@
     $router->get('/account/orders', 'UserController:getOrders', 'name.account-orders');
     $router->post('/account/orders/change-status', 'UserController:changeStatusOrder', 'name.account-change-status-order');
     $router->post('/account/orders/delete', 'UserController:deleteOrder', 'name.account-delete-order');
+    $router->post('/account/favorite-status', 'UserController:changeFavoriteStatus', 'name.account-favorite-status');
 
     // Restaurant
     $router->get('/restaurant/details', 'RestaurantController:index', 'name.restaurant-details');

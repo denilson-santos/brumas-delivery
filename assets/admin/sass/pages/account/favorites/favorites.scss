@@ -8,6 +8,10 @@ section.account-favorites {
         &:hover {
             border-color: rgba(0,0,0,0.3);
         }
+
+		span.favorite i.favorited {
+			color: #fa3734;
+		}
     }
 
     .page-item.active .page-link {

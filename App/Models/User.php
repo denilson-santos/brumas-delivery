@@ -1293,6 +1293,31 @@ class User extends Model {
         }
     }
 
+    public function getFavorites($id) {
+        try {        
+            $stm = $this->db->prepare('SELECT * FROM user_favorite 
+                WHERE user_id = :user_id
+            ');
+            
+            $stm->bindValue(':user_id', $id);
+            
+            $stm->execute();
+
+            if ($stm->rowCount() > 0) {
+                $favorites = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+                return $favorites;              
+            }
+
+        } catch (\PDOException $error) {
+            return false; 
+            // For debug
+            // echo "Message: " . $error->getMessage() . "<br>";
+            // echo "Name of file: ". $error->getFile() . "<br>";
+            // echo "Row: ". $error->getLine() . "<br>";
+        }
+    }
+
     public function getRates($id) {
         try {        
             $stm = $this->db->prepare('SELECT * FROM rate 

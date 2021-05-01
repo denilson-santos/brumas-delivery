@@ -11,6 +11,7 @@ use App\Models\Plate;
 use App\Models\Purchase;
 use App\Models\PurchasePlate;
 use App\Models\Restaurant;
+use App\Models\UserFavorite;
 
 class UserController extends Controller {
     public function __construct($router) {
@@ -133,7 +134,7 @@ class UserController extends Controller {
         $offset = ($currentPage * $limit) - $limit;
                 
         $data = [
-            'restaurants' => $restaurant->getListRestaurants($offset, $limit, $filtersSelected),
+            'restaurantFavorites' => $user->getFavorites($user->isLogged()['id_user']),
             'restaurantsOpen' => $restaurant->getTotalRestaurantsOpen($filtersSelected, 'list'),
             'restaurantsClosed' => $restaurant->getTotalRestaurantsClosed($filtersSelected, 'list'),
             'restaurantsInPromotion' => $restaurant->getListRestaurants($offset, $limit, ['promotion' => 1]),
@@ -151,6 +152,14 @@ class UserController extends Controller {
             'iniDicionary' => $this->language->getIniDicionary(),
             'userLogged' => $user->isLogged()
         ];
+
+        if (!empty($data['restaurantFavorites'])) {
+            foreach ($data['restaurantFavorites'] as $restaurantFavorite) {
+                $data['restaurants'][] = $restaurant->getRestaurant($restaurantFavorite['restaurant_id']);
+            }
+        }
+
+        // print_r($data['restaurantFavorites']); exit;
 
         $this->loadView('admin/pages/account/favorites/favorites', $data);
     }
@@ -207,6 +216,19 @@ class UserController extends Controller {
         $purchase = new Purchase();
         
         $purchase->changeStatus($request['purchase_id'], $request['status']);
+    }
+
+    public function changeFavoriteStatus($request) {
+        $userFavorite = new UserFavorite([
+            'user_id' => $request['user_id'],
+            'restaurant_id' => $request['restaurant_id'],
+        ]);
+        
+        if ($request['status']) {
+            $userFavorite->saveUserFavorite();
+        } else {
+            $userFavorite->deleteUserFavorite();
+        }
     }
     
     public function deleteOrder($request) {
