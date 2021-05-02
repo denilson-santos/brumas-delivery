@@ -313,15 +313,13 @@ class Restaurant extends Model {
     }
 
     public function getTotalRestaurantsOpen($filters = [], $queryType = 'count') {
-        // alterar hora de teste para function current_time
-
         $data = [];
         $count = 0;
 
         $where = $this->buildWhere($filters, 'status');
 
         $stm = $this->db->prepare(
-            'SELECT * FROM restaurant_operation WHERE "19:41:00" BETWEEN open_1 AND close_1 OR "19:41:00" BETWEEN open_2 AND close_2 
+            'SELECT * FROM restaurant_operation WHERE CURRENT_TIME BETWEEN open_1 AND close_1 OR CURRENT_TIME BETWEEN open_2 AND close_2 
             AND restaurant_id IN(SELECT id_restaurant FROM restaurant WHERE '.implode(" AND ", $where).')');
         // print_r($stm); exit;
 
@@ -342,15 +340,13 @@ class Restaurant extends Model {
     }
 
     public function getTotalRestaurantsClosed($filters = [], $queryType = 'count') {
-        // alterar hora de teste para function current_time
-
         $data = [];
         $count = 0;
 
         $where = $this->buildWhere($filters, 'status');
 
         $stm = $this->db->prepare(
-            'SELECT * FROM restaurant_operation WHERE "19:41:00" NOT BETWEEN open_1 AND close_1 AND "19:41:00" NOT BETWEEN open_2 AND close_2 
+            'SELECT * FROM restaurant_operation WHERE CURRENT_TIME NOT BETWEEN open_1 AND close_1 AND CURRENT_TIME NOT BETWEEN open_2 AND close_2 
             AND restaurant_id IN(SELECT id_restaurant FROM restaurant WHERE '.implode(" AND ", $where).')');
         // print_r($stm); exit;
 
@@ -415,7 +411,7 @@ class Restaurant extends Model {
         $inParamsRestaurant = '';
 
         if (!empty($filters['category']) && $filtersRemoved != 'category') {
-            $where[] = 'id_restaurant IN(SELECT restaurant_id FROM plate WHERE category_id = :categoryId )';
+            $where[] = 'id_restaurant IN(SELECT restaurant_id FROM plate WHERE category_id = :categoryId ) AND LOCATE(:categoryId, main_categories) > 0';
         }
 
         if (!empty($filters['neighborhood']) && $filtersRemoved != 'neighborhood') {

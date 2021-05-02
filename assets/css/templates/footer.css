@@ -2,6 +2,14 @@ footer {
   background-color: #F9F9F9;
   border-top: 1px solid #e0e0e0; }
 
+.logo-footer img {
+  width: 65%; }
+
+.logo-footer .footer-text {
+  font-size: 17px;
+  font-weight: 400;
+  color: #aaa; }
+
 .sub-area {
   margin-top: 50px;
   margin-bottom: 50px; }
@@ -51,7 +59,7 @@ footer h3 {
   font-size: 18px; }
 
 .links {
-  margin-bottom: 50px; }
+  padding: 35px 0; }
 
 .link-groups a {
   color: #acacac;
@@ -67,13 +75,10 @@ footer h3 {
   list-style: none; }
 
 .copyright {
-  background-color: #3D3D3D;
-  padding: 17px 0;
-  line-height: 30px;
-  color: #8a8a8a; }
-
-.copyright span {
-  color: #FFF; }
+  background-color: #fa3734;
+  height: 50px;
+  line-height: 50px;
+  color: #fff; }
 
 .payments {
   text-align: right; }
