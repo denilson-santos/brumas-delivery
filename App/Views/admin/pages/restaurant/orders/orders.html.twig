@@ -10,8 +10,16 @@
 {% block content %}
   <div class="main-content">
     <section class="section restaurant-orders">
-      <div class="section-header">
+      <div class="section-header justify-content-between">
         <h1>Pedidos</h1>
+
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+              <li class="breadcrumb-item"><a href="/restaurant/details">Meu Restaurante</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Pedidos</li>
+          </ol>
+        </nav>
       </div>
 
       <div class="section-body">

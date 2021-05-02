@@ -11,8 +11,16 @@
 {% block content %}
   <div class="main-content">
     <section class="section section-restaurant-details">
-      <div class="section-header">
+      <div class="section-header justify-content-between">
         <h1>Detalhes</h1>
+
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+              <li class="breadcrumb-item"><a href="/restaurant/details">Meu Restaurante</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Detalhes</li>
+          </ol>
+        </nav>
       </div>
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6 col-12">

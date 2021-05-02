@@ -9,8 +9,15 @@
 {% block content %}
   <div class="main-content">
     <section class="section account-orders">
-      <div class="section-header">
+      <div class="section-header justify-content-between">
         <h1>Pedidos</h1>
+
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Pedidos</li>
+          </ol>
+        </nav>
       </div>
 
       <div class="section-body">
@@ -165,7 +172,10 @@
                       {# Sent #}
                       {% elseif purchase['status'] == 4 %}
                       <span class="badge badge-info">Enviado</span>
-                    
+                      
+                      {# Delivered #}
+                      {% elseif purchase['status'] == 5 %}
+                      <span class="badge badge-success">Entregue</span>
                       {% endif %}
                     </td>
 

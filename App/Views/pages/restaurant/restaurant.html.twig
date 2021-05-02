@@ -7,6 +7,13 @@
 
 {% block content %}
     <div class="restaurant-container col-md-12 px-0">
+        <div class="filter-area d-none">
+            <form>
+                <input type="hidden" name="filters[search]" value="{{ (notEmpty(filtersSelected['search']) ? filtersSelected['search'] : '') }}">
+                <input type="hidden" name="filters[category]" value="{{ (notEmpty(filtersSelected['category']) ? filtersSelected['category'] : '') }}">
+            </form>
+        </div>
+
         <div class="restaurant-header">
             <div class="container">
                 <div class="col-md-12 p-0">

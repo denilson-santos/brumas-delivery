@@ -1,5 +1,5 @@
 <footer>
-    <div class="sub-area">
+    {# <div class="sub-area">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-8 offset-sm-2 no-padding">
@@ -10,48 +10,74 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> #}
+    
     <div class="links">
         <div class="container">
             <div class="row">
-                <div class="col-sm-4 logo-footer">
-                    <a href="{{ BASE_URL }}"><img title="Brumas Delivery" src="{{ BASE_URL }}/assets/images/logo-red.png" /></a>
+                <div class="col-sm-3 logo-footer">
+                    <a href="{{ BASE_URL }}"><img title="Brumas Delivery" src="/assets/images/logo-brumas-delivery-red.png"/></a>
                     <br/><br/>
-                    <strong>Impossível viver sem, a qualquer hora de qualquer lugar!</strong><br/><br/>
+                    <div class="footer-text">Impossível viver sem, a qualquer hora de qualquer lugar!</div>
                 </div>
-                <div class="col-sm-8 link-groups">
+                <div class="col-sm-9 link-groups">
                     <div class="row">
                         <div class="col-sm-4">
-                            <h3>{{ iniDicionary['CATEGORIES'] }}</h3>
+                            <h3>Contato</h3>
+                            
                             <ul>
-                                <li><a href="#">Categoria X</a></li>
-                                <li><a href="#">Categoria X</a></li>
-                                <li><a href="#">Categoria X</a></li>
-                                <li><a href="#">Categoria X</a></li>
-                                <li><a href="#">Categoria X</a></li>
-                                <li><a href="#">Categoria X</a></li>
+                                <li>
+                                    <i class="fas fa-phone-alt text-primary mr-2"></i>(77) 9999-9999
+                                </li>
+
+                                <li>
+                                    <i class="fas fa-envelope text-primary mr-2"></i>contato@<span class="text-primary">brumasdelivery.com.br</span>
+                                </li>
                             </ul>
                         </div>
                         <div class="col-sm-4">
-                            <h3>{{ iniDicionary['INFORMATIONS'] }}</h3>
+                            <h3>Informações</h3>
+                            
                             <ul>
-                                <li><a href="#">Menu 1</a></li>
-                                <li><a href="#">Menu 2</a></li>
-                                <li><a href="#">Menu 3</a></li>
-                                <li><a href="#">Menu 4</a></li>
-                                <li><a href="#">Menu 5</a></li>
-                                <li><a href="#">Menu 6</a></li>
+                                <li><a href="#">Termos de uso</a></li>
+                                <li><a href="#">Código de conduta</a></li>
+                                <li><a href="#">Privacidade</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-4">
-                            <h3>{{ iniDicionary['INFORMATIONS'] }}</h3>
+                            <h3>Navegação</h3>
+                            
                             <ul>
-                                <li><a href="#">Menu 1</a></li>
-                                <li><a href="#">Menu 2</a></li>
-                                <li><a href="#">Menu 3</a></li>
-                                <li><a href="#">Menu 4</a></li>
-                                <li><a href="#">Menu 5</a></li>
-                                <li><a href="#">Menu 6</a></li>
+                                {% if userIsLogged() %}
+                                    <li><a href="{{ route('name.account-profile') }}">
+                                        Perfil
+                                    </a></li>
+                            
+                                {% if userIsAuthorized(['admin', 'partner']) %}
+                                    <li><a href="{{ route('name.restaurant-details') }}">
+                                        Meu Restaurante
+                                    </a></li>
+                                {% endif %}
+                                    <li><a href="{{ route('name.account-orders') }}"> 
+                                        Meus Pedidos
+                                    </a></li>
+
+                                    <li><a href="{{ route('name.logout') }}">
+                                        Sair
+                                    </a></li>
+                                {% else %}
+                                    <li><a href="{{ route('name.login') }}">
+                                        {{ iniDicionary['LOGIN'] }}
+                                    </a></li>
+
+                                    <li><a href="{{ route('name.register-customer') }}">
+                                        {{ iniDicionary['REGISTER'] }}
+                                    </a></li>
+
+                                    <li><a href="{{ route('name.register-partner') }}">
+                                        {{ iniDicionary['BEAPARTNER'] }}
+                                    </a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -60,18 +86,8 @@
         </div>
     </div>
     <div class="copyright">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">© <span>Brumas Delivery</span> - {{ iniDicionary['ALLRIGHTRESERVED'] }}.</div>
-                <div class="col-sm-6">
-                    <div class="payments">
-                        <img src="{{ BASE_URL }}/assets/images/visa.png" />
-                        <img src="{{ BASE_URL }}/assets/images/visa.png" />
-                        <img src="{{ BASE_URL }}/assets/images/visa.png" />
-                        <img src="{{ BASE_URL }}/assets/images/visa.png" />
-                    </div>
-                </div>
-            </div>
+        <div class="container text-center">
+            © <span>Brumas Delivery</span> - {{ iniDicionary['ALLRIGHTRESERVED'] }}.
         </div>
     </div>
 </footer>

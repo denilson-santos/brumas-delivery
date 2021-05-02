@@ -3,14 +3,24 @@ footer {
     border-top: 1px solid #e0e0e0;
 }
 
+.logo-footer img {
+	width: 65%;
+}
+
+.logo-footer .footer-text {
+	font-size: 17px;
+	font-weight: 400;
+	color: #aaa;
+}
+
 .sub-area {
-	margin-top:50px;
-	margin-bottom:50px;
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 
 .sub-area form {
-	margin:0;
-	padding:0;
+	margin: 0;
+	padding: 0;
 }
 
 .sub-area:before {
@@ -58,7 +68,7 @@ footer h3 {
 }
 
 .links {
-	margin-bottom:50px;
+	padding: 35px 0;
 }
 
 .link-groups a {
@@ -72,20 +82,16 @@ footer h3 {
 
 .link-groups ul,
 .link-groups li {
-	margin:0 0 12px 0;
-	padding:0;
-	list-style:none;
+	margin: 0 0 12px 0;
+	padding: 0;
+	list-style: none;
 }
 
 .copyright {
-	background-color: #3D3D3D;
-    padding: 17px 0;
-    line-height: 30px;
-    color: #8a8a8a;
-}
-
-.copyright span {
-	color:#FFF;
+	background-color: #fa3734;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
 }
 
 .payments {
@@ -93,8 +99,8 @@ footer h3 {
 }
 
 .payments img {
-	height:30px;
-	background-color:#FFF;
-	border-radius:4px;
-	margin-right:3px;
+	height: 30px;
+	background-color: #FFF;
+	border-radius: 4px;
+	margin-right: 3px;
 }
