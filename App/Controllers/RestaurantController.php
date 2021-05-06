@@ -45,6 +45,7 @@ class RestaurantController extends Controller {
 
             $data = [
                 'restaurantInfo' => $restaurantInfo,
+                'restaurantFavorites' => $user->getFavorites($user->isLogged()['id_user']),
                 // 'restaurantImage' => $restaurant->getImagesByRestaurantId($id),
                 'neighborhoods' => $neighborhood->getListNeighborhoods(),
                 'categories' => $category->getListCategories(),

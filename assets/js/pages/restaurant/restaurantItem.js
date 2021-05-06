@@ -27,7 +27,7 @@ $(function () {
 
         $.ajax({
             type: 'POST',
-            url: 'account/favorite-status',
+            url: '/account/favorite-status',
             data: {
                 user_id: userId,
                 restaurant_id: restaurantId,

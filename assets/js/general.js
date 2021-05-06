@@ -12,6 +12,8 @@ $('.cell-phone-mask').mask('(00) 0 0000-0000');
 $('.cart-quantity').text(cart.quantity);
 $('.cart-price').text(formatter.format(cart.total/100));
 
+$('.show-tooltip').tooltip();
+
 function addCart(plateId, restaurantId, comments, complementsChecked, itemsChecked, plateTotalPrice) {
   const { items, quantity } = cart;
 

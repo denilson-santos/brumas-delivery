@@ -65,17 +65,17 @@
   cursor: pointer;
   display: inline-block; }
 
-.rating-page-restaurant .add-favorites i {
+.rating-page-restaurant .favorite i {
   color: #bbb;
   font-size: 30px;
   cursor: pointer;
   transition: color ease 0.3s; }
 
-.rating-page-restaurant .add-favorites i:hover {
+.rating-page-restaurant .favorite i:hover {
   color: #fa3734;
   cursor: pointer; }
 
-.rating-page-restaurant .add-favorites i.favorited {
+.rating-page-restaurant .favorite i.favorited {
   color: #fa3734; }
 
 .restaurant-header {

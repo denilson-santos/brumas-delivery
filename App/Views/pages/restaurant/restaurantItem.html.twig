@@ -42,7 +42,7 @@
                     {% endif %}
                 {% endfor %}
 
-                <span class="favorite" restaurant-id="{{ id_restaurant }}" user-id="{{ userLogged['id_user'] }}"><i class="fas fa-heart {{ favorited }}"></i></span>
+                <span class="favorite show-tooltip" restaurant-id="{{ id_restaurant }}" user-id="{{ userLogged['id_user'] }}" data-toggle="tooltip" data-placement="top" title="Adicionar aos favoritos"><i class="fas fa-heart {{ favorited }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Adicionar aos favoritos"></i></span>
             {% endif %}
             
             <h5 class="card-title restaurant-name text-cc">{{ strlen(name) <= 22 ? name : substr(name, 0, 21) ~ "..." }}</h5>
