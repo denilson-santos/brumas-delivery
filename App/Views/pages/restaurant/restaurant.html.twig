@@ -59,8 +59,18 @@
                                         
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="rating-page-restaurant float-right text-right">
-                                            <span class="add-favorites" title="Adicionar aos Favoritos"><i class="fas fa-heart ml-2"></i></span>
+                                        <div class="rating-page-restaurant float-right text-right show-tooltip" data-toggle="tooltip" data-placement="top" title="Adicionar aos favoritos">
+                                            {% if userIsLogged() %}
+                                                {% set favorited = '' %}
+
+                                                {% for restaurantFavorite in restaurantFavorites %}
+                                                    {% if restaurantFavorite['restaurant_id'] == restaurantInfo['id_restaurant'] %}
+                                                        {% set favorited = 'favorited' %}
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                <span class="favorite" restaurant-id="{{ restaurantInfo['id_restaurant'] }}" user-id="{{ userLogged['id_user'] }}"><i class="fas fa-heart {{ favorited }}"></i></span>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>        

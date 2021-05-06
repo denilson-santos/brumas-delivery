@@ -28,6 +28,33 @@ $(function () {
         $(this).addClass('showing');
         $('#showPlate').modal('show');
     });
+
+    $('span.favorite i').on('click', function(e) {
+        if ($(this).hasClass('favorited')) {
+            $(this).removeClass('favorited');
+        } else {
+            $(this).addClass('favorited');
+        }
+
+        var userId = $(this).closest('span').attr('user-id');
+        var restaurantId = $(this).closest('span').attr('restaurant-id');
+        var status = $(this).hasClass('favorited') ? 1 : 0;
+
+        $.ajax({
+            type: 'POST',
+            url: '/account/favorite-status',
+            data: {
+                user_id: userId,
+                restaurant_id: restaurantId,
+                status: status
+            },
+            success: function (response) {
+                
+            }
+        });
+
+        return false;
+    });
 });
 
 
