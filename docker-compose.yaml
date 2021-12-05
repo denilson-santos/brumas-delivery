@@ -1,0 +1,40 @@
+version: '3.9'
+
+services: 
+  app:
+    build: .
+    image: brumas-delivery/php:7.2-fpm
+    container_name: brumas-delivery-app
+    entrypoint: ./.docker/entrypoint.sh
+    volumes:
+      - ./:/var/www/brumas-delivery
+    ports:
+      - 9000:9000
+    depends_on:
+      - db_mysql
+  web_nginx:
+    build: ./.docker/nginx
+    image: brumas-delivery/nginx:1.20
+    container_name: brumas-delivery-nginx
+    volumes: 
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www/brumas-delivery
+    ports:
+      - 8002:8002
+    depends_on:
+      - app
+  db_mysql:
+    build: ./.docker/mysql
+    image: brumas-delivery/mysql:8
+    container_name: brumas-delivery-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD_LOCAL}
+      MYSQL_DATABASE: ${DB_NAME_LOCAL}
+    volumes:
+      - ./.db/mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    security_opt:
+      - seccomp:unconfined
