@@ -1,2 +1,3 @@
+![brumas-delivery](https://socialify.git.ci/denilson-santos/brumas-delivery/image?language=1&name=1&owner=1&theme=Light)
 # Brumas Delivery
-O projeto foi feito utilizando os conceitos de POO e MVC, que consiste na construção de um sistema que gerenciador de entregas para restaurantes e/ou estabelecimentos do tipo 'fast food'(comida rápida). Foi utilizado nesse projeto alguns gerenciadores de dependência, o composer e o npm, a fim de agilizar no controle e atualização dos pacotes utilizados no sistema. O objetivo dele é por em prática os conhecimentos adquiridos em estudo.
+O projeto consiste na construção de um sistema gerenciador de entregas para restaurantes e/ou estabelecimentos do tipo 'fast food'(comida rápida), com o objetivo de por em prática os conhecimentos adquiridos em estudo através de conceitos de POO, MVC, PSRS do php e boas práticas no geral. 
